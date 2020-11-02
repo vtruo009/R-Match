@@ -1,0 +1,31 @@
+version: '3'
+services:
+    server:
+        build: .
+        volumes:
+            - ./src:/usr/app/src
+            - ./package.json:/usr/app/package.json
+            - ./package-lock.json:/usr/app/package-lock.json
+            - ./env:/usr/app/env
+        command: npm start
+        restart: always
+        ports:
+            - '5000:5000'
+        depends_on:
+            - database
+    database:
+        image: postgres:11
+        container_name: database
+        restart: always
+        expose:
+            - '5432'
+        ports:
+            - '5432:5432'
+        environment:
+            - POSTGRES_DB=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        volumes:
+            - database-data:/var/lib/postgresql/data/
+volumes:
+    database-data:
