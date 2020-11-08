@@ -8,73 +8,79 @@
 
 ### API Design
 
-Sample API (example one)
+Sample API (follow this as a template when designing your API endpoints)
 
--   api/sample/read
-    -   Returns all sample objects from the database
-    -   Body: None
-    -   Parameters: None
-    -   Response:
-        -   success:
-            Status code: 200
+-   Interacts with:
+
+    -   Sample database table
+
+-   Routes:
+
+    -   api/sample/read
+        -   Returns all sample objects from the database
+        -   Body: None
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 200
+                ```
+                {
+                    samples: {
+                        message: string,
+                        num: number,
+                        id: number
+                    } []
+                }
+                ```
+            -   errors:
+                -   Internal server error -> Status code: 500
+    -   api/sample/create
+
+        -   Saves a sample object in the database
+        -   Body:
             ```
             {
-                samples: {
+                sample: {
                     message: string,
                     num: number,
-                    id: number
-                } []
+                }
             }
             ```
-        -   errors:
-            -   Internal server error -> Status code: 500
--   api/sample/create
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 201
+            -   errors:
+                -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
 
-    -   Saves a sample object in the database
-    -   Body:
-        ```
-        {
-            sample: {
-                message: string,
-                num: number,
+    -   api/sample/update
+
+        -   Updates the fields of existing sample object from the database
+        -   Body:
+            ```
+            {
+                sample: {
+                    id: number,
+                    message: string,
+                    num: number
+                }
             }
-        }
-        ```
-    -   Parameters: None
-    -   Response:
-        -   success:
-            Status code: 201
-        -   errors:
-            -   Missing fields in body -> Status code: 400
-            -   Internal server error -> Status code: 500
+            ```
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 200
+            -   errors:
+                -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
 
--   api/sample/update
-
-    -   Updates the fields of existing sample object from the database
-    -   Body:
-        ```
-        {
-            sample: {
-                id: number,
-                message: string,
-                num: number
-            }
-        }
-        ```
-    -   Parameters: None
-    -   Response:
-        -   success:
-            Status code: 200
-        -   errors:
-            -   Missing fields in body -> Status code: 400
-            -   Internal server error -> Status code: 500
-
--   api/sample/delete
-    -   Deletes an existing sample object from the database
-    -   Body: None
-    -   Parameters: /:id
-    -   Response:
-        -   success:
-            Status code: 200
-        -   errors:
-            -   Internal server error -> Status code: 500
+    -   api/sample/delete
+        -   Deletes an existing sample object from the database
+        -   Body: None
+        -   Parameters: /:id
+        -   Response:
+            -   success:
+                Status code: 200
+            -   errors:
+                -   Internal server error -> Status code: 500
