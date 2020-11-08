@@ -5,3 +5,76 @@
 1. Make sure Docker is running is your local machine
 2. Run npm install if you haven't already
 3. Run docker-compose up
+
+### API Design
+
+Sample API (example one)
+
+-   api/sample/read
+    -   Returns all sample objects from the database
+    -   Body: None
+    -   Parameters: None
+    -   Response:
+        -   success:
+            Status code: 200
+            ```
+            {
+                samples: {
+                    message: string,
+                    num: number,
+                    id: number
+                } []
+            }
+            ```
+        -   errors:
+            -   Internal server error -> Status code: 500
+-   api/sample/create
+
+    -   Saves a sample object in the database
+    -   Body:
+        ```
+        {
+            sample: {
+                message: string,
+                num: number,
+            }
+        }
+        ```
+    -   Parameters: None
+    -   Response:
+        -   success:
+            Status code: 201
+        -   errors:
+            -   Missing fields in body -> Status code: 400
+            -   Internal server error -> Status code: 500
+
+-   api/sample/update
+
+    -   Updates the fields of existing sample object from the database
+    -   Body:
+        ```
+        {
+            sample: {
+                id: number,
+                message: string,
+                num: number
+            }
+        }
+        ```
+    -   Parameters: None
+    -   Response:
+        -   success:
+            Status code: 200
+        -   errors:
+            -   Missing fields in body -> Status code: 400
+            -   Internal server error -> Status code: 500
+
+-   api/sample/delete
+    -   Deletes an existing sample object from the database
+    -   Body: None
+    -   Parameters: /:id
+    -   Response:
+        -   success:
+            Status code: 200
+        -   errors:
+            -   Internal server error -> Status code: 500
