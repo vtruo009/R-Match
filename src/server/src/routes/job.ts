@@ -24,32 +24,14 @@ interface jobRequest extends Request {
 router.post('/create', async (req: jobRequest, res: Response) => {
     const { job } = req.body;
     const {
-        targetYears,
-        hoursPerWeek,
-        description,
-        startDate,
-        endDate,
-        type,
-        title,
-        status,
-        minSalary,
-        maxSalary } = job;
+        hoursPerWeek } = job;
     if (!job) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
     }
     try {
-        await createJob(targetYears,
-                        hoursPerWeek,
-                        description,
-                        startDate,
-                        endDate,
-                        type,
-                        title,
-                        status,
-                        minSalary,
-                        maxSalary);
+        await createJob(hoursPerWeek);
         return res.status(CREATED).end();
     } catch (error) {
         logger.err(error);

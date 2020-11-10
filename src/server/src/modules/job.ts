@@ -15,29 +15,11 @@ import { getRepository } from 'typeorm';
  * @returns Promise
  */
 export const createJob = (
-    targetYears: IJob['targetYears'],
-    hoursPerWeek: IJob['hoursPerWeek'],
-    description: IJob['description'],
-    startDate: IJob['startDate'],
-    endDate: IJob['endDate'],
-    type: IJob['type'],
-    title: IJob['title'],
-    status: IJob['status'],
-    minSalary: IJob['minSalary'],
-    maxSalary: IJob['maxSalary']
+    hoursPerWeek: IJob['hoursPerWeek']
 ) => {
     const repository = getRepository(Job);
     const jobToInsert = repository.create({
-        targetYears,
         hoursPerWeek,
-        description,
-        startDate,
-        endDate,
-        type,
-        title,
-        status,
-        minSalary,
-        maxSalary
     });
     return repository.save(jobToInsert);
 };
