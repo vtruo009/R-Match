@@ -2,7 +2,7 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import { Switch, Route } from 'react-router-dom';
 import Routes from './routes';
-import NavBar from './Components/NavBar';
+import NavBar from './Components/NavBar/NavBar';
 
 export default function App() {
     return (
