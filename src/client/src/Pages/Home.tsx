@@ -1,7 +1,8 @@
 import React from 'react';
+import Samples from '../Components/Sample/Sample';
 
 function Home() {
-    return <h1>TODO: Add a nice home page</h1>;
+    return <Samples />;
 }
 
 export default Home;
