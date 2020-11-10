@@ -62,7 +62,12 @@ router.post('/create', async (req: sampleRequest, res: Response) => {
 router.get('/read', async (req: Request, res: Response) => {
     try {
         const samples = await getSamples();
-        return res.status(OK).json(samples).end();
+        return res
+            .status(OK)
+            .json({
+                samples,
+            })
+            .end();
     } catch (error) {
         logger.err(error);
         return res
