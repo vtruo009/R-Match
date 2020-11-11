@@ -3,7 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Job {
-    constructor(id: number, targetYears: string, hoursPerWeek: number, description: string,
+    constructor(id: number, targetYears: string[], hoursPerWeek: number, description: string,
         startDate: Date, endDate: Date, type: string, title: string, status: string,
         minSalary: number, maxSalary: number) {
         this.id = id;
@@ -22,8 +22,8 @@ export class Job {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    targetYears: string;
+    @Column("simple-array")
+    targetYears: string[];
 
     @Column()
     hoursPerWeek: number;
@@ -46,7 +46,9 @@ export class Job {
     @Column()
     status: string;
 
-    @Column()
+    @Column({
+        default: 0
+    })
     minSalary: number;
 
     @Column()
@@ -55,7 +57,7 @@ export class Job {
 
 export interface IJob {
     id: number;
-    targetYears: string;
+    targetYears: string[];
     hoursPerWeek: number;
     description: string;
     startDate: Date;
