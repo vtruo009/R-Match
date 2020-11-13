@@ -136,6 +136,7 @@ router.post('/update', async (req: jobRequest, res: Response) => {
             error: errors.paramMissingError,
         });
     }
+<<<<<<< HEAD
     if (!id ||
         !targetYears ||
         !hoursPerWeek ||
@@ -150,6 +151,8 @@ router.post('/update', async (req: jobRequest, res: Response) => {
             error: errors.paramMissingError,
         });
     }
+=======
+>>>>>>> Implemented and tested Update and Delete APIs for job
     try {
         await updateJob(
             targetYears,
@@ -181,11 +184,14 @@ router.post('/update', async (req: jobRequest, res: Response) => {
 
 router.delete('/delete/:id', async (req: jobRequest, res: Response) => {
     const { id } = req.params;
+<<<<<<< HEAD
     if (!id) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
     }
+=======
+>>>>>>> Implemented and tested Update and Delete APIs for job
     try {
         await deleteJob(parseInt(id, 10));
         return res.status(OK).end();

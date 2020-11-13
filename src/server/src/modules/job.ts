@@ -70,6 +70,7 @@ export const createJob = (
 };
 
 /**
+<<<<<<< HEAD
  * @description gets all sample documents from the database
  * @returns Promise<Job[]>
  */
