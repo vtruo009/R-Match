@@ -114,7 +114,16 @@ Sample API (follow this as a template when designing your API endpoints)
             -   errors:
                 -   Missing fields in body -> Status code: 400
                 -   Internal server error -> Status code: 500
+         
+Job API
 
+-   Interacts with:
+
+    -   Job database table
+
+-   Routes:
+
+    -   
     -   api/job/update
 
         -   Updates the fields of existing job object from the database
@@ -155,3 +164,32 @@ Sample API (follow this as a template when designing your API endpoints)
                 Status code: 200
             -   errors:
                 -   Internal server error -> Status code: 500
+                
+    -   api/job/read
+        -   Returns all job objects from database
+        -   Body: None
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 200
+                ```
+                {
+                    job: {
+                        id: number,
+                        targetYears: string[],
+                        hoursPerWeek: number,
+                        description: string,
+                        startDate: Date,
+                        endDate: Date (Optional),
+                        type: string[],
+                        title: string,
+                        status: string,
+                        minSalary: number,
+                        maxSalary: number,
+                        departmentID: string,
+                    } []
+                }
+                ```
+                error:
+                -   Internal server error -> Status code: 500
+>>>>>>> added API design and implemented GetJobs API endpoint

@@ -70,6 +70,14 @@ export const createJob = (
 };
 
 /**
+ * @description gets all sample documents from the database
+ * @returns Promise<Sample[]>
+ */
+export const getJobs = () => {
+    return getRepository(Job).find(); //look up if can documetation for find() typeorm.find()
+};
+
+/**
  * @description updates an existing job from the database
  * @param targetYears string[]
  * @param hoursPerWeek number

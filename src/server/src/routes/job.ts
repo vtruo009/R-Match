@@ -6,6 +6,7 @@ import {
     createJob,
     updateJob,
     deleteJob,
+    getJobs,
 } from '@modules/job';
 import logger from '@shared/Logger';
 
@@ -87,6 +88,20 @@ router.post('/create', async (req: jobRequest, res: Response) => {
     }
 });
 
+router.get('/read', async (req: Request, res: Response) => {
+    try {
+        const jobs = await getJobs();
+        console.log(jobs);
+        return res.status(OK).json(jobs).end();
+    }
+    catch (error) {
+        logger.err(error);
+        return res
+            .status(INTERNAL_SERVER_ERROR)
+            .json(errors.internalServerError)
+            .end();
+    }
+})
 /******************************************************************************
  *             POST Request example - Update - "POST /api/job/update"
  ******************************************************************************/
