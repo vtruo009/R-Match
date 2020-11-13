@@ -68,6 +68,7 @@ export const createJob = (
     });
     return repository.save(jobToInsert);
 };
+
 /**
  * @description updates an existing job from the database
  * @param targetYears string[]
