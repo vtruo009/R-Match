@@ -92,7 +92,6 @@ Sample API (follow this as a template when designing your API endpoints)
             ```
             {
                 job: {
-                    id: number,
                     targetYears: string[],
                     hoursPerWeek: number,
                     description: string,
@@ -114,4 +113,45 @@ Sample API (follow this as a template when designing your API endpoints)
                 Status code: 201
             -   errors:
                 -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
+
+    -   api/job/update
+
+        -   Updates the fields of existing job object from the database
+        -   Body:
+            ```
+            {
+                sample: {
+                    id: number,
+                    targetYears: string[],
+                    hoursPerWeek: number,
+                    description: string,
+                    expirationDate: Date,
+                    startDate: Date,
+                    endDate: Date,
+                    type: string[],
+                    title: string,
+                    status: string,
+                    minSalary: number,
+                    maxSalary: number,
+                    departmentId: string
+                }
+            }
+            ```
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 200
+            -   errors:
+                -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
+
+    -   api/job/delete
+        -   Deletes an existing job object from the database
+        -   Body: None
+        -   Parameters: /:id
+        -   Response:
+            -   success:
+                Status code: 200
+            -   errors:
                 -   Internal server error -> Status code: 500
