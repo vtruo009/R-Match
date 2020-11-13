@@ -76,20 +76,19 @@ router.post('/create', async (req: jobRequest, res: Response) => {
             });
         }
 
-        await createJob(
-            targetYears,
-            hoursPerWeek,
-            description,
-            expirationDate,
-            startDate,
-            endDate,
-            type,
-            title,
-            status,
-            minSalary,
-            maxSalary,
-            departmentId
-        );
+        await createJob(targetYears,
+                        hoursPerWeek,
+                        description,
+                        expirationDate,
+                        startDate,
+                        endDate,
+                        type,
+                        title,
+                        status,
+                        minSalary,
+                        maxSalary,
+            departmentId);
+
         return res.status(CREATED).end();
     } catch (error) {
         logger.err(error);
