@@ -14,7 +14,7 @@ interface FormValues {
   targetYears: string; 
   courses: string; 
   startDate: string;
-  endDate: string; 
+  expirationDate: string; 
   description: string; 
   status: string; 
   type: string; 
@@ -29,7 +29,7 @@ const initialValues: FormValues = {
   targetYears: "",
   courses: "",
   startDate: "",
-  endDate: "",
+  expirationDate: "",
   description: "", 
   status: "",
   type: "",
@@ -127,6 +127,7 @@ const CreateJob: React.FC = () => {
         {({ dirty, isValid }) => {
           return (
             <Form>
+              <FormikField name="title" label="Title" required />
               <div id="checkbox-group">Target Years</div>
             <div role="group" aria-labelledby="checkbox-group">
               <label>
@@ -147,7 +148,6 @@ const CreateJob: React.FC = () => {
               </label>
             </div>
             <FormikField name="hoursPerWeek" label="Hours Per Week" required />
-              <FormikField name="title" label="Title" required />
               <FormikSelect
                 name="department"
                 items={DepartmentItems}
@@ -156,7 +156,7 @@ const CreateJob: React.FC = () => {
               />
               <FormikField name ="type" label="Type" required/>
               <FormikField name ="startDate" label="Start Date" required/>
-              <FormikField name ="endDate" label="End Date"required/>
+              <FormikField name ="expirationDate" label="End Date"/>
               <FormikField name="description" label="Description" required />
               <FormikField name="status" label="Status" required/>
               <FormikField name="minSalary" label="Minimum Salary" required/>
