@@ -1,5 +1,5 @@
 import React from 'react';
-import { IJob } from '../types';
+import { IJob } from '../api/api';
 import Grid from '@material-ui/core/Grid';
 import JobPreview from '../JobPreview/JobPreview';
 import JobSummary from '../JobSummary/JobSummary';

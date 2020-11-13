@@ -1,3 +1,5 @@
+import API from '../../../api';
+
 export interface IJob {
     jobId: number;
     targetYears: string[];
@@ -10,4 +12,8 @@ export interface IJob {
     status: string;
     minSalary: number;
     maxSalary?: number;
+}
+
+export async function getJobs() {
+    return API.get<{ jobs: IJob[] }>('job/read');
 }

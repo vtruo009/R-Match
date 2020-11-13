@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { formatDate } from '../../../utils/format';
-import { IJob } from '../types';
+import { IJob } from '../api/api';
 
 interface props {
     job: IJob;
