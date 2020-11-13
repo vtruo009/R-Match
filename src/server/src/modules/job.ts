@@ -10,7 +10,7 @@ import { getRepository } from 'typeorm';
  * @param endDate Date
  * @param type string[]
  * @param title string
- * @param status string
+ * @param status 'Hiring' | 'Closed'
  * @param minSalary number
  * @param maxSalary number
  * @param departmentId string
@@ -35,10 +35,6 @@ export const createJob = (
         expirationDate = new Date();
         expirationDate.setFullYear(expirationDate.getFullYear() + 2);
     }
-    if (endDate == null) {
-        // Set to expiration date
-        endDate = expirationDate;
-    }
     if (maxSalary == null) {
         maxSalary = minSalary;
     }
@@ -49,13 +45,13 @@ export const createJob = (
         description,
         expirationDate,
         startDate,
-        endDate,
         type,
         title,
         status,
         minSalary,
-        maxSalary,
-        departmentId
+        departmentId,
+        endDate,
+        maxSalary
     });
     return repository.save(jobToInsert);
 };

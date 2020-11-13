@@ -1,11 +1,11 @@
-// import mongoose, { Schema, Document } from 'mongoose';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Job {
     constructor(id: number, targetYears: string[], hoursPerWeek: number, description: string,
-        expirationDate: Date, startDate: Date, endDate: Date, type: string[], title: string, status: string,
-        minSalary: number, maxSalary: number, departmentId: string) {
+        expirationDate: Date, startDate: Date,type: string[], title: string,
+        status: 'Hiring' | 'Closed', minSalary: number, departmentId: string,
+        endDate: Date, maxSalary: number) {
         this.id = id;
         this.targetYears = targetYears;
         this.hoursPerWeek = hoursPerWeek;
@@ -39,7 +39,7 @@ export class Job {
     @Column()
     startDate: Date;
 
-    @Column()
+    @Column({ nullable: true })
     endDate: Date;
 
     @Column("simple-array")
@@ -49,7 +49,7 @@ export class Job {
     title: string;
 
     @Column()
-    status: string;
+    status: 'Hiring' | 'Closed';
 
     @Column()
     minSalary: number;
@@ -66,13 +66,13 @@ export interface IJob {
     targetYears: string[];
     hoursPerWeek: number;
     description: string;
-    expirationDate: Date;
+    expirationDate?: Date;
     startDate: Date;
-    endDate: Date;
+    endDate?: Date;
     type: string[];
     title: string;
-    status: string;
+    status: 'Hiring' | 'Closed';
     minSalary: number;
-    maxSalary: number;
+    maxSalary?: number;
     departmentId: string;
 }

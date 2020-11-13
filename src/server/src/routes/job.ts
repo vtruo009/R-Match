@@ -42,6 +42,14 @@ router.post('/create', async (req: jobRequest, res: Response) => {
         });
     }
     try {
+        // Check if required field is missing.
+        if (!targetYears || !hoursPerWeek || !description || !startDate || !type
+            || !title || !status || !minSalary || !departmentId) {
+            return res.status(BAD_REQUEST).json({
+                error: errors.paramMissingError,
+            });
+        }
+
         await createJob(targetYears,
                         hoursPerWeek,
                         description,
