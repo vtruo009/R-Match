@@ -27,13 +27,15 @@ router.post('/create', async (req: jobRequest, res: Response) => {
         targetYears,
         hoursPerWeek,
         description,
+        expirationDate,
         startDate,
         endDate,
         type,
         title,
         status,
         minSalary,
-        maxSalary } = job;
+        maxSalary,
+        departmentId } = job;
     if (!job) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
@@ -43,13 +45,15 @@ router.post('/create', async (req: jobRequest, res: Response) => {
         await createJob(targetYears,
                         hoursPerWeek,
                         description,
+                        expirationDate,
                         startDate,
                         endDate,
                         type,
                         title,
                         status,
                         minSalary,
-                        maxSalary);
+                        maxSalary,
+                        departmentId);
         return res.status(CREATED).end();
     } catch (error) {
         logger.err(error);

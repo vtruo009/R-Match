@@ -2,42 +2,60 @@ import { IJob, Job } from '@entities/job';
 import { getRepository } from 'typeorm';
 /**
  * @description saves a new job in the database
- * @param targetYears job message
- * @param hoursPerWeek job number
- * @param description job number
- * @param startDate job number
- * @param endDate job number
- * @param type job number
- * @param title job number
- * @param status job number
- * @param minSalary job number
- * @param maxSalary job number
+ * @param targetYears string[]
+ * @param hoursPerWeek number
+ * @param description string
+ * @param expirationDate Date
+ * @param startDate Date
+ * @param endDate Date
+ * @param type string[]
+ * @param title string
+ * @param status string
+ * @param minSalary number
+ * @param maxSalary number
+ * @param departmentId string
  * @returns Promise
  */
 export const createJob = (
     targetYears: IJob['targetYears'],
     hoursPerWeek: IJob['hoursPerWeek'],
     description: IJob['description'],
+    expirationDate: IJob['expirationDate'],
     startDate: IJob['startDate'],
     endDate: IJob['endDate'],
     type: IJob['type'],
     title: IJob['title'],
     status: IJob['status'],
     minSalary: IJob['minSalary'],
-    maxSalary: IJob['maxSalary']
+    maxSalary: IJob['maxSalary'],
+    departmentId: IJob['departmentId']
 ) => {
+    if (expirationDate == null) {
+        // Set expiration date to 2 years after the current date.
+        expirationDate = new Date();
+        expirationDate.setFullYear(expirationDate.getFullYear() + 2);
+    }
+    if (endDate == null) {
+        // Set to expiration date
+        endDate = expirationDate;
+    }
+    if (maxSalary == null) {
+        maxSalary = minSalary;
+    }
     const repository = getRepository(Job);
     const jobToInsert = repository.create({
         targetYears,
         hoursPerWeek,
         description,
+        expirationDate,
         startDate,
         endDate,
         type,
         title,
         status,
         minSalary,
-        maxSalary
+        maxSalary,
+        departmentId
     });
     return repository.save(jobToInsert);
 };
