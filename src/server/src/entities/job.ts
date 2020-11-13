@@ -66,9 +66,9 @@ export interface IJob {
     targetYears: string[];
     hoursPerWeek: number;
     description: string;
-    expirationDate?: Date;
-    startDate: Date;
-    endDate?: Date;
+    expirationDate?: string;
+    startDate: string;
+    endDate?: string;
     type: string[];
     title: string;
     status: 'Hiring' | 'Closed';

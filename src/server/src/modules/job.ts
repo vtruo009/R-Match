@@ -31,32 +31,43 @@ export const createJob = (
     maxSalary: IJob['maxSalary'],
     departmentId: IJob['departmentId']
 ) => {
-    if (expirationDate == null) {
+    const startDateAsDate = new Date(startDate);
+
+    let expirationDateAsDate: Date;
+    if (expirationDate) {
+        expirationDateAsDate = new Date(expirationDate);
+    } else {
         // Set expiration date to 2 years after the current date.
-        expirationDate = new Date();
-        expirationDate.setFullYear(expirationDate.getFullYear() + 2);
+        expirationDateAsDate = new Date();
+        expirationDateAsDate.setFullYear(expirationDateAsDate.getFullYear() + 2);
     }
-    if (maxSalary == null) {
+
+    let endDateAsDate;
+    if (endDate) {
+        endDateAsDate = new Date(endDate);
+    }
+
+    if (!maxSalary) {
         maxSalary = minSalary;
     }
+
     const repository = getRepository(Job);
     const jobToInsert = repository.create({
-        targetYears,
-        hoursPerWeek,
-        description,
-        expirationDate,
-        startDate,
-        type,
-        title,
-        status,
-        minSalary,
-        departmentId,
-        endDate,
-        maxSalary
+        targetYears: targetYears,
+        hoursPerWeek: hoursPerWeek,
+        description: description,
+        expirationDate:expirationDateAsDate,
+        startDate: startDateAsDate,
+        type: type,
+        title: title,
+        status: status,
+        minSalary: minSalary,
+        departmentId: departmentId,
+        endDate: endDateAsDate,
+        maxSalary: maxSalary
     });
     return repository.save(jobToInsert);
-};
-/**
+};/**
  * @description updates an existing job from the database
  * @param targetYears string[]
  * @param hoursPerWeek number
