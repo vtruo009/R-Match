@@ -41,3 +41,11 @@ export const createJob = (
     });
     return repository.save(jobToInsert);
 };
+
+/**
+ * @description gets all sample documents from the database
+ * @returns Promise<Sample[]>
+ */
+export const getJobs = () => {
+    return getRepository(Job).find(); //look up if can documetation for find() typeorm.find()
+};
