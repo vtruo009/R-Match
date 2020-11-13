@@ -69,7 +69,6 @@ export const createJob = (
     return repository.save(jobToInsert);
 };
 /**
-<<<<<<< HEAD
  * @description gets all sample documents from the database
  * @returns Promise<Job[]>
  */
