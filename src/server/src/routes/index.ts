@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import sampleRouter from './sample';
-import jobRouter from './job';;
+import jobRouter from './job';
 
 // Init router and path
 const router = Router();
