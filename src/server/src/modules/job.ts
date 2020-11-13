@@ -67,7 +67,9 @@ export const createJob = (
         maxSalary: maxSalary
     });
     return repository.save(jobToInsert);
-};/**
+};
+
+/**
  * @description updates an existing job from the database
  * @param targetYears string[]
  * @param hoursPerWeek number

@@ -122,6 +122,7 @@ Sample API (follow this as a template when designing your API endpoints)
             ```
             {
                 job: {
+                    id: number,
                     targetYears: string[],
                     hoursPerWeek: number,
                     description: string,
