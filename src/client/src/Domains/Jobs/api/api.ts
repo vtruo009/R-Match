@@ -1,14 +1,14 @@
 import API from '../../../api';
 
 export interface IJob {
-    jobId: number;
+    id: number;
     targetYears: string[];
     hoursPerWeek: number;
     description: string;
     expirationDate?: string;
     startDate: string;
     endDate: string;
-    type: string;
+    type: string[];
     title: string;
     status: 'Hiring' | 'Closed';
     minSalary: number;

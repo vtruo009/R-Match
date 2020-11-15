@@ -84,9 +84,9 @@ function JobSummary({ job }: props) {
                     <Grid item container direction='column' spacing={2} md={4}>
                         <Grid item>
                             <Typography variant='subtitle1' color='primary'>
-                                Job Type
+                                Job Type(s)
                             </Typography>
-                            <Typography>{job.type}</Typography>
+                            <Typography>{job.type.join(', ')}</Typography>
                         </Grid>
                         <Grid item>
                             <Typography variant='subtitle1' color='primary'>
