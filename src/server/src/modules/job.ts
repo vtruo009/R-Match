@@ -100,13 +100,23 @@ export const updateJob = (
     departmentId: IJob['departmentId'],
     id: number
 ) => {
+    const startDateAsDate = new Date(startDate);
+    let endDateAsDate;
+    if (endDate) {
+        endDateAsDate = new Date(endDate);
+    }
+    let expirationDateAsDate;
+    if (expirationDate) {
+        expirationDateAsDate = new Date(expirationDate);
+    }
+
     return getRepository(Job).update(id, {
         targetYears: targetYears,
         hoursPerWeek: hoursPerWeek,
         description: description,
-        expirationDate: expirationDate,
-        startDate: startDate,
-        endDate: endDate,
+        expirationDate: expirationDateAsDate,
+        startDate: startDateAsDate,
+        endDate: endDateAsDate,
         type: type,
         title: title,
         status: status,
