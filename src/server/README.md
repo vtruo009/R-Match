@@ -111,7 +111,7 @@ Job API
                         endDate: Date (Optional),
                         type: string[],
                         title: string,
-                        status: string,
+                        status: 'Hiring' | 'Closed',
                         minSalary: number,
                         maxSalary: number,
                         departmentID: string,
@@ -127,7 +127,7 @@ Job API
         -   Body:
             ```
             {
-                job: {
+                jobs: {
                     targetYears: string[],
                     hoursPerWeek: number,
                     description: string,

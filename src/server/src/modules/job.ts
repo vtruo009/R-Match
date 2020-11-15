@@ -70,7 +70,7 @@ export const createJob = (
 
 /**
  * @description gets all sample documents from the database
- * @returns Promise<Sample[]>
+ * @returns Promise<Job[]>
  */
 export const getJobs = () => {
     return getRepository(Job).find(); //look up if can documetation for find() typeorm.find()
