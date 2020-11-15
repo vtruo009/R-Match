@@ -20,13 +20,13 @@ function JobResults({ jobs }: Props) {
                             <JobPreview
                                 job={job}
                                 onClick={setJobSelected}
-                                isSelected={job === jobSelected}
+                                isSelected={job.jobId === jobSelected.jobId}
                             />
                         </Grid>
                     ))}
                 </Grid>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={7}>
                 <JobSummary job={jobSelected} />
             </Grid>
         </Grid>

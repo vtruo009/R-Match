@@ -5,15 +5,18 @@ export interface IJob {
     targetYears: string[];
     hoursPerWeek: number;
     description: string;
+    expirationDate?: string;
     startDate: string;
     endDate: string;
     type: string;
     title: string;
-    status: string;
+    status: 'Hiring' | 'Closed';
     minSalary: number;
     maxSalary?: number;
+    // TODO: In the future this attribute should be called departmentName
+    departmentId: string;
 }
 
 export async function getJobs() {
-    return API.get<{ jobs: IJob[] }>('job/read');
+    return API.get('job/read');
 }
