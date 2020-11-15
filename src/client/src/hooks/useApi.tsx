@@ -3,20 +3,23 @@ import { AxiosResponse } from 'axios';
 import useSnack from '../hooks/useSnack';
 
 type apiReturn = [SendRequest: () => void, IsLoading: boolean];
-
+interface Handlers<T> {
+    onSuccess?: (response: AxiosResponse<T>) => void;
+    onFailure?: (error: Error) => void;
+}
 export default function useApi<T>(
     endpoint: () => Promise<AxiosResponse<T>>,
-    onSuccess?: (response: AxiosResponse<T>) => void,
-    onFailure?: (error: Error) => void
+    handlers: Handlers<T>
 ): apiReturn {
     const [isLoading, setIsLoading] = React.useState(false);
     const [snack] = useSnack();
     const sendRequest = React.useCallback(() => setIsLoading(true), []);
+    const { onSuccess, onFailure } = handlers;
 
     React.useEffect(() => {
         const defaultError = (error: Error) => {
             console.log(error);
-            snack('Something went wrong! Please try again', 'error');
+            snack(error.message, 'error');
         };
         const defaultSuccess = () => {
             snack('Request was successful', 'success');
@@ -35,7 +38,9 @@ export default function useApi<T>(
                     actualOnFailure(new Error('Sending the request failed'));
                 }
             } catch (error) {
-                actualOnFailure(error);
+                actualOnFailure(
+                    new Error('Something went wrong! Please try again')
+                );
                 setIsLoading(false);
             }
         };

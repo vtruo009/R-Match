@@ -57,7 +57,9 @@ function JobPreview({ job, onClick, isSelected }: Props) {
                         </Typography>
                     </Grid>
                     <Grid item>
-                        <Typography variant='body1'>Van Truong</Typography>
+                        <Typography variant='body1'>
+                            TODO: Display faculty member's name
+                        </Typography>
                     </Grid>
                 </Grid>
             </Grid>

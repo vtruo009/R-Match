@@ -48,6 +48,14 @@ function JobSummary({ job }: props) {
                             </Typography>
                             <Typography>{job.hoursPerWeek}</Typography>
                         </Grid>
+                        <Grid item>
+                            <Typography variant='subtitle1' color='primary'>
+                                Target years
+                            </Typography>
+                            <Typography>
+                                {job.targetYears.join(', ')}
+                            </Typography>
+                        </Grid>
                     </Grid>
                     <Grid item container direction='column' spacing={2} md={4}>
                         <Grid item>
@@ -62,6 +70,16 @@ function JobSummary({ job }: props) {
                             </Typography>
                             <Typography>{formatDate(job.endDate)}</Typography>
                         </Grid>
+                        {job.expirationDate && (
+                            <Grid item>
+                                <Typography variant='subtitle1' color='primary'>
+                                    Expiration date
+                                </Typography>
+                                <Typography>
+                                    {formatDate(job.expirationDate)}
+                                </Typography>
+                            </Grid>
+                        )}
                     </Grid>
                     <Grid item container direction='column' spacing={2} md={4}>
                         <Grid item>
@@ -72,11 +90,10 @@ function JobSummary({ job }: props) {
                         </Grid>
                         <Grid item>
                             <Typography variant='subtitle1' color='primary'>
-                                Target years
+                                Department
                             </Typography>
-                            <Typography>
-                                {job.targetYears.join(', ')}
-                            </Typography>
+                            {/* TODO: In the future this attribute should be called departmentName */}
+                            <Typography>{job.departmentId}</Typography>
                         </Grid>
                     </Grid>
                 </Grid>
