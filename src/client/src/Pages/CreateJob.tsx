@@ -3,8 +3,8 @@ import { Formik, Form, Field} from "formik";
 import Button from "@material-ui/core/Button";
 import * as Yup from 'yup'; 
 
-import FormikField from "../Components/JobForm/FormikField";
-import FormikSelect, { FormikSelectItem } from "../Components/JobForm/FormikSelect";
+import FormikField from "../Components/FormikTextField/FormikTextField";
+import FormikSelect, { FormikSelectFieldItem } from "../Components/FormikSelectField/FormikSelectField";
 
 
 interface FormValues {
@@ -37,8 +37,20 @@ const initialValues: FormValues = {
   maxSalary: ""
 };
 
+// Status Selection 
+const StatusItems: FormikSelectFieldItem[] = [
+  {
+    label: "Hiring", 
+    value: "hiring"
+  },
+  {
+    label: "Closed",
+    value: "closed" 
+  }
+]
+
 // Department Selection 
-const DepartmentItems: FormikSelectItem[] = [
+const DepartmentItems: FormikSelectFieldItem[] = [
   { 
     label: "Biology",
     value: "biology"
@@ -103,12 +115,18 @@ const DepartmentItems: FormikSelectItem[] = [
 
 // Regex for numeric checker
 const numericRegex = /^\d+$/; 
+const decimalRegex = /^\d*\.?\d*$/;
 
 // Input Validation
 const SignupSchema = Yup.object().shape({
   hoursPerWeek: Yup.string()
   .matches(numericRegex, 'All numerics required!')
-  .required('Required!')
+  .required('Required!'),
+  minSalary: Yup.string()
+  .matches(decimalRegex, 'Decimal values required!')
+  .required('Required!'),
+  maxSalary: Yup.string()
+  .matches(decimalRegex, 'Decimal values required!')
 }) 
 
 const CreateJob: React.FC = () => {
@@ -158,7 +176,12 @@ const CreateJob: React.FC = () => {
               <FormikField name ="startDate" label="Start Date" required/>
               <FormikField name ="expirationDate" label="End Date"/>
               <FormikField name="description" label="Description" required />
-              <FormikField name="status" label="Status" required/>
+              <FormikSelect
+                name="status"
+                items={StatusItems}
+                label="Status"
+                required
+              />
               <FormikField name="minSalary" label="Minimum Salary" required/>
               <FormikField name="maxSalary" label="Maximum Salary" />
               <Button
