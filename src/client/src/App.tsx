@@ -8,7 +8,7 @@ export default function App() {
     return (
         <div className='App'>
             <NavBar />
-            <Container maxWidth='sm'>
+            <Container>
                 <Switch>
                     {Routes.map((route) => (
                         <Route exact path={route.path} key={route.path}>

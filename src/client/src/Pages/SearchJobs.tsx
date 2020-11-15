@@ -1,7 +1,8 @@
 import React from 'react';
+import JobRoot from '../Domains/Jobs/JobRoot/JobRoot';
 
 function SearchJobs() {
-    return <h1>TODO: Adds components for the search jobs page</h1>;
+    return <JobRoot />;
 }
 
 export default SearchJobs;
