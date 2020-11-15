@@ -1,15 +1,16 @@
-// import mongoose, { Schema, Document } from 'mongoose';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Job {
-    constructor(id: number, targetYears: string, hoursPerWeek: number, description: string,
-        startDate: Date, endDate: Date, type: string, title: string, status: string,
-        minSalary: number, maxSalary: number) {
+    constructor(id: number, targetYears: string[], hoursPerWeek: number, description: string,
+        expirationDate: Date, startDate: Date,type: string[], title: string,
+        status: 'Hiring' | 'Closed', minSalary: number, departmentId: string,
+        endDate: Date, maxSalary: number) {
         this.id = id;
         this.targetYears = targetYears;
         this.hoursPerWeek = hoursPerWeek;
         this.description = description;
+        this.expirationDate = expirationDate;
         this.startDate = startDate;
         this.endDate = endDate;
         this.type = type;
@@ -17,13 +18,14 @@ export class Job {
         this.status = status;
         this.minSalary = minSalary;
         this.maxSalary = maxSalary;
+        this.departmentId = departmentId;
     }
 
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    targetYears: string;
+    @Column("simple-array")
+    targetYears: string[];
 
     @Column()
     hoursPerWeek: number;
@@ -32,37 +34,45 @@ export class Job {
     description: string;
 
     @Column()
+    expirationDate: Date;
+
+    @Column()
     startDate: Date;
 
-    @Column()
+    @Column({ nullable: true })
     endDate: Date;
 
-    @Column()
-    type: string;
+    @Column("simple-array")
+    type: string[];
 
     @Column()
     title: string;
 
     @Column()
-    status: string;
+    status: 'Hiring' | 'Closed';
 
     @Column()
     minSalary: number;
 
     @Column()
     maxSalary: number;
+
+    @Column()
+    departmentId: string;
 }
 
 export interface IJob {
     id: number;
-    targetYears: string;
+    targetYears: string[];
     hoursPerWeek: number;
     description: string;
-    startDate: Date;
-    endDate: Date;
-    type: string;
+    expirationDate?: string;
+    startDate: string;
+    endDate?: string;
+    type: string[];
     title: string;
-    status: string;
+    status: 'Hiring' | 'Closed';
     minSalary: number;
-    maxSalary: number;
+    maxSalary?: number;
+    departmentId: string;
 }

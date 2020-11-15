@@ -120,3 +120,33 @@ Job API
                 ```
                 error:
                 -   Internal server error -> Status code: 500
+                
+    -   api/job/create
+
+        -   Saves a job object in the database
+        -   Body:
+            ```
+            {
+                job: {
+                    targetYears: string[],
+                    hoursPerWeek: number,
+                    description: string,
+                    expirationDate: Date, (Optional)
+                    startDate: Date,
+                    endDate: Date, (Optional)
+                    type: string[],
+                    title: string,
+                    status: string,
+                    minSalary: number,
+                    maxSalary: number, (Optional)
+                    departmentId: string
+                }
+            }
+            ```
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 201
+            -   errors:
+                -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
