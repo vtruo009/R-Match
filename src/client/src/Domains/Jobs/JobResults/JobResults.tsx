@@ -20,7 +20,8 @@ function JobResults({ jobs }: Props) {
                             <JobPreview
                                 job={job}
                                 onClick={setJobSelected}
-                                isSelected={job.jobId === jobSelected.jobId}
+                                // isSelected={false}
+                                isSelected={job.id === jobSelected.id}
                             />
                         </Grid>
                     ))}
