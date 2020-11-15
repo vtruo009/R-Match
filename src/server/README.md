@@ -100,7 +100,7 @@ Sample API (follow this as a template when designing your API endpoints)
                     endDate: Date, (Optional)
                     type: string[],
                     title: string,
-                    status: string,
+                    status: 'Hiring' | 'Closed',
                     minSalary: number,
                     maxSalary: number, (Optional)
                     departmentId: string
@@ -131,7 +131,7 @@ Sample API (follow this as a template when designing your API endpoints)
                     endDate: Date,
                     type: string[],
                     title: string,
-                    status: string,
+                    status: 'Hiring' | 'Closed',
                     minSalary: number,
                     maxSalary: number,
                     departmentId: string
