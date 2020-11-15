@@ -91,8 +91,7 @@ router.post('/create', async (req: jobRequest, res: Response) => {
 router.get('/read', async (req: Request, res: Response) => {
     try {
         const jobs = await getJobs();
-        console.log(jobs);
-        return res.status(OK).json(jobs).end();
+        return res.status(OK).json({jobs}).end();
     }
     catch (error) {
         logger.err(error);

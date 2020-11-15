@@ -91,7 +91,7 @@ Sample API (follow this as a template when designing your API endpoints)
         -   Body:
             ```
             {
-                job: {
+                jobs: {
                     targetYears: string[],
                     hoursPerWeek: number,
                     description: string,
@@ -183,7 +183,7 @@ Job API
                         endDate: Date (Optional),
                         type: string[],
                         title: string,
-                        status: string,
+                        status: 'Hiring' | 'Closed',
                         minSalary: number,
                         maxSalary: number,
                         departmentID: string,
