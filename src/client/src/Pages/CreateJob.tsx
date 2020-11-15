@@ -5,13 +5,13 @@ import * as Yup from 'yup';
 
 import FormikField from "../Components/FormikTextField/FormikTextField";
 import FormikSelect, { FormikSelectFieldItem } from "../Components/FormikSelectField/FormikSelectField";
-
+import FormikDateField from "../Components/FormikDateField/FormikDateField"; 
 
 interface FormValues {
   title: string;
   hours: string; 
   major: string; 
-  targetYears: string; 
+  targetYears: string[]; 
   startDate: string;
   expirationDate: string; 
   description: string; 
@@ -25,7 +25,7 @@ const initialValues: FormValues = {
   title: "",
   hours: "",
   major: "",
-  targetYears: "",
+  targetYears: [],
   startDate: "",
   expirationDate: "",
   description: "", 
@@ -39,11 +39,11 @@ const initialValues: FormValues = {
 const StatusItems: FormikSelectFieldItem[] = [
   {
     label: "Hiring", 
-    value: "hiring"
+    value: "Hiring"
   },
   {
     label: "Closed",
-    value: "closed" 
+    value: "Closed" 
   }
 ]
 
@@ -115,9 +115,6 @@ const DepartmentItems: FormikSelectFieldItem[] = [
 const numericRegex = /^\d+$/; 
 const decimalRegex = /^\d*\.?\d*$/;
 
-// Regex for date checker
-const dateRegex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
-
 // Input Validation
 const SignupSchema = Yup.object().shape({
   hoursPerWeek: Yup.string()
@@ -130,13 +127,6 @@ const SignupSchema = Yup.object().shape({
   
   maxSalary: Yup.string()
   .matches(decimalRegex, 'Decimal values required!'),
-  
-  startDate: Yup.string()
-  .matches(dateRegex, "Date format must be in dd/mm/yyyy or dd-mm-yyyy!")
-  .required('Required!'),
-
-  expirationDate: Yup.string()
-  .matches(dateRegex, "Date format must be in dd/mm/yyyy or dd-mm-yyyy!")
 }) 
 
 const CreateJob: React.FC = () => {
@@ -183,8 +173,8 @@ const CreateJob: React.FC = () => {
                 required
               />
               <FormikField name ="type" label="Type" required/>
-              <FormikField name ="startDate" label="Start Date" required/>
-              <FormikField name ="expirationDate" label="End Date"/>
+              <FormikDateField name ="startDate" label="Start Date" required type="date" />
+              <FormikDateField name ="expirationDate" label="End Date" type="date" />
               <FormikField name="description" label="Description" required />
               <FormikSelect
                 name="status"
@@ -192,8 +182,8 @@ const CreateJob: React.FC = () => {
                 label="Status"
                 required
               />
-              <FormikField name="minSalary" label="Minimum Salary" required/>
-              <FormikField name="maxSalary" label="Maximum Salary" />
+              <FormikField name="minSalary" label="Minimum Salary" required type="number"/>
+              <FormikField name="maxSalary" label="Maximum Salary" type="number"/>
               <Button
                 variant="contained"
                 color="primary"
