@@ -4,6 +4,13 @@ import Button from "@material-ui/core/Button";
 import FormikField from "../../../Components/FormikTextField/FormikTextField";
 import FormikSelect, { FormikSelectFieldItem } from "../../../Components/FormikSelectField/FormikSelectField";
 import FormikDateField from "../../../Components/FormikDateField/FormikDateField"; 
+//import useApi from '../../../hooks/useApi';
+//import useSnack from '../../../hooks/useSnack';
+//import { setJobs, IJob } from '../api/api'; 
+import Axios from 'axios'; 
+import { toast } from 'react-toastify';
+//import { setJobs } from '../api/api';
+//import { ActionSchedule } from 'material-ui/svg-icons';
 
 interface FormValues {
   targetYears: string[],
@@ -109,10 +116,11 @@ const DepartmentItems: FormikSelectFieldItem[] = [
   }
 ]; 
 
+const apiUrl = "http://localhost:5000"
 const JobForm: React.FC = () => {
-  const handleSubmit = (values: FormValues): void => {
-    alert(JSON.stringify(values));
-  };
+ // const handleSubmit = (values: FormValues): void => {
+  //  alert(JSON.stringify(values));
+  //};
 
 
   return (
@@ -120,9 +128,19 @@ const JobForm: React.FC = () => {
       <h1>Create A Job Post</h1>
       <Formik
         initialValues={initialValues}
-        onSubmit={handleSubmit}
+        //onSubmit={handleSubmit}
         //validationSchema={SignupSchema}
-      >
+        onSubmit={async (input, {resetForm}) => {
+          await Axios.post(`${apiUrl}/api/job/create`,input).then(res => {
+            toast.success(res.data)
+            resetForm({})
+          })
+          .catch(err => {
+            toast.error('Something went wrong.');  
+      });  
+        }
+        }
+        >
         {({ dirty, isValid }) => {
           return (
             <Form>
