@@ -1,5 +1,5 @@
 import React from "react";
-import {ErrorMessage} from "formik"
+import { ErrorMessage, Field } from "formik";
 import TextField from "@material-ui/core/TextField";
 
 interface FormikDateFieldProps {
@@ -11,16 +11,18 @@ interface FormikDateFieldProps {
 
 const FormikDateField: React.FC<FormikDateFieldProps> = ({ name, label, type = "text", required = false}) => {
   return (
-      <TextField
+      <Field
         required={required}
         autoComplete="off"
+        as={TextField}
         label={label}
         name={name}
-        defaultValue=""
         fullWidth
         type={type}
-        InputLabelProps={{shrink:true}}
-        helperText={<ErrorMessage name={name}/>}
+        InputLabelProps={{
+            shrink: true,
+          }}
+        helperText={<ErrorMessage name={name} />}
       />
   );
 };
