@@ -121,8 +121,6 @@ const JobForm: React.FC = () => {
  // const handleSubmit = (values: FormValues): void => {
   //  alert(JSON.stringify(values));
   //};
-
-
   return (
     <div className="App">
       <h1>Create A Job Post</h1>

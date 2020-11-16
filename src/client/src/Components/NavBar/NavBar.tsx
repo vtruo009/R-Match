@@ -19,7 +19,7 @@ function NavBar() {
     const classes = useStyles();
 
     return (
-        <AppBar position='static'>
+        <AppBar position='sticky'>
             <ToolBar>
                 {Routes.map((route, key) => (
                     <NavLink
