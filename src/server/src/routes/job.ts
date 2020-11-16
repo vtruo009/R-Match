@@ -2,10 +2,7 @@ import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import { IJob } from '@entities/job';
 import { errors } from '@shared/errors';
-import {
-    createJob,
-    getJobs,
-} from '@modules/job';
+import { createJob, getJobs } from '@modules/job';
 import logger from '@shared/Logger';
 
 const router = Router();
@@ -36,7 +33,8 @@ router.post('/create', async (req: jobRequest, res: Response) => {
         status,
         minSalary,
         maxSalary,
-        departmentId } = job;
+        departmentId,
+    } = job;
     if (!job) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
@@ -44,25 +42,36 @@ router.post('/create', async (req: jobRequest, res: Response) => {
     }
     try {
         // Check if required field is missing.
-        if (!targetYears || !hoursPerWeek || !description || !startDate || !type
-            || !title || !status || !minSalary || !departmentId) {
+        if (
+            !targetYears ||
+            !hoursPerWeek ||
+            !description ||
+            !startDate ||
+            !type ||
+            !title ||
+            !status ||
+            minSalary === undefined ||
+            !departmentId
+        ) {
             return res.status(BAD_REQUEST).json({
                 error: errors.paramMissingError,
             });
         }
 
-        await createJob(targetYears,
-                        hoursPerWeek,
-                        description,
-                        expirationDate,
-                        startDate,
-                        endDate,
-                        type,
-                        title,
-                        status,
-                        minSalary,
-                        maxSalary,
-                        departmentId);
+        await createJob(
+            targetYears,
+            hoursPerWeek,
+            description,
+            expirationDate,
+            startDate,
+            endDate,
+            type,
+            title,
+            status,
+            minSalary,
+            maxSalary,
+            departmentId
+        );
         return res.status(CREATED).end();
     } catch (error) {
         logger.err(error);
@@ -76,16 +85,15 @@ router.post('/create', async (req: jobRequest, res: Response) => {
 router.get('/read', async (req: Request, res: Response) => {
     try {
         const jobs = await getJobs();
-        return res.status(OK).json({jobs}).end();
-    }
-    catch (error) {
+        return res.status(OK).json({ jobs }).end();
+    } catch (error) {
         logger.err(error);
         return res
             .status(INTERNAL_SERVER_ERROR)
             .json(errors.internalServerError)
             .end();
     }
-})
+});
 /******************************************************************************
  *                                     Export
  ******************************************************************************/
