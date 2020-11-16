@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { formatDate } from '../../../utils/format';
 import { IJob } from '../api/api';
+import { isGreaterThanZero } from '../../../utils/helpers';
+import SalaryDisplayer from '../SalaryDisplayer/SalaryDisplayer';
 
 interface props {
     job: IJob;
@@ -37,10 +39,14 @@ function JobSummary({ job }: props) {
                             <Typography variant='subtitle1' color='primary'>
                                 Salary
                             </Typography>
-                            <Typography>
-                                ${job.minSalary}
-                                {job.maxSalary && <> - ${job.maxSalary}</>}
-                            </Typography>
+                            {isGreaterThanZero(job.minSalary) ? (
+                                <SalaryDisplayer
+                                    minSalary={job.minSalary}
+                                    maxSalary={job.maxSalary}
+                                />
+                            ) : (
+                                <Typography> None </Typography>
+                            )}
                         </Grid>
                         <Grid item>
                             <Typography variant='subtitle1' color='primary'>
