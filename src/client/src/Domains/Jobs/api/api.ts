@@ -1,5 +1,7 @@
 import API from '../../../api';
 
+export type jobType = 'grader' | 'assistant' | 'researcher' | 'volunteer' | 'tutor' | 'other';
+
 export interface IJob {
     id: number;
     targetYears: string[];
@@ -8,7 +10,7 @@ export interface IJob {
     expirationDate?: string;
     startDate: string;
     endDate: string;
-    type: string[];
+    type: jobType[];
     title: string;
     status: 'Hiring' | 'Closed';
     minSalary: number;
