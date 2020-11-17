@@ -18,8 +18,8 @@ export default function useApi<T>(
 
     React.useEffect(() => {
         const defaultError = (error: Error) => {
-            console.log(error);
-            snack(error.message, 'error');
+            console.log(error.message);
+            snack('Something went wrong! Please try again', 'error');
         };
         const defaultSuccess = () => {
             snack('Request was successful', 'success');
@@ -38,9 +38,7 @@ export default function useApi<T>(
                     actualOnFailure(new Error('Sending the request failed'));
                 }
             } catch (error) {
-                actualOnFailure(
-                    new Error('Something went wrong! Please try again')
-                );
+                actualOnFailure(error as Error);
                 setIsLoading(false);
             }
         };

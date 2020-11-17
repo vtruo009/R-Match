@@ -6,10 +6,17 @@ interface props {
 }
 
 function SalaryDisplayer({ minSalary, maxSalary }: props) {
+    const isMaxSalaryValid = () => {
+        if (!maxSalary) {
+            return false;
+        }
+        return maxSalary > minSalary;
+    };
+
     return (
         <Typography>
             ${minSalary}
-            {maxSalary && <> - ${maxSalary}</>}
+            {isMaxSalaryValid() && <> - ${maxSalary}</>}
         </Typography>
     );
 }
