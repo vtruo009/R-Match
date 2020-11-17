@@ -88,7 +88,6 @@ router.post('/create', async (req: jobRequest, res: Response) => {
                         minSalary,
                         maxSalary,
             departmentId);
-
         return res.status(CREATED).end();
     } catch (error) {
         logger.err(error);
@@ -111,6 +110,7 @@ router.get('/read', async (req: Request, res: Response) => {
             .end();
     }
 });
+
 /******************************************************************************
  *             POST Request example - Update - "POST /api/job/update"
  ******************************************************************************/

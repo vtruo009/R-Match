@@ -85,6 +85,42 @@ Sample API (follow this as a template when designing your API endpoints)
             -   errors:
                 -   Internal server error -> Status code: 500
 
+Job API
+
+-   Interacts with:
+
+    -   Job database table
+
+-   Routes:
+
+    -   api/job/read
+        -   Returns all job objects from database
+        -   Body: None
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 200
+                ```
+                {
+                    job: {
+                        id: number,
+                        targetYears: string[],
+                        hoursPerWeek: number,
+                        description: string,
+                        startDate: Date,
+                        endDate: Date (Optional),
+                        type: string[],
+                        title: string,
+                        status: 'Hiring' | 'Closed',
+                        minSalary: number,
+                        maxSalary: number,
+                        departmentID: string,
+                    } []
+                }
+                ```
+                error:
+                -   Internal server error -> Status code: 500
+                
     -   api/job/create
 
         -   Saves a job object in the database
@@ -122,48 +158,6 @@ Job API
     -   Job database table
 
 -   Routes:
-
-    -   
-    -   api/job/update
-
-        -   Updates the fields of existing job object from the database
-        -   Body:
-            ```
-            {
-                job: {
-                    id: number,
-                    targetYears: string[],
-                    hoursPerWeek: number,
-                    description: string,
-                    expirationDate: Date,
-                    startDate: Date,
-                    endDate: Date,
-                    type: string[],
-                    title: string,
-                    status: 'Hiring' | 'Closed',
-                    minSalary: number,
-                    maxSalary: number,
-                    departmentId: string
-                }
-            }
-            ```
-        -   Parameters: None
-        -   Response:
-            -   success:
-                Status code: 200
-            -   errors:
-                -   Missing fields in body -> Status code: 400
-                -   Internal server error -> Status code: 500
-
-    -   api/job/delete
-        -   Deletes an existing job object from the database
-        -   Body: None
-        -   Parameters: /:id
-        -   Response:
-            -   success:
-                Status code: 200
-            -   errors:
-                -   Internal server error -> Status code: 500
                 
     -   api/job/read
         -   Returns all job objects from database
@@ -192,9 +186,6 @@ Job API
                 ```
                 error:
                 -   Internal server error -> Status code: 500
-<<<<<<< HEAD
->>>>>>> added API design and implemented GetJobs API endpoint
-=======
                 
     -   api/job/create
 
@@ -266,4 +257,3 @@ Job API
                 Status code: 200
             -   errors:
                 -   Internal server error -> Status code: 500
->>>>>>> Implemented and tested Update and Delete APIs for job
