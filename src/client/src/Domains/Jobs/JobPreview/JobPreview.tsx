@@ -31,20 +31,20 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const getIcon = (type: jobType): JSX.Element => {
     const color = 'primary';
-    const size = 'large';
+    const fontSize = 60;
     switch (type) {
         case 'assistant':
-            return <AssistantIcon fontSize={size} color={color} />;
+            return <AssistantIcon style={{ fontSize }} color={color} />;
         case 'grader':
-            return <GraderIcon fontSize={size} color={color} />;
+            return <GraderIcon style={{ fontSize }} color={color} />;
         case 'researcher':
-            return <ResearchIcon fontSize={size} color={color} />;
+            return <ResearchIcon style={{ fontSize }} color={color} />;
         case 'tutor':
-            return <TutorIcon fontSize={size} color={color} />;
+            return <TutorIcon style={{ fontSize }} color={color} />;
         case 'volunteer':
-            return <VolunteerIcon fontSize={size} color={color} />;
+            return <VolunteerIcon style={{ fontSize }} color={color} />;
         default:
-            return <OtherIcon fontSize={size} color={color} />;
+            return <OtherIcon style={{ fontSize }} color={color} />;
     }
 };
 
