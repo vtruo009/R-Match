@@ -43,6 +43,19 @@ router.post('/create', async (req: jobRequest, res: Response) => {
             error: errors.paramMissingError,
         });
     }
+    if (!targetYears ||
+        !hoursPerWeek ||
+        !description ||
+        !startDate ||
+        !type ||
+        !title ||
+        !status ||
+        minSalary === undefined ||
+        !departmentId) {
+        return res.status(BAD_REQUEST).json({
+            error: errors.paramMissingError,
+        });
+    }
     try {
         // Check if required field is missing.
         if (!targetYears || !hoursPerWeek || !description || !startDate || !type
@@ -98,6 +111,20 @@ router.post('/update', async (req: jobRequest, res: Response) => {
             error: errors.paramMissingError,
         });
     }
+    if (!id ||
+        !targetYears ||
+        !hoursPerWeek ||
+        !description ||
+        !startDate ||
+        !type ||
+        !title ||
+        !status ||
+        minSalary === undefined ||
+        !departmentId) {
+        return res.status(BAD_REQUEST).json({
+            error: errors.paramMissingError,
+        });
+    }
     try {
         await updateJob(
             targetYears,
@@ -129,6 +156,11 @@ router.post('/update', async (req: jobRequest, res: Response) => {
 
 router.delete('/delete/:id', async (req: jobRequest, res: Response) => {
     const { id } = req.params;
+    if (!id) {
+        return res.status(BAD_REQUEST).json({
+            error: errors.paramMissingError,
+        });
+    }
     try {
         await deleteJob(parseInt(id, 10));
         return res.status(OK).end();
