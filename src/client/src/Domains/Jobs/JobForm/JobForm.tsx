@@ -8,16 +8,16 @@ import FormikDateField from "../../../Components/FormikDateField/FormikDateField
 //import useSnack from '../../../hooks/useSnack';
 //import { setJobs, IJob } from '../api/api'; 
 import Axios from 'axios'; 
-import { toast } from 'react-toastify';
+//import { toast } from 'react-toastify';
 //import { setJobs } from '../api/api';
 //import { ActionSchedule } from 'material-ui/svg-icons';
 
 interface FormValues {
   targetYears: string[],
   hoursPerWeek: number,
-  expirationDate: Date,
-  startDate: Date,
-  endDate: Date,
+  expirationDate: string,
+  startDate: string,
+  endDate: string,
   type: string[],
   title: string, 
   status: string, 
@@ -29,9 +29,9 @@ interface FormValues {
 const initialValues: FormValues = {
   targetYears: [],
   hoursPerWeek: 0,
-  expirationDate: new Date(), 
-  startDate: new Date(),
-  endDate: new Date(),
+  expirationDate: "", 
+  startDate: "",
+  endDate: "",
   type: [],
   title: "", 
   status: "", 
@@ -40,6 +40,33 @@ const initialValues: FormValues = {
   departmentID: ""
 };
 
+// Type Selection
+const TypeItems : FormikSelectFieldItem[] = [
+  {
+    label: "grader",
+    value: 'grader'
+  },
+  {
+    label: "assistant",
+    value: 'assistant'
+  },
+  {
+    label: "researcher",
+    value: 'researcher'
+  },
+  {
+    label: "volunteer",
+    value: 'volunteer'
+  },
+  {
+    label: "tutor",
+    value: 'tutor'
+  },
+  {
+    label: "other",
+    value: 'other'
+  }
+]
 // Status Selection 
 const StatusItems: FormikSelectFieldItem[] = [
   {
@@ -116,28 +143,28 @@ const DepartmentItems: FormikSelectFieldItem[] = [
   }
 ]; 
 
-const apiUrl = "http://localhost:5000"
+//const apiUrl = "http://localhost:5000"
 const JobForm: React.FC = () => {
- // const handleSubmit = (values: FormValues): void => {
-  //  alert(JSON.stringify(values));
-  //};
+  const handleSubmit = (values: FormValues): void => {
+    alert(JSON.stringify(values));
+    console.log('Form data', values)
+    Axios.post('http://localhost:5000/api/job/create',{values})
+  };
   return (
     <div className="App">
       <h1>Create A Job Post</h1>
       <Formik
         initialValues={initialValues}
-        //onSubmit={handleSubmit}
+        onSubmit={handleSubmit}
         //validationSchema={SignupSchema}
-        onSubmit={async (input, {resetForm}) => {
-          await Axios.post(`${apiUrl}/api/job/create`,input).then(res => {
-            toast.success(res.data)
-            resetForm({})
-          })
-          .catch(err => {
-            toast.error('Something went wrong.');  
-      });  
-        }
-        }
+        //onSubmit={async (input, {resetForm}) => {
+          ///await Axios.post(`${apiUrl}/api/job/create`,input).then(res => {
+            //toast.success(res.data)
+            //console.log('Form data', values)
+            //resetForm({})
+          //})
+          //.catch(err => {
+            //toast.error('Something went wrong.');   });  }}
         >
         {({ dirty, isValid }) => {
           return (
@@ -169,7 +196,12 @@ const JobForm: React.FC = () => {
                 label="Department"
                 required
               />
-              <FormikField name="type" label="Type" required/>
+              <FormikSelect
+                name="type"
+                items={TypeItems}
+                label="Type"
+                required
+              />
               <FormikDateField name="expirationDate" label="Expiration Date" required type="date"  />
               <FormikDateField name="startDate" label="Start Date" required  type="date"/>
               <FormikDateField name="endDate" label="End Date" type="date"/>
