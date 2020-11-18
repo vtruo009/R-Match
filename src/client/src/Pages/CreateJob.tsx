@@ -1,7 +1,11 @@
 import React from 'react';
 import JobForm from '../Domains/Jobs/JobForm/JobForm';
 function CreateJob() {
-    return <JobForm />
+    return (
+        <div style={{ margin: 50 }}>
+            <JobForm />
+        </div>
+    );
 }
 
 export default CreateJob;
