@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         Selected: {
             backgroundColor: '#efefef',
+            borderColor: theme.palette.primary.main,
         },
     })
 );
