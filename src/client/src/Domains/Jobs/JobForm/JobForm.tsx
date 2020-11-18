@@ -7,7 +7,7 @@ import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
 import useApi from '../../../hooks/useApi';
 import useSnack from '../../../hooks/useSnack';
-
+import DatePicker from '../../../Components/DatePicker/DatePicker';
 import Select from '../../../Components/Select/Select';
 
 import {
@@ -130,39 +130,27 @@ function JobForm() {
                     </Grid>
                     <Grid item container sm={12} md={6} spacing={4}>
                         <Grid item xs={12}>
-                            <TextField
+                            <DatePicker
                                 label='Start date'
-                                type='date'
                                 required
                                 value={job.startDate}
                                 onChange={(e) => handleChange(e, 'startDate')}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
+                            <DatePicker
                                 label='End date'
-                                type='date'
                                 value={job.endDate}
                                 onChange={(e) => handleChange(e, 'endDate')}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
+                            <DatePicker
                                 label='Expiration date'
-                                type='date'
                                 value={job.expirationDate}
                                 onChange={(e) =>
                                     handleChange(e, 'expirationDate')
                                 }
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>

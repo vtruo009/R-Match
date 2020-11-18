@@ -135,8 +135,6 @@ export async function getJobs() {
 }
 
 export async function createJob(job: IJobForm) {
-    console.log(job);
-
     return API.post('job/create', {
         job: {
             ...job,
