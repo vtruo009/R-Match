@@ -4,8 +4,7 @@ import Loader from '../../../Components/Loader/Loader';
 import useApi from '../../../hooks/useApi';
 import useSnack from '../../../hooks/useSnack';
 import { getJobs, IJob } from '../api/api';
-
-import Button from '@material-ui/core/Button';
+import Button from '../../../Components/Button/Button';
 
 function JobRoot() {
     const [jobsFetched, setJobsFetched] = React.useState<IJob[]>([]);
@@ -25,7 +24,7 @@ function JobRoot() {
 
     return (
         <div style={{ padding: 20 }}>
-            <Button variant='contained' color='primary' onClick={sendRequest}>
+            <Button onClick={sendRequest} isLoading={isLoading}>
                 Search
             </Button>
             {isLoading ? (
