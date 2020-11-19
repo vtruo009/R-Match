@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { formatDateString } from '../../../utils/format';
@@ -23,11 +23,13 @@ const SubTitle = ({ title }: SubTitleProps) => (
 
 function JobSummary({ job }: props) {
     return (
-        <Box
-            style={{ padding: 30, position: 'fixed' }}
-            borderRadius={16}
-            border={1}
-            borderColor='#b2bec3'
+        <Card
+            variant='outlined'
+            style={{
+                padding: 30,
+                position: 'sticky',
+                top: '100px',
+            }}
         >
             <Grid container spacing={3}>
                 <Grid container item justify='space-between'>
@@ -69,7 +71,9 @@ function JobSummary({ job }: props) {
                     <Grid item container direction='column' spacing={2} md={4}>
                         <Grid item>
                             <SubTitle title={'Start date'} />
-                            <Typography>{formatDateString(job.startDate)}</Typography>
+                            <Typography>
+                                {formatDateString(job.startDate)}
+                            </Typography>
                         </Grid>
                         {job.endDate && (
                             <Grid item>
@@ -113,7 +117,7 @@ function JobSummary({ job }: props) {
                     </Grid>
                 </Grid>
             </Grid>
-        </Box>
+        </Card>
     );
 }
 

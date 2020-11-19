@@ -55,14 +55,14 @@ function JobForm() {
     };
 
     return (
-        <Paper style={{ padding: 50, margin: 50 }}>
+        <Paper style={{ padding: 50 }}>
             <form onSubmit={submitForm}>
-                <Grid container spacing={5} alignContent='center'>
+                <Grid container spacing={3} alignContent='center'>
                     <Grid item container justify='flex-start'>
                         <Typography variant='h4'>Post Job</Typography>
                     </Grid>
-                    <Grid item container sm={12} md={6} spacing={4}>
-                        <Grid item xs={12}>
+                    <Grid item container spacing={5}>
+                        <Grid item md={6} xs={12}>
                             <TextField
                                 label='Title'
                                 required
@@ -70,16 +70,7 @@ function JobForm() {
                                 onChange={(e) => handleChange(e, 'title')}
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                label='Description'
-                                multiline
-                                required
-                                value={job.description}
-                                onChange={(e) => handleChange(e, 'description')}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
+                        <Grid item md={6} xs={12}>
                             <Select
                                 label='Type'
                                 required
@@ -97,7 +88,87 @@ function JobForm() {
                                 }
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item md={12} xs={12}>
+                            <TextField
+                                label='Description'
+                                multiline
+                                required
+                                value={job.description}
+                                onChange={(e) => handleChange(e, 'description')}
+                            />
+                        </Grid>
+                        <Grid item md={4} xs={12}>
+                            <DatePicker
+                                label='Start date'
+                                required
+                                value={job.startDate}
+                                onChange={(e) => handleChange(e, 'startDate')}
+                            />
+                        </Grid>
+                        <Grid item md={4} xs={12}>
+                            <DatePicker
+                                label='End date'
+                                value={job.endDate}
+                                onChange={(e) => handleChange(e, 'endDate')}
+                            />
+                        </Grid>
+                        <Grid item md={4} xs={12}>
+                            <DatePicker
+                                label='Expiration date'
+                                value={job.expirationDate}
+                                onChange={(e) =>
+                                    handleChange(e, 'expirationDate')
+                                }
+                            />
+                        </Grid>
+                        <Grid item md={4} xs={12}>
+                            <TextField
+                                label='Hours per week'
+                                type='number'
+                                required
+                                value={job.hoursPerWeek}
+                                placeholder={'0'}
+                                onChange={(e) =>
+                                    handleChange(e, 'hoursPerWeek')
+                                }
+                            />
+                        </Grid>
+                        <Grid item md={4} xs={12}>
+                            <TextField
+                                label='Minimum salary ($/hr.)'
+                                type='number'
+                                placeholder={'0'}
+                                required
+                                value={job.minSalary}
+                                onChange={(e) => handleChange(e, 'minSalary')}
+                            />
+                        </Grid>
+                        <Grid item md={4} xs={12}>
+                            <TextField
+                                label='Maximum salary ($/hr.)'
+                                placeholder={'0'}
+                                type='number'
+                                value={job.maxSalary}
+                                onChange={(e) => handleChange(e, 'maxSalary')}
+                            />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                            <Select
+                                value={job.departmentId}
+                                label='Department'
+                                items={departments}
+                                required
+                                onChange={(e) =>
+                                    handleChange(
+                                        e as React.ChangeEvent<
+                                            HTMLInputElement
+                                        >,
+                                        'departmentId'
+                                    )
+                                }
+                            />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
                             <Select
                                 label='Target years'
                                 required
@@ -111,79 +182,6 @@ function JobForm() {
                                             HTMLInputElement
                                         >,
                                         'targetYears'
-                                    )
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                label='Hours per week'
-                                type='number'
-                                required
-                                value={job.hoursPerWeek}
-                                placeholder={'0'}
-                                onChange={(e) =>
-                                    handleChange(e, 'hoursPerWeek')
-                                }
-                            />
-                        </Grid>
-                    </Grid>
-                    <Grid item container sm={12} md={6} spacing={4}>
-                        <Grid item xs={12}>
-                            <DatePicker
-                                label='Start date'
-                                required
-                                value={job.startDate}
-                                onChange={(e) => handleChange(e, 'startDate')}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <DatePicker
-                                label='End date'
-                                value={job.endDate}
-                                onChange={(e) => handleChange(e, 'endDate')}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <DatePicker
-                                label='Expiration date'
-                                value={job.expirationDate}
-                                onChange={(e) =>
-                                    handleChange(e, 'expirationDate')
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                label='Minimum salary ($/hr.)'
-                                type='number'
-                                placeholder={'0'}
-                                required
-                                value={job.minSalary}
-                                onChange={(e) => handleChange(e, 'minSalary')}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                label='Maximum salary ($/hr.)'
-                                placeholder={'0'}
-                                type='number'
-                                value={job.maxSalary}
-                                onChange={(e) => handleChange(e, 'maxSalary')}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Select
-                                value={job.departmentId}
-                                label='Department'
-                                items={departments}
-                                required
-                                onChange={(e) =>
-                                    handleChange(
-                                        e as React.ChangeEvent<
-                                            HTMLInputElement
-                                        >,
-                                        'departmentId'
                                     )
                                 }
                             />

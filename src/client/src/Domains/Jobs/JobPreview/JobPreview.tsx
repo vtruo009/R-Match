@@ -1,5 +1,5 @@
 import React from 'react';
-import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { IJob, jobType } from '../api/api';
@@ -20,11 +20,12 @@ interface Props {
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        Box: {
+        NonSelected: {
             '&:hover': { backgroundColor: '#efefef' },
         },
         Selected: {
             backgroundColor: '#efefef',
+            borderColor: theme.palette.primary.main,
         },
     })
 );
@@ -51,12 +52,10 @@ const getIcon = (type: jobType): JSX.Element => {
 function JobPreview({ job, onClick, isSelected }: Props) {
     const classes = useStyles();
     return (
-        <Box
-            className={isSelected ? classes.Selected : classes.Box}
+        <Card
+            className={isSelected ? classes.Selected : classes.NonSelected}
+            variant='outlined'
             style={{ padding: 30, minHeight: 150 }}
-            borderRadius={16}
-            border={1}
-            borderColor='#b2bec3'
             onClick={() => onClick(job)}
         >
             <Grid container spacing={4} alignItems='center' justify='center'>
@@ -103,7 +102,7 @@ function JobPreview({ job, onClick, isSelected }: Props) {
                     </Grid>
                 </Grid>
             </Grid>
-        </Box>
+        </Card>
     );
 }
 
