@@ -80,7 +80,10 @@ const formSchema = yup.object({
         .required('Minimum salary is required'),
     maxSalary: yup
         .number()
-        .min(0, 'Maximum salary must be greater than or equal to zero')
+        .min(
+            yup.ref('minSalary'),
+            'Maximum salary must be greater or equal to minimum salary'
+        )
         .optional(),
     departmentId: yup.string().required('Department is required'),
     targetYears: yup.array().required('At least one targe year is required'),
