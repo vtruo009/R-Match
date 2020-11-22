@@ -1,9 +1,9 @@
 import React from 'react';
 import { getSamples, ISample } from './api';
 import Button from '@material-ui/core/Button';
-import Loader from '../Loader/Loader';
-import useApi from '../../hooks/useApi';
-import useSnack from '../../hooks/useSnack';
+import Loader from 'Components/Loader';
+import useApi from 'hooks/useApi';
+import useSnack from 'hooks/useSnack';
 
 function Sample() {
     const [samples, setSamples] = React.useState<ISample[]>([]);

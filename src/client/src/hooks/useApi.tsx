@@ -1,6 +1,6 @@
 import React from 'react';
 import { AxiosResponse } from 'axios';
-import useSnack from '../hooks/useSnack';
+import useSnack from 'hooks/useSnack';
 
 type apiReturn = [SendRequest: () => void, IsLoading: boolean];
 interface Handlers<T> {
@@ -28,18 +28,29 @@ export default function useApi<T>(
         const actualOnSuccess = onSuccess || defaultSuccess;
         const actualOnFailure = onFailure || defaultError;
 
+        // Minimum time to wait for an API request to complete: 600 ms.
+        const minWaitTime = () =>
+            new Promise((resolve) => {
+                setTimeout(resolve, 600);
+            });
+
         const request = async function () {
             try {
-                const response = await Promise.resolve(endpoint());
+                // await for the API request and minimum wait time
+                const [promiseResponse] = await Promise.allSettled([
+                    endpoint(),
+                    minWaitTime(),
+                ]);
+
                 setIsLoading(false);
-                if (response) {
-                    actualOnSuccess(response);
+                if (promiseResponse.status === 'fulfilled') {
+                    actualOnSuccess(promiseResponse.value);
                 } else {
                     actualOnFailure(new Error('Sending the request failed'));
                 }
             } catch (error) {
-                actualOnFailure(error as Error);
                 setIsLoading(false);
+                actualOnFailure(error as Error);
             }
         };
 

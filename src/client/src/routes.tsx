@@ -1,5 +1,5 @@
 import React from 'react';
-import Home from './Pages/Home';
+import Home from 'Pages/Home';
 import SearchJobs from './Pages/SearchJobs';
 import CreateJob from './Pages/CreateJob';
 import HomeIcon from '@material-ui/icons/Home';
