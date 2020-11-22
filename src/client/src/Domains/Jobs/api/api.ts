@@ -135,8 +135,6 @@ export async function createJob(job: IJobForm) {
         job: {
             ...job,
             status: 'Hiring',
-            // endDate: validateDateString(job.endDate),
-            // expirationDate: validateDateString(job.expirationDate),
         },
     });
 }
