@@ -38,7 +38,9 @@ export const createJob = (
     } else {
         // Set expiration date to 2 years after the current date.
         expirationDateAsDate = new Date();
-        expirationDateAsDate.setFullYear(expirationDateAsDate.getFullYear() + 2);
+        expirationDateAsDate.setFullYear(
+            expirationDateAsDate.getFullYear() + 2
+        );
     }
 
     let endDateAsDate;
@@ -55,7 +57,7 @@ export const createJob = (
         targetYears: targetYears,
         hoursPerWeek: hoursPerWeek,
         description: description,
-        expirationDate:expirationDateAsDate,
+        expirationDate: expirationDateAsDate,
         startDate: startDateAsDate,
         type: type,
         title: title,
@@ -63,7 +65,7 @@ export const createJob = (
         minSalary: minSalary,
         departmentId: departmentId,
         endDate: endDateAsDate,
-        maxSalary: maxSalary
+        maxSalary: maxSalary,
     });
     return repository.save(jobToInsert);
 };

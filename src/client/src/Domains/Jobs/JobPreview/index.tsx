@@ -2,7 +2,6 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { IJob, jobType } from '../api/api';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AssistantIcon from '@material-ui/icons/AssistantPhoto';
 import GraderIcon from '@material-ui/icons/Assignment';
@@ -10,8 +9,10 @@ import ResearchIcon from '@material-ui/icons/FindInPage';
 import TutorIcon from '@material-ui/icons/SupervisedUserCircle';
 import VolunteerIcon from '@material-ui/icons/Accessibility';
 import OtherIcon from '@material-ui/icons/AddCircle';
-import { isGreaterThanZero } from '../../../utils/helpers';
-import SalaryDisplayer from '../SalaryDisplayer/SalaryDisplayer';
+
+import SalaryDisplayer from 'Domains/Jobs/SalaryDisplayer';
+import { IJob, jobType } from 'Domains/Jobs/api/api';
+
 interface Props {
     job: IJob;
     onClick: (job: IJob) => void;
@@ -84,11 +85,12 @@ function JobPreview({ job, onClick, isSelected }: Props) {
                     </Grid>
                     <Grid item>
                         <Typography variant='body1'>
-                            {job.hoursPerWeek} hr/week
+                            Hours per week: {job.hoursPerWeek}
                         </Typography>
                     </Grid>
-                    {isGreaterThanZero(job.minSalary) && (
+                    {job.minSalary > 0 && (
                         <Grid item>
+                            Hourly wage:
                             <SalaryDisplayer
                                 minSalary={job.minSalary}
                                 maxSalary={job.maxSalary}

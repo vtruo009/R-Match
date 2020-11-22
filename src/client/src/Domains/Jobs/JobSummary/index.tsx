@@ -3,10 +3,10 @@ import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { formatDateString } from '../../../utils/format';
-import { IJob } from '../api/api';
-import { isGreaterThanZero } from '../../../utils/helpers';
-import SalaryDisplayer from '../SalaryDisplayer/SalaryDisplayer';
+
+import { formatDateString } from 'utils/format';
+import { IJob } from 'Domains/Jobs/api/api';
+import SalaryDisplayer from 'Domains/Jobs/SalaryDisplayer';
 
 interface props {
     job: IJob;
@@ -48,7 +48,7 @@ function JobSummary({ job }: props) {
                     <Grid item container direction='column' spacing={2} md={4}>
                         <Grid item>
                             <SubTitle title={'Salary'} />
-                            {isGreaterThanZero(job.minSalary) ? (
+                            {job.minSalary > 0 ? (
                                 <SalaryDisplayer
                                     minSalary={job.minSalary}
                                     maxSalary={job.maxSalary}
