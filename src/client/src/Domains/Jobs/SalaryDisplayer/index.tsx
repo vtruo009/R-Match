@@ -15,7 +15,6 @@ function SalaryDisplayer({ minSalary, maxSalary }: props) {
 
     return (
         <Typography>
-            xd
             ${minSalary}
             {isMaxSalaryValid() && <> - ${maxSalary}</>}
         </Typography>
