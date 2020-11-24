@@ -2,9 +2,11 @@ import React from 'react';
 import Home from 'Pages/Home';
 import SearchJobs from './Pages/SearchJobs';
 import CreateJob from './Pages/CreateJob';
+import CreateProfessorProfile from './Pages/CreateProfessorProfile'
 import HomeIcon from '@material-ui/icons/Home';
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
+import AccountBoxIcon from '@material-ui/icons/AccountBox'; 
 
 const Routes = [
     {
@@ -25,6 +27,12 @@ const Routes = [
         component: CreateJob,
         icon: <AddIcon />,
     },
+    {
+        path:'/create-professor-profile',
+        name: 'Create Faculty Member Profile',
+        component: CreateProfessorProfile,
+        icon: <AccountBoxIcon/>,
+    }
 ];
 
 export default Routes;
