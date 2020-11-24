@@ -12,11 +12,11 @@ import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import Button from 'Components/Button';
 import {
-    createProfessorProfile,
+    createFacultyMemberProfile,
     departments,
-} from 'Domains/ProfessorProfile/api/api';
+} from 'Domains/FacultyMember/api/api';
 
-export interface IProfessorProfileForm {
+export interface IFacultyMemberProfileForm {
     firstName: string; 
     middleName: string; 
     lastName: string; 
@@ -28,7 +28,7 @@ export interface IProfessorProfileForm {
     biography: string;
 }
 
-const formInitialValues: IProfessorProfileForm = {
+const formInitialValues: IFacultyMemberProfileForm = {
     firstName: '',
     middleName: '', 
     lastName: '', 
@@ -51,9 +51,9 @@ const formSchema = yup.object({
     biography: yup.string().required("Biography is required")
 });
 
-function ProfessorProfileForm() {
-    const [professorProfile, setProfessorProfile] = React.useState<IProfessorProfileForm>(formInitialValues);
-    const request = React.useCallback(() => createProfessorProfile(professorProfile), [professorProfile]);
+function FacultyMemberProfileForm() {
+    const [facultyMemberProfile, setFacultyMemberProfile] = React.useState<IFacultyMemberProfileForm>(formInitialValues);
+    const request = React.useCallback(() => createFacultyMemberProfile(facultyMemberProfile), [facultyMemberProfile]);
     const [snack] = useSnack();
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
@@ -66,7 +66,7 @@ function ProfessorProfileForm() {
                 validationSchema={formSchema}
                 initialValues={formInitialValues}
                 onSubmit={(formValues, actions) => {
-                    setProfessorProfile(formValues);
+                    setFacultyMemberProfile(formValues);
                     sendRequest();
                     actions.resetForm({
                         values: { ...formInitialValues },
@@ -160,4 +160,4 @@ function ProfessorProfileForm() {
     );
 }
 
-export default ProfessorProfileForm;
+export default FacultyMemberProfileForm;
