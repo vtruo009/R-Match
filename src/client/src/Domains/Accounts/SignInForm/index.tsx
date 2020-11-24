@@ -14,28 +14,28 @@ import {
     signIn,
 } from 'Domains/Accounts/api/api';
 
-export interface IJobForm {
+export interface ISignInForm {
     email: string;
     password: string;
 }
 
-const formInitialValues: IJobForm = {
+const formInitialValues: ISignInForm = {
     email: '',
     password: '',
 };
 
 const formSchema = yup.object({
-    email: yup.string().required('Email is required'),
+    email: yup.string().email('Please enter valid email'),
     password: yup.string().required('Password is required'),
 });
 
-function JobForm() {
-    const [job, setJob] = React.useState<IJobForm>(formInitialValues);
-    const request = React.useCallback(() => signIn(job), [job]);
+function SignInForm() {
+    const [signInInfo, signInToAccount] = React.useState<ISignInForm>(formInitialValues);
+    const request = React.useCallback(() => signIn(signInInfo), [signInInfo]);
     const [snack] = useSnack();
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
-            snack('Job successfully created', 'success');
+            snack('Signed in successfully', 'success');
         },
     });
     return (
@@ -44,7 +44,7 @@ function JobForm() {
                 validationSchema={formSchema}
                 initialValues={formInitialValues}
                 onSubmit={(formValues, actions) => {
-                    setJob(formValues);
+                    signInToAccount(formValues);
                     sendRequest();
                     actions.resetForm({
                         values: { ...formInitialValues },
@@ -52,8 +52,9 @@ function JobForm() {
                 }}
             >
                 {() => (
+                    <div style={{ alignItems: "center" }}>
                     <Form>
-                        <Grid container spacing={3} alignContent='center'>
+                            <Grid container spacing={3} alignContent='center' justify="center">
                             <Grid item container justify='flex-start'>
                                 <Typography variant='h4'>Sign In</Typography>
                             </Grid>
@@ -80,12 +81,17 @@ function JobForm() {
                                     {isLoading && <Loader size={20} />}
                                 </Button>
                             </Grid>
+                            <Grid item container justify='flex-start'>
+                                <Typography variant='h6'><a href="sign-up">You don't have an account yet? Create one!</a></Typography>
+                            </Grid>
+                            
                         </Grid>
                     </Form>
+                    </div>
                 )}
             </Formik>
         </Paper>
     );
 }
 
-export default JobForm;
+export default SignInForm;

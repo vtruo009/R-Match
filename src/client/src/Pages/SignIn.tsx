@@ -1,9 +1,9 @@
 import React from 'react';
-import JobForm from 'Domains/Accounts/JobForm';
+import SignInForm from 'Domains/Accounts/SignInForm';
 function SignIn() {
     return (
-        <div style={{ margin: 50 }}>
-            <JobForm />
+        <div style={{ margin: 50, width: 1000, textAlign: "center" }}>
+            <SignInForm />
         </div>
     );
 }
