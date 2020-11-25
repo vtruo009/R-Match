@@ -4,7 +4,7 @@ import SearchJobs from './Pages/SearchJobs';
 import CreateJob from './Pages/CreateJob';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
-import CreateProfessorProfile from './Pages/CreateFacultyMemberProfile'
+import CreateFacultyMemberProfile from './Pages/CreateFacultyMemberProfile';
 import HomeIcon from '@material-ui/icons/Home';
 import AddIcon from '@material-ui/icons/Add';
 import PersonIcon from '@material-ui/icons/Person';
@@ -46,7 +46,7 @@ const Routes = [
     {
         path:'/create-faculty-member-profile',
         name: 'Create Faculty Member Profile',
-        component: CreateProfessorProfile,
+        component: CreateFacultyMemberProfile,
         icon: <AccountBoxIcon/>,
     }
 ];
