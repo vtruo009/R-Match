@@ -2,8 +2,12 @@ import React from 'react';
 import Home from 'Pages/Home';
 import SearchJobs from './Pages/SearchJobs';
 import CreateJob from './Pages/CreateJob';
+import SignIn from './Pages/SignIn';
+import SignUp from './Pages/SignUp';
 import HomeIcon from '@material-ui/icons/Home';
 import AddIcon from '@material-ui/icons/Add';
+import PersonIcon from '@material-ui/icons/Person';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import SearchIcon from '@material-ui/icons/Search';
 
 const Routes = [
@@ -24,6 +28,18 @@ const Routes = [
         name: 'Create Job',
         component: CreateJob,
         icon: <AddIcon />,
+    },
+    {
+        path: '/sign-in',
+        name: 'Sign In',
+        component: SignIn,
+        icon: <PersonIcon />,
+    },
+    {
+        path: '/sign-up',
+        name: 'Sign Up',
+        component: SignUp,
+        icon: <PersonAddIcon />,
     },
 ];
 
