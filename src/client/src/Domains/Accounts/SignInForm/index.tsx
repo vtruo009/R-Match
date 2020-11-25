@@ -53,7 +53,13 @@ function SignInForm() {
             >
                 {() => (
                     <Form>
-                        <Grid container spacing={3} alignContent='center'>
+                        <Grid
+                            container
+                            spacing={3}
+                            direction='column'
+                            justify='center'
+                            alignItems='center'
+                        >
                             <Grid item container justify='center'>
                                 <Typography variant='h4'>Sign In</Typography>
                             </Grid>
@@ -74,13 +80,13 @@ function SignInForm() {
                                     />
                                 </Grid>
                             </Grid>
-                            <Grid container item xs={12} justify='center'>
+                            <Grid item>
                                 <Button type='submit' isLoading={isLoading}>
                                     Submit
                                     {isLoading && <Loader size={20} />}
                                 </Button>
                             </Grid>
-                            <Grid item container justify='center'>
+                            <Grid item>
                                 <Typography variant='h6'><a href="sign-up">You don't have an account yet? Create one!</a></Typography>
                             </Grid>
                             
