@@ -1,13 +1,21 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { Person } from './person';
+import { User, IUser } from './user';
 
 @Entity()
-export class Student extends Person {
-    constructor(id: number, email: string, biography: string,
-        firstName: string, middleName: string, lastName: string,
-        departmentId: string, sid: number,
-        classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior') {
-        super(id, email, biography, firstName, middleName, lastName);
+export class Student extends User {
+    constructor(
+        id: number,
+        email: string,
+        password: string,
+        biography: string,
+        firstName: string,
+        middleName: string,
+        lastName: string,
+        departmentId: string,
+        sid: number,
+        classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior'
+    ) {
+        super(id, email, password, biography, firstName, middleName, lastName);
         this.studentId = id;
         this.departmentId = departmentId;
         this.sid = sid;
@@ -16,23 +24,18 @@ export class Student extends Person {
     @PrimaryGeneratedColumn()
     studentId: number;
 
-    @Column()
+    @Column({ nullable: true })
     departmentId: string;
 
-    @Column()
+    @Column({ nullable: true })
     sid: number;
 
-    @Column()
+    @Column({ nullable: true })
     classStanding: string;
 }
 
-export interface IStudent {
-    id: number;
-    email: string;
-    biography: string;
-    firstName: string;
-    middleName?: string;
-    lastName: string;
+export interface IStudent extends IUser {
+    studentId: number;
     departmentId: string;
     sid: number;
     classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior';
