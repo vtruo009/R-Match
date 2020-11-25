@@ -1,14 +1,14 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import { Switch, Route } from 'react-router-dom';
-import Routes from './routes';
-import NavBar from './Components/NavBar/NavBar';
+import Routes from 'routes';
+import NavBar from 'Components/NavBar';
 
 export default function App() {
     return (
         <div className='App'>
             <NavBar />
-            <Container maxWidth='sm'>
+            <Container>
                 <Switch>
                     {Routes.map((route) => (
                         <Route exact path={route.path} key={route.path}>

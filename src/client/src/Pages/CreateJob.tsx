@@ -1,7 +1,11 @@
 import React from 'react';
-
+import JobForm from 'Domains/Jobs/JobForm';
 function CreateJob() {
-    return <h1>TODO: Adds components for the create jobs page</h1>;
+    return (
+        <div style={{ margin: 50 }}>
+            <JobForm />
+        </div>
+    );
 }
 
 export default CreateJob;

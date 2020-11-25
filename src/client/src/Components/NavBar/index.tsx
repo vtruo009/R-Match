@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
-import Routes from '../../routes';
+import Routes from 'routes';
 import AppBar from '@material-ui/core/AppBar';
 import ToolBar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
@@ -19,7 +19,7 @@ function NavBar() {
     const classes = useStyles();
 
     return (
-        <AppBar position='static'>
+        <AppBar position='sticky'>
             <ToolBar>
                 {Routes.map((route, key) => (
                     <NavLink
