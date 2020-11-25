@@ -1,42 +1,26 @@
-import { IFacultyMember, FacultyMember } from '@entities/facultyMember';
 import { getRepository } from 'typeorm';
-import { promises } from 'fs-extra';
+import { FacultyMember, IFacultyMember } from '@entities/facultyMember';
+
 /**
- * @description saves a new faculty member profile in the database
- * @param email string
- * @param biography string
- * @param firstName string
- * @param middleName string
- * @param lastName string
- * @param departmentId string
- * @param websiteLink string
- * @param office string
- * @param title string
+ * @description Creates a faculty member object and saves it in the database
+ * @param email faculty member's email address
+ * @param password faculty member's password *
+ * @param firstName faculty member's first name
+ * @param lastName faculty member's last name
  * @returns Promise
  */
 export const createFacultyMember = (
     email: IFacultyMember['email'],
-    biography: IFacultyMember['biography'],
+    password: IFacultyMember['password'],
     firstName: IFacultyMember['firstName'],
-    middleName: IFacultyMember['middleName'],
-    lastName: IFacultyMember['lastName'],
-    departmentId: IFacultyMember['departmentId'],
-    websiteLink: IFacultyMember['websiteLink'],
-    office: IFacultyMember['office'],
-    title: IFacultyMember['title'],
+    lastName: IFacultyMember['lastName']
 ) => {
-
     const repository = getRepository(FacultyMember);
     const facultyMemberToInsert = repository.create({
         email,
-        biography,
+        password,
         firstName,
-        middleName,
         lastName,
-        departmentId,
-        websiteLink,
-        office,
-        title
     });
     return repository.save(facultyMemberToInsert);
 };

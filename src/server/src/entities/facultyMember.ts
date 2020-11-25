@@ -1,13 +1,22 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { Person } from './person';
+import { User, IUser } from './user';
 
 @Entity()
-export class FacultyMember extends Person {
-    constructor(id: number, email: string, biography: string,
-        firstName: string, middleName: string, lastName: string,
-        departmentId: string, websiteLink: string,
-        office: string, title: string) {
-        super(id, email, biography, firstName, middleName, lastName);
+export class FacultyMember extends User {
+    constructor(
+        id: number,
+        email: string,
+        password: string,
+        biography: string,
+        firstName: string,
+        middleName: string,
+        lastName: string,
+        departmentId: string,
+        websiteLink: string,
+        office: string,
+        title: string
+    ) {
+        super(id, email, password, biography, firstName, middleName, lastName);
         this.facultyId = id;
         this.departmentId = departmentId;
         this.websiteLink = websiteLink;
@@ -18,26 +27,21 @@ export class FacultyMember extends Person {
     @PrimaryGeneratedColumn()
     facultyId: number;
 
-    @Column()
+    @Column({ nullable: true })
     departmentId: string;
 
-    @Column()
+    @Column({ nullable: true })
     websiteLink: string;
 
-    @Column()
+    @Column({ nullable: true })
     office: string;
 
-    @Column()
+    @Column({ nullable: true })
     title: string;
 }
 
-export interface IFacultyMember {
-    id: number;
-    email: string;
-    biography: string;
-    firstName: string;
-    middleName?: string;
-    lastName: string;
+export interface IFacultyMember extends IUser {
+    facultyId: number;
     departmentId: string;
     websiteLink: string;
     office: string;
