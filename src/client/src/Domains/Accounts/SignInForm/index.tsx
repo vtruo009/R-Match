@@ -30,7 +30,7 @@ const formSchema = yup.object({
 });
 
 function SignInForm() {
-    const [signInInfo, signInToAccount] = React.useState<ISignInForm>(formInitialValues);
+    const [signInInfo, setSignInInfo] = React.useState<ISignInForm>(formInitialValues);
     const request = React.useCallback(() => signIn(signInInfo), [signInInfo]);
     const [snack] = useSnack();
     const [sendRequest, isLoading] = useApi(request, {
@@ -44,7 +44,7 @@ function SignInForm() {
                 validationSchema={formSchema}
                 initialValues={formInitialValues}
                 onSubmit={(formValues, actions) => {
-                    signInToAccount(formValues);
+                    setSignInInfo(formValues);
                     sendRequest();
                     actions.resetForm({
                         values: { ...formInitialValues },
@@ -53,7 +53,7 @@ function SignInForm() {
             >
                 {() => (
                     <Form>
-                        <Grid container spacing={3} direction="column" justify="center" alignItems="center">
+                        <Grid container spacing={3} alignContent='center'>
                             <Grid item container justify='center'>
                                 <Typography variant='h4'>Sign In</Typography>
                             </Grid>

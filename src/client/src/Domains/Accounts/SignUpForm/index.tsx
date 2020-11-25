@@ -22,7 +22,7 @@ export interface ISignUpForm {
     confirmedPassword: string;
     firstName: string;
     lastName: string;
-    role: string;
+    role: ''|'student' | 'facultyMember';
 }
 
 const formInitialValues: ISignUpForm = {
@@ -34,11 +34,15 @@ const formInitialValues: ISignUpForm = {
     role: '',
 };
 
-const formSchema = yup.object({email: yup.string().required().email('Please enter valid emai.'),
-    password: yup.string().required('Password is required.').matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-        "Password must contain minimum 8 characters, at least one lowercase alphabet, one uppercase alphabet, and one number."),
-    confirmedPassword: yup.mixed().required('Please confirm password.').test('match', 'Passwords do not match.', function (pass) {
-        return this.parent.confirmedPassword === this.parent.password
+const formSchema = yup.object({
+    email: yup.string().required().email('Please enter valid emai.'),
+    password: yup.string().required('Password is required.')
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+            "Password must contain minimum 8 characters, at least one lowercase " +
+            "alphabet, one uppercase alphabet, and one number."),
+    confirmedPassword: yup.mixed().required('Please confirm password.')
+        .test('match', 'Passwords do not match.', function () {
+            return this.parent.confirmedPassword === this.parent.password
     }),
     firstName: yup.string().required('Please enter your first name.'),
     lastName: yup.string().required('Please enter your last name.'),
@@ -46,7 +50,7 @@ const formSchema = yup.object({email: yup.string().required().email('Please ente
 });
 
 function SignUpForm() {
-    const [signUpInfo, signUpToAccount] = React.useState<ISignUpForm>(formInitialValues);
+    const [signUpInfo, setSignUpInfo] = React.useState<ISignUpForm>(formInitialValues);
     const request = React.useCallback(() => signUp(signUpInfo), [signUpInfo]);
     const [snack] = useSnack();
     const [sendRequest, isLoading] = useApi(request, {
@@ -60,7 +64,7 @@ function SignUpForm() {
                 validationSchema={formSchema}
                 initialValues={formInitialValues}
                 onSubmit={(formValues, actions) => {
-                    signUpToAccount(formValues);
+                    setSignUpInfo(formValues);
                     sendRequest();
                     actions.resetForm({
                         values: { ...formInitialValues },

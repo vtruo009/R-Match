@@ -13,16 +13,6 @@ export const roles = [
     }
 ];
 
-export interface ISignInInfo {
-    email: string;
-    password: string;
-}
-
-export interface ISignUpInfo {
-    email: string;
-    password: string;
-}
-
 export async function signUp(signUp: ISignUpForm) {
     alert("Signed up with\nemail:" + signUp.email + "\npassword:" + signUp.password);
     // TODO: Change API below.
