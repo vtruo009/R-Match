@@ -1,5 +1,5 @@
 import { IJob, Job } from '@entities/job';
-import { getRepository } from 'typeorm';
+import { getRepository, MoreThanOrEqual } from 'typeorm';
 /**
  * @description saves a new job in the database
  * @param targetYears string[]
@@ -72,6 +72,14 @@ export const createJob = (
  * @description gets all sample documents from the database
  * @returns Promise<Job[]>
  */
-export const getJobs = () => {
-    return getRepository(Job).find(); //look up if can documetation for find() typeorm.find()
+
+export const getJobs = (title: string, startDate: Date, minSalary: number, hoursPerWeek: number) => {
+    return getRepository(Job).find({
+        where: [
+            { title: title },
+            { startDate: MoreThanOrEqual(startDate) },
+            { minSalary: MoreThanOrEqual(minSalary) },
+            { hoursPerWeek: MoreThanOrEqual(hoursPerWeek) },
+        ]
+    });
 };
