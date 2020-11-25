@@ -88,37 +88,37 @@ function SignUpForm() {
                                         component={TextFormField}
                                     />
                                 </Grid>
-                                <Grid item md={7} xs={12}>
+                                <Grid item md={6} xs={12}>
                                     <Field
                                         name='email'
                                         label='Email'
                                         component={TextFormField}
                                     />
                                 </Grid>
-                                <Grid item md={7} xs={12}>
+                                <Grid item md={6} xs={12}>
                                     <Field
                                         name='password'
                                         label='Password'
                                         multiline
                                         component={TextFormField}
                                     />
-                                    </Grid>
-                                    <Grid item md={7} xs={12}>
-                                        <Field
-                                            name='confirmedPassword'
-                                            label='Confirm Password'
-                                            multiline
-                                            component={TextFormField}
-                                        />
-                                    </Grid>
-                                    <Grid item md={7} xs={12}>
-                                        <Field
-                                            name='role'
-                                            label='You are...'
-                                            options={roles}
-                                            component={SelectFormField}
-                                        />
-                                    </Grid>
+                                </Grid>
+                                <Grid item md={6} xs={12}>
+                                    <Field
+                                        name='role'
+                                        label='You are...'
+                                        options={roles}
+                                        component={SelectFormField}
+                                    />
+                                </Grid>
+                                <Grid item md={6} xs={12}>
+                                    <Field
+                                        name='confirmedPassword'
+                                        label='Confirm Password'
+                                        multiline
+                                        component={TextFormField}
+                                    />
+                                </Grid>
                             </Grid>
                             <Grid container item xs={12}>
                                 <Button type='submit' isLoading={isLoading}>

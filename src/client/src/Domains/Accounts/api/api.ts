@@ -5,11 +5,11 @@ import { ISignUpForm } from 'Domains/Accounts/SignUpForm';
 export const roles = [
     {
         label: 'Faculty member',
-        value: 'Faculty member',
+        value: 'facultyMember',
     },
     {
         label: 'Student',
-        value: 'Student',
+        value: 'student',
     }
 ];
 
