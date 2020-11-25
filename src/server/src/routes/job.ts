@@ -9,6 +9,8 @@ import {
     getJobs,
 } from '@modules/job';
 import logger from '@shared/Logger';
+import { parse } from 'path';
+import { start } from 'repl';
 
 const router = Router();
 
@@ -82,15 +84,27 @@ router.post('/create', async (req: jobRequest, res: Response) => {
 });
 
 router.get('/read', async (req: Request, res: Response) => {
+
+    let {title, startDate, minSalary, hoursPerWeek} = req.query as {
+        title: string,
+        startDate: string,
+        endDate: string,
+        minSalary: string,
+        hoursPerWeek: string,
+    }
+
     try {
-        const jobs = await getJobs();
-        return res.status(OK).json({ jobs }).end();
-    } catch (error) {
-        logger.err(error);
-        return res
-            .status(INTERNAL_SERVER_ERROR)
-            .json(errors.internalServerError)
-            .end();
+        if (!minSalary) {
+            minSalary = '10000';
+        }
+        if (!hoursPerWeek) {
+            hoursPerWeek = '10000';
+        }
+        if (!startDate) {
+            startDate = new Date().getMonth()+1 + '/' + new Date().getDate() + '/' + new Date().getFullYear(); 
+        }
+        const jobs = await getJobs(title, new Date(startDate), parseInt(minSalary), parseInt(hoursPerWeek));
+        return res.status(OK).json({jobs}).end();
     }
 });
 
