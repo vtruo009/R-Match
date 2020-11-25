@@ -2,7 +2,7 @@ import React from 'react';
 import Home from 'Pages/Home';
 import SearchJobs from './Pages/SearchJobs';
 import CreateJob from './Pages/CreateJob';
-import CreateProfessorProfile from './Pages/CreateFacultyMemberProfile'
+import CreateFacultyMemberProfile from './Pages/CreateFacultyMemberProfile'
 import HomeIcon from '@material-ui/icons/Home';
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
@@ -30,7 +30,7 @@ const Routes = [
     {
         path:'/create-faculty-member-profile',
         name: 'Create Faculty Member Profile',
-        component: CreateProfessorProfile,
+        component: CreateFacultyMemberProfile,
         icon: <AccountBoxIcon/>,
     }
 ];

@@ -13,8 +13,11 @@ import { SelectFormField } from 'Components/SelectFormField';
 import Button from 'Components/Button';
 import {
     createFacultyMemberProfile,
-    departments,
 } from 'Domains/FacultyMember/api/api';
+
+import {
+    departments,
+} from 'sharedData'
 
 export interface IFacultyMemberProfileForm {
     firstName: string; 
@@ -57,7 +60,7 @@ function FacultyMemberProfileForm() {
     const [snack] = useSnack();
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
-            snack('Professor Profile successfully created!', 'success');
+            snack('Faculty member profile successfully created!', 'success');
         },
     });
     return (
