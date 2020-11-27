@@ -2,7 +2,7 @@ import React from 'react';
 import Home from 'Pages/Home';
 import SearchJobs from './Pages/SearchJobs';
 import CreateJob from './Pages/CreateJob';
-import CreateFacultyMemberProfile from './Pages/CreateFacultyMemberProfile'
+import CreateFacultyMemberProfile from './Pages/CreateFacultyMemberProfile';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import HomeIcon from '@material-ui/icons/Home';
@@ -36,7 +36,8 @@ const Routes = [
         name: 'Create Faculty Member Profile',
         component: CreateFacultyMemberProfile,
         icon: <AccountBoxIcon/>,
-    }
+    },
+    {
         path: '/sign-in',
         name: 'Sign In',
         component: SignIn,
