@@ -24,7 +24,8 @@
         "@routes": "dist/routes",
         "@entities": "dist/entities",
         "@shared": "dist/shared",
-        "@server": "dist/Server"
+        "@server": "dist/Server",
+        "@lib": "dist/lib"
     },
     "eslintConfig": {
         "parser": "@typescript-eslint/parser",
