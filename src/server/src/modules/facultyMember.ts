@@ -1,26 +1,16 @@
 import { getRepository } from 'typeorm';
-import { FacultyMember, IFacultyMember } from '@entities/facultyMember';
+import { FacultyMember } from '@entities/facultyMember';
+import { IUser } from '@entities/user';
 
 /**
- * @description Creates a faculty member object and saves it in the database
- * @param email faculty member's email address
- * @param password faculty member's password *
- * @param firstName faculty member's first name
- * @param lastName faculty member's last name
+ * @description Creates a faculty member using an existing user record from the database
+ * @param user user object
  * @returns Promise
  */
-export const createFacultyMember = (
-    email: IFacultyMember['email'],
-    password: IFacultyMember['password'],
-    firstName: IFacultyMember['firstName'],
-    lastName: IFacultyMember['lastName']
-) => {
-    const repository = getRepository(FacultyMember);
-    const facultyMemberToInsert = repository.create({
-        email,
-        password,
-        firstName,
-        lastName,
+export const createFacultyMember = (user: IUser) => {
+    const facultyMemberRepository = getRepository(FacultyMember);
+    const facultyMemberToInsert = facultyMemberRepository.create({
+        user,
     });
-    return repository.save(facultyMemberToInsert);
+    return facultyMemberRepository.save(facultyMemberToInsert);
 };
