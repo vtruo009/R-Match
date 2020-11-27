@@ -12,13 +12,20 @@ const router = Router();
 const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
 interface ISignUpRequest extends Request {
     body: {
-        user: IUser;
+        user: IUser & { confirmedPassword: string };
     };
 }
 
 router.post('/sign-up', async (req: ISignUpRequest, res: Response) => {
     const { user } = req.body;
-    const { email, password, role, firstName, lastName } = user;
+    const {
+        email,
+        password,
+        confirmedPassword,
+        role,
+        firstName,
+        lastName,
+    } = user;
 
     if (!user) {
         return res
@@ -26,11 +33,23 @@ router.post('/sign-up', async (req: ISignUpRequest, res: Response) => {
             .json({ error: errors.paramMissingError })
             .end();
     }
-    if (!email || !password || !role || !firstName || !lastName) {
+    if (
+        !email ||
+        !password ||
+        !confirmedPassword ||
+        !role ||
+        !firstName ||
+        !lastName
+    ) {
         return res
             .status(BAD_REQUEST)
             .json({ error: errors.paramMissingError })
             .end();
+    }
+    if (password !== confirmedPassword) {
+        return res
+            .status(BAD_REQUEST)
+            .json({ error: 'Passwords do not match' });
     }
     if (role !== 'student' && role !== 'facultyMember') {
         return res.status(BAD_REQUEST).json({ error: 'Invalid role' }).end();
