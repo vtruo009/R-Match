@@ -1,34 +1,42 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
-import jwt from 'jsonwebtoken';
+import passport from 'passport';
 import { IUser } from '@entities/user';
 import { errors } from '@shared/errors';
 import logger from '@shared/Logger';
-// import passportConfig from 'src/passportSetup';
+
 import { findUserByEmail, registerUser } from '@modules/user';
+import { signToken } from '@lib/jwt';
+
 const router = Router();
 const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
-
-interface Irole {
-    role: 'student' | 'facultyMember';
-}
-
-interface sampleRequest extends Request {
+interface ISignUpRequest extends Request {
     body: {
-        user: IUser & Irole;
+        user: IUser;
     };
 }
 
-router.post('/register', async (req: sampleRequest, res: Response) => {
-    const { email, password, role, firstName, lastName } = req.body.user;
+router.post('/sign-up', async (req: ISignUpRequest, res: Response) => {
+    const { user } = req.body;
+    const { email, password, role, firstName, lastName } = user;
+
+    if (!user) {
+        return res
+            .status(BAD_REQUEST)
+            .json({ error: errors.paramMissingError })
+            .end();
+    }
     if (!email || !password || !role || !firstName || !lastName) {
         return res
             .status(BAD_REQUEST)
             .json({ error: errors.paramMissingError })
             .end();
     }
+    if (role !== 'student' && role !== 'facultyMember') {
+        return res.status(BAD_REQUEST).json({ error: 'Invalid role' }).end();
+    }
+
     try {
-        // TODO: Need to check student and faculty member entities actually
         const user = await findUserByEmail(email);
         if (user) {
             return res
@@ -37,14 +45,7 @@ router.post('/register', async (req: sampleRequest, res: Response) => {
                 .end();
         } else {
             // Creates an user account based on the role
-            const user = await registerUser(
-                email,
-                password,
-                firstName,
-                lastName,
-                role
-            );
-            // TODO: create jwt
+            await registerUser(email, password, firstName, lastName, role);
             return res.send(CREATED).end();
         }
     } catch (error) {
@@ -55,5 +56,52 @@ router.post('/register', async (req: sampleRequest, res: Response) => {
             .end();
     }
 });
+
+router.post(
+    '/sign-in',
+    passport.authenticate('local', { session: false }),
+    (req: Request, res: Response) => {
+        if (req.isAuthenticated()) {
+            const { id, role, firstName, lastName } = req.user as IUser;
+            // TODO: Filter user sensitive information
+            const token = signToken(id);
+            res.cookie('access_token', token, {
+                httpOnly: true,
+                sameSite: true,
+            });
+            return res
+                .status(OK)
+                .json({
+                    isAuthenticated: true,
+                    user: { id, role, firstName, lastName },
+                })
+                .end();
+        }
+    }
+);
+
+router.get(
+    '/sign-out',
+    passport.authenticate('jwt', { session: false }),
+    (req: Request, res: Response) => {
+        res.clearCookie('access_token');
+        return res.status(OK).json({
+            user: { id: '', role: '', firstName: '', lastName: '' },
+            success: true,
+        });
+    }
+);
+
+router.get(
+    '/authenticated',
+    passport.authenticate('jwt', { session: false }),
+    (req: Request, res: Response) => {
+        const { id, role, firstName, lastName } = req.user as IUser;
+        return res.status(OK).json({
+            user: { id, role, firstName, lastName },
+            isAuthenticated: true,
+        });
+    }
+);
 
 export default router;
