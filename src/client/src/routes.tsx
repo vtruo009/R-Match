@@ -37,6 +37,7 @@ const Routes = [
         component: CreateFacultyMemberProfile,
         icon: <AccountBoxIcon/>,
     },
+    {
         path: '/sign-in',
         name: 'Sign In',
         component: SignIn,
