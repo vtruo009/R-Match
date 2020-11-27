@@ -32,14 +32,12 @@ const Routes = [
         icon: <AddIcon />,
     },
     {
-<<<<<<< HEAD
-=======
         path:'/create-faculty-member-profile',
         name: 'Create Faculty Member Profile',
         component: CreateFacultyMemberProfile,
         icon: <AccountBoxIcon/>,
     },
->>>>>>> Update routes.tsx
+    {
         path: '/sign-in',
         name: 'Sign In',
         component: SignIn,
