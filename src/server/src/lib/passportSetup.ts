@@ -25,7 +25,6 @@ passport.use(
                             done(error, false);
                         } else {
                             if (!isValid) {
-                                console.log('is valid branch');
                                 done(null, false);
                             }
                             return done(null, user);
