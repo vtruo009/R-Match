@@ -15,11 +15,12 @@ import Button from 'Components/Button';
 import {
     createJob,
     targetYears,
-    departments,
     jobTypes,
     jobType,
 } from 'Domains/Jobs/api/api';
-
+import {
+    departments,
+} from 'sharedData'
 export interface IJobForm {
     title: string;
     type: jobType[];
