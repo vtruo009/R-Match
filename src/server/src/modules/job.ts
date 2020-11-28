@@ -1,5 +1,5 @@
 import { IJob, Job } from '@entities/job';
-import { getRepository, MoreThanOrEqual } from 'typeorm';
+import { getRepository, MoreThanOrEqual, In, Any } from 'typeorm';
 import { promises } from 'fs-extra';
 /**
  * @description saves a new job in the database
@@ -76,10 +76,11 @@ export const createJob = (
  * @returns Promise<Job[]>
  */
 
-export const getJobs = (title: string, startDate: Date, minSalary: number, hoursPerWeek: number) => {
+export const getJobs = (title: string, types: string[], startDate: Date, minSalary: number, hoursPerWeek: number) => {
     return getRepository(Job).find({
         where: [
             { title: title },
+            { type: In(types) },
             { startDate: MoreThanOrEqual(startDate) },
             { minSalary: MoreThanOrEqual(minSalary) },
             { hoursPerWeek: MoreThanOrEqual(hoursPerWeek) },

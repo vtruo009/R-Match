@@ -102,8 +102,9 @@ router.post('/create', async (req: jobRequest, res: Response) => {
 
 router.get('/read', async (req: Request, res: Response) => {
 
-    let {title, startDate, minSalary, hoursPerWeek} = req.query as {
+    let {title, type, startDate, minSalary, hoursPerWeek} = req.query as {
         title: string,
+        type: string,
         startDate: string,
         endDate: string,
         minSalary: string,
@@ -111,6 +112,10 @@ router.get('/read', async (req: Request, res: Response) => {
     }
 
     try {
+        if (!minSalary && !type && !hoursPerWeek && !startDate) {
+            const jobs = await getJobs(title, [''], new Date(), 0, 0);
+            return res.status(OK).json({jobs}).end();
+        }
         if (!minSalary) {
             minSalary = '10000';
         }
@@ -118,9 +123,10 @@ router.get('/read', async (req: Request, res: Response) => {
             hoursPerWeek = '10000';
         }
         if (!startDate) {
-            startDate = new Date().getMonth()+1 + '/' + new Date().getDate() + '/' + new Date().getFullYear(); 
+            startDate = '01/01/3000';
         }
-        const jobs = await getJobs(title, new Date(startDate), parseInt(minSalary), parseInt(hoursPerWeek));
+        let types = type.split(',');
+        const jobs = await getJobs(title, types, new Date(startDate), parseInt(minSalary), parseInt(hoursPerWeek));
         return res.status(OK).json({jobs}).end();
 
     } catch (error) {
