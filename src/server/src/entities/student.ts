@@ -1,39 +1,35 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { Person } from './person';
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    OneToOne,
+    JoinColumn,
+} from 'typeorm';
+import { User, IUser } from './user';
 
 @Entity()
-export class Student extends Person {
-    constructor(id: number, email: string, biography: string,
-        firstName: string, middleName: string, lastName: string,
-        departmentId: string, sid: number,
-        classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior') {
-        super(id, email, biography, firstName, middleName, lastName);
-        this.studentId = id;
-        this.departmentId = departmentId;
-        this.sid = sid;
-        this.classStanding = classStanding;
-    }
+export class Student {
     @PrimaryGeneratedColumn()
-    studentId: number;
+    id: number;
 
-    @Column()
+    @Column({ nullable: true })
     departmentId: string;
 
-    @Column()
+    @Column({ nullable: true })
     sid: number;
 
-    @Column()
-    classStanding: string;
+    @Column({ nullable: true })
+    classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior';
+
+    @OneToOne(() => User)
+    @JoinColumn()
+    user: User;
 }
 
 export interface IStudent {
     id: number;
-    email: string;
-    biography: string;
-    firstName: string;
-    middleName?: string;
-    lastName: string;
-    departmentId: string;
+    departmentId?: string;
     sid: number;
     classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior';
+    user: IUser;
 }

@@ -94,6 +94,7 @@ Job API
 -   Routes:
 
     -   api/job/read
+
         -   Returns all job objects from database
         -   Body: None
         -   Parameters: None
@@ -118,9 +119,9 @@ Job API
                     } []
                 }
                 ```
-                error:
-                -   Internal server error -> Status code: 500
-                
+            -   error:
+                Internal server error -> Status code: 500
+
     -   api/job/create
 
         -   Saves a job object in the database
@@ -137,72 +138,6 @@ Job API
                     type: string[],
                     title: string,
                     status: 'Hiring' | 'Closed',
-                    minSalary: number,
-                    maxSalary: number, (Optional)
-                    departmentId: string
-                }
-            }
-            ```
-        -   Parameters: None
-        -   Response:
-            -   success:
-                Status code: 201
-            -   errors:
-                -   Missing fields in body -> Status code: 400
-                -   Internal server error -> Status code: 500
-         
-Job API
-
--   Interacts with:
-
-    -   Job database table
-
--   Routes:
-                
-    -   api/job/read
-        -   Returns all job objects from database
-        -   Body: None
-        -   Parameters: None
-        -   Response:
-            -   success:
-                Status code: 200
-                ```
-                {
-                    job: {
-                        id: number,
-                        targetYears: string[],
-                        hoursPerWeek: number,
-                        description: string,
-                        startDate: Date,
-                        endDate: Date (Optional),
-                        type: string[],
-                        title: string,
-                        status: 'Hiring' | 'Closed',
-                        minSalary: number,
-                        maxSalary: number,
-                        departmentID: string,
-                    } []
-                }
-                ```
-                error:
-                -   Internal server error -> Status code: 500
-                
-    -   api/job/create
-
-        -   Saves a job object in the database
-        -   Body:
-            ```
-            {
-                job: {
-                    targetYears: string[],
-                    hoursPerWeek: number,
-                    description: string,
-                    expirationDate: Date, (Optional)
-                    startDate: Date,
-                    endDate: Date, (Optional)
-                    type: string[],
-                    title: string,
-                    status: string,
                     minSalary: number,
                     maxSalary: number, (Optional)
                     departmentId: string
@@ -257,3 +192,153 @@ Job API
                 Status code: 200
             -   errors:
                 -   Internal server error -> Status code: 500
+
+User API
+
+-   Interacts with:
+
+    -   User, Student, and FacultyMember tables
+
+-   Routes:
+
+    -   api/user/sign-up
+
+        -   HTTP Method: POST
+        -   Creates and saves an user record in the user's table and a specific table (student and facultyMember), depending on the user's role
+
+        -   Body:
+
+            ```
+                {
+                    user: {
+                        firstName: string,
+                        lastName: string,
+                        email: string,
+                        password: string,
+                        confirmedPassword: string,
+                        role: 'student' | 'facultyMember'
+                    }
+                }
+            ```
+
+        -   Parameters: None
+        -   Response:
+            -   success:
+                -   Created: -> Status code: 201
+            -   error:
+                -   Internal server error: -> Status code: 500
+                -   Bad request: -> Status code: 400
+                    -   Missing required parameters:
+                        ```
+                            {
+                                error: 'One or more of the required parameters was missing.'
+                            }
+                        ```
+                    -   Password and confirmedPassword do not match
+                        ```
+                            {
+                                error: 'Passwords do not match'
+                            }
+                        ```
+                    -   Invalid role
+                        ```
+                            {
+                                error: 'Invalid role'
+                            }
+                        ```
+                    -   Email sent already belongs to an user
+                        ```
+                            {
+                                error: 'Email is already taken'
+                            }
+                        ```
+
+    -   api/user/sign-in
+
+        -   HTTP Method: POST
+        -   Sign ins an user by returning a cookie that contains a json web token
+        -   Body:
+            ```
+            {
+                email: string,
+                password": string
+            }
+            ```
+        -   Parameters: None
+        -   Response:
+
+            -   success:
+
+                -   OK: -> Status code: 200
+
+                    ```
+                        {
+                            isAuthenticated: boolean,
+                            user: {
+                                id: number,
+                                role: student | facultyMember,
+                                firstName: string,
+                                lastName: string
+                            }
+                        }
+                        cookie: {
+                            'access_token': jwt
+                        }
+                    ```
+
+            -   error:
+                -   Unauthorized: -> Status code: 401
+
+    -   api/user/sign-out
+        -   HTTP Method: GET
+        -   Sign out an user by clearing the cookie previously provided to the user
+        -   Cookies:
+            ```
+            {
+                'access_token': jwt,
+            }
+            ```
+        -   Parameters: None
+        -   Response:
+            -   success:
+                -   OK: -> Status code: 200
+                    ```
+                        {
+                            success: boolean,
+                            user: {
+                                id: number,
+                                role: student | facultyMember,
+                                firstName: string,
+                                lastName: string
+                            }
+                        }
+                    ```
+            -   error:
+                -   Unauthorized: -> Status code: 401
+
+    -   api/user/authenticated
+        -   HTTP Method: GET
+        -   Verifies whether or not an user is authenticated
+        -   Cookies:
+            ```
+            {
+                'access_token': jwt,
+            }
+            ```
+        -   Parameters: None
+        -   Response:
+            -   success:
+                -   OK: -> Status code: 200
+                    ```
+                        {
+                            isAuthenticated: boolean,
+                            user: {
+                                id: number,
+                                role: student | facultyMember,
+                                firstName: string,
+                                lastName: string
+                            }
+                        }
+                    ```
+            -   error:
+                -   Unauthorized: -> Status code: 401
