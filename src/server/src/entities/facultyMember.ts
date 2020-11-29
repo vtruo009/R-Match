@@ -31,9 +31,9 @@ export class FacultyMember {
 
 export interface IFacultyMember {
     id: number;
-    departmentId: string;
-    websiteLink: string;
-    office: string;
-    title: string;
+    departmentId?: string;
+    websiteLink?: string;
+    office?: string;
+    title?: string;
     user: IUser;
 }

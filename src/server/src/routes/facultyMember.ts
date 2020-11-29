@@ -3,7 +3,7 @@ import { Request, Response, Router } from 'express';
 import { IFacultyMember } from '@entities/facultyMember';
 import { errors } from '@shared/errors';
 import {
-    createFacultyMember,
+    createFacultyMember, updateFacultyMember,
 } from '@modules/facultyMember';
 import logger from '@shared/Logger';
 
@@ -18,51 +18,48 @@ interface facultyMemberRequest extends Request {
 }
 
 /******************************************************************************
- *   POST Request example - Create - "POST /api/facultyMemberProfile/create"
+ *   POST Request example - Update - "POST /api/facultyMemberProfile/update"
  ******************************************************************************/
 
-router.post('/create', async (req: facultyMemberRequest, res: Response) => {
+router.post('/update', async (req: facultyMemberRequest, res: Response) => {
     const { facultyMember } = req.body;
     const {
-        email,
-        biography,
-        firstName,
-        middleName,
-        lastName,
+        user,
         departmentId,
         websiteLink,
         office,
-        title
+        title,
+        id
     } = facultyMember;
+
     if (!facultyMember) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
     }
+
     // Check if required field is missing.
-    if (!email ||
-        !biography ||
-        !firstName ||
-        !lastName ||
-        !departmentId ||
-        !websiteLink ||
-        !office ||
-        !title) {
+    if (!id ||
+        !user ||
+        !user.id ||
+        !user.email ||
+        !user.password ||
+        !user.firstName ||
+        !user.lastName ||
+        !user.role) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
     }
+
     try {
-        await createFacultyMember(
-            email,
-            biography,
-            firstName,
-            middleName,
-            lastName,
+        await updateFacultyMember(
+            user,
             departmentId,
             websiteLink,
             office,
-            title);
+            title,
+            id);
         return res.status(CREATED).end();
     } catch (error) {
         logger.err(error);

@@ -342,3 +342,44 @@ User API
                     ```
             -   error:
                 -   Unauthorized: -> Status code: 401
+
+Faculty Member API
+
+-   Interacts with:
+
+    -   User and FacultyMember tables
+
+-   Routes:
+
+    -   api/facultyMemberProfile/update
+
+        -   Updates the fields of existing facultyMember and associated User object from the database
+        -   Body:
+            ```
+            {
+                facultyMember: {
+                    id: number,
+                    user:{
+                        id: number,
+                        email: string,
+                        firstName: string,
+                        middleName: string, // optional
+                        lastName: string,
+                        biography: string, // optional
+                        password: string,
+                        role: student | facultyMember,
+                    },
+                    departmentId: string, // optional
+                    websiteLink: string, // optional
+                    office: string, // optional
+                    title: string // optional
+                }
+            }
+            ```
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 201
+            -   errors:
+                -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
