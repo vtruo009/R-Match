@@ -5,7 +5,6 @@ import CreateJob from './Pages/CreateJob';
 import CreateFacultyMemberProfile from './Pages/CreateFacultyMemberProfile';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
-import CreateFacultyMemberProfile from './Pages/CreateFacultyMemberProfile';
 import HomeIcon from '@material-ui/icons/Home';
 import AddIcon from '@material-ui/icons/Add';
 import PersonIcon from '@material-ui/icons/Person';
@@ -49,6 +48,7 @@ const Routes = [
         name: 'Sign Up',
         component: SignUp,
         icon: <PersonAddIcon />,
-    }];
+    }
+];
 
 export default Routes;
