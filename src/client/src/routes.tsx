@@ -48,7 +48,7 @@ const Routes = [
         name: 'Sign Up',
         component: SignUp,
         icon: <PersonAddIcon />,
-    }
+    },
 ];
 
 export default Routes;
