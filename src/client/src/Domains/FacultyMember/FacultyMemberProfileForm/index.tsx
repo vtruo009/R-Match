@@ -50,7 +50,7 @@ const formSchema = yup.object({
     websiteLink: yup.string().required('Website link is required'),
     office: yup.string().required("Office location is required"),
     title: yup.string().required("Title is required"),
-    email: yup.string().required("Email is required"),
+    email: yup.string().required('Email is required').email('Please enter valid email'),
     biography: yup.string().required("Biography is required")
 });
 

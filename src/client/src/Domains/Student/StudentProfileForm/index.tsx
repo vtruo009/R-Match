@@ -25,7 +25,7 @@ export interface IStudentProfileForm {
     middleName: string; 
     lastName: string; 
     departmentId: string;
-    SID: number; 
+    sid: number; 
     classStanding: string; 
     email: string; 
     biography: string;
@@ -36,7 +36,7 @@ const formInitialValues: IStudentProfileForm = {
     middleName: '', 
     lastName: '', 
     departmentId: '',
-    SID: 0, 
+    sid: 0, 
     classStanding: '',
     email: '',
     biography: '',
@@ -46,10 +46,9 @@ const formSchema = yup.object({
     firstName: yup.string().required('First name is required'),
     lastName: yup.string().required('Last name is required'),
     departmentId: yup.string().required('Department is required'),
-    SID: yup.string().required('Student ID is is required'),
+    sid: yup.string().required('Student ID is is required'),
     classStanding: yup.string().required("Class standing is required"),
-    title: yup.string().required("Title is required"),
-    email: yup.string().required("Email is required"),
+    email: yup.string().required('Email is required').email('Please enter valid email'),
     biography: yup.string().required("Biography is required")
 });
 
@@ -121,7 +120,7 @@ function StudentProfileForm() {
                                 </Grid>
                                 <Grid item md={6} xs={12}>
                                     <Field
-                                        name='SID'
+                                        name='sid'
                                         label='SID'
                                         type = 'number'
                                         component={TextFormField}

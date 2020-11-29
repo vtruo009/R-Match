@@ -1,7 +1,7 @@
 import React from 'react';
 import FacultyMemberProfileForm from 'Domains/FacultyMember/FacultyMemberProfileForm';
 
-function CreateProfessorProfile() {
+function CreateFacultyMemberProfile() {
     return (
         <div style={{ margin: 50 }}>
             <FacultyMemberProfileForm />
@@ -9,4 +9,4 @@ function CreateProfessorProfile() {
     );
 }
 
-export default CreateProfessorProfile;
+export default CreateFacultyMemberProfile;
