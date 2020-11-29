@@ -2,6 +2,7 @@ import React from 'react';
 import Home from 'Pages/Home';
 import SearchJobs from './Pages/SearchJobs';
 import CreateJob from './Pages/CreateJob';
+import CreateFacultyMemberProfile from './Pages/CreateFacultyMemberProfile';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import CreateFacultyMemberProfile from './Pages/CreateFacultyMemberProfile';
