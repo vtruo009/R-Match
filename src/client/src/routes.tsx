@@ -49,13 +49,6 @@ const Routes = [
         name: 'Sign Up',
         component: SignUp,
         icon: <PersonAddIcon />,
-    },
-    {
-        path:'/create-faculty-member-profile',
-        name: 'Create Faculty Member Profile',
-        component: CreateFacultyMemberProfile,
-        icon: <AccountBoxIcon/>,
-    }
-];
+    }];
 
 export default Routes;
