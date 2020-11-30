@@ -12,33 +12,32 @@ import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import Button from 'Components/Button';
 import {
-    createFacultyMemberProfile,
-} from 'Domains/FacultyMember/api/api';
+    classStandingTypes,
+    createStudentProfile,
+} from 'Domains/Student/api/api';
 
 import {
     departments,
 } from 'sharedData'
 
-export interface IFacultyMemberProfileForm {
+export interface IStudentProfileForm {
     firstName: string; 
     middleName: string; 
     lastName: string; 
     departmentId: string;
-    websiteLink: string; 
-    office: string; 
-    title: string; 
+    sid: number; 
+    classStanding: string; 
     email: string; 
     biography: string;
 }
 
-const formInitialValues: IFacultyMemberProfileForm = {
+const formInitialValues: IStudentProfileForm = {
     firstName: '',
     middleName: '', 
     lastName: '', 
     departmentId: '',
-    websiteLink: '', 
-    office: '',
-    title: '',
+    sid: 0, 
+    classStanding: '',
     email: '',
     biography: '',
 };
@@ -47,20 +46,19 @@ const formSchema = yup.object({
     firstName: yup.string().required('First name is required'),
     lastName: yup.string().required('Last name is required'),
     departmentId: yup.string().required('Department is required'),
-    websiteLink: yup.string().required('Website link is required'),
-    office: yup.string().required("Office location is required"),
-    title: yup.string().required("Title is required"),
+    sid: yup.string().required('Student ID is is required'),
+    classStanding: yup.string().required("Class standing is required"),
     email: yup.string().required('Email is required').email('Please enter valid email'),
     biography: yup.string().required("Biography is required")
 });
 
-function FacultyMemberProfileForm() {
-    const [facultyMemberProfile, setFacultyMemberProfile] = React.useState<IFacultyMemberProfileForm>(formInitialValues);
-    const request = React.useCallback(() => createFacultyMemberProfile(facultyMemberProfile), [facultyMemberProfile]);
+function StudentProfileForm() {
+    const [studentProfile, setStudentProfile] = React.useState<IStudentProfileForm>(formInitialValues);
+    const request = React.useCallback(() => createStudentProfile(studentProfile), [studentProfile]);
     const [snack] = useSnack();
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
-            snack('Faculty member profile successfully created!', 'success');
+            snack('Student profile successfully created!', 'success');
         },
     });
     return (
@@ -69,7 +67,7 @@ function FacultyMemberProfileForm() {
                 validationSchema={formSchema}
                 initialValues={formInitialValues}
                 onSubmit={(formValues, actions) => {
-                    setFacultyMemberProfile(formValues);
+                    setStudentProfile(formValues);
                     sendRequest();
                     actions.resetForm({
                         values: { ...formInitialValues },
@@ -80,7 +78,7 @@ function FacultyMemberProfileForm() {
                     <Form>
                         <Grid container spacing={3} alignContent='center'>
                             <Grid item container justify='flex-start'>
-                                <Typography variant='h4'>Create Faculty Member Profile</Typography>
+                                <Typography variant='h4'>Create Student Profile</Typography>
                             </Grid>
                             <Grid item container spacing={5}>
                                 <Grid item md={4} xs={12}>
@@ -114,26 +112,21 @@ function FacultyMemberProfileForm() {
                                 </Grid>
                                 <Grid item md={6} xs={12}>
                                     <Field
-                                        name='websiteLink'
-                                        label='Website Link'
-                                        component={TextFormField}
+                                        name='classStanding'
+                                        label='Class Standing'
+                                        options={classStandingTypes}
+                                        component={SelectFormField}
                                     />
                                 </Grid>
-                                <Grid item md={4} xs={12}>
+                                <Grid item md={6} xs={12}>
                                     <Field
-                                        name='office'
-                                        label='Office'
+                                        name='sid'
+                                        label='SID'
+                                        type = 'number'
                                         component={TextFormField}
                                     />
                                 </Grid>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='title'
-                                        label='Title'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={4} xs={12}>
+                                <Grid item md={6} xs={12}>
                                     <Field
                                         name='email'
                                         label='Email'
@@ -163,4 +156,4 @@ function FacultyMemberProfileForm() {
     );
 }
 
-export default FacultyMemberProfileForm;
+export default StudentProfileForm;

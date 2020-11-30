@@ -5,12 +5,15 @@ import CreateJob from './Pages/CreateJob';
 import CreateFacultyMemberProfile from './Pages/CreateFacultyMemberProfile';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
+import CreateStudentProfile from './Pages/CreateStudentProfile'; 
+
 import HomeIcon from '@material-ui/icons/Home';
 import AddIcon from '@material-ui/icons/Add';
 import PersonIcon from '@material-ui/icons/Person';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountBoxIcon from '@material-ui/icons/AccountBox'; 
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';  
 
 const Routes = [
     {
@@ -37,7 +40,7 @@ const Routes = [
         component: CreateFacultyMemberProfile,
         icon: <AccountBoxIcon/>,
     },
-    {
+    {   
         path: '/sign-in',
         name: 'Sign In',
         component: SignIn,
@@ -48,6 +51,12 @@ const Routes = [
         name: 'Sign Up',
         component: SignUp,
         icon: <PersonAddIcon />,
+    },
+    {
+        path:'/create-student-profile',
+        name:'Create Student Profile',
+        component: CreateStudentProfile,
+        icon: <AccountCircleIcon />,
     },
 ];
 
