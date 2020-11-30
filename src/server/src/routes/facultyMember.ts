@@ -3,7 +3,8 @@ import { Request, Response, Router } from 'express';
 import { IFacultyMember } from '@entities/facultyMember';
 import { errors } from '@shared/errors';
 import {
-    createFacultyMember, updateFacultyMember,
+    createFacultyMember,
+    updateFacultyMember,
 } from '@modules/facultyMember';
 import logger from '@shared/Logger';
 
@@ -29,7 +30,7 @@ router.post('/update', async (req: facultyMemberRequest, res: Response) => {
         websiteLink,
         office,
         title,
-        id
+        id,
     } = facultyMember;
 
     if (!facultyMember) {
@@ -39,28 +40,31 @@ router.post('/update', async (req: facultyMemberRequest, res: Response) => {
     }
 
     // Check if required field is missing.
-    if (!id ||
-        !user ||
-        !user.id ||
-        !user.email ||
-        !user.password ||
-        !user.firstName ||
-        !user.lastName ||
-        !user.role) {
+    if (!id || !user || !user.id || !user.firstName || !user.lastName) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
     }
 
     try {
-        await updateFacultyMember(
+        const updateResult = await updateFacultyMember(
             user,
             departmentId,
             websiteLink,
             office,
             title,
-            id);
-        return res.status(CREATED).end();
+            id
+        );
+        if (updateResult) {
+            return res.status(OK).end();
+        }
+        return res
+            .status(BAD_REQUEST)
+            .json({
+                error:
+                    'Faculty member provided does not belong to any record',
+            })
+            .end();
     } catch (error) {
         logger.err(error);
         return res

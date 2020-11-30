@@ -34,21 +34,22 @@ export const updateFacultyMember = async (
     title: IFacultyMember['title'],
     id: number
 ) => {
-    const facultyToUpdate = await getRepository(FacultyMember).findOne({ id: id });
-    if (facultyToUpdate != undefined) {
-        getRepository(FacultyMember).update(id, {
+
+
+    const facultyToUpdate = await getRepository(FacultyMember).findOne(id);
+    if (facultyToUpdate !== undefined) {
+        await getRepository(User).update(user.id, {
+            biography: user.biography,
+            firstName: user.firstName,
+            middleName: user.middleName,
+            lastName: user.lastName,
+        });
+        return await getRepository(FacultyMember).update(id, {
             departmentId,
             websiteLink,
             office,
             title,
-            user
-        });
-        getRepository(User).update(user.id, {
-            email: user.email,
-            biography: user.biography,
-            firstName: user.firstName,
-            middleName: user.middleName,
-            lastName: user.lastName
         });
     }
+    return undefined;
 };
