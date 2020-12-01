@@ -2,15 +2,8 @@ import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import { IJob } from '@entities/job';
 import { errors } from '@shared/errors';
-import {
-    createJob,
-    updateJob,
-    deleteJob,
-    getJobs,
-} from '@modules/job';
+import { createJob, updateJob, deleteJob, getJobs } from '@modules/job';
 import logger from '@shared/Logger';
-import { parse } from 'path';
-import { start } from 'repl';
 
 const router = Router();
 
@@ -47,7 +40,8 @@ router.post('/create', async (req: jobRequest, res: Response) => {
             error: errors.paramMissingError,
         });
     }
-    if (!targetYears ||
+    if (
+        !targetYears ||
         !hoursPerWeek ||
         !description ||
         !startDate ||
@@ -55,7 +49,8 @@ router.post('/create', async (req: jobRequest, res: Response) => {
         !title ||
         !status ||
         minSalary === undefined ||
-        !departmentId) {
+        !departmentId
+    ) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
@@ -78,18 +73,20 @@ router.post('/create', async (req: jobRequest, res: Response) => {
             });
         }
 
-        await createJob(targetYears,
-                        hoursPerWeek,
-                        description,
-                        expirationDate,
-                        startDate,
-                        endDate,
-                        type,
-                        title,
-                        status,
-                        minSalary,
-                        maxSalary,
-            departmentId);
+        await createJob(
+            targetYears,
+            hoursPerWeek,
+            description,
+            expirationDate,
+            startDate,
+            endDate,
+            type,
+            title,
+            status,
+            minSalary,
+            maxSalary,
+            departmentId
+        );
         return res.status(CREATED).end();
     } catch (error) {
         logger.err(error);
@@ -101,20 +98,26 @@ router.post('/create', async (req: jobRequest, res: Response) => {
 });
 
 router.get('/read', async (req: Request, res: Response) => {
-
-    let {title, type, startDate, minSalary, hoursPerWeek} = req.query as {
-        title: string,
-        type: string,
-        startDate: string,
-        endDate: string,
-        minSalary: string,
-        hoursPerWeek: string,
-    }
+    let { title, type, startDate, minSalary, hoursPerWeek } = req.query as {
+        title: string;
+        type: string;
+        startDate: string;
+        endDate: string;
+        minSalary: string;
+        hoursPerWeek: string;
+    };
 
     try {
-        if (!minSalary && !type && !hoursPerWeek && !startDate) {
-            const jobs = await getJobs(title, [''], new Date(), 0, 0);
-            return res.status(OK).json({jobs}).end();
+        // if (!minSalary && !type && !hoursPerWeek && !startDate) {
+        //     const jobs = await getJobs(title, [''], new Date(), 0, 0);
+        //     return res.status(OK).json({ jobs }).end();
+        // }
+
+        let types: string[] = [''];
+        // If user doesn't provide title then now it needs to be set to empty string.
+        // Otherwise I get an error
+        if (!title) {
+            title = '';
         }
         if (!minSalary) {
             minSalary = '10000';
@@ -125,10 +128,17 @@ router.get('/read', async (req: Request, res: Response) => {
         if (!startDate) {
             startDate = '01/01/3000';
         }
-        let types = type.split(',');
-        const jobs = await getJobs(title, types, new Date(startDate), parseInt(minSalary), parseInt(hoursPerWeek));
-        return res.status(OK).json({jobs}).end();
-
+        if (type) {
+            types = type.split(',');
+        }
+        const jobs = await getJobs(
+            title,
+            types,
+            startDate,
+            parseInt(minSalary),
+            parseInt(hoursPerWeek)
+        );
+        return res.status(OK).json({ jobs }).end();
     } catch (error) {
         logger.err(error);
         return res
@@ -144,7 +154,8 @@ router.get('/read', async (req: Request, res: Response) => {
 
 router.post('/update', async (req: jobRequest, res: Response) => {
     const { job } = req.body;
-    const { targetYears,
+    const {
+        targetYears,
         hoursPerWeek,
         description,
         expirationDate,
@@ -156,13 +167,15 @@ router.post('/update', async (req: jobRequest, res: Response) => {
         minSalary,
         maxSalary,
         departmentId,
-        id } = job;
+        id,
+    } = job;
     if (!job) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
     }
-    if (!id ||
+    if (
+        !id ||
         !targetYears ||
         !hoursPerWeek ||
         !description ||
@@ -171,7 +184,8 @@ router.post('/update', async (req: jobRequest, res: Response) => {
         !title ||
         !status ||
         minSalary === undefined ||
-        !departmentId) {
+        !departmentId
+    ) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
@@ -190,7 +204,8 @@ router.post('/update', async (req: jobRequest, res: Response) => {
             minSalary,
             maxSalary,
             departmentId,
-            id);
+            id
+        );
         return res.status(OK).end();
     } catch (error) {
         logger.err(error);

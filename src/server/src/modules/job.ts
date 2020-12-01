@@ -1,6 +1,5 @@
 import { IJob, Job } from '@entities/job';
 import { getRepository, MoreThanOrEqual, In, Any } from 'typeorm';
-import { promises } from 'fs-extra';
 /**
  * @description saves a new job in the database
  * @param targetYears string[]
@@ -76,16 +75,41 @@ export const createJob = (
  * @returns Promise<Job[]>
  */
 
-export const getJobs = (title: string, types: string[], startDate: Date, minSalary: number, hoursPerWeek: number) => {
-    return getRepository(Job).find({
-        where: [
-            { title: title },
-            { type: In(types) },
-            { startDate: MoreThanOrEqual(startDate) },
-            { minSalary: MoreThanOrEqual(minSalary) },
-            { hoursPerWeek: MoreThanOrEqual(hoursPerWeek) },
-        ]
-    });
+export const getJobs = async (
+    title: string,
+    types: string[],
+    startDate: string,
+    minSalary: number,
+    hoursPerWeek: number
+) => {
+
+
+
+    return await getRepository(Job)
+        .createQueryBuilder('job')
+        // Accomplishes substring matching using PostgreSQL pattern matching. 
+        // Note: Any job title matches the pattern of a empty title. 
+        // I think we should obligate the user to enter a job title
+        .where('LOWER(job.title) LIKE :title', {
+            title: `%${title.toLowerCase()}%`,
+        })
+        .orWhere('job.type IN (:...types)', { types })
+        // For some reason startDate filtering is not quite working
+        // .orWhere('job.startDate >= :startDate ', {
+        //     startDate,
+        // })
+        .orWhere('job.minSalary >= :minSalary', { minSalary })
+        .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
+        .getMany();
+    // return getRepository(Job).find({
+    //     where: [
+    //         { title: title },
+    //         { type: In(types) },
+    //         { startDate: MoreThanOrEqual(startDate) },
+    //         { minSalary: MoreThanOrEqual(minSalary) },
+    //         { hoursPerWeek: MoreThanOrEqual(hoursPerWeek) },
+    //     ],
+    // });
 };
 
 /**
@@ -141,7 +165,7 @@ export const updateJob = (
         status: status,
         minSalary: minSalary,
         maxSalary: maxSalary,
-        departmentId: departmentId
+        departmentId: departmentId,
     });
 };
 
