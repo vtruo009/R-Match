@@ -361,13 +361,10 @@ Faculty Member API
                     id: number,
                     user:{
                         id: number,
-                        email: string,
                         firstName: string,
                         middleName: string, // optional
                         lastName: string,
                         biography: string, // optional
-                        password: string,
-                        role: student | facultyMember,
                     },
                     departmentId: string, // optional
                     websiteLink: string, // optional
