@@ -380,3 +380,40 @@ Faculty Member API
             -   errors:
                 -   Missing fields in body -> Status code: 400
                 -   Internal server error -> Status code: 500
+
+Student API
+
+-   Interacts with:
+
+    -   User and Student tables
+
+-   Routes:
+
+    -   api/studentProfile/update
+
+        -   Updates the fields of existing student and associated User object from the database
+        -   Body:
+            ```
+            {
+                student: {
+                    id: number,
+                    user:{
+                        id: number,
+                        firstName: string,
+                        middleName: string, // optional
+                        lastName: string,
+                        biography: string, // optional
+                    },
+                    departmentId: string, // optional
+                    sid: number, // optional
+                    classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior'; // optional
+                }
+            }
+            ```
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 201
+            -   errors:
+                -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
