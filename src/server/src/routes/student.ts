@@ -22,7 +22,6 @@ interface studentRequest extends Request {
  ******************************************************************************/
 
 router.post('/update', async (req: studentRequest, res: Response) => {
-    console.log("DOPPOOO\n");
     const { student } = req.body;
     const {
         user,
