@@ -17,7 +17,7 @@ export const createFacultyMember = (user: IUser) => {
 };
 
 /**
- * @description saves a new faculty member profile in the database
+ * @description updates an existing faculty member profile in the database
  * @param id number
  * @param user User
  * @param departmentId string
