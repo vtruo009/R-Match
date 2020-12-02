@@ -29,7 +29,7 @@ export class Student {
 export interface IStudent {
     id: number;
     departmentId?: string;
-    sid: number;
-    classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior';
+    sid?: number;
+    classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior';
     user: IUser;
 }
