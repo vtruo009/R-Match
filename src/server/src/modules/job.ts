@@ -1,6 +1,6 @@
 import { IJob, Job } from '@entities/job';
 import { getRepository, MoreThanOrEqual, In, Any } from 'typeorm';
-import { promises } from 'fs-extra';
+
 /**
  * @description saves a new job in the database
  * @param targetYears string[]
