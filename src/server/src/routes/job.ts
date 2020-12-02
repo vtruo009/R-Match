@@ -9,8 +9,6 @@ import {
     getJobs,
 } from '@modules/job';
 import logger from '@shared/Logger';
-import { parse } from 'path';
-import { start } from 'repl';
 
 const router = Router();
 
@@ -112,13 +110,10 @@ router.get('/read', async (req: Request, res: Response) => {
         page: string,
         itemsPerPage: string,
     }
-    
-    const start = (parseInt(page) - 1) * parseInt(itemsPerPage);
-    const end = parseInt(page) * parseInt(itemsPerPage);
 
     try {
         if (!minSalary && !type && !hoursPerWeek && !startDate) {
-            const jobs = (await getJobs(title, [''], new Date(), 0, 0)).slice(start, end);
+            const jobs = await getJobs(title, [''], new Date(), 0, 0, parseInt(page), parseInt(itemsPerPage));
             return res.status(OK).json({jobs}).end();
         }
         if (!minSalary) {
@@ -130,8 +125,11 @@ router.get('/read', async (req: Request, res: Response) => {
         if (!startDate) {
             startDate = '01/01/3000';
         }
-        let types = type.split(',');
-        const jobs = (await getJobs(title, types, new Date(startDate), parseInt(minSalary), parseInt(hoursPerWeek))).slice(start, end);
+        let types: string[] = [''];
+        if (type) {
+            types = type.split(',');
+        }
+        const jobs = await getJobs(title, types, new Date(startDate), parseInt(minSalary), parseInt(hoursPerWeek), parseInt(page), parseInt(itemsPerPage));
         return res.status(OK).json({jobs}).end();
 
     } catch (error) {

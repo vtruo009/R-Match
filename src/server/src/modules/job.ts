@@ -76,7 +76,7 @@ export const createJob = (
  * @returns Promise<Job[]>
  */
 
-export const getJobs = (title: string, types: string[], startDate: Date, minSalary: number, hoursPerWeek: number) => {
+export const getJobs = (title: string, types: string[], startDate: Date, minSalary: number, hoursPerWeek: number, page: number, itemsPerPage: number) => {
     return getRepository(Job).find({
         where: [
             { title: title },
@@ -84,7 +84,9 @@ export const getJobs = (title: string, types: string[], startDate: Date, minSala
             { startDate: MoreThanOrEqual(startDate) },
             { minSalary: MoreThanOrEqual(minSalary) },
             { hoursPerWeek: MoreThanOrEqual(hoursPerWeek) },
-        ]
+        ],
+        skip: (page - 1) * itemsPerPage,
+        take: itemsPerPage,
     });
 };
 
