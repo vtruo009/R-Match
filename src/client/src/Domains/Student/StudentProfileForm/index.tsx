@@ -29,7 +29,9 @@ export interface IStudentProfileForm {
     classStanding: string; 
     email: string; 
     biography: string;
-}
+    resume: string;
+    transcript: string;
+};
 
 const formInitialValues: IStudentProfileForm = {
     firstName: '',
@@ -40,6 +42,8 @@ const formInitialValues: IStudentProfileForm = {
     classStanding: '',
     email: '',
     biography: '',
+    resume: '',
+    transcript: '',
 };
 
 const formSchema = yup.object({
@@ -130,6 +134,28 @@ function StudentProfileForm() {
                                     <Field
                                         name='email'
                                         label='Email'
+                                        component={TextFormField}
+                                    />
+                                </Grid>
+                                <Grid item md={6} xs={12}>
+                                    <Field
+                                        name='resume'
+                                        label='Resume'
+                                        type='file'
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        component={TextFormField}
+                                    />
+                                </Grid>
+                                <Grid item md={6} xs={12}>
+                                    <Field
+                                        name='transcript'
+                                        label='Transcript'
+                                        type='file'
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
                                         component={TextFormField}
                                     />
                                 </Grid>
