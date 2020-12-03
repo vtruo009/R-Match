@@ -1,6 +1,7 @@
 import API from 'api';
 import { ISignInForm } from 'Domains/Accounts/SignInForm';
 import { ISignUpForm } from 'Domains/Accounts/SignUpForm';
+import { IUser } from 'Contexts/AuthContext/api';
 
 export const roles = [
     {
@@ -10,18 +11,21 @@ export const roles = [
     {
         label: 'Student',
         value: 'student',
-    }
+    },
 ];
 
-export async function signUp(signUp: ISignUpForm) {
-    alert("Signed up with\nemail:" + signUp.email + "\npassword:" + signUp.password);
-    // TODO: Change API below.
-    return API.post('job/create', {});
+export async function signUp(signUpData: ISignUpForm) {
+    return API.post<{ error: string }>('user/sign-up', {
+        user: { ...signUpData },
+    });
 }
 
+export async function signIn(signInData: ISignInForm) {
+    return API.post<{ user: IUser; isAuthenticated: boolean }>('user/sign-in', {
+        ...signInData,
+    });
+}
 
-export async function signIn(signIn: ISignInForm) {
-    alert("Logged in with\nemail:" + signIn.email + "\npassword:" + signIn.password);
-    // TODO: Change API below.
-    return API.post('job/create', { });
+export async function signOut() {
+    return API.get('user/sign-out');
 }
