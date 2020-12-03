@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
+import { SimpleFileUpload } from 'formik-material-ui';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
@@ -43,7 +44,7 @@ const formInitialValues: IStudentProfileForm = {
     email: '',
     biography: '',
     resume: '',
-    transcript: '',
+    transcript: '',  
 };
 
 const formSchema = yup.object({
@@ -55,7 +56,7 @@ const formSchema = yup.object({
     email: yup.string().required('Email is required').email('Please enter valid email'),
     biography: yup.string().required("Biography is required")
 });
-
+    
 function StudentProfileForm() {
     const [studentProfile, setStudentProfile] = React.useState<IStudentProfileForm>(formInitialValues);
     const request = React.useCallback(() => createStudentProfile(studentProfile), [studentProfile]);
@@ -70,7 +71,9 @@ function StudentProfileForm() {
             <Formik
                 validationSchema={formSchema}
                 initialValues={formInitialValues}
-                onSubmit={(formValues, actions) => {
+                onSubmit={(formValues, actions) => 
+                    {
+                    console.log(formValues);
                     setStudentProfile(formValues);
                     sendRequest();
                     actions.resetForm({
@@ -145,7 +148,7 @@ function StudentProfileForm() {
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
-                                        component={TextFormField}
+                                        component={SimpleFileUpload}
                                     />
                                 </Grid>
                                 <Grid item md={6} xs={12}>
@@ -156,7 +159,7 @@ function StudentProfileForm() {
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
-                                        component={TextFormField}
+                                        component={SimpleFileUpload}
                                     />
                                 </Grid>
                                 <Grid item md={12} xs={12}>
