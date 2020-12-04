@@ -3,7 +3,6 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Formik, Form, Field } from 'formik';
-import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 
 import useApi from 'hooks/useApi';
@@ -54,7 +53,6 @@ const formSchema = yup.object({
 });
 
 function SignUpForm() {
-    const history = useHistory();
     const [signUpInfo, setSignUpInfo] = React.useState<ISignUpForm>(
         formInitialValues
     );
