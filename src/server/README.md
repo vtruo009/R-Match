@@ -351,9 +351,9 @@ Faculty Member API
 
 -   Routes:
 
-    -   api/facultyMemberProfile/update
+    -   api/facultyMember/update-profile
 
-        -   Updates the fields of existing facultyMember and associated User object from the database
+        -   Updates the fields of an existing facultyMember and associated user object from the database.
         -   Body:
             ```
             {
@@ -370,6 +370,43 @@ Faculty Member API
                     websiteLink: string, // optional
                     office: string, // optional
                     title: string // optional
+                }
+            }
+            ```
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 201
+            -   errors:
+                -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
+
+Student API
+
+-   Interacts with:
+
+    -   User and Student tables
+
+-   Routes:
+
+    -   api/student/update-profile
+
+        -   Updates the fields of an existing student and associated user object from the database.
+        -   Body:
+            ```
+            {
+                student: {
+                    id: number,
+                    user:{
+                        id: number,
+                        firstName: string,
+                        middleName: string, // optional
+                        lastName: string,
+                        biography: string, // optional
+                    },
+                    departmentId: string, // optional
+                    sid: number, // optional
+                    classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior'; // optional
                 }
             }
             ```
