@@ -11,10 +11,7 @@ import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import Button from 'Components/Button';
-import {
-    signUp,
-    roles,
-} from 'Domains/Accounts/api/api';
+import { signUp, roles } from 'Domains/Accounts/api/api';
 
 export interface ISignUpForm {
     email: string;
@@ -22,7 +19,7 @@ export interface ISignUpForm {
     confirmedPassword: string;
     firstName: string;
     lastName: string;
-    role: ''|'student' | 'facultyMember';
+    role: '' | 'student' | 'facultyMember';
 }
 
 const formInitialValues: ISignUpForm = {
@@ -36,26 +33,41 @@ const formInitialValues: ISignUpForm = {
 
 const formSchema = yup.object({
     email: yup.string().required().email('Please enter valid emai.'),
-    password: yup.string().required('Password is required.')
-        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-            "Password must contain minimum 8 characters, at least one lowercase " +
-            "alphabet, one uppercase alphabet, and one number."),
-    confirmedPassword: yup.mixed().required('Please confirm password.')
+    password: yup
+        .string()
+        .required('Password is required.')
+        .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+            'Password must contain a minimum of 8 characters, at least one lowercase ' +
+                'letter, one uppercase letter, and one number.'
+        ),
+    confirmedPassword: yup
+        .mixed()
+        .required('Please confirm password.')
         .test('match', 'Passwords do not match.', function () {
-            return this.parent.confirmedPassword === this.parent.password
-    }),
+            return this.parent.confirmedPassword === this.parent.password;
+        }),
     firstName: yup.string().required('Please enter your first name.'),
     lastName: yup.string().required('Please enter your last name.'),
     role: yup.string().required('Please select one.'),
 });
 
 function SignUpForm() {
-    const [signUpInfo, setSignUpInfo] = React.useState<ISignUpForm>(formInitialValues);
+    const [signUpInfo, setSignUpInfo] = React.useState<ISignUpForm>(
+        formInitialValues
+    );
     const request = React.useCallback(() => signUp(signUpInfo), [signUpInfo]);
     const [snack] = useSnack();
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
-            snack('Signed up successfully', 'success');
+            snack('Account successfully created', 'success');
+        },
+        onFailure: (error, results) => {
+            if (results) {
+                snack(`${results.data.error}`, 'error');
+            } else {
+                snack('Something went wrong. Try again later!', 'error');
+            }
         },
     });
     return (
@@ -73,9 +85,11 @@ function SignUpForm() {
             >
                 {() => (
                     <Form>
-                            <Grid container spacing={3} alignContent='center'>
-                            <Grid item container justify='flex-start'>
-                                <Typography variant='h4'>Create New Account</Typography>
+                        <Grid container spacing={3} alignContent='center'>
+                            <Grid item container justify='center'>
+                                <Typography variant='h4'>
+                                    Create New Account
+                                </Typography>
                             </Grid>
                             <Grid item container spacing={5}>
                                 <Grid item md={6} xs={12}>
@@ -103,7 +117,7 @@ function SignUpForm() {
                                     <Field
                                         name='password'
                                         label='Password'
-                                        multiline
+                                        type='password'
                                         component={TextFormField}
                                     />
                                 </Grid>
@@ -119,7 +133,7 @@ function SignUpForm() {
                                     <Field
                                         name='confirmedPassword'
                                         label='Confirm Password'
-                                        multiline
+                                        type='password'
                                         component={TextFormField}
                                     />
                                 </Grid>

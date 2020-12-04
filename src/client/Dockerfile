@@ -1,5 +1,5 @@
 # Pull official Node.js image from Docker Hub
-FROM node:alpine
+FROM node:14-alpine
 # Create app directory
 WORKDIR /usr/app
 # Install dependencies
