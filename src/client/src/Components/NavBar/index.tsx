@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import {
     authenticatedRoutes,
@@ -11,6 +11,7 @@ import {
 import AppBar from '@material-ui/core/AppBar';
 import ToolBar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
+import SignOutButton from 'Domains/Accounts/SignOutButton';
 import { AuthContext } from 'Contexts/AuthContext';
 
 const NavItems = ({ routes }: { routes: IRoute[] }) => {
@@ -57,6 +58,7 @@ function NavBar() {
                 ) : (
                     <NavItems routes={unauthenticatedRoutes} />
                 )}
+                {isAuthenticated && <SignOutButton />}
             </ToolBar>
         </AppBar>
     );

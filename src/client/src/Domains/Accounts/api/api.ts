@@ -27,5 +27,5 @@ export async function signIn(signInData: ISignInForm) {
 }
 
 export async function signOut() {
-    return API.get('user/sign-out');
+    return API.get<{ user: IUser }>('user/sign-out');
 }
