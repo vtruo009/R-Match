@@ -18,10 +18,10 @@ interface studentRequest extends Request {
 }
 
 /******************************************************************************
- *   POST Request example - Update - "POST /api/studentProfile/update"
+ *   POST Request example - Update - "POST /api/student/update-profile"
  ******************************************************************************/
 
-router.post('/update', async (req: studentRequest, res: Response) => {
+router.post('/update-profile', async (req: studentRequest, res: Response) => {
     const { student } = req.body;
     const {
         user,

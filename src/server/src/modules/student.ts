@@ -41,7 +41,7 @@ export const updateStudent = async (
             middleName: user.middleName,
             lastName: user.lastName,
         });
-        return await getRepository(Student).update(id, {
+        return getRepository(Student).update(id, {
             departmentId,
             sid,
             classStanding

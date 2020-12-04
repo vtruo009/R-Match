@@ -10,8 +10,8 @@ const router = Router();
 // Add sub-routes
 router.use('/sample', sampleRouter);
 router.use('/job', jobRouter);
-router.use('/facultyMemberProfile', facultyMemberRouter);
-router.use('/studentProfile', studentRouter);
+router.use('/facultyMember', facultyMemberRouter);
+router.use('/student', studentRouter);
 router.use('/user', userRouter);
 // Export the base-router
 export default router;

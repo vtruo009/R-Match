@@ -351,9 +351,9 @@ Faculty Member API
 
 -   Routes:
 
-    -   api/facultyMemberProfile/update
+    -   api/facultyMember/update-profile
 
-        -   Updates the fields of existing facultyMember and associated User object from the database
+        -   Updates the fields of an existing facultyMember and associated user object from the database.
         -   Body:
             ```
             {
@@ -389,9 +389,9 @@ Student API
 
 -   Routes:
 
-    -   api/studentProfile/update
+    -   api/student/update-profile
 
-        -   Updates the fields of existing student and associated User object from the database
+        -   Updates the fields of an existing student and associated user object from the database.
         -   Body:
             ```
             {
