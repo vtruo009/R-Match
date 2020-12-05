@@ -4,10 +4,12 @@ import {
     PrimaryGeneratedColumn,
     OneToOne,
     JoinColumn,
+    OneToMany,
     ManyToOne
 } from 'typeorm';
 import { User, IUser } from './user';
 import { Department } from './department';
+import { HasTaken } from './hasTaken';
 
 @Entity()
 export class Student {
@@ -26,6 +28,9 @@ export class Student {
     @OneToOne(() => User)
     @JoinColumn()
     user: User;
+
+    @OneToMany(() => HasTaken, hasTaken => hasTaken.student)
+    hasTaken: HasTaken[]
 }
 
 export interface IStudent {
