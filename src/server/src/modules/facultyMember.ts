@@ -35,8 +35,8 @@ export const updateFacultyMember = async (
     title: IFacultyMember['title'],
     id: number
 ) => {
-    const departmentRepository = await getRepository(Department);
-    const facultyMemberRepository = await getRepository(FacultyMember);
+    const departmentRepository = getRepository(Department);
+    const facultyMemberRepository = getRepository(FacultyMember);
 
     const facultyToUpdate = await facultyMemberRepository.findOne(id);
     if (facultyToUpdate !== undefined) {
