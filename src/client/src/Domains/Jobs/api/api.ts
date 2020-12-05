@@ -119,14 +119,18 @@ export interface IJob {
 export async function getJobs(
     title: string,
     minSalary: string,
-    minHoursPerWeek: string
+    hoursPerWeek: string,
+    page: number,
+    numOfItems: number,
 ) {
     const params = {
         title,
         minSalary,
-        minHoursPerWeek,
+        hoursPerWeek,
+        page,
+        numOfItems,
     };
-
+    console.log(`numOfItems is ${numOfItems}`); //this logs 3
     return API.get<{ jobs: IJob[] }>('job/read', { params });
 }
 

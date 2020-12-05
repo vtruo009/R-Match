@@ -80,11 +80,12 @@ export const getJobs = async (
     types: string[],
     startDate: string,
     minSalary: number,
-    hoursPerWeek: number
+    hoursPerWeek: number,
+    page: number,
+    numOfItems: number,
 ) => {
 
-
-
+    console.log(`numOfItems in jobs.ts/modules is ${numOfItems}`); //this logs NaN
     return await getRepository(Job)
         .createQueryBuilder('job')
         // Accomplishes substring matching using PostgreSQL pattern matching. 
@@ -100,6 +101,12 @@ export const getJobs = async (
         // })
         .orWhere('job.minSalary >= :minSalary', { minSalary })
         .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
+        // .limit(numOfItems)
+        // .offset((page - 1) * numOfItems)
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        // .getManyAndCount(); returns [array, number] but couldn't access the number
+        //.getCount();
         .getMany();
     // return getRepository(Job).find({
     //     where: [
