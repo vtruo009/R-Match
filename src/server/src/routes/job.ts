@@ -79,13 +79,14 @@ router.post('/create', async (req: jobRequest, res: Response) => {
 });
 
 router.get('/read', async (req: Request, res: Response) => {
-    let { title, type, startDate, minSalary, hoursPerWeek } = req.query as {
+    let { title, type, startDate, minSalary, hoursPerWeek, page, numOfItems } = req.query as {
         title: string;
         type: string;
         startDate: string;
-        endDate: string;
         minSalary: string;
         hoursPerWeek: string;
+        page: string;
+        numOfItems: string;
     };
 
     try {
@@ -93,7 +94,7 @@ router.get('/read', async (req: Request, res: Response) => {
         //     const jobs = await getJobs(title, [''], new Date(), 0, 0);
         //     return res.status(OK).json({ jobs }).end();
         // }
-
+        
         let types: string[] = [''];
         // If user doesn't provide title then now it needs to be set to empty string.
         // Otherwise I get an error
@@ -117,7 +118,9 @@ router.get('/read', async (req: Request, res: Response) => {
             types,
             startDate,
             parseInt(minSalary),
-            parseInt(hoursPerWeek)
+            parseInt(hoursPerWeek),
+            parseInt(page),
+            parseInt(numOfItems),
         );
         return res.status(OK).json({ jobs }).end();
     } catch (error) {
