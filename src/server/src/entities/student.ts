@@ -4,16 +4,18 @@ import {
     PrimaryGeneratedColumn,
     OneToOne,
     JoinColumn,
+    ManyToOne
 } from 'typeorm';
 import { User, IUser } from './user';
+import { Department } from './department';
 
 @Entity()
 export class Student {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ nullable: true })
-    departmentId: string;
+    @ManyToOne(() => Department, { nullable: true })
+    department: Department;
 
     @Column({ nullable: true })
     sid: number;
@@ -28,7 +30,7 @@ export class Student {
 
 export interface IStudent {
     id: number;
-    departmentId?: string;
+    department?: Department;
     sid?: number;
     classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior';
     user: IUser;

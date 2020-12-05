@@ -26,7 +26,7 @@ router.post('/update-profile', async (req: facultyMemberRequest, res: Response) 
     const { facultyMember } = req.body;
     const {
         user,
-        departmentId,
+        department,
         websiteLink,
         office,
         title,
@@ -49,7 +49,7 @@ router.post('/update-profile', async (req: facultyMemberRequest, res: Response) 
     try {
         const updateResult = await updateFacultyMember(
             user,
-            departmentId,
+            department,
             websiteLink,
             office,
             title,

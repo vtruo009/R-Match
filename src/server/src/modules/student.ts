@@ -2,6 +2,7 @@ import { getRepository } from 'typeorm';
 import { Student } from '@entities/student';
 import { IUser, User } from '@entities/user';
 import { IStudent } from '@entities/student';
+import { Department } from '@entities/department';
 
 /**
  * @description Creates a student using an user record from the database
@@ -21,30 +22,42 @@ export const createStudent = async (user: IUser) => {
  * @description updates an existing student profile in the database
  * @param id number
  * @param user User
- * @param departmentId string
+ * @param department Department
  * @param sid number
  * @param classStanding 'freshman' | 'sophomore' | 'junior' | 'senior'
  * @returns Promise
  */
 export const updateStudent = async (
     user: IStudent['user'],
-    departmentId: IStudent['departmentId'],
+    department: IStudent['department'],
     sid: IStudent['sid'],
     classStanding: IStudent['classStanding'],
     id: number
 ) => {
-    const studentToUpdate = await getRepository(Student).findOne(id);
+    const studentRepository = getRepository(Student);
+    const departmentRepository = getRepository(Department);
+    const userRepository = getRepository(User);
+
+    const studentToUpdate = await studentRepository.findOne(id);
     if (studentToUpdate !== undefined) {
-        await getRepository(User).update(user.id, {
+        if (department !== undefined) {
+            const departmentObject = await departmentRepository.findOne(department.id)
+            if (departmentObject !== undefined) {
+                studentToUpdate.department = departmentObject;
+                await studentRepository.save(studentToUpdate);
+            }
+        }
+
+        await userRepository.update(user.id, {
             biography: user.biography,
             firstName: user.firstName,
             middleName: user.middleName,
             lastName: user.lastName,
         });
-        return getRepository(Student).update(id, {
-            departmentId,
+
+        return studentRepository.update(id, {
             sid,
-            classStanding
+            classStanding,
         });
     }
     return undefined;

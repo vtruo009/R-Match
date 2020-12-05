@@ -1,67 +1,50 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
-import { IStudent } from '@entities/student';
+import { ICollege } from '@entities/college';
 import { errors } from '@shared/errors';
 import {
-    updateStudent
-} from '@modules/student';
+    createcollege
+} from '@modules/college';
 import logger from '@shared/Logger';
 
 const router = Router();
 
 const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
 
-interface studentRequest extends Request {
+interface collegeRequest extends Request {
     body: {
-        student: IStudent;
+        college: ICollege;
     };
 }
 
 /******************************************************************************
- *   POST Request example - Update - "POST /api/student/update-profile"
+ *   POST Request example - create - "POST /api/college/create"
  ******************************************************************************/
 
-router.post('/update-profile', async (req: studentRequest, res: Response) => {
-    const { student } = req.body;
+router.post('/create', async (req: collegeRequest, res: Response) => {
+    const { college } = req.body;
     const {
-        user,
-        department,
-        sid,
-        classStanding,
-        id
-    } = student;
+        name
+    } = college;
 
-    if (!student) {
+    if (!college) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
     }
 
     // Check if required field is missing.
-    if (!id || !user || !user.id || !user.firstName || !user.lastName) {
+    if (!name) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
     }
 
     try {
-        const updateResult = await updateStudent(
-            user,
-            department,
-            sid,
-            classStanding,
-            id
+        await createcollege(
+            name
         );
-        if (updateResult) {
-            return res.status(OK).end();
-        }
-        return res
-            .status(BAD_REQUEST)
-            .json({
-                error:
-                    'Student provided does not belong to any record',
-            })
-            .end();
+        return res.status(CREATED).end();
     } catch (error) {
         logger.err(error);
         return res
