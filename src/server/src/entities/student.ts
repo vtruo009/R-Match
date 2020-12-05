@@ -6,11 +6,13 @@ import {
     JoinColumn,
     ManyToOne,
     ManyToMany,
-    JoinTable
+    JoinTable,
+    ManyToOne
 } from 'typeorm';
 import { User, IUser } from './user';
 import { Department } from './department';
 import { Course } from './course';
+import { Department } from './department';
 
 @Entity()
 export class Student {

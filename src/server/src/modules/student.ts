@@ -2,8 +2,8 @@ import { getRepository } from 'typeorm';
 import { Student } from '@entities/student';
 import { IUser, User } from '@entities/user';
 import { IStudent } from '@entities/student';
-import { Department } from '@entities/department';
 import { Course } from '../entities/course';
+import { Department } from '@entities/department';
 
 /**
  * @description Creates a student using an user record from the database
@@ -42,6 +42,7 @@ export const updateStudent = async (
     const userRepository = getRepository(User);
 
     const studentToUpdate = await studentRepository.findOne(id);
+
     if (studentToUpdate !== undefined) {
         if (department !== undefined) {
             const departmentObject = await departmentRepository.findOne(department.id)
@@ -69,6 +70,14 @@ export const updateStudent = async (
                 }
             })
             await studentRepository.save(studentToUpdate);
+        }
+
+        if (department !== undefined) {
+            const departmentObject = await departmentRepository.findOne(department.id)
+            if (departmentObject !== undefined) {
+                studentToUpdate.department = departmentObject;
+                await studentRepository.save(studentToUpdate);
+            }
         }
 
         await userRepository.update(user.id, {
