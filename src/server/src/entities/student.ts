@@ -27,10 +27,10 @@ export class Student {
     classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior';
 
     @Column({ nullable: true })
-    resume: string; 
+    resume: File; 
 
     @Column({ nullable: true })
-    transcript: string; 
+    transcript: File; 
 
     @OneToOne(() => User)
     @JoinColumn()
@@ -46,8 +46,8 @@ export interface IStudent {
     department?: Department;
     sid?: number;
     classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior';
-    resume?: string; 
-    transcript?: string; 
+    resume?: File; 
+    transcript?: File; 
     user: IUser;
     courses?: Course[];
 }
