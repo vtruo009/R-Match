@@ -30,8 +30,8 @@ export interface IStudentProfileForm {
     classStanding: string; 
     email: string; 
     biography: string;
-    resume: string;
-    transcript: string;
+    resume?: File;
+    transcript?: File;
 };
 
 const formInitialValues: IStudentProfileForm = {
@@ -43,8 +43,8 @@ const formInitialValues: IStudentProfileForm = {
     classStanding: '',
     email: '',
     biography: '',
-    resume: '',
-    transcript: '',  
+    resume: undefined,
+    transcript: undefined,  
 };
 
 const formSchema = yup.object({
