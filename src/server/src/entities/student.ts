@@ -4,12 +4,13 @@ import {
     PrimaryGeneratedColumn,
     OneToOne,
     JoinColumn,
-    OneToMany,
-    ManyToOne
+    ManyToOne,
+    ManyToMany,
+    JoinTable
 } from 'typeorm';
 import { User, IUser } from './user';
 import { Department } from './department';
-import { HasTaken } from './hasTaken';
+import { Course } from './course';
 
 @Entity()
 export class Student {
@@ -29,8 +30,9 @@ export class Student {
     @JoinColumn()
     user: User;
 
-    @OneToMany(() => HasTaken, hasTaken => hasTaken.student)
-    hasTaken: HasTaken[]
+    @ManyToMany(() => Course, course => course.students)
+    @JoinTable()
+    courses: Course[];
 }
 
 export interface IStudent {
@@ -39,4 +41,5 @@ export interface IStudent {
     sid?: number;
     classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior';
     user: IUser;
+    courses?: Course[];
 }
