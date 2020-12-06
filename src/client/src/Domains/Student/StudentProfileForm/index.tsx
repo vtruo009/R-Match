@@ -16,27 +16,25 @@ import {
     createStudentProfile,
 } from 'Domains/Student/api/api';
 
-import {
-    departments,
-} from 'sharedData'
+import { departments } from 'sharedData';
 
 export interface IStudentProfileForm {
-    firstName: string; 
-    middleName: string; 
-    lastName: string; 
+    firstName: string;
+    middleName: string;
+    lastName: string;
     departmentId: string;
-    sid: number; 
-    classStanding: string; 
-    email: string; 
+    sid: number;
+    classStanding: string;
+    email: string;
     biography: string;
 }
 
 const formInitialValues: IStudentProfileForm = {
     firstName: '',
-    middleName: '', 
-    lastName: '', 
+    middleName: '',
+    lastName: '',
     departmentId: '',
-    sid: 0, 
+    sid: 0,
     classStanding: '',
     email: '',
     biography: '',
@@ -47,14 +45,23 @@ const formSchema = yup.object({
     lastName: yup.string().required('Last name is required'),
     departmentId: yup.string().required('Department is required'),
     sid: yup.string().required('Student ID is is required'),
-    classStanding: yup.string().required("Class standing is required"),
-    email: yup.string().required('Email is required').email('Please enter valid email'),
-    biography: yup.string().required("Biography is required")
+    classStanding: yup.string().required('Class standing is required'),
+    email: yup
+        .string()
+        .required('Email is required')
+        .email('Please enter valid email'),
+    biography: yup.string().required('Biography is required'),
 });
 
 function StudentProfileForm() {
-    const [studentProfile, setStudentProfile] = React.useState<IStudentProfileForm>(formInitialValues);
-    const request = React.useCallback(() => createStudentProfile(studentProfile), [studentProfile]);
+    const [
+        studentProfile,
+        setStudentProfile,
+    ] = React.useState<IStudentProfileForm>(formInitialValues);
+    const request = React.useCallback(
+        () => createStudentProfile(studentProfile),
+        [studentProfile]
+    );
     const [snack] = useSnack();
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
@@ -78,7 +85,9 @@ function StudentProfileForm() {
                     <Form>
                         <Grid container spacing={3} alignContent='center'>
                             <Grid item container justify='flex-start'>
-                                <Typography variant='h4'>Create Student Profile</Typography>
+                                <Typography variant='h4'>
+                                    Student Profile
+                                </Typography>
                             </Grid>
                             <Grid item container spacing={5}>
                                 <Grid item md={4} xs={12}>
@@ -122,7 +131,7 @@ function StudentProfileForm() {
                                     <Field
                                         name='sid'
                                         label='SID'
-                                        type = 'number'
+                                        type='number'
                                         component={TextFormField}
                                     />
                                 </Grid>

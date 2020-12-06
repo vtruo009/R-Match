@@ -2,62 +2,75 @@ import React from 'react';
 import Home from 'Pages/Home';
 import SearchJobs from './Pages/SearchJobs';
 import CreateJob from './Pages/CreateJob';
-import CreateFacultyMemberProfile from './Pages/CreateFacultyMemberProfile';
+import Profile from './Pages/Profile';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
-import CreateStudentProfile from './Pages/CreateStudentProfile'; 
 
 import HomeIcon from '@material-ui/icons/Home';
 import AddIcon from '@material-ui/icons/Add';
-import PersonIcon from '@material-ui/icons/Person';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';  
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import PersonIcon from '@material-ui/icons/Person';
 
-const Routes = [
+export interface IRoute {
+    path: string;
+    name: string;
+    component: () => JSX.Element;
+    icon: JSX.Element;
+}
+
+// Add other routes for non-authenticated users
+export const generalRoutes = [
     {
         path: '/',
         name: 'Home',
         component: Home,
         icon: <HomeIcon />,
     },
+];
+
+// Add other routes for non-authenticated users
+export const unauthenticatedRoutes = [
+    {
+        path: '/sign-in',
+        name: 'Sign in',
+        component: SignIn,
+        icon: <PersonIcon />,
+    },
+    {
+        path: '/sign-up',
+        name: 'Sign up',
+        component: SignUp,
+        icon: <PersonAddIcon />,
+    },
+];
+
+// Add other routes that are shared among all users
+export const authenticatedRoutes = [
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile,
+        icon: <PersonIcon />,
+    },
+];
+
+// Add routes specific to students
+export const studentRoutes = [
     {
         path: '/search-jobs',
         name: 'Search Jobs',
         component: SearchJobs,
         icon: <SearchIcon />,
     },
+];
+
+// Add routes specific to faculty members
+export const facultyMemberRoutes = [
     {
         path: '/create-job',
         name: 'Create Job',
         component: CreateJob,
         icon: <AddIcon />,
     },
-    {
-        path:'/create-faculty-member-profile',
-        name: 'Create Faculty Member Profile',
-        component: CreateFacultyMemberProfile,
-        icon: <AccountBoxIcon/>,
-    },
-    {   
-        path: '/sign-in',
-        name: 'Sign In',
-        component: SignIn,
-        icon: <PersonIcon />,
-    },
-    {
-        path: '/sign-up',
-        name: 'Sign Up',
-        component: SignUp,
-        icon: <PersonAddIcon />,
-    },
-    {
-        path:'/create-student-profile',
-        name:'Create Student Profile',
-        component: CreateStudentProfile,
-        icon: <AccountCircleIcon />,
-    },
 ];
-
-export default Routes;

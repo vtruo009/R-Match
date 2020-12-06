@@ -11,32 +11,28 @@ import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import Button from 'Components/Button';
-import {
-    createFacultyMemberProfile,
-} from 'Domains/FacultyMember/api/api';
+import { createFacultyMemberProfile } from 'Domains/FacultyMember/api/api';
 
-import {
-    departments,
-} from 'sharedData'
+import { departments } from 'sharedData';
 
 export interface IFacultyMemberProfileForm {
-    firstName: string; 
-    middleName: string; 
-    lastName: string; 
+    firstName: string;
+    middleName: string;
+    lastName: string;
     departmentId: string;
-    websiteLink: string; 
-    office: string; 
-    title: string; 
-    email: string; 
+    websiteLink: string;
+    office: string;
+    title: string;
+    email: string;
     biography: string;
 }
 
 const formInitialValues: IFacultyMemberProfileForm = {
     firstName: '',
-    middleName: '', 
-    lastName: '', 
+    middleName: '',
+    lastName: '',
     departmentId: '',
-    websiteLink: '', 
+    websiteLink: '',
     office: '',
     title: '',
     email: '',
@@ -48,15 +44,24 @@ const formSchema = yup.object({
     lastName: yup.string().required('Last name is required'),
     departmentId: yup.string().required('Department is required'),
     websiteLink: yup.string().required('Website link is required'),
-    office: yup.string().required("Office location is required"),
-    title: yup.string().required("Title is required"),
-    email: yup.string().required('Email is required').email('Please enter valid email'),
-    biography: yup.string().required("Biography is required")
+    office: yup.string().required('Office location is required'),
+    title: yup.string().required('Title is required'),
+    email: yup
+        .string()
+        .required('Email is required')
+        .email('Please enter valid email'),
+    biography: yup.string().required('Biography is required'),
 });
 
 function FacultyMemberProfileForm() {
-    const [facultyMemberProfile, setFacultyMemberProfile] = React.useState<IFacultyMemberProfileForm>(formInitialValues);
-    const request = React.useCallback(() => createFacultyMemberProfile(facultyMemberProfile), [facultyMemberProfile]);
+    const [
+        facultyMemberProfile,
+        setFacultyMemberProfile,
+    ] = React.useState<IFacultyMemberProfileForm>(formInitialValues);
+    const request = React.useCallback(
+        () => createFacultyMemberProfile(facultyMemberProfile),
+        [facultyMemberProfile]
+    );
     const [snack] = useSnack();
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
@@ -80,7 +85,9 @@ function FacultyMemberProfileForm() {
                     <Form>
                         <Grid container spacing={3} alignContent='center'>
                             <Grid item container justify='flex-start'>
-                                <Typography variant='h4'>Create Faculty Member Profile</Typography>
+                                <Typography variant='h4'>
+                                    Faculty Member Profile
+                                </Typography>
                             </Grid>
                             <Grid item container spacing={5}>
                                 <Grid item md={4} xs={12}>

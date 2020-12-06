@@ -1,39 +1,37 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
-import { IFacultyMember } from '@entities/facultyMember';
+import { IStudent } from '@entities/student';
 import { errors } from '@shared/errors';
 import {
-    createFacultyMember,
-    updateFacultyMember,
-} from '@modules/facultyMember';
+    updateStudent
+} from '@modules/student';
 import logger from '@shared/Logger';
 
 const router = Router();
 
 const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
 
-interface facultyMemberRequest extends Request {
+interface studentRequest extends Request {
     body: {
-        facultyMember: IFacultyMember;
+        student: IStudent;
     };
 }
 
 /******************************************************************************
- *   POST Request example - Update - "POST /api/facultyMember/update-profile"
+ *   POST Request example - Update - "POST /api/student/update-profile"
  ******************************************************************************/
 
-router.post('/update-profile', async (req: facultyMemberRequest, res: Response) => {
-    const { facultyMember } = req.body;
+router.post('/update-profile', async (req: studentRequest, res: Response) => {
+    const { student } = req.body;
     const {
         user,
         departmentId,
-        websiteLink,
-        office,
-        title,
-        id,
-    } = facultyMember;
+        sid,
+        classStanding,
+        id
+    } = student;
 
-    if (!facultyMember) {
+    if (!student) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
@@ -47,12 +45,11 @@ router.post('/update-profile', async (req: facultyMemberRequest, res: Response) 
     }
 
     try {
-        const updateResult = await updateFacultyMember(
+        const updateResult = await updateStudent(
             user,
             departmentId,
-            websiteLink,
-            office,
-            title,
+            sid,
+            classStanding,
             id
         );
         if (updateResult) {
@@ -62,7 +59,7 @@ router.post('/update-profile', async (req: facultyMemberRequest, res: Response) 
             .status(BAD_REQUEST)
             .json({
                 error:
-                    'Faculty member provided does not belong to any record',
+                    'Student provided does not belong to any record',
             })
             .end();
     } catch (error) {
