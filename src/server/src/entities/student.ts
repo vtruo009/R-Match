@@ -37,7 +37,7 @@ export interface IStudent {
     departmentId?: string;
     sid?: number;
     classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior';
-    resume: string; 
-    transcript: string; 
+    resume?: string; 
+    transcript?: string; 
     user: IUser;
 }

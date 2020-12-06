@@ -28,6 +28,8 @@ router.post('/update-profile', async (req: studentRequest, res: Response) => {
         departmentId,
         sid,
         classStanding,
+        resume,
+        transcript,
         id
     } = student;
 
@@ -50,6 +52,8 @@ router.post('/update-profile', async (req: studentRequest, res: Response) => {
             departmentId,
             sid,
             classStanding,
+            resume,
+            transcript,
             id
         );
         if (updateResult) {
