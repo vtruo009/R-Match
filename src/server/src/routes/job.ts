@@ -113,7 +113,8 @@ router.get('/read', async (req: Request, res: Response) => {
         if (type) {
             types = type.split(',');
         }
-        const jobs = await getJobs(
+        // add check to default numOfItems
+        const [jobs, jobsCount] = await getJobs(
             title,
             types,
             startDate,
@@ -122,7 +123,7 @@ router.get('/read', async (req: Request, res: Response) => {
             parseInt(page),
             parseInt(numOfItems),
         );
-        return res.status(OK).json({ jobs }).end();
+        return res.status(OK).json({ jobs, jobsCount }).end();
     } catch (error) {
         logger.err(error);
         return res
