@@ -2,8 +2,9 @@ import {
     Entity,
     Column,
     PrimaryGeneratedColumn,
-    ManyToOne
+    ManyToMany
 } from 'typeorm';
+import { Student } from '../entities/student';
 
 @Entity()
 export class Course {
@@ -13,12 +14,11 @@ export class Course {
     @Column()
     title: string;
 
-    @Column()
-    number: number;
+    @ManyToMany(() => Student, student => student.courses)
+    students: Student[];
 }
 
 export interface ICourse {
     id: number;
     title: string;
-    number: number;
 }
