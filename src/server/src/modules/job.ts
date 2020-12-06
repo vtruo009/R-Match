@@ -105,9 +105,7 @@ export const getJobs = async (
         // .offset((page - 1) * numOfItems)
         .skip((page - 1) * numOfItems)
         .take(numOfItems)
-        // .getManyAndCount(); returns [array, number] but couldn't access the number
-        //.getCount();
-        .getMany();
+        .getManyAndCount(); //returns [array, number] but couldn't access the number
     // return getRepository(Job).find({
     //     where: [
     //         { title: title },

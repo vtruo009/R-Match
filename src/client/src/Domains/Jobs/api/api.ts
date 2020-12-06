@@ -131,7 +131,7 @@ export async function getJobs(
         numOfItems,
     };
     console.log(`numOfItems is ${numOfItems}`); //this logs 3
-    return API.get<{ jobs: IJob[] }>('job/read', { params });
+    return API.get<{ jobs: IJob[], jobsCount: number }>('job/read', { params });
 }
 
 export async function createJob(job: IJobForm) {

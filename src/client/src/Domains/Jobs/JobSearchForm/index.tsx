@@ -15,6 +15,7 @@ import { Pagination } from '@material-ui/lab';
 
 interface props {
     setJobs: (jobs: IJob[]) => void;
+    children: JSX.Element; // react component which is the list of jobs and job description
 }
 
 interface JobSearchFormType {
@@ -37,7 +38,7 @@ const formSchema = yup.object({
 
 const numOfItems = 3;
 
-function JobSearchForm({ setJobs }: props) {
+function JobSearchForm({ setJobs, children }: props) { // actual component and we decompose the props
     const [formState, setFormState] = React.useState<JobSearchFormType>(
         formInitialValues
     );
@@ -57,14 +58,17 @@ function JobSearchForm({ setJobs }: props) {
         [formState, page] //where you put the data that your callback depends on
     );
 
+    // make 2 functions in this form
+
     console.log(`numOfItems in index.tsx is ${numOfItems}`); //this logs 3
     const [sendRequest, isLoading] = useApi(request, { //sendRequest (getJobs()) is connected to request)
         onSuccess: (response) => {
             const jobs = response.data.jobs;
-            if (jobs.length === 0) {
+            const count = response.data.jobsCount;
+            if (jobs.length === 0) { //maybe use count
                 snack('No jobs were found', 'warning');
             } else {
-                setNumOfPages(jobs.length/numOfItems);
+                setNumOfPages(count/numOfItems);
                 setJobs(jobs);
             }
         },
@@ -78,74 +82,82 @@ function JobSearchForm({ setJobs }: props) {
         sendRequest();
     };
     
-    return (
-        <Paper style={{ padding: 30 }}>
-            <Formik
-                validationSchema={formSchema}
-                initialValues={formInitialValues}
-                onSubmit={(formValues) => {
-                    setFormState(formValues);
-                    sendRequest();
-                }}
-            >
-                {() => (
-                    <Form>
-                        <Grid
-                            container
-                            spacing={4}
-                            alignItems='center'
-                            justify='center'
-                        >
-                            <Grid item md={3} xs={12}>
-                                <Field
-                                    name='title'
-                                    label='Title'
-                                    component={TextFormField}
-                                />
-                            </Grid>
+    return ( //after this is the JSX part
+        <div>
+            <Paper style={{ padding: 30 }}>
+                <Formik
+                    validationSchema={formSchema}
+                    initialValues={formInitialValues}
+                    onSubmit={(formValues) => {
+                        setFormState(formValues);
+                        sendRequest(); //new function and calls sendreq inside of it at the end
+                    }}
+                >
+                    {() => (
+                        <Form>
+                            <Grid
+                                container
+                                spacing={4}
+                                alignItems='center'
+                                justify='center'
+                            >
+                                <Grid item md={3} xs={12}>
+                                    <Field
+                                        name='title'
+                                        label='Title'
+                                        component={TextFormField}
+                                    />
+                                </Grid>
 
-                            <Grid item md={2} xs={12}>
-                                <Field
-                                    name='minSalary'
-                                    label='Minimum Salary'
-                                    component={TextFormField}
-                                    type='number'
-                                />
-                            </Grid>
+                                <Grid item md={2} xs={12}>
+                                    <Field
+                                        name='minSalary'
+                                        label='Minimum Salary'
+                                        component={TextFormField}
+                                        type='number'
+                                    />
+                                </Grid>
 
-                            <Grid item md={3} xs={12}>
-                                <Field
-                                    name='minHoursPerWeek'
-                                    label='Minimum hours per week'
-                                    component={TextFormField}
-                                    type='number'
-                                />
+                                <Grid item md={3} xs={12}>
+                                    <Field
+                                        name='minHoursPerWeek'
+                                        label='Minimum hours per week'
+                                        component={TextFormField}
+                                        type='number'
+                                    />
+                                </Grid>
+                                <Grid item md={2} xs={12}>
+                                    <Button
+                                        type='submit'
+                                        isLoading={isLoading}
+                                        startIcon={<SearchIcon />}
+                                    >
+                                        Search
+                                    </Button>
+                                </Grid>
+                                <Grid item md={1} xs={12}>
+                                    {isLoading && <Loader size={50} />}
+                                </Grid>
                             </Grid>
-                            <Grid item md={2} xs={12}>
-                                <Button
-                                    type='submit'
-                                    isLoading={isLoading}
-                                    startIcon={<SearchIcon />}
-                                >
-                                    Search
-                                </Button>
-                            </Grid>
-                            <Grid item md={1} xs={12}>
-                                {isLoading && <Loader size={50} />}
-                            </Grid>
-                        </Grid>
-                    </Form>
-                )}
-            </Formik>
-            <Pagination
-                color='primary'
-                shape='rounded'
-                // need to do count(?) only showing one page right now
-                page={page}
-                count={numOfPages}
-                onChange={handlePageChange}
-            />
-        </Paper>
+                        </Form>
+                    )}
+                </Formik>
+            </Paper>
+            {children}
+            {
+                numOfPages > 1 &&
+                <Grid container justify='center' style={{marginTop:50}}>
+                    <Pagination
+                        color='primary'
+                        shape='rounded'
+                        // need to do count(?) only showing one page right now
+                        page={page}
+                        count={numOfPages}
+                        onChange={handlePageChange}
+                    />
+                </Grid>
+            }
+        </div>
     );
 }
 
