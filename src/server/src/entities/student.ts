@@ -4,8 +4,11 @@ import {
     PrimaryGeneratedColumn,
     OneToOne,
     JoinColumn,
+    ManyToMany,
+    JoinTable
 } from 'typeorm';
 import { User, IUser } from './user';
+import { Course } from './course';
 
 @Entity()
 export class Student {
@@ -24,6 +27,10 @@ export class Student {
     @OneToOne(() => User)
     @JoinColumn()
     user: User;
+
+    @ManyToMany(() => Course, course => course.students)
+    @JoinTable()
+    courses: Course[];
 }
 
 export interface IStudent {
@@ -32,4 +39,5 @@ export interface IStudent {
     sid?: number;
     classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior';
     user: IUser;
+    courses?: Course[];
 }

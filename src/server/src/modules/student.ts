@@ -2,6 +2,7 @@ import { getRepository } from 'typeorm';
 import { Student } from '@entities/student';
 import { IUser, User } from '@entities/user';
 import { IStudent } from '@entities/student';
+import { Course } from '../entities/course';
 
 /**
  * @description Creates a student using an user record from the database
@@ -31,10 +32,32 @@ export const updateStudent = async (
     departmentId: IStudent['departmentId'],
     sid: IStudent['sid'],
     classStanding: IStudent['classStanding'],
+    courses: IStudent['courses'],
     id: number
 ) => {
-    const studentToUpdate = await getRepository(Student).findOne(id);
+    const studentRepository = getRepository(Student);
+    const courseRepository = getRepository(Course);
+    const studentToUpdate = await studentRepository.findOne(id);
     if (studentToUpdate !== undefined) {
+        if (courses !== undefined) {
+            studentToUpdate.courses = [];
+            courses.forEach(async (item: any, index: any) => {
+                // Check if the course exists.
+                const course = await courseRepository.findOne(
+                    { where: { title: item.title } });
+                // If the course does not exist, create new course.
+                if (course === undefined) {
+                    const newCourse = new Course();
+                    newCourse.title = item.title;
+                    await courseRepository.save(newCourse);
+                    item = newCourse;
+                    studentToUpdate.courses.push(newCourse);
+                } else {
+                    studentToUpdate.courses.push(course);
+                }
+            })
+            await studentRepository.save(studentToUpdate);
+        }
         await getRepository(User).update(user.id, {
             biography: user.biography,
             firstName: user.firstName,

@@ -406,7 +406,12 @@ Student API
                     },
                     departmentId: string, // optional
                     sid: number, // optional
-                    classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior'; // optional
+                    classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior', // optional
+                    courses:[
+                        {
+                            title: string
+                        }
+                    ] // optional
                 }
             }
             ```
