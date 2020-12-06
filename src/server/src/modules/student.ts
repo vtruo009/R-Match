@@ -34,6 +34,8 @@ export const updateStudent = async (
     sid: IStudent['sid'],
     classStanding: IStudent['classStanding'],
     courses: IStudent['courses'],
+    resume: IStudent['resume'],
+    transcript: IStudent['transcript'],
     id: number
 ) => {
     const studentRepository = getRepository(Student);
@@ -90,6 +92,8 @@ export const updateStudent = async (
         return studentRepository.update(id, {
             sid,
             classStanding,
+            resume, 
+            transcript,
         });
     }
     return undefined;
