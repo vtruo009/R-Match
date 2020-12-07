@@ -1,70 +1,50 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
-import { IFacultyMember } from '@entities/facultyMember';
+import { ICollege } from '@entities/college';
 import { errors } from '@shared/errors';
 import {
-    createFacultyMember,
-    updateFacultyMember,
-} from '@modules/facultyMember';
+    createcollege
+} from '@modules/college';
 import logger from '@shared/Logger';
 
 const router = Router();
 
 const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
 
-interface facultyMemberRequest extends Request {
+interface collegeRequest extends Request {
     body: {
-        facultyMember: IFacultyMember;
+        college: ICollege;
     };
 }
 
 /******************************************************************************
- *   POST Request example - Update - "POST /api/facultyMember/update-profile"
+ *   POST Request example - create - "POST /api/college/create"
  ******************************************************************************/
 
-router.post('/update-profile', async (req: facultyMemberRequest, res: Response) => {
-    const { facultyMember } = req.body;
+router.post('/create', async (req: collegeRequest, res: Response) => {
+    const { college } = req.body;
     const {
-        user,
-        department,
-        websiteLink,
-        office,
-        title,
-        id,
-    } = facultyMember;
+        name
+    } = college;
 
-    if (!facultyMember) {
+    if (!college) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
     }
 
     // Check if required field is missing.
-    if (!id || !user || !user.id || !user.firstName || !user.lastName) {
+    if (!name) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
     }
 
     try {
-        const updateResult = await updateFacultyMember(
-            user,
-            department,
-            websiteLink,
-            office,
-            title,
-            id
+        await createcollege(
+            name
         );
-        if (updateResult) {
-            return res.status(OK).end();
-        }
-        return res
-            .status(BAD_REQUEST)
-            .json({
-                error:
-                    'Faculty member provided does not belong to any record',
-            })
-            .end();
+        return res.status(CREATED).end();
     } catch (error) {
         logger.err(error);
         return res

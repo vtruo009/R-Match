@@ -366,7 +366,13 @@ Faculty Member API
                         lastName: string,
                         biography: string, // optional
                     },
-                    departmentId: string, // optional
+                    department: {
+                        id: number,
+                        name: string,
+                        college:{
+                            name: string
+                        }
+                    }, // optional
                     websiteLink: string, // optional
                     office: string, // optional
                     title: string // optional
@@ -404,7 +410,13 @@ Student API
                         lastName: string,
                         biography: string, // optional
                     },
-                    departmentId: string, // optional
+                    department: {
+                        id: number,
+                        name: string,
+                        college:{
+                            name: string
+                        }
+                    }, // optional
                     sid: number, // optional
                     classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior', // optional
                     courses:[
@@ -412,6 +424,65 @@ Student API
                             title: string
                         }
                     ] // optional
+                }
+            }
+            ```
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 201
+            -   errors:
+                -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
+
+Department API
+
+-   Interacts with:
+
+    -   Department and College tables
+
+-   Routes:
+
+    -   api/department/create
+
+        -   Creates and saves a department record in the department's table.
+        -   Body:
+            ```
+            {
+                department: {
+                    name: string,
+                    college: {
+                        id: number,
+                        name: string
+					}
+                }
+            }
+            ```
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 201
+            -   errors:
+                -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
+                
+
+College API
+
+-   Interacts with:
+
+    -   College tables
+
+-   Routes:
+
+    -   api/college/create
+
+        -   Creates and saves a college record in the college's table.
+        -   Body:
+            ```
+            {
+                college: {
+                    name: string
                 }
             }
             ```

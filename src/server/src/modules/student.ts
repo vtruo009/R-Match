@@ -3,6 +3,7 @@ import { Student } from '@entities/student';
 import { IUser, User } from '@entities/user';
 import { IStudent } from '@entities/student';
 import { Course } from '../entities/course';
+import { Department } from '@entities/department';
 
 /**
  * @description Creates a student using an user record from the database
@@ -22,23 +23,35 @@ export const createStudent = async (user: IUser) => {
  * @description updates an existing student profile in the database
  * @param id number
  * @param user User
- * @param departmentId string
+ * @param department Department
  * @param sid number
  * @param classStanding 'freshman' | 'sophomore' | 'junior' | 'senior'
  * @returns Promise
  */
 export const updateStudent = async (
     user: IStudent['user'],
-    departmentId: IStudent['departmentId'],
+    department: IStudent['department'],
     sid: IStudent['sid'],
     classStanding: IStudent['classStanding'],
     courses: IStudent['courses'],
     id: number
 ) => {
     const studentRepository = getRepository(Student);
+    const departmentRepository = getRepository(Department);
     const courseRepository = getRepository(Course);
+    const userRepository = getRepository(User);
+
     const studentToUpdate = await studentRepository.findOne(id);
+
     if (studentToUpdate !== undefined) {
+        if (department !== undefined) {
+            const departmentObject = await departmentRepository.findOne(department.id)
+            if (departmentObject !== undefined) {
+                studentToUpdate.department = departmentObject;
+                await studentRepository.save(studentToUpdate);
+            }
+        }
+
         if (courses !== undefined) {
             studentToUpdate.courses = [];
             courses.forEach(async (item: any, index: any) => {
@@ -58,16 +71,25 @@ export const updateStudent = async (
             })
             await studentRepository.save(studentToUpdate);
         }
-        await getRepository(User).update(user.id, {
+
+        if (department !== undefined) {
+            const departmentObject = await departmentRepository.findOne(department.id)
+            if (departmentObject !== undefined) {
+                studentToUpdate.department = departmentObject;
+                await studentRepository.save(studentToUpdate);
+            }
+        }
+
+        await userRepository.update(user.id, {
             biography: user.biography,
             firstName: user.firstName,
             middleName: user.middleName,
             lastName: user.lastName,
         });
-        return getRepository(Student).update(id, {
-            departmentId,
+
+        return studentRepository.update(id, {
             sid,
-            classStanding
+            classStanding,
         });
     }
     return undefined;
