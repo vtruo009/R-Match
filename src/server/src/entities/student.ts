@@ -4,13 +4,11 @@ import {
     PrimaryGeneratedColumn,
     OneToOne,
     JoinColumn,
-    ManyToOne,
     ManyToMany,
     JoinTable,
     ManyToOne
 } from 'typeorm';
 import { User, IUser } from './user';
-import { Department } from './department';
 import { Course } from './course';
 import { Department } from './department';
 
