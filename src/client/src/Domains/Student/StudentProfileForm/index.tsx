@@ -54,7 +54,11 @@ const formSchema = yup.object({
     sid: yup.string().required('Student ID is is required'),
     classStanding: yup.string().required("Class standing is required"),
     email: yup.string().required('Email is required').email('Please enter valid email'),
-    biography: yup.string().required("Biography is required")
+    biography: yup.string().required("Biography is required"),
+    resume: yup.mixed().test('fileFormat', 'PDF only', (value) => {console.log(value); 
+            return value && ['application/pdf'].includes(value.type);}),
+    transcript: yup.mixed().test('fileFormat', 'PDF only', (value) => {console.log(value); 
+        return value && ['application/pdf'].includes(value.type);}),
 });
     
 function StudentProfileForm() {
