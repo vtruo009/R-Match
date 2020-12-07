@@ -5,7 +5,7 @@ import useSnack from 'hooks/useSnack';
 type apiReturn = [SendRequest: () => void, IsLoading: boolean];
 interface Handlers<T> {
     onSuccess?: (response: AxiosResponse<T>) => void;
-    onFailure?: (error: Error) => void;
+    onFailure?: (error: Error, response?: AxiosResponse<T>) => void;
 }
 export default function useApi<T>(
     endpoint: () => Promise<AxiosResponse<T>>,
@@ -18,7 +18,7 @@ export default function useApi<T>(
 
     React.useEffect(() => {
         const defaultError = (error: Error) => {
-            console.log(error.message);
+            console.log(error);
             snack('Something went wrong! Please try again', 'error');
         };
         const defaultSuccess = () => {
@@ -41,12 +41,14 @@ export default function useApi<T>(
                     endpoint(),
                     minWaitTime(),
                 ]);
-
                 setIsLoading(false);
                 if (promiseResponse.status === 'fulfilled') {
                     actualOnSuccess(promiseResponse.value);
                 } else {
-                    actualOnFailure(new Error('Sending the request failed'));
+                    actualOnFailure(
+                        promiseResponse.reason,
+                        promiseResponse.reason.response
+                    );
                 }
             } catch (error) {
                 setIsLoading(false);
