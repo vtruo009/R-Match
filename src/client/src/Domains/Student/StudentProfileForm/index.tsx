@@ -52,12 +52,19 @@ const formSchema = yup.object({
     lastName: yup.string().required('Last name is required'),
     departmentId: yup.string().required('Department is required'),
     sid: yup.string().required('Student ID is is required'),
-    classStanding: yup.string().required("Class standing is required"),
-    email: yup.string().required('Email is required').email('Please enter valid email'),
-    biography: yup.string().required("Biography is required"),
-    resume: yup.mixed().test('fileFormat', 'PDF only', (value) => {console.log(value); 
+    classStanding: yup.string().required('Class standing is required'),
+    email: yup
+        .string()
+        .required('Email is required')
+        .email('Please enter valid email'),
+    biography: yup.string().required('Biography is required'),
+    resume: yup
+        .mixed()
+        .test('fileFormat', 'PDF only', (value) => { 
             return value && ['application/pdf'].includes(value.type);}),
-    transcript: yup.mixed().test('fileFormat', 'PDF only', (value) => {console.log(value); 
+    transcript: yup
+        .mixed()
+        .test('fileFormat', 'PDF only', (value) => { 
         return value && ['application/pdf'].includes(value.type);}),
 });
     
