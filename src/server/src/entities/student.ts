@@ -10,7 +10,7 @@ import {
     ManyToOne,
     BaseEntity,
 } from 'typeorm';
-import { User } from './user';
+import { User, JWTUser } from './user';
 import { Course } from './course';
 import { Department } from './department';
 import { JobApplication } from './jobApplication';
@@ -35,6 +35,12 @@ export class Student extends BaseEntity {
     @Column()
     userId: number;
 
+    @Column({ nullable: true })
+    resume: File;  
+
+    @Column({ nullable: true })
+    transcript: File; 
+
     @OneToOne(() => User)
     @JoinColumn()
     user: User;
@@ -45,4 +51,15 @@ export class Student extends BaseEntity {
 
     @OneToMany(() => JobApplication, (jobApplication) => jobApplication.student)
     public jobApplications: JobApplication[];
+
+}
+
+export interface IStudent {
+    id: number;
+    departmentId?: string;
+    sid?: number;
+    classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior';
+    resume?: File;
+    transcript?: File;
+    user: JWTUser;
 }
