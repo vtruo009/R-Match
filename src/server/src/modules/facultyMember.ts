@@ -54,8 +54,7 @@ export const updateFacultyMember = async (
             middleName: user.middleName,
             lastName: user.lastName,
         });
-        return await facultyMemberRepository.update(id, {
-            department,
+        return facultyMemberRepository.update(id, {
             websiteLink,
             office,
             title,

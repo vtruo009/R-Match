@@ -19,6 +19,6 @@ export const createDepartment = async (
         const department = new Department();
         department.name = name;
         department.college = collegeObject;
-        await departmentRepository.save(department);
+        return departmentRepository.save(department);
     }
 };

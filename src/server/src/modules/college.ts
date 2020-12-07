@@ -8,8 +8,10 @@ import { getRepository } from 'typeorm';
 export const createcollege = async (
     name: ICollege['name']
 ) => {
-    const college = new College();
-    college.name = name;
-    college.departments = [];
-    await getRepository(College).save(college);
+    const repository = getRepository(College);
+    const collegeToInsert = repository.create({
+        name,
+        departments: [],
+    });
+    return repository.save(collegeToInsert);
 };
