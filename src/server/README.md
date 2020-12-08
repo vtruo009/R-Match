@@ -389,7 +389,7 @@ Faculty Member API
                 
     -   api/facultyMember/get-profile
 
-        -   Returns an existing faculty member object and associated user, department, and course object from the database.
+        -   Returns an existing faculty member object and associated user, department, and course objects from the database.
         -   Body:
             ```
             {
@@ -426,6 +426,12 @@ Faculty Member API
                         title: string // optional
                     }
                 }
+                ```
+            -   error:
+                Internal server error -> Status code: 500
+            -   errors:
+                -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
 
 Student API
 
@@ -477,7 +483,7 @@ Student API
                 
     -   api/student/get-profile
 
-        -   Returns an existing student object and associated user, department, and course object from the database.
+        -   Returns an existing student object and associated user, department, and course objects from the database.
         -   Body:
             ```
             {
