@@ -95,3 +95,16 @@ export const updateStudent = async (
     return undefined;
 };
 
+export const getStudentProfile = async (
+    id: number
+) => {
+    return getRepository(Student)
+        .createQueryBuilder("student")
+        .where({ id })
+        .leftJoinAndSelect("student.user", "user")
+        .leftJoinAndSelect("student.department", "department")
+        .leftJoinAndSelect("department.college", "college")
+        .leftJoinAndSelect("student.courses", "courses")
+        .getOneOrFail();
+};
+

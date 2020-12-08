@@ -386,6 +386,46 @@ Faculty Member API
             -   errors:
                 -   Missing fields in body -> Status code: 400
                 -   Internal server error -> Status code: 500
+                
+    -   api/facultyMember/get-profile
+
+        -   Returns an existing faculty member object and associated user, department, and course object from the database.
+        -   Body:
+            ```
+            {
+                id: number
+            }
+            ```
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 200
+                ```
+                {
+                    facultyMember: {
+                        id: number,
+                        user:{
+                            id: number,
+                            email: : string,
+                            password: : string, // Encoded
+                            biography: string,
+                            firstName: string,
+                            lastName: string,
+                            middleName: string,
+                            role: 'student'
+                        },
+                        department: {
+                            id: number,
+                            name: string,
+                            college:{
+                                name: string
+                            }
+                        }, // optional
+                        websiteLink: string, // optional
+                        office: string, // optional
+                        title: string // optional
+                    }
+                }
 
 Student API
 
@@ -434,7 +474,57 @@ Student API
             -   errors:
                 -   Missing fields in body -> Status code: 400
                 -   Internal server error -> Status code: 500
+                
+    -   api/student/get-profile
 
+        -   Returns an existing student object and associated user, department, and course object from the database.
+        -   Body:
+            ```
+            {
+                id: number
+            }
+            ```
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 200
+                ```
+                {
+                    student: {
+                        id: number,
+                        sid: number,
+                        classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior',
+                        user: {
+                            id: number,
+                            email: : string,
+                            password: : string, // Encoded
+                            biography: string,
+                            firstName: string,
+                            lastName: string,
+                            middleName: string,
+                            role: 'student'
+                        },
+                        department: {
+                            id: number,
+                            name: string,
+                            college: {
+                                id: number,
+                                name: string
+                            }
+                        },
+                        courses: {
+                                "id": 5,
+                                "title": "CS200"
+                        }[]
+                    }
+                }
+                ```
+            -   error:
+                Internal server error -> Status code: 500
+            -   errors:
+                -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
+                
 Department API
 
 -   Interacts with:

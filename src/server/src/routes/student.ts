@@ -3,7 +3,8 @@ import { Request, Response, Router } from 'express';
 import { IStudent } from '@entities/student';
 import { errors } from '@shared/errors';
 import {
-    updateStudent
+    updateStudent,
+    getStudentProfile
 } from '@modules/student';
 import logger from '@shared/Logger';
 
@@ -64,6 +65,30 @@ router.post('/update-profile', async (req: studentRequest, res: Response) => {
                     'Student provided does not belong to any record',
             })
             .end();
+    } catch (error) {
+        logger.err(error);
+        return res
+            .status(INTERNAL_SERVER_ERROR)
+            .json(errors.internalServerError)
+            .end();
+    }
+});
+
+/******************************************************************************
+ *          GET Request - Read - "GET /api/student/get-profile"
+ ******************************************************************************/
+
+router.get('/get-profile', async (req: Request, res: Response) => {
+    const { id } = req.body;
+    try {
+        if (!id) {
+            return res.status(BAD_REQUEST).json({
+                error: errors.paramMissingError,
+            });
+        }
+
+        const student = await getStudentProfile(id);
+        return res.status(OK).json({ student }).end();
     } catch (error) {
         logger.err(error);
         return res

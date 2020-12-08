@@ -3,7 +3,7 @@ import { Request, Response, Router } from 'express';
 import { IFacultyMember } from '@entities/facultyMember';
 import { errors } from '@shared/errors';
 import {
-    createFacultyMember,
+    getFacultyMemberProfile,
     updateFacultyMember,
 } from '@modules/facultyMember';
 import logger from '@shared/Logger';
@@ -65,6 +65,30 @@ router.post('/update-profile', async (req: facultyMemberRequest, res: Response) 
                     'Faculty member provided does not belong to any record',
             })
             .end();
+    } catch (error) {
+        logger.err(error);
+        return res
+            .status(INTERNAL_SERVER_ERROR)
+            .json(errors.internalServerError)
+            .end();
+    }
+});
+
+/******************************************************************************
+ *          GET Request - Read - "GET /api/facultyMember/get-profile"
+ ******************************************************************************/
+
+router.get('/get-profile', async (req: Request, res: Response) => {
+    const { id } = req.body;
+    try {
+        if (!id) {
+            return res.status(BAD_REQUEST).json({
+                error: errors.paramMissingError,
+            });
+        }
+
+        const facultyMember = await getFacultyMemberProfile(id);
+        return res.status(OK).json({ facultyMember }).end();
     } catch (error) {
         logger.err(error);
         return res
