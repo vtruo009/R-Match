@@ -100,7 +100,7 @@ router.get('/get-profile', async (req: Request, res: Response) => {
             .json(errors.internalServerError)
             .end();
     }
-);
+});
 
 /******************************************************************************
  *                                     Export
