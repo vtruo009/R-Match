@@ -25,9 +25,10 @@ router.post('/update-profile', async (req: studentRequest, res: Response) => {
     const { student } = req.body;
     const {
         user,
-        departmentId,
+        department,
         sid,
         classStanding,
+        courses,
         id
     } = student;
 
@@ -47,9 +48,10 @@ router.post('/update-profile', async (req: studentRequest, res: Response) => {
     try {
         const updateResult = await updateStudent(
             user,
-            departmentId,
+            department,
             sid,
             classStanding,
+            courses,
             id
         );
         if (updateResult) {

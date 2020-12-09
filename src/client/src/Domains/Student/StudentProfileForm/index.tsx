@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Formik, Form, Field} from 'formik';
 import * as yup from 'yup';
+import { SimpleFileUpload } from 'formik-material-ui';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
@@ -30,7 +31,9 @@ export interface IStudentProfileForm {
     email: string;
     biography: string;
     courses: string [];
-}
+    resume?: File;
+    transcript?: File;
+};
 
 const formInitialValues: IStudentProfileForm = {
     firstName: '',
@@ -42,6 +45,8 @@ const formInitialValues: IStudentProfileForm = {
     email: '',
     biography: '',
     courses: [''],
+    resume: undefined,
+    transcript: undefined,  
 };
 
 const formSchema = yup.object({
@@ -55,8 +60,16 @@ const formSchema = yup.object({
         .required('Email is required')
         .email('Please enter valid email'),
     biography: yup.string().required('Biography is required'),
+    resume: yup
+        .mixed()
+        .test('fileFormat', 'PDF only', (value) => { 
+            return value && ['application/pdf'].includes(value.type);}),
+    transcript: yup
+        .mixed()
+        .test('fileFormat', 'PDF only', (value) => {  
+            return value && ['application/pdf'].includes(value.type);}),
 });
-
+    
 function StudentProfileForm() {
     const [
         studentProfile,
@@ -77,7 +90,9 @@ function StudentProfileForm() {
             <Formik
                 validationSchema={formSchema}
                 initialValues={formInitialValues}
-                onSubmit={(formValues, actions) => {
+                onSubmit={(formValues, actions) => 
+                    {
+                    console.log(formValues);
                     setStudentProfile(formValues);
                     sendRequest();
                     actions.resetForm({
@@ -144,6 +159,28 @@ function StudentProfileForm() {
                                         name='email'
                                         label='Email'
                                         component={TextFormField}
+                                    />
+                                </Grid>
+                                <Grid item md={6} xs={12}>
+                                    <Field
+                                        name='resume'
+                                        label='Resume'
+                                        type='file'
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        component={SimpleFileUpload}
+                                    />
+                                </Grid>
+                                <Grid item md={6} xs={12}>
+                                    <Field
+                                        name='transcript'
+                                        label='Transcript'
+                                        type='file'
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        component={SimpleFileUpload}
                                     />
                                 </Grid>
                                 <Grid item md={12} xs={12}>
