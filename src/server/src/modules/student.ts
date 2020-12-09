@@ -44,7 +44,7 @@ export const updateStudent = async (
         return getRepository(Student).update(id, {
             departmentId,
             sid,
-            classStanding,
+            classStanding
         });
     }
     return undefined;
