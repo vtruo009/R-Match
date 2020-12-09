@@ -44,9 +44,9 @@ const formInitialValues: IStudentProfileForm = {
     classStanding: '',
     email: '',
     biography: '',
+    courses: [],
     resume: undefined,
     transcript: undefined,  
-    courses: [''],
 };
 
 const formSchema = yup.object({
