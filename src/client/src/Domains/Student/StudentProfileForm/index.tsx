@@ -16,7 +16,9 @@ import {
     createStudentProfile,
 } from 'Domains/Student/api/api';
 
-import { departments } from 'sharedData';
+import { departments,
+         courseList 
+} from 'sharedData';
 
 export interface IStudentProfileForm {
     firstName: string;
@@ -156,8 +158,9 @@ function StudentProfileForm() {
                                     <Field
                                         name = 'courses'
                                         label = 'Courses'
-                                        multiline
-                                        component={TextFormField}
+                                        options = {courseList}
+                                        multiple
+                                        component={SelectFormField}
                                     />
                                 </Grid>
                             </Grid>
