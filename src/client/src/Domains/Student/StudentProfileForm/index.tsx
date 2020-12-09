@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field} from 'formik';
 import * as yup from 'yup';
 import { SimpleFileUpload } from 'formik-material-ui';
 
@@ -17,7 +17,9 @@ import {
     createStudentProfile,
 } from 'Domains/Student/api/api';
 
-import { departments } from 'sharedData';
+import { departments,
+         courseList 
+} from 'sharedData';
 
 export interface IStudentProfileForm {
     firstName: string;
@@ -28,6 +30,7 @@ export interface IStudentProfileForm {
     classStanding: string;
     email: string;
     biography: string;
+    courses: string [];
     resume?: File;
     transcript?: File;
 };
@@ -41,6 +44,7 @@ const formInitialValues: IStudentProfileForm = {
     classStanding: '',
     email: '',
     biography: '',
+    courses: [],
     resume: undefined,
     transcript: undefined,  
 };
@@ -185,6 +189,15 @@ function StudentProfileForm() {
                                         label='Biography'
                                         multiline
                                         component={TextFormField}
+                                    />
+                                </Grid>
+                                <Grid item md={12} xs={12}>
+                                    <Field
+                                        name = 'courses'
+                                        label = 'Courses'
+                                        options = {courseList}
+                                        multiple
+                                        component={SelectFormField}
                                     />
                                 </Grid>
                             </Grid>
