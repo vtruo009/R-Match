@@ -89,7 +89,7 @@ export const updateStudent = async (
 
         return studentRepository.update(id, {
             sid,
-            classStanding,
+            classStanding
         });
     }
     return undefined;
