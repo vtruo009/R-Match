@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field} from 'formik';
 import * as yup from 'yup';
 
 import useApi from 'hooks/useApi';
@@ -27,6 +27,7 @@ export interface IStudentProfileForm {
     classStanding: string;
     email: string;
     biography: string;
+    courses: string [];
 }
 
 const formInitialValues: IStudentProfileForm = {
@@ -38,6 +39,7 @@ const formInitialValues: IStudentProfileForm = {
     classStanding: '',
     email: '',
     biography: '',
+    courses: [''],
 };
 
 const formSchema = yup.object({
@@ -146,6 +148,14 @@ function StudentProfileForm() {
                                     <Field
                                         name='biography'
                                         label='Biography'
+                                        multiline
+                                        component={TextFormField}
+                                    />
+                                </Grid>
+                                <Grid item md={12} xs={12}>
+                                    <Field
+                                        name = 'courses'
+                                        label = 'Courses'
                                         multiline
                                         component={TextFormField}
                                     />
