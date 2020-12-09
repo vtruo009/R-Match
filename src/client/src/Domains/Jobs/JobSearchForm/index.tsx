@@ -87,8 +87,8 @@ function JobSearchForm({ setJobs, children }: props) { // actual component and w
             setPage(1);
         }
         sendRequest();
-
     }
+    
     return ( //after this is the JSX part
         <div>
             <Paper style={{ padding: 30 }}>
