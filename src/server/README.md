@@ -98,12 +98,14 @@ Job API
         -   Returns all job objects from database
         -   Body: None
         -   Parameters: None
+        -   Authorization restrictions:
+            -   User must be logged in
         -   Response:
             -   success:
                 Status code: 200
                 ```
                 {
-                    job: {
+                    jobs: {
                         id: number,
                         targetYears: string[],
                         hoursPerWeek: number,
@@ -120,7 +122,8 @@ Job API
                 }
                 ```
             -   error:
-                Internal server error -> Status code: 500
+                - Internal server error -> Status code: 500
+                - Unauthorized user -> Status code: 401
 
     -   api/job/create
 
@@ -144,12 +147,16 @@ Job API
                 }
             }
             ```
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be faculty member
         -   Parameters: None
         -   Response:
             -   success:
-                Status code: 201
+                    Status code: 201
             -   errors:
                 -   Missing fields in body -> Status code: 400
+                -   Unauthorized user -> Status code: 401
                 -   Internal server error -> Status code: 500
 
     -   api/job/update

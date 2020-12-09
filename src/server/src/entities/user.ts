@@ -37,3 +37,18 @@ export interface IUser {
     lastName: string;
     role: 'student' | 'facultyMember';
 }
+
+export interface JWTUser {
+    userId: number;
+    role: 'student' | 'facultyMember';
+    firstName: string;
+    lastName: string;
+}
+
+export interface JWTStudent extends JWTUser {
+    studentId: number;
+}
+
+export interface JWTFacultyMember extends JWTUser {
+    facultyMemberId: number;
+}

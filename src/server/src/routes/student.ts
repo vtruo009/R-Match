@@ -24,14 +24,7 @@ interface studentRequest extends Request {
 
 router.post('/update-profile', async (req: studentRequest, res: Response) => {
     const { student } = req.body;
-    const {
-        user,
-        department,
-        sid,
-        classStanding
-        courses,
-        id
-    } = student;
+    const { user, department, sid, classStanding, courses, id } = student;
 
     if (!student) {
         return res.status(BAD_REQUEST).json({
@@ -53,8 +46,6 @@ router.post('/update-profile', async (req: studentRequest, res: Response) => {
             sid,
             classStanding,
             courses,
-            resume,
-            transcript,
             id
         );
         if (updateResult) {
@@ -63,8 +54,7 @@ router.post('/update-profile', async (req: studentRequest, res: Response) => {
         return res
             .status(BAD_REQUEST)
             .json({
-                error:
-                    'Student provided does not belong to any record',
+                error: 'Student provided does not belong to any record',
             })
             .end();
     } catch (error) {

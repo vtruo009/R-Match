@@ -1,7 +1,9 @@
 import { IJob, Job } from '@entities/job';
-import { getRepository, MoreThanOrEqual, In, Any } from 'typeorm';
+import { FacultyMember } from '@entities/facultyMember';
+import { getRepository } from 'typeorm';
+
 /**
- * @description saves a new job in the database
+ * @description saves a new job in the database ans assigns a relationship of job-facultyMember. If faculty member does not exist it throws an error
  * @param targetYears string[]
  * @param hoursPerWeek number
  * @param description string
@@ -16,7 +18,7 @@ import { getRepository, MoreThanOrEqual, In, Any } from 'typeorm';
  * @param departmentId string
  * @returns Promise
  */
-export const createJob = (
+export const createJob = async (
     targetYears: IJob['targetYears'],
     hoursPerWeek: IJob['hoursPerWeek'],
     description: IJob['description'],
@@ -28,7 +30,8 @@ export const createJob = (
     status: IJob['status'],
     minSalary: IJob['minSalary'],
     maxSalary: IJob['maxSalary'],
-    departmentId: IJob['departmentId']
+    departmentId: IJob['departmentId'],
+    facultyMemberId: number
 ) => {
     const startDateAsDate = new Date(startDate);
 
@@ -52,8 +55,21 @@ export const createJob = (
         maxSalary = minSalary;
     }
 
-    const repository = getRepository(Job);
-    const jobToInsert = repository.create({
+    const today = new Date();
+
+    const jobRepository = getRepository(Job);
+    const facultyMemberRepository = getRepository(FacultyMember);
+
+    const facultyToUpdate = await facultyMemberRepository.findOne({
+        where: { id: facultyMemberId },
+        relations: ['jobs'],
+    });
+
+    if (!facultyToUpdate) {
+        throw Error('Faculty member that posted the job does not exist');
+    }
+
+    const jobToInsert = jobRepository.create({
         targetYears: targetYears,
         hoursPerWeek: hoursPerWeek,
         description: description,
@@ -66,55 +82,33 @@ export const createJob = (
         departmentId: departmentId,
         endDate: endDateAsDate,
         maxSalary: maxSalary,
+        postedOn: today,
     });
-    return repository.save(jobToInsert);
+    // Save new job created
+    await jobRepository.save(jobToInsert);
+    // Add relationship between job and faculty member
+    facultyToUpdate.jobs.push(jobToInsert);
+    // save relationship
+    return facultyMemberRepository.save(facultyToUpdate);
 };
 
 /**
  * @description gets all sample documents from the database
  * @returns Promise<Job[]>
  */
-
-export const getJobs = async (
-    title: string,
-    types: string[],
-    startDate: string,
-    minSalary: number,
-    hoursPerWeek: number,
-    page: number,
-    numOfItems: number,
-) => {
-
-    console.log(`numOfItems in jobs.ts/modules is ${numOfItems}`); //this logs NaN
-    return await getRepository(Job)
+export const getJobs = () => {
+    return getRepository(Job)
         .createQueryBuilder('job')
-        // Accomplishes substring matching using PostgreSQL pattern matching. 
-        // Note: Any job title matches the pattern of a empty title. 
-        // I think we should obligate the user to enter a job title
-        .where('LOWER(job.title) LIKE :title', {
-            title: `%${title.toLowerCase()}%`,
-        })
-        .orWhere('job.type IN (:...types)', { types })
-        // For some reason startDate filtering is not quite working
-        // .orWhere('job.startDate >= :startDate ', {
-        //     startDate,
-        // })
-        .orWhere('job.minSalary >= :minSalary', { minSalary })
-        .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
-        // .limit(numOfItems)
-        // .offset((page - 1) * numOfItems)
-        .skip((page - 1) * numOfItems)
-        .take(numOfItems)
-        .getManyAndCount(); //returns [array, number] but couldn't access the number
-    // return getRepository(Job).find({
-    //     where: [
-    //         { title: title },
-    //         { type: In(types) },
-    //         { startDate: MoreThanOrEqual(startDate) },
-    //         { minSalary: MoreThanOrEqual(minSalary) },
-    //         { hoursPerWeek: MoreThanOrEqual(hoursPerWeek) },
-    //     ],
-    // });
+        .select([
+            'job',
+            'facultyMember.id',
+            'facultyMember.title',
+            'user.firstName',
+            'user.lastName',
+        ])
+        .leftJoin('job.facultyMember', 'facultyMember')
+        .leftJoin('facultyMember.user', 'user')
+        .getMany();
 };
 
 /**
