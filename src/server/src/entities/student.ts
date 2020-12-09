@@ -21,12 +21,6 @@ export class Student {
     @Column({ nullable: true })
     classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior';
 
-    @Column({ nullable: true })
-    resume: File; 
-
-    @Column({ nullable: true })
-    transcript: File; 
-
     @OneToOne(() => User)
     @JoinColumn()
     user: User;
@@ -37,7 +31,5 @@ export interface IStudent {
     departmentId?: string;
     sid?: number;
     classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior';
-    resume?: File; 
-    transcript?: File; 
     user: IUser;
 }
