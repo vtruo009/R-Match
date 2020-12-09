@@ -4,16 +4,21 @@ import {
     PrimaryGeneratedColumn,
     OneToOne,
     JoinColumn,
+    ManyToMany,
+    JoinTable,
+    ManyToOne
 } from 'typeorm';
 import { User, IUser } from './user';
+import { Course } from './course';
+import { Department } from './department';
 
 @Entity()
 export class Student {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ nullable: true })
-    departmentId: string;
+    @ManyToOne(() => Department, { nullable: true })
+    department: Department;
 
     @Column({ nullable: true })
     sid: number;
@@ -24,12 +29,17 @@ export class Student {
     @OneToOne(() => User)
     @JoinColumn()
     user: User;
+
+    @ManyToMany(() => Course, course => course.students)
+    @JoinTable()
+    courses: Course[];
 }
 
 export interface IStudent {
     id: number;
-    departmentId?: string;
-    sid: number;
-    classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior';
+    department?: Department;
+    sid?: number;
+    classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior';
     user: IUser;
+    courses?: Course[];
 }

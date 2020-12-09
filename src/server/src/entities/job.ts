@@ -5,7 +5,7 @@ export class Job {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column("simple-array")
+    @Column('simple-array')
     targetYears: string[];
 
     @Column()
@@ -23,7 +23,7 @@ export class Job {
     @Column({ nullable: true })
     endDate: Date;
 
-    @Column("simple-array")
+    @Column('simple-array')
     type: string[];
 
     @Column()
