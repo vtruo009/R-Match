@@ -16,11 +16,17 @@ interface jobRequest extends Request {
 }
 
 /******************************************************************************
- *            POST Request example - Create - "POST /api/job/create"
+ *            POST Request - Create - /api/job/create
  ******************************************************************************/
 
 router.post('/create', async (req: jobRequest, res: Response) => {
     const { job } = req.body;
+    if (!job) {
+        return res.status(BAD_REQUEST).json({
+            error: errors.paramMissingError,
+        });
+    }
+
     const {
         targetYears,
         hoursPerWeek,
@@ -35,11 +41,7 @@ router.post('/create', async (req: jobRequest, res: Response) => {
         maxSalary,
         departmentId,
     } = job;
-    if (!job) {
-        return res.status(BAD_REQUEST).json({
-            error: errors.paramMissingError,
-        });
-    }
+
     if (
         !targetYears ||
         !hoursPerWeek ||
@@ -56,23 +58,6 @@ router.post('/create', async (req: jobRequest, res: Response) => {
         });
     }
     try {
-        // Check if required field is missing.
-        if (
-            !targetYears ||
-            !hoursPerWeek ||
-            !description ||
-            !startDate ||
-            !type ||
-            !title ||
-            !status ||
-            minSalary === undefined ||
-            !departmentId
-        ) {
-            return res.status(BAD_REQUEST).json({
-                error: errors.paramMissingError,
-            });
-        }
-
         await createJob(
             targetYears,
             hoursPerWeek,
@@ -97,8 +82,20 @@ router.post('/create', async (req: jobRequest, res: Response) => {
     }
 });
 
+/******************************************************************************
+ *            GET Request - Read - /api/job/read
+ ******************************************************************************/
+
 router.get('/read', async (req: Request, res: Response) => {
-    let { title, type, startDate, minSalary, hoursPerWeek, page, numOfItems } = req.query as {
+    let {
+        title,
+        type,
+        startDate,
+        minSalary,
+        hoursPerWeek,
+        page,
+        numOfItems,
+    } = req.query as {
         title: string;
         type: string;
         startDate: string;
@@ -109,14 +106,7 @@ router.get('/read', async (req: Request, res: Response) => {
     };
 
     try {
-        // if (!minSalary && !type && !hoursPerWeek && !startDate) {
-        //     const jobs = await getJobs(title, [''], new Date(), 0, 0);
-        //     return res.status(OK).json({ jobs }).end();
-        // }
-        
         let types: string[] = [''];
-        // If user doesn't provide title then now it needs to be set to empty string.
-        // Otherwise I get an error
         if (!title) {
             title = '';
         }
@@ -132,7 +122,6 @@ router.get('/read', async (req: Request, res: Response) => {
         if (type) {
             types = type.split(',');
         }
-        // add check to default numOfItems
         const [jobs, jobsCount] = await getJobs(
             title,
             types,
@@ -140,7 +129,7 @@ router.get('/read', async (req: Request, res: Response) => {
             parseInt(minSalary),
             parseInt(hoursPerWeek),
             parseInt(page),
-            parseInt(numOfItems),
+            parseInt(numOfItems)
         );
         return res.status(OK).json({ jobs, jobsCount }).end();
     } catch (error) {
@@ -153,11 +142,18 @@ router.get('/read', async (req: Request, res: Response) => {
 });
 
 /******************************************************************************
- *             POST Request example - Update - "POST /api/job/update"
+ *             POST Request - Update - /api/job/update
  ******************************************************************************/
 
 router.post('/update', async (req: jobRequest, res: Response) => {
     const { job } = req.body;
+
+    if (!job) {
+        return res.status(BAD_REQUEST).json({
+            error: errors.paramMissingError,
+        });
+    }
+
     const {
         targetYears,
         hoursPerWeek,
@@ -173,11 +169,7 @@ router.post('/update', async (req: jobRequest, res: Response) => {
         departmentId,
         id,
     } = job;
-    if (!job) {
-        return res.status(BAD_REQUEST).json({
-            error: errors.paramMissingError,
-        });
-    }
+
     if (
         !id ||
         !targetYears ||
@@ -221,7 +213,7 @@ router.post('/update', async (req: jobRequest, res: Response) => {
 });
 
 /******************************************************************************
- *        DELETE Request example - Delete - "DELETE /api/job/delete/:id"
+ *        DELETE Request - Delete - /api/job/delete/:id
  ******************************************************************************/
 
 router.delete('/delete/:id', async (req: jobRequest, res: Response) => {

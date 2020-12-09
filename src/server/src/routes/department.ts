@@ -2,9 +2,7 @@ import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import { IDepartment } from '@entities/department';
 import { errors } from '@shared/errors';
-import {
-    createDepartment,
-} from '@modules/department';
+import { createDepartment } from '@modules/department';
 import logger from '@shared/Logger';
 
 const router = Router();
@@ -18,21 +16,19 @@ interface departmentRequest extends Request {
 }
 
 /******************************************************************************
- *   POST Request example - Update - "POST /api/department/create"
+ *          POST Request - Create - /api/department/create
  ******************************************************************************/
 
 router.post('/create', async (req: departmentRequest, res: Response) => {
     const { department } = req.body;
-    const {
-        name,
-        college
-    } = department;
 
     if (!department) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
     }
+
+    const { name, college } = department;
 
     // Check if required field is missing.
     if (!name || !college || !college.id) {
@@ -42,10 +38,7 @@ router.post('/create', async (req: departmentRequest, res: Response) => {
     }
 
     try {
-        await createDepartment(
-            name,
-            college
-        );
+        await createDepartment(name, college);
         return res.status(CREATED).end();
     } catch (error) {
         logger.err(error);

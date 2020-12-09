@@ -75,6 +75,7 @@ export const createJob = (
  * @returns Promise<Job[]>
  */
 
+// TODO: Do filtering by start date. maybe?
 export const getJobs = async (
     title: string,
     types: string[],
@@ -82,39 +83,19 @@ export const getJobs = async (
     minSalary: number,
     hoursPerWeek: number,
     page: number,
-    numOfItems: number,
+    numOfItems: number
 ) => {
-
-    console.log(`numOfItems in jobs.ts/modules is ${numOfItems}`); //this logs NaN
     return await getRepository(Job)
         .createQueryBuilder('job')
-        // Accomplishes substring matching using PostgreSQL pattern matching. 
-        // Note: Any job title matches the pattern of a empty title. 
-        // I think we should obligate the user to enter a job title
         .where('LOWER(job.title) LIKE :title', {
             title: `%${title.toLowerCase()}%`,
         })
         .orWhere('job.type IN (:...types)', { types })
-        // For some reason startDate filtering is not quite working
-        // .orWhere('job.startDate >= :startDate ', {
-        //     startDate,
-        // })
         .orWhere('job.minSalary >= :minSalary', { minSalary })
         .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
-        // .limit(numOfItems)
-        // .offset((page - 1) * numOfItems)
         .skip((page - 1) * numOfItems)
         .take(numOfItems)
-        .getManyAndCount(); //returns [array, number] but couldn't access the number
-    // return getRepository(Job).find({
-    //     where: [
-    //         { title: title },
-    //         { type: In(types) },
-    //         { startDate: MoreThanOrEqual(startDate) },
-    //         { minSalary: MoreThanOrEqual(minSalary) },
-    //         { hoursPerWeek: MoreThanOrEqual(hoursPerWeek) },
-    //     ],
-    // });
+        .getManyAndCount();
 };
 
 /**
@@ -180,6 +161,5 @@ export const updateJob = (
  * @returns Promise
  */
 export const deleteJob = (id: number) => {
-    // return job.findByIdAndDelete(_id);
     return getRepository(Job).delete(id);
 };
