@@ -44,7 +44,7 @@ const formInitialValues: IStudentProfileForm = {
     classStanding: '',
     email: '',
     biography: '',
-    courses: [''],
+    courses: [],
     resume: undefined,
     transcript: undefined,  
 };
