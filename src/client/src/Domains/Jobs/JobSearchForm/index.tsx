@@ -60,7 +60,7 @@ function JobSearchForm({ setJobs, children }: props) { // actual component and w
 
     // make 2 functions in this form
 
-    console.log(`numOfItems in index.tsx is ${numOfItems}`); //this logs 3
+    //console.log(`numOfItems in index.tsx is ${numOfItems}`); //this logs 3
     const [sendRequest, isLoading] = useApi(request, { //sendRequest (getJobs()) is connected to request)
         onSuccess: (response) => {
             const jobs = response.data.jobs;
@@ -82,6 +82,13 @@ function JobSearchForm({ setJobs, children }: props) { // actual component and w
         sendRequest();
     };
     
+    const handleSearchAgain = () => {
+        if (page > 0) {
+            setPage(1);
+        }
+        sendRequest();
+
+    }
     return ( //after this is the JSX part
         <div>
             <Paper style={{ padding: 30 }}>
@@ -90,7 +97,8 @@ function JobSearchForm({ setJobs, children }: props) { // actual component and w
                     initialValues={formInitialValues}
                     onSubmit={(formValues) => {
                         setFormState(formValues);
-                        sendRequest(); //new function and calls sendreq inside of it at the end
+                        //sendRequest(); //new function and calls sendreq inside of it at the end
+                        handleSearchAgain();
                     }}
                 >
                     {() => (
