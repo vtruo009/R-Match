@@ -28,10 +28,8 @@ router.post('/update-profile', async (req: studentRequest, res: Response) => {
         user,
         department,
         sid,
-        classStanding,
+        classStanding
         courses,
-        resume,
-        transcript,
         id
     } = student;
 
