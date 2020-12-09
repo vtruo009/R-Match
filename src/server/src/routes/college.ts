@@ -2,9 +2,7 @@ import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import { ICollege } from '@entities/college';
 import { errors } from '@shared/errors';
-import {
-    createcollege
-} from '@modules/college';
+import { createCollege } from '@modules/college';
 import logger from '@shared/Logger';
 
 const router = Router();
@@ -18,20 +16,19 @@ interface collegeRequest extends Request {
 }
 
 /******************************************************************************
- *   POST Request example - create - "POST /api/college/create"
+ *           POST Request - Create - /api/college/create
  ******************************************************************************/
 
 router.post('/create', async (req: collegeRequest, res: Response) => {
     const { college } = req.body;
-    const {
-        name
-    } = college;
 
     if (!college) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
     }
+
+    const { name } = college;
 
     // Check if required field is missing.
     if (!name) {
@@ -41,9 +38,7 @@ router.post('/create', async (req: collegeRequest, res: Response) => {
     }
 
     try {
-        await createcollege(
-            name
-        );
+        await createCollege(name);
         return res.status(CREATED).end();
     } catch (error) {
         logger.err(error);

@@ -24,7 +24,7 @@ interface jobRequest extends Request {
 }
 
 /******************************************************************************
- *            POST Request example - Create - "POST /api/job/create"
+ *            POST Request - Create - /api/job/create
  ******************************************************************************/
 
 router.post(
@@ -101,29 +101,78 @@ router.post(
     }
 );
 
-router.get(
-    '/read',
-    passport.authenticate('jwt', { session: false }),
-    async (req: Request, res: Response) => {
-        try {
-            const jobs = await getJobs();
-            return res.status(OK).json({ jobs }).end();
-        } catch (error) {
-            logger.err(error);
-            return res
-                .status(INTERNAL_SERVER_ERROR)
-                .json(errors.internalServerError)
-                .end();
+/******************************************************************************
+ *            GET Request - Read - /api/job/read
+ ******************************************************************************/
+
+router.get('/read', async (req: Request, res: Response) => {
+    let {
+        title,
+        type,
+        startDate,
+        minSalary,
+        hoursPerWeek,
+        page,
+        numOfItems,
+    } = req.query as {
+        title: string;
+        type: string;
+        startDate: string;
+        minSalary: string;
+        hoursPerWeek: string;
+        page: string;
+        numOfItems: string;
+    };
+
+    try {
+        let types: string[] = [''];
+        if (!title) {
+            title = '';
         }
+        if (!minSalary) {
+            minSalary = '10000';
+        }
+        if (!hoursPerWeek) {
+            hoursPerWeek = '10000';
+        }
+        if (!startDate) {
+            startDate = '01/01/3000';
+        }
+        if (type) {
+            types = type.split(',');
+        }
+        const [jobs, jobsCount] = await getJobs(
+            title,
+            types,
+            startDate,
+            parseInt(minSalary),
+            parseInt(hoursPerWeek),
+            parseInt(page),
+            parseInt(numOfItems)
+        );
+        return res.status(OK).json({ jobs, jobsCount }).end();
+    } catch (error) {
+        logger.err(error);
+        return res
+            .status(INTERNAL_SERVER_ERROR)
+            .json(errors.internalServerError)
+            .end();
     }
 );
 
 /******************************************************************************
- *             POST Request example - Update - "POST /api/job/update"
+ *             POST Request - Update - /api/job/update
  ******************************************************************************/
 
 router.post('/update', async (req: jobRequest, res: Response) => {
     const { job } = req.body;
+
+    if (!job) {
+        return res.status(BAD_REQUEST).json({
+            error: errors.paramMissingError,
+        });
+    }
+
     const {
         targetYears,
         hoursPerWeek,
@@ -139,11 +188,7 @@ router.post('/update', async (req: jobRequest, res: Response) => {
         departmentId,
         id,
     } = job;
-    if (!job) {
-        return res.status(BAD_REQUEST).json({
-            error: errors.paramMissingError,
-        });
-    }
+
     if (
         !id ||
         !targetYears ||
@@ -187,7 +232,7 @@ router.post('/update', async (req: jobRequest, res: Response) => {
 });
 
 /******************************************************************************
- *        DELETE Request example - Delete - "DELETE /api/job/delete/:id"
+ *        DELETE Request - Delete - /api/job/delete/:id
  ******************************************************************************/
 
 router.delete('/delete/:id', async (req: jobRequest, res: Response) => {

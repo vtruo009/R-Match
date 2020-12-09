@@ -15,7 +15,7 @@ import { Pagination } from '@material-ui/lab';
 
 interface props {
     setJobs: (jobs: IJob[]) => void;
-    children: JSX.Element; // react component which is the list of jobs and job description
+    children: JSX.Element;
 }
 
 interface JobSearchFormType {
@@ -36,9 +36,8 @@ const formSchema = yup.object({
     hoursPerWeek: yup.number().moreThan(0).optional(),
 });
 
-const numOfItems = 3;
-
-function JobSearchForm({ setJobs, children }: props) { // actual component and we decompose the props
+const numOfItems = 5;
+function JobSearchForm({ setJobs, children }: props) {
     const [formState, setFormState] = React.useState<JobSearchFormType>(
         formInitialValues
     );
@@ -51,24 +50,22 @@ function JobSearchForm({ setJobs, children }: props) { // actual component and w
                 formState.title,
                 formState.minSalary,
                 formState.hoursPerWeek,
-                //page # is not coming from form, coming from internal call
                 page,
-                numOfItems,
+                numOfItems
             ),
-        [formState, page] //where you put the data that your callback depends on
+        [formState, page]
     );
 
-    // make 2 functions in this form
-
-    //console.log(`numOfItems in index.tsx is ${numOfItems}`); //this logs 3
-    const [sendRequest, isLoading] = useApi(request, { //sendRequest (getJobs()) is connected to request)
+    const [sendRequest, isLoading] = useApi(request, {
         onSuccess: (response) => {
             const jobs = response.data.jobs;
             const count = response.data.jobsCount;
-            if (jobs.length === 0) { //maybe use count
+            console.log(count);
+
+            if (jobs.length === 0) {
                 snack('No jobs were found', 'warning');
             } else {
-                setNumOfPages(count/numOfItems);
+                setNumOfPages(Math.ceil(count / numOfItems));
                 setJobs(jobs);
             }
         },
@@ -80,16 +77,17 @@ function JobSearchForm({ setJobs, children }: props) { // actual component and w
     ) => {
         setPage(value);
         sendRequest();
+        window.scrollTo(0, 0);
     };
-    
+
     const handleSearchAgain = () => {
         if (page > 0) {
             setPage(1);
         }
         sendRequest();
-    }
-    
-    return ( //after this is the JSX part
+    };
+
+    return (
         <div>
             <Paper style={{ padding: 30 }}>
                 <Formik
@@ -97,7 +95,6 @@ function JobSearchForm({ setJobs, children }: props) { // actual component and w
                     initialValues={formInitialValues}
                     onSubmit={(formValues) => {
                         setFormState(formValues);
-                        //sendRequest(); //new function and calls sendreq inside of it at the end
                         handleSearchAgain();
                     }}
                 >
@@ -125,10 +122,9 @@ function JobSearchForm({ setJobs, children }: props) { // actual component and w
                                         type='number'
                                     />
                                 </Grid>
-
                                 <Grid item md={3} xs={12}>
                                     <Field
-                                        name='minHoursPerWeek'
+                                        name='hoursPerWeek'
                                         label='Minimum hours per week'
                                         component={TextFormField}
                                         type='number'
@@ -152,19 +148,17 @@ function JobSearchForm({ setJobs, children }: props) { // actual component and w
                 </Formik>
             </Paper>
             {children}
-            {
-                numOfPages > 1 &&
-                <Grid container justify='center' style={{marginTop:50}}>
+            {numOfPages > 1 && (
+                <Grid container justify='center' style={{ marginTop: 50 }}>
                     <Pagination
                         color='primary'
                         shape='rounded'
-                        // need to do count(?) only showing one page right now
                         page={page}
                         count={numOfPages}
                         onChange={handlePageChange}
                     />
                 </Grid>
-            }
+            )}
         </div>
     );
 }

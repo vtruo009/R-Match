@@ -96,19 +96,27 @@ export const createJob = async (
  * @description gets all sample documents from the database
  * @returns Promise<Job[]>
  */
-export const getJobs = () => {
-    return getRepository(Job)
+// TODO: Do filtering by start date. maybe?
+export const getJobs = async (
+    title: string,
+    types: string[],
+    startDate: string,
+    minSalary: number,
+    hoursPerWeek: number,
+    page: number,
+    numOfItems: number
+) => {
+    return await getRepository(Job)
         .createQueryBuilder('job')
-        .select([
-            'job',
-            'facultyMember.id',
-            'facultyMember.title',
-            'user.firstName',
-            'user.lastName',
-        ])
-        .leftJoin('job.facultyMember', 'facultyMember')
-        .leftJoin('facultyMember.user', 'user')
-        .getMany();
+        .where('LOWER(job.title) LIKE :title', {
+            title: `%${title.toLowerCase()}%`,
+        })
+        .orWhere('job.type IN (:...types)', { types })
+        .orWhere('job.minSalary >= :minSalary', { minSalary })
+        .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount();
 };
 
 /**
@@ -174,6 +182,5 @@ export const updateJob = (
  * @returns Promise
  */
 export const deleteJob = (id: number) => {
-    // return job.findByIdAndDelete(_id);
     return getRepository(Job).delete(id);
 };

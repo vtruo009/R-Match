@@ -19,7 +19,7 @@ interface facultyMemberRequest extends Request {
 }
 
 /******************************************************************************
- *   POST Request example - Update - "POST /api/facultyMember/update-profile"
+ *   POST Request - Update Profile - /api/facultyMember/update-profile
  ******************************************************************************/
 
 router.post(
@@ -100,7 +100,7 @@ router.get('/get-profile', async (req: Request, res: Response) => {
             .json(errors.internalServerError)
             .end();
     }
-});
+);
 
 /******************************************************************************
  *                                     Export
