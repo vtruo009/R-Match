@@ -5,7 +5,7 @@ import { getRepository } from 'typeorm';
  * @param name string
  * @returns Promise
  */
-export const createcollege = async (
+export const createCollege = async (
     name: ICollege['name']
 ) => {
     const repository = getRepository(College);

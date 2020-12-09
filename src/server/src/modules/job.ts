@@ -1,5 +1,5 @@
 import { IJob, Job } from '@entities/job';
-import { getRepository } from 'typeorm';
+import { getRepository, MoreThanOrEqual, In, Any } from 'typeorm';
 /**
  * @description saves a new job in the database
  * @param targetYears string[]
@@ -74,8 +74,28 @@ export const createJob = (
  * @description gets all sample documents from the database
  * @returns Promise<Job[]>
  */
-export const getJobs = () => {
-    return getRepository(Job).find(); //look up if can documetation for find() typeorm.find()
+
+// TODO: Do filtering by start date. maybe?
+export const getJobs = async (
+    title: string,
+    types: string[],
+    startDate: string,
+    minSalary: number,
+    hoursPerWeek: number,
+    page: number,
+    numOfItems: number
+) => {
+    return await getRepository(Job)
+        .createQueryBuilder('job')
+        .where('LOWER(job.title) LIKE :title', {
+            title: `%${title.toLowerCase()}%`,
+        })
+        .orWhere('job.type IN (:...types)', { types })
+        .orWhere('job.minSalary >= :minSalary', { minSalary })
+        .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount();
 };
 
 /**
@@ -131,7 +151,7 @@ export const updateJob = (
         status: status,
         minSalary: minSalary,
         maxSalary: maxSalary,
-        departmentId: departmentId
+        departmentId: departmentId,
     });
 };
 
@@ -141,6 +161,5 @@ export const updateJob = (
  * @returns Promise
  */
 export const deleteJob = (id: number) => {
-    // return job.findByIdAndDelete(_id);
     return getRepository(Job).delete(id);
 };
