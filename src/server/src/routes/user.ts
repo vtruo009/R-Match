@@ -1,7 +1,7 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import passport from 'passport';
-import { IUser } from '@entities/user';
+import { IUser, JWTUser } from '@entities/user';
 import { errors } from '@shared/errors';
 import logger from '@shared/Logger';
 
@@ -81,9 +81,8 @@ router.post(
     passport.authenticate('local', { session: false }),
     (req: Request, res: Response) => {
         if (req.isAuthenticated()) {
-            const { id, role, firstName, lastName } = req.user as IUser;
-            // TODO: Filter user sensitive information
-            const token = signToken(id);
+            const { userId, role, firstName, lastName } = req.user as JWTUser;
+            const token = signToken(userId);
             res.cookie('access_token', token, {
                 httpOnly: true,
                 sameSite: true,
@@ -92,7 +91,7 @@ router.post(
                 .status(OK)
                 .json({
                     isAuthenticated: true,
-                    user: { id, role, firstName, lastName },
+                    user: { id: userId, role, firstName, lastName },
                 })
                 .end();
         }
@@ -115,9 +114,9 @@ router.get(
     '/authenticated',
     passport.authenticate('jwt', { session: false }),
     (req: Request, res: Response) => {
-        const { id, role, firstName, lastName } = req.user as IUser;
+        const { userId, role, firstName, lastName } = req.user as JWTUser;
         return res.status(OK).json({
-            user: { id, role, firstName, lastName },
+            user: { id: userId, role, firstName, lastName },
             isAuthenticated: true,
         });
     }

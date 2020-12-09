@@ -2,10 +2,7 @@ import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import { IFacultyMember } from '@entities/facultyMember';
 import { errors } from '@shared/errors';
-import {
-    createFacultyMember,
-    updateFacultyMember,
-} from '@modules/facultyMember';
+import { updateFacultyMember } from '@modules/facultyMember';
 import logger from '@shared/Logger';
 
 const router = Router();
@@ -22,57 +19,61 @@ interface facultyMemberRequest extends Request {
  *   POST Request example - Update - "POST /api/facultyMember/update-profile"
  ******************************************************************************/
 
-router.post('/update-profile', async (req: facultyMemberRequest, res: Response) => {
-    const { facultyMember } = req.body;
-    const {
-        user,
-        department,
-        websiteLink,
-        office,
-        title,
-        id,
-    } = facultyMember;
+router.post(
+    '/update-profile',
+    async (req: facultyMemberRequest, res: Response) => {
+        const { facultyMember } = req.body;
 
-    if (!facultyMember) {
-        return res.status(BAD_REQUEST).json({
-            error: errors.paramMissingError,
-        });
-    }
+        if (!facultyMember) {
+            return res.status(BAD_REQUEST).json({
+                error: errors.paramMissingError,
+            });
+        }
 
-    // Check if required field is missing.
-    if (!id || !user || !user.id || !user.firstName || !user.lastName) {
-        return res.status(BAD_REQUEST).json({
-            error: errors.paramMissingError,
-        });
-    }
-
-    try {
-        const updateResult = await updateFacultyMember(
+        const {
             user,
             department,
             websiteLink,
             office,
             title,
-            id
-        );
-        if (updateResult) {
-            return res.status(OK).end();
+            id,
+        } = facultyMember;
+
+        // Check if required field is missing.
+        if (!id || !user || !user.id || !user.firstName || !user.lastName) {
+            return res.status(BAD_REQUEST).json({
+                error: errors.paramMissingError,
+            });
         }
-        return res
-            .status(BAD_REQUEST)
-            .json({
-                error:
-                    'Faculty member provided does not belong to any record',
-            })
-            .end();
-    } catch (error) {
-        logger.err(error);
-        return res
-            .status(INTERNAL_SERVER_ERROR)
-            .json(errors.internalServerError)
-            .end();
+
+        try {
+            const updateResult = await updateFacultyMember(
+                user,
+                department,
+                websiteLink,
+                office,
+                title,
+                id
+            );
+            if (updateResult) {
+                return res.status(OK).end();
+            }
+            return res
+                .status(BAD_REQUEST)
+                .json({
+                    error:
+                        'Faculty member provided does not belong to any record',
+                })
+                .end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
     }
-});
+);
 
 /******************************************************************************
  *                                     Export

@@ -4,10 +4,12 @@ import {
     PrimaryGeneratedColumn,
     OneToOne,
     JoinColumn,
-    ManyToOne
+    ManyToOne,
+    OneToMany,
 } from 'typeorm';
 import { User, IUser } from './user';
 import { Department } from './department';
+import { Job } from './job';
 
 @Entity()
 export class FacultyMember {
@@ -29,6 +31,9 @@ export class FacultyMember {
     @OneToOne(() => User)
     @JoinColumn()
     user: User;
+
+    @OneToMany(() => Job, (job) => job.facultyMember)
+    jobs: Job[];
 }
 
 export interface IFacultyMember {
@@ -38,4 +43,5 @@ export interface IFacultyMember {
     office?: string;
     title?: string;
     user: IUser;
+    jobs: Job[];
 }

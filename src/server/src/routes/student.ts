@@ -2,9 +2,7 @@ import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import { IStudent } from '@entities/student';
 import { errors } from '@shared/errors';
-import {
-    updateStudent
-} from '@modules/student';
+import { updateStudent } from '@modules/student';
 import logger from '@shared/Logger';
 
 const router = Router();
@@ -23,14 +21,7 @@ interface studentRequest extends Request {
 
 router.post('/update-profile', async (req: studentRequest, res: Response) => {
     const { student } = req.body;
-    const {
-        user,
-        department,
-        sid,
-        classStanding,
-        courses,
-        id
-    } = student;
+    const { user, department, sid, classStanding, courses, id } = student;
 
     if (!student) {
         return res.status(BAD_REQUEST).json({
@@ -60,8 +51,7 @@ router.post('/update-profile', async (req: studentRequest, res: Response) => {
         return res
             .status(BAD_REQUEST)
             .json({
-                error:
-                    'Student provided does not belong to any record',
+                error: 'Student provided does not belong to any record',
             })
             .end();
     } catch (error) {

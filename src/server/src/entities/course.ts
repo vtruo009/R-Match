@@ -21,4 +21,5 @@ export class Course {
 export interface ICourse {
     id: number;
     title: string;
+    students: Student[];
 }

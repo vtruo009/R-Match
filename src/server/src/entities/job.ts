@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { FacultyMember } from './facultyMember';
 @Entity()
 export class Job {
     @PrimaryGeneratedColumn()
@@ -23,6 +23,9 @@ export class Job {
     @Column({ nullable: true })
     endDate: Date;
 
+    @Column()
+    postedOn: Date;
+
     @Column('simple-array')
     type: string[];
 
@@ -40,6 +43,9 @@ export class Job {
 
     @Column()
     departmentId: string;
+
+    @ManyToOne(() => FacultyMember, (facultyMember) => facultyMember.jobs)
+    facultyMember: FacultyMember;
 }
 
 export interface IJob {
@@ -50,10 +56,12 @@ export interface IJob {
     expirationDate?: string;
     startDate: string;
     endDate?: string;
+    postedOn: string;
     type: string[];
     title: string;
     status: 'Hiring' | 'Closed';
     minSalary: number;
     maxSalary?: number;
     departmentId: string;
+    facultyMember: FacultyMember;
 }

@@ -56,7 +56,7 @@ function JobPreview({ job, onClick, isSelected }: Props) {
         <Card
             className={isSelected ? classes.Selected : classes.NonSelected}
             variant='outlined'
-            style={{ padding: 30, minHeight: 150 }}
+            style={{ padding: 30 }}
             onClick={() => onClick(job)}
         >
             <Grid container spacing={4} alignItems='center' justify='center'>
@@ -99,7 +99,10 @@ function JobPreview({ job, onClick, isSelected }: Props) {
                     )}
                     <Grid item>
                         <Typography variant='body1'>
-                            TODO: Display faculty member's name
+                            Posted by:{' '}
+                            {job.facultyMember.title && job.facultyMember.title}
+                            {job.facultyMember.user.firstName}{' '}
+                            {job.facultyMember.user.lastName}
                         </Typography>
                     </Grid>
                 </Grid>
