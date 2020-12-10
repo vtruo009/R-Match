@@ -1,40 +1,82 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { Strategy as JWTStratefy } from 'passport-jwt';
-import { User } from '@entities/user';
+import { Strategy as JWTStrategy } from 'passport-jwt';
+
+import {
+    IUser,
+    User,
+    JWTFacultyMember,
+    JWTStudent,
+    JWTUser,
+} from '@entities/user';
+import { FacultyMember } from '@entities/facultyMember';
+import { Student } from '@entities/student';
 import { getRepository } from 'typeorm';
 import { compare } from 'bcrypt';
 import logger from '@shared/Logger';
-
 import { cookieExtractor } from './jwt';
+
+const filterSensitiveInformation = async (
+    user: IUser
+): Promise<JWTUser | JWTFacultyMember | JWTStudent | undefined> => {
+    const filteredUser = {
+        userId: user.id,
+        role: user.role,
+        firstName: user.firstName,
+        lastName: user.lastName,
+    };
+    switch (user.role) {
+        case 'student':
+            const student = await getRepository(Student).findOne({
+                where: { user: { id: user.id } },
+                select: ['id'],
+            });
+            if (!student) return undefined;
+
+            return {
+                ...filteredUser,
+                studentId: student.id,
+            };
+
+        case 'facultyMember':
+            const facultyMember = await getRepository(FacultyMember).findOne({
+                where: { user: { id: user.id } },
+                select: ['id'],
+            });
+
+            if (!facultyMember) return undefined;
+            return {
+                ...filteredUser,
+                facultyMemberId: facultyMember.id,
+            };
+
+        default:
+            return filteredUser;
+    }
+};
+
 // Used for authentication
 passport.use(
     new LocalStrategy(
         { usernameField: 'email' },
-        (username, password, done) => {
-            getRepository(User)
-                .findOne({ email: username })
-                .then((user) => {
-                    // Check if user exists
-                    if (!user) {
-                        return done(null, false);
-                    }
-                    // Verify password
-                    compare(password, user.password, (error, isValid) => {
-                        if (error) {
-                            done(error, false);
-                        } else {
-                            if (!isValid) {
-                                done(null, false);
-                            }
-                            return done(null, user);
-                        }
-                    });
-                })
-                .catch((error) => {
-                    logger.err(error);
-                    done(error, false);
+        async (username, password, done) => {
+            try {
+                const user = await getRepository(User).findOne({
+                    email: username,
                 });
+                if (!user) return done(null, false);
+
+                const isValid = await compare(password, user.password);
+                if (!isValid) return done(null, false);
+
+                const filteredUser = await filterSensitiveInformation(user);
+                if (!filteredUser) return done(null, false);
+
+                return done(null, filteredUser);
+            } catch (error) {
+                logger.err(error);
+                return done(error, false);
+            }
         }
     )
 );
@@ -42,24 +84,26 @@ passport.use(
 // Used for authorization
 passport.use(
     'jwt',
-    new JWTStratefy(
+    new JWTStrategy(
         {
             jwtFromRequest: cookieExtractor,
             secretOrKey: process.env.JWT_SECRET,
         },
-        (jwtPayload, done) => {
-            getRepository(User)
-                .findOne(jwtPayload.id)
-                .then((user) => {
-                    if (!user) {
-                        done(null, false);
-                    }
-                    return done(null, user);
-                })
-                .catch((error) => {
-                    logger.err(error);
-                    done(error, false);
-                });
+        async (jwtPayload, done) => {
+            try {
+                const user = await getRepository(User).findOne(jwtPayload.id);
+
+                if (!user) return done(null, false);
+
+                const filteredUser = await filterSensitiveInformation(user);
+
+                if (!filteredUser) return done(null, false);
+
+                return done(null, filteredUser);
+            } catch (error) {
+                logger.err(error);
+                return done(null, false);
+            }
         }
     )
 );

@@ -1,5 +1,5 @@
 import API from 'api';
-import { IStudentProfileForm } from 'Domains/Student/StudentProfileForm'
+import { IStudentProfileForm } from 'Domains/Student/StudentProfileForm';
 
 export const classStandingTypes = [
     {
@@ -20,11 +20,12 @@ export const classStandingTypes = [
     },
 ];
 
-//TODO: DEFINE THIS LATER!
-export async function createStudentProfile(studentProfile: IStudentProfileForm) {
-    return API.post('studentProfile/create', {
+export async function updateStudentProfile(
+    studentProfile: IStudentProfileForm
+) {
+    return API.post('student/update-profile', {
         studentProfile: {
             ...studentProfile,
-        }
+        },
     });
 }

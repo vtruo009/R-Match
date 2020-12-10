@@ -1,7 +1,8 @@
 import { IJob, Job } from '@entities/job';
+import { FacultyMember } from '@entities/facultyMember';
 import { getRepository, MoreThanOrEqual, In, Any } from 'typeorm';
 /**
- * @description saves a new job in the database
+ * @description saves a new job in the database ans assigns a relationship of job-facultyMember. If faculty member does not exist it throws an error
  * @param targetYears string[]
  * @param hoursPerWeek number
  * @param description string
@@ -16,7 +17,7 @@ import { getRepository, MoreThanOrEqual, In, Any } from 'typeorm';
  * @param departmentId string
  * @returns Promise
  */
-export const createJob = (
+export const createJob = async (
     targetYears: IJob['targetYears'],
     hoursPerWeek: IJob['hoursPerWeek'],
     description: IJob['description'],
@@ -28,7 +29,8 @@ export const createJob = (
     status: IJob['status'],
     minSalary: IJob['minSalary'],
     maxSalary: IJob['maxSalary'],
-    departmentId: IJob['departmentId']
+    departmentId: IJob['departmentId'],
+    facultyMemberId: number
 ) => {
     const startDateAsDate = new Date(startDate);
 
@@ -52,8 +54,21 @@ export const createJob = (
         maxSalary = minSalary;
     }
 
-    const repository = getRepository(Job);
-    const jobToInsert = repository.create({
+    const today = new Date();
+
+    const jobRepository = getRepository(Job);
+    const facultyMemberRepository = getRepository(FacultyMember);
+
+    const facultyToUpdate = await facultyMemberRepository.findOne({
+        where: { id: facultyMemberId },
+        relations: ['jobs'],
+    });
+
+    if (!facultyToUpdate) {
+        throw Error('Faculty member that posted the job does not exist');
+    }
+
+    const jobToInsert = jobRepository.create({
         targetYears: targetYears,
         hoursPerWeek: hoursPerWeek,
         description: description,
@@ -66,14 +81,33 @@ export const createJob = (
         departmentId: departmentId,
         endDate: endDateAsDate,
         maxSalary: maxSalary,
+        postedOn: today,
     });
-    return repository.save(jobToInsert);
+    // Save new job created
+    await jobRepository.save(jobToInsert);
+    // Add relationship between job and faculty member
+    facultyToUpdate.jobs.push(jobToInsert);
+    // save relationship
+    return facultyMemberRepository.save(facultyToUpdate);
 };
 
-/**
- * @description gets all sample documents from the database
- * @returns Promise<Job[]>
- */
+// /**
+//  * @description gets all sample documents from the database
+//  * @returns Promise<Job[]>
+//  */
+// export const getJobs = () => {
+//     return getRepository(Job)
+//         .createQueryBuilder('job')
+//         .select([
+//             'job',
+//             'facultyMember.id',
+//             'facultyMember.title',
+//             'user.firstName',
+//             'user.lastName',
+//         ])
+//         .leftJoin('job.facultyMember', 'facultyMember')
+//         .leftJoin('facultyMember.user', 'user')
+//         .getMany();
 
 // TODO: Do filtering by start date. maybe?
 export const getJobs = async (
@@ -87,6 +121,15 @@ export const getJobs = async (
 ) => {
     return await getRepository(Job)
         .createQueryBuilder('job')
+        .select([
+            'job',
+            'facultyMember.id',
+            'facultyMember.title',
+            'user.firstName',
+            'user.lastName',
+        ])
+        .leftJoin('job.facultyMember', 'facultyMember')
+        .leftJoin('facultyMember.user', 'user')
         .where('LOWER(job.title) LIKE :title', {
             title: `%${title.toLowerCase()}%`,
         })
