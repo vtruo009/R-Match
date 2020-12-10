@@ -1,18 +1,18 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { isAuthenticatedRequest, IUser } from './api';
+import { isAuthenticatedRequest, JWTUser } from './api';
 import useApi from 'hooks/useApi';
 import Loader from 'Components/Loader';
 
 interface IAuthContext {
-    user: IUser | undefined;
-    setUser: (user: IUser) => void;
+    user: JWTUser | undefined;
+    setUser: (user: JWTUser) => void;
     isAuthenticated: boolean;
     setIsAuthenticated: (newIsAuthenticated: boolean) => void;
 }
 
 const AuthContextDefaultValue = {
     user: undefined,
-    setUser: (user: IUser) => {},
+    setUser: (user: JWTUser) => {},
     isAuthenticated: false,
     setIsAuthenticated: (newIsAuthenticated: boolean) => {},
 };
@@ -20,7 +20,7 @@ const AuthContextDefaultValue = {
 export const AuthContext = createContext<IAuthContext>(AuthContextDefaultValue);
 
 function AuthContextComponent({ children }: { children: JSX.Element }) {
-    const [user, setUser] = useState<IUser>();
+    const [user, setUser] = useState<JWTUser>();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const request = React.useCallback(() => isAuthenticatedRequest(), []);
