@@ -5,8 +5,6 @@ import Paper from '@material-ui/core/Paper';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
-import Loader from 'Components/Loader';
-import Button from 'Components/Button';
 import LabelValue from 'Components/LabelValue';
 import { getStudentProfile, IStudent } from 'Domains/Student/api/api';
 
