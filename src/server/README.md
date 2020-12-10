@@ -442,6 +442,26 @@ Student API
                 -   Missing fields in body -> Status code: 400
                 -   Internal server error -> Status code: 500
 
+    -   /api/student/apply-job
+
+        -   Saves a student's job application information in the database.
+        -   Body:
+            ```
+            {
+                jobId: number
+            }
+            ```
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a student
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 201
+            -   errors:
+                -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
+
 Department API
 
 -   Interacts with:

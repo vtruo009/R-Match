@@ -1,9 +1,10 @@
 import { getRepository } from 'typeorm';
-import { Student } from '@entities/student';
 import { IUser, User } from '@entities/user';
-import { IStudent } from '@entities/student';
-import { Course } from '../entities/course';
+import { IStudent, Student } from '@entities/student';
+import { Course } from '@entities/course';
+import { Job } from '@entities/job';
 import { Department } from '@entities/department';
+import { StudentToJob } from '@entities/studentToJob';
 
 /**
  * @description Creates a student using an user record from the database
@@ -95,3 +96,37 @@ export const updateStudent = async (
     return undefined;
 };
 
+/**
+ * @description updates an existing student profile in the database
+ * @param studentId number
+ * @param jobId number
+ * @returns Promise
+ */
+export const applyJob = async (
+    studentId: number,
+    jobId: number
+) => {
+    const studentRepository = getRepository(Student);
+    const jobRepository = getRepository(Job);
+    const studentToJobRepository = getRepository(StudentToJob);
+
+    const student = await studentRepository.findOne(studentId);
+    if (!student) throw new Error("Student does not exist.");
+
+    // Check if job exists.
+    const job = await jobRepository.findOne(jobId);
+    if (job === undefined) throw new Error("Requested job does not exist.");
+
+    // Check if student already applied for a job.
+    const application = await studentToJobRepository.find({ job: job, student: student });
+    if (application.length > 0) throw new Error("Student have already applied for the position.");
+    
+
+    // Create studentToJob object.
+    const studentToJob = studentToJobRepository.create({
+        student: student,
+        job: job,
+        date: new Date()
+    });
+    return studentToJobRepository.save(studentToJob);
+};

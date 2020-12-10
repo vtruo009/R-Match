@@ -2,15 +2,17 @@ import {
     Entity,
     Column,
     PrimaryGeneratedColumn,
-    OneToOne,
     JoinColumn,
-    ManyToMany,
     JoinTable,
+    OneToOne,
+    OneToMany,
+    ManyToMany,
     ManyToOne
 } from 'typeorm';
 import { User, IUser } from './user';
 import { Course } from './course';
 import { Department } from './department';
+import { StudentToJob } from './studentToJob';
 
 @Entity()
 export class Student {
@@ -33,6 +35,9 @@ export class Student {
     @ManyToMany(() => Course, course => course.students)
     @JoinTable()
     courses: Course[];
+
+    @OneToMany(type => StudentToJob, studentToJob => studentToJob.student)
+    public studentToJob: StudentToJob[];
 }
 
 export interface IStudent {

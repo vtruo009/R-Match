@@ -1,5 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    ManyToOne,
+    OneToMany
+} from 'typeorm';
 import { FacultyMember } from './facultyMember';
+import { StudentToJob } from './studentToJob';
+
 @Entity()
 export class Job {
     @PrimaryGeneratedColumn()
@@ -46,6 +54,9 @@ export class Job {
 
     @ManyToOne(() => FacultyMember, (facultyMember) => facultyMember.jobs)
     facultyMember: FacultyMember;
+
+    @OneToMany(type => StudentToJob, studentToJob => studentToJob.job)
+    public studentToJob: StudentToJob[];
 }
 
 export interface IJob {
