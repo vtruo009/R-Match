@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { Formik, Form, Field} from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import { SimpleFileUpload } from 'formik-material-ui';
 
@@ -14,25 +14,24 @@ import { SelectFormField } from 'Components/SelectFormField';
 import Button from 'Components/Button';
 import {
     classStandingTypes,
-    createStudentProfile,
+    updateStudentProfile,
+    getStudentProfile,
 } from 'Domains/Student/api/api';
 
-import { departments,
-         courseList 
-} from 'sharedData';
+import { departments, courseList } from 'sharedData';
 
 export interface IStudentProfileForm {
     firstName: string;
-    middleName: string;
+    middleName?: string;
     lastName: string;
-    departmentId: string;
-    sid: number;
-    classStanding: string;
+    departmentId?: string;
+    sid?: number;
+    classStanding?: string;
     email: string;
-    biography: string;
+    biography?: string;
+    courses?: string[];
     resume?: File;
     transcript?: File;
-    courses: string [];
 }
 
 const formInitialValues: IStudentProfileForm = {
@@ -46,55 +45,79 @@ const formInitialValues: IStudentProfileForm = {
     biography: '',
     courses: [],
     resume: undefined,
-    transcript: undefined,  
+    transcript: undefined,
 };
 
 const formSchema = yup.object({
     firstName: yup.string().required('First name is required'),
     lastName: yup.string().required('Last name is required'),
-    departmentId: yup.string().required('Department is required'),
+    departmentId: yup.string(),
     sid: yup.string().required('Student ID is is required'),
-    classStanding: yup.string().required('Class standing is required'),
-    email: yup
-        .string()
-        .required('Email is required')
-        .email('Please enter valid email'),
-    biography: yup.string().required('Biography is required'),
+    classStanding: yup.string(),
+    email: yup.string().email('Please enter valid email'),
+    biography: yup.string(),
     resume: yup
         .mixed()
-        .test('fileFormat', 'PDF only', (value) => { 
-            return value && ['application/pdf'].includes(value.type);}),
+        .test('fileFormat', 'PDF only', (value) => {
+            return (
+                !value || (value && ['application/pdf'].includes(value.type))
+            );
+        })
+        .optional(),
     transcript: yup
         .mixed()
-        .test('fileFormat', 'PDF only', (value) => {  
-            return value && ['application/pdf'].includes(value.type);}),
+        .test('fileFormat', 'PDF only', (value) => {
+            return (
+                !value || (value && ['application/pdf'].includes(value.type))
+            );
+        })
+        .optional(),
 });
-    
+
+// TODO: Make sure PDF Files are not greater than some number of bytes
+
 function StudentProfileForm() {
     const [
         studentProfile,
         setStudentProfile,
     ] = React.useState<IStudentProfileForm>(formInitialValues);
-    const request = React.useCallback(
-        () => createStudentProfile(studentProfile),
+
+    const [snack] = useSnack();
+
+    const updateProfileRequest = React.useCallback(
+        () => updateStudentProfile(studentProfile),
         [studentProfile]
     );
-    const [snack] = useSnack();
-    const [sendRequest, isLoading] = useApi(request, {
-        onSuccess: () => {
-            snack('Student profile successfully created!', 'success');
-        },
-    });
+    const [sendUpdateProfileRequest, isUpdatingProfileLoading] = useApi(
+        updateProfileRequest,
+        {
+            onSuccess: () => {
+                snack('Student profile successfully created!', 'success');
+            },
+        }
+    );
+
+    const getProfileRequest = React.useCallback(() => getStudentProfile(), []);
+    const [sendGetProfileRequest, isGettingProfileLoading] = useApi(
+        getProfileRequest,
+        {
+            onSuccess: (results) => {
+                // setStudentProfile(results.data.student);
+            },
+        }
+    );
+
+    React.useEffect(() => {});
+
     return (
         <Paper style={{ padding: 50 }}>
             <Formik
                 validationSchema={formSchema}
                 initialValues={formInitialValues}
-                onSubmit={(formValues, actions) => 
-                    {
+                onSubmit={(formValues, actions) => {
                     console.log(formValues);
                     setStudentProfile(formValues);
-                    sendRequest();
+                    sendUpdateProfileRequest();
                     actions.resetForm({
                         values: { ...formInitialValues },
                     });
@@ -132,10 +155,10 @@ function StudentProfileForm() {
                                 </Grid>
                                 <Grid item md={6} xs={12}>
                                     <Field
-                                        name='departmentId'
-                                        label='Department'
-                                        options={departments}
-                                        component={SelectFormField}
+                                        name='email'
+                                        label='Email'
+                                        disabled
+                                        component={TextFormField}
                                     />
                                 </Grid>
                                 <Grid item md={6} xs={12}>
@@ -156,9 +179,19 @@ function StudentProfileForm() {
                                 </Grid>
                                 <Grid item md={6} xs={12}>
                                     <Field
-                                        name='email'
-                                        label='Email'
-                                        component={TextFormField}
+                                        name='departmentId'
+                                        label='Department'
+                                        options={departments}
+                                        component={SelectFormField}
+                                    />
+                                </Grid>
+
+                                <Grid item md={6} xs={12}>
+                                    <Field
+                                        name='transcript'
+                                        label='Transcript'
+                                        type='file'
+                                        component={SimpleFileUpload}
                                     />
                                 </Grid>
                                 <Grid item md={6} xs={12}>
@@ -166,20 +199,6 @@ function StudentProfileForm() {
                                         name='resume'
                                         label='Resume'
                                         type='file'
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        component={SimpleFileUpload}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='transcript'
-                                        label='Transcript'
-                                        type='file'
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
                                         component={SimpleFileUpload}
                                     />
                                 </Grid>
@@ -193,18 +212,23 @@ function StudentProfileForm() {
                                 </Grid>
                                 <Grid item md={12} xs={12}>
                                     <Field
-                                        name = 'courses'
-                                        label = 'Courses'
-                                        options = {courseList}
+                                        name='courses'
+                                        label='Courses'
+                                        options={courseList}
                                         multiple
                                         component={SelectFormField}
                                     />
                                 </Grid>
                             </Grid>
                             <Grid container item xs={12}>
-                                <Button type='submit' isLoading={isLoading}>
+                                <Button
+                                    type='submit'
+                                    isLoading={isUpdatingProfileLoading}
+                                >
                                     Submit
-                                    {isLoading && <Loader size={20} />}
+                                    {isUpdatingProfileLoading && (
+                                        <Loader size={20} />
+                                    )}
                                 </Button>
                             </Grid>
                         </Grid>
