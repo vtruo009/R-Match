@@ -67,20 +67,19 @@ router.post('/update-profile', async (req: studentRequest, res: Response) => {
 });
 
 /******************************************************************************
- *          POST Request - Update - /api/student/apply-job
+ *          POST Request - Apply Job - /api/student/apply-job
  ******************************************************************************/
 
 router.post('/apply-job',
     passport.authenticate('jwt', { session: false }),
     async (req: Request, res: Response) => {
-        //checks that caller is a faculty member
+        //checks that caller is a student.
         const { role, studentId } = req.user as JWTStudent;
         if (role !== 'student') {
             return res
                 .status(UNAUTHORIZED)
                 .json({ error: 'User is not a student' });
         }
-        console.log("STUDENT:" + studentId + "\n");
         const { jobId } = req.body;
 
         // Check if required field is missing.

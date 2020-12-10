@@ -10,7 +10,6 @@ export class StudentToJob {
     @Column()
     public date: Date;
 
-
     @ManyToOne(type => Job, job => job.studentToJob)
     public job: Job;
 

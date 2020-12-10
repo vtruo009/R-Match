@@ -97,7 +97,7 @@ export const updateStudent = async (
 };
 
 /**
- * @description updates an existing student profile in the database
+ * @description saves a student's job application in the database.
  * @param studentId number
  * @param jobId number
  * @returns Promise
@@ -121,8 +121,7 @@ export const applyJob = async (
     const application = await studentToJobRepository.find({ job: job, student: student });
     if (application.length > 0) throw new Error("Student have already applied for the position.");
     
-
-    // Create studentToJob object.
+    // Create a new StudentToJob object.
     const studentToJob = studentToJobRepository.create({
         student: student,
         job: job,
