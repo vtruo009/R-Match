@@ -1,6 +1,6 @@
 import React from 'react';
 import { AuthContext } from 'Contexts/AuthContext';
-import StudentProfile from 'Domains/Student/StudentProfile';
+import StudentProfileForm from 'Domains/Student/StudentProfileForm';
 import FacultyMemberProfileForm from 'Domains/FacultyMember/FacultyMemberProfileForm';
 
 function Profile() {
@@ -9,7 +9,7 @@ function Profile() {
     return (
         <div style={{ margin: 50 }}>
             {user?.role === 'student' ? (
-                <StudentProfile />
+                <StudentProfileForm />
             ) : (
                 <FacultyMemberProfileForm />
             )}

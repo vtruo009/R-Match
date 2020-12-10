@@ -15,7 +15,6 @@ import Button from 'Components/Button';
 import {
     classStandingTypes,
     updateStudentProfile,
-    getStudentProfile,
 } from 'Domains/Student/api/api';
 
 import { departments, courseList } from 'sharedData';
@@ -93,16 +92,6 @@ function StudentProfileForm() {
         {
             onSuccess: () => {
                 snack('Student profile successfully created!', 'success');
-            },
-        }
-    );
-
-    const getProfileRequest = React.useCallback(() => getStudentProfile(), []);
-    const [sendGetProfileRequest, isGettingProfileLoading] = useApi(
-        getProfileRequest,
-        {
-            onSuccess: (results) => {
-                // setStudentProfile(results.data.student);
             },
         }
     );
