@@ -1,14 +1,3 @@
-/******************************************************************************
- *    This is a sample CRUD API. Please use it as a reference when implementing
- *    your own APIs. Follow naming conventions and overall structure in order to
- *    keep the project consistent
- *
- *    For reference a CRUD API performs the following actions:
- *      C - Create
- *      R - Read
- *      U - Update
- *      D - Delete
- ******************************************************************************/
 import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import { ISample } from '@entities/sample';
@@ -32,7 +21,7 @@ interface sampleRequest extends Request {
 }
 
 /******************************************************************************
- *            POST Request example - Create - "POST /api/sample/create"
+ *            POST Request - Create - /api/sample/create
  ******************************************************************************/
 
 router.post('/create', async (req: sampleRequest, res: Response) => {
@@ -56,7 +45,7 @@ router.post('/create', async (req: sampleRequest, res: Response) => {
 });
 
 /******************************************************************************
- *                GET Request example - Read - "GET /api/sample/read"
+ *                GET Request - Read - /api/sample/read
  ******************************************************************************/
 
 router.get('/read', async (req: Request, res: Response) => {
@@ -78,7 +67,7 @@ router.get('/read', async (req: Request, res: Response) => {
 });
 
 /******************************************************************************
- *             POST Request example - Update - "POST /api/sample/update"
+ *             POST Request - Update - /api/sample/update
  ******************************************************************************/
 
 router.post('/update', async (req: sampleRequest, res: Response) => {
@@ -102,7 +91,7 @@ router.post('/update', async (req: sampleRequest, res: Response) => {
 });
 
 /******************************************************************************
- *        DELETE Request example - Delete - "DELETE /api/users/delete/:id"
+ *              DELETE Request - Delete - /api/users/delete/:id
  ******************************************************************************/
 
 router.delete('/delete/:id', async (req: Request, res: Response) => {

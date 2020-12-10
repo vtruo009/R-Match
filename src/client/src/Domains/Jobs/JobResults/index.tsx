@@ -11,6 +11,10 @@ interface Props {
 
 function JobResults({ jobs }: Props) {
     const [jobSelected, setJobSelected] = React.useState<IJob>(jobs[0]);
+    // Resets job selected to first job after new jobs are fetched
+    React.useEffect(() => {
+        setJobSelected(jobs[0]);
+    }, [jobs]);
     return (
         <Grid container spacing={3} style={{ marginTop: 20 }}>
             <Grid item xs={5}>

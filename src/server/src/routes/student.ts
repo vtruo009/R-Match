@@ -16,18 +16,19 @@ interface studentRequest extends Request {
 }
 
 /******************************************************************************
- *   POST Request example - Update - "POST /api/student/update-profile"
+ *          POST Request - Update - /api/student/update-profile
  ******************************************************************************/
 
 router.post('/update-profile', async (req: studentRequest, res: Response) => {
     const { student } = req.body;
-    const { user, department, sid, classStanding, courses, id } = student;
 
     if (!student) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
     }
+
+    const { user, department, sid, classStanding, courses, id } = student;
 
     // Check if required field is missing.
     if (!id || !user || !user.id || !user.firstName || !user.lastName) {

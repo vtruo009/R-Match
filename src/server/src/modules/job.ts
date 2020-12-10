@@ -1,7 +1,6 @@
 import { IJob, Job } from '@entities/job';
 import { FacultyMember } from '@entities/facultyMember';
-import { getRepository } from 'typeorm';
-
+import { getRepository, MoreThanOrEqual, In, Any } from 'typeorm';
 /**
  * @description saves a new job in the database ans assigns a relationship of job-facultyMember. If faculty member does not exist it throws an error
  * @param targetYears string[]
@@ -92,12 +91,35 @@ export const createJob = async (
     return facultyMemberRepository.save(facultyToUpdate);
 };
 
-/**
- * @description gets all sample documents from the database
- * @returns Promise<Job[]>
- */
-export const getJobs = () => {
-    return getRepository(Job)
+// /**
+//  * @description gets all sample documents from the database
+//  * @returns Promise<Job[]>
+//  */
+// export const getJobs = () => {
+//     return getRepository(Job)
+//         .createQueryBuilder('job')
+//         .select([
+//             'job',
+//             'facultyMember.id',
+//             'facultyMember.title',
+//             'user.firstName',
+//             'user.lastName',
+//         ])
+//         .leftJoin('job.facultyMember', 'facultyMember')
+//         .leftJoin('facultyMember.user', 'user')
+//         .getMany();
+
+// TODO: Do filtering by start date. maybe?
+export const getJobs = async (
+    title: string,
+    types: string[],
+    startDate: string,
+    minSalary: number,
+    hoursPerWeek: number,
+    page: number,
+    numOfItems: number
+) => {
+    return await getRepository(Job)
         .createQueryBuilder('job')
         .select([
             'job',
@@ -108,7 +130,15 @@ export const getJobs = () => {
         ])
         .leftJoin('job.facultyMember', 'facultyMember')
         .leftJoin('facultyMember.user', 'user')
-        .getMany();
+        .where('LOWER(job.title) LIKE :title', {
+            title: `%${title.toLowerCase()}%`,
+        })
+        .orWhere('job.type IN (:...types)', { types })
+        .orWhere('job.minSalary >= :minSalary', { minSalary })
+        .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount();
 };
 
 /**
@@ -174,6 +204,5 @@ export const updateJob = (
  * @returns Promise
  */
 export const deleteJob = (id: number) => {
-    // return job.findByIdAndDelete(_id);
     return getRepository(Job).delete(id);
 };

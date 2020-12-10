@@ -8,10 +8,16 @@ function JobRoot() {
 
     return (
         <div style={{ padding: 20 }}>
-            <JobSearchForm setJobs={setJobsFetched} />
-            {jobsFetched.length > 0 && (
-                <JobResults jobs={jobsFetched}></JobResults>
-            )}
+            <JobSearchForm
+                children={
+                    <div>
+                        {jobsFetched.length > 0 && (
+                            <JobResults jobs={jobsFetched}></JobResults>
+                        )}
+                    </div>
+                }
+                setJobs={setJobsFetched}
+            />
         </div>
     );
 }

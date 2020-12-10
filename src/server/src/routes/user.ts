@@ -16,6 +16,10 @@ interface ISignUpRequest extends Request {
     };
 }
 
+/******************************************************************************
+ *              POST Request - Sign up - /api/user/sign-up
+ ******************************************************************************/
+
 router.post('/sign-up', async (req: ISignUpRequest, res: Response) => {
     const { user } = req.body;
     const {
@@ -76,6 +80,10 @@ router.post('/sign-up', async (req: ISignUpRequest, res: Response) => {
     }
 });
 
+/******************************************************************************
+ *              POST Request - Sign in- /api/user/sign-in
+ ******************************************************************************/
+
 router.post(
     '/sign-in',
     passport.authenticate('local', { session: false }),
@@ -98,6 +106,10 @@ router.post(
     }
 );
 
+/******************************************************************************
+ *              GET Request - Sign out - /api/user/sign-out
+ ******************************************************************************/
+
 router.get(
     '/sign-out',
     passport.authenticate('jwt', { session: false }),
@@ -110,6 +122,9 @@ router.get(
     }
 );
 
+/******************************************************************************
+ *              GET Request - Authenticated - /api/user/authenticated
+ ******************************************************************************/
 router.get(
     '/authenticated',
     passport.authenticate('jwt', { session: false }),
