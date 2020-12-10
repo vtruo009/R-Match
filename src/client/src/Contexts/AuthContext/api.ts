@@ -1,6 +1,6 @@
 import API from 'api';
 
-export interface IUser {
+export interface IAuthUser {
     id: number;
     firstName: string;
     lastName: string;
@@ -8,7 +8,7 @@ export interface IUser {
 }
 
 export async function isAuthenticatedRequest() {
-    return API.get<{ user: IUser; isAuthenticated: boolean }>(
+    return API.get<{ user: IAuthUser; isAuthenticated: boolean }>(
         'user/authenticated'
     );
 }
