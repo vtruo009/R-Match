@@ -131,7 +131,7 @@ router.get(
 
         try {
             if (!title) {
-                title = 'laskjhagh';
+                title = '';
             }
             if (!minSalary) {
                 minSalary = '10000';
