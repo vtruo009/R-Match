@@ -21,11 +21,6 @@ interface studentRequest extends Request {
     };
 }
 
-interface studentProfileRequest extends Request {
-    body: {
-        studentId: number;
-    };
-}
 interface jobApplicationRequest extends Request {
     body: {
         jobId: number;
