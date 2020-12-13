@@ -32,12 +32,84 @@ Demo: <Link to youtube video>
 
 <Screenshot of application>
 
+To run the entire application in dev mode:
+
+- cd into src
+- run docker-compose up
+
+The following services will run:
+
+- Backend - localhost port 5000
+- Fronted application - localhost port 3000
+- PostgreSQL database - locahost port 5432
+
 ## Diagrams
 
-Sequence Diagram
+Backend Structure
+-   ER Diagram
+![Alt text](pictures/DatabaseERDiagram.png?raw=true)
 
-Frontend Structure
+-   UML Class Diagram
+![Alt text](pictures/ClassUML.png?raw=true)
 
 Overall System Diagram
+![Alt text](pictures/HighLevelDiagram.png?raw=true)
+
 
 ## Dependencies
+
+- Backend:
+    - Dependencies:
+        -   bcrypt
+        -   cors
+        -   passport
+        -   passport-jwt
+        -   passport-local
+        -   command-line-args
+        -   cookie-parser
+        -   cors
+        -   dotenv
+        -   express
+        -   express-async-errors
+        -   helmet
+        -   http-status-codes
+        -   jet-logger
+        -   jsonwebtoken
+        -   module-alias
+        -   morgan
+        -   pg
+        -   reflect-metadata
+        -   typeorm
+
+    - Dev Dependencies:
+        -   node
+        -   jasmine
+        -   supertest
+        -   eslint-plugin
+        -   parser
+        -   eslint
+        -   nodemon
+        -   ts-node
+        -   tsconfig-paths
+        -   typescript
+
+- Frontend:
+    -   @material-ui/core
+    -   @material-ui/icons
+    -   @material-ui/lab
+    -   @testing-library/jest-dom
+    -   @testing-library/react
+    -   @testing-library/user-event
+    -   jest
+    -   node
+    -   react
+    -   react-dom
+    -   react-router-dom
+    -   yup
+    -   axios
+    -   date-fns
+    -   formik
+    -   formik-material-ui
+    -   notistack
+    -   react-scripts
+    -   typescript
