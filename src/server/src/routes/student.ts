@@ -90,7 +90,7 @@ router.post('/apply-job',
         }
 
     try {
-        const applyJobResult = await applyJob(
+        applyJob(
             studentId,
             jobId
         );
