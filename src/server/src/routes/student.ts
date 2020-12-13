@@ -17,6 +17,12 @@ interface studentRequest extends Request {
     };
 }
 
+interface jobApplicationRequest extends Request {
+    body: {
+        jobId: number;
+    };
+}
+
 /******************************************************************************
  *          POST Request - Update - /api/student/update-profile
  ******************************************************************************/
@@ -72,7 +78,7 @@ router.post('/update-profile', async (req: studentRequest, res: Response) => {
 
 router.post('/apply-job',
     passport.authenticate('jwt', { session: false }),
-    async (req: Request, res: Response) => {
+    async (req: jobApplicationRequest, res: Response) => {
         //checks that caller is a student.
         const { role, studentId } = req.user as JWTStudent;
         if (role !== 'student') {
@@ -90,7 +96,7 @@ router.post('/apply-job',
         }
 
     try {
-        applyJob(
+        await applyJob(
             studentId,
             jobId
         );

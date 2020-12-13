@@ -6,7 +6,7 @@ import {
     OneToMany
 } from 'typeorm';
 import { FacultyMember } from './facultyMember';
-import { StudentToJob } from './studentToJob';
+import { JobApplication } from './jobApplication';
 
 @Entity()
 export class Job {
@@ -55,8 +55,8 @@ export class Job {
     @ManyToOne(() => FacultyMember, (facultyMember) => facultyMember.jobs)
     facultyMember: FacultyMember;
 
-    @OneToMany(type => StudentToJob, studentToJob => studentToJob.job)
-    public studentToJob: StudentToJob[];
+    @OneToMany(type => JobApplication, jobApplication => jobApplication.job)
+    public studentToJob: JobApplication[];
 }
 
 export interface IJob {

@@ -3,7 +3,7 @@ import { Student } from '../entities/student';
 import { Job } from '../entities/job';
 
 @Entity()
-export class StudentToJob {
+export class JobApplication {
     @PrimaryGeneratedColumn()
     public id: number;
 

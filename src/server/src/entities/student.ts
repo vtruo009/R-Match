@@ -12,7 +12,7 @@ import {
 import { User, IUser } from './user';
 import { Course } from './course';
 import { Department } from './department';
-import { StudentToJob } from './studentToJob';
+import { JobApplication } from './jobApplication';
 
 @Entity()
 export class Student {
@@ -36,8 +36,8 @@ export class Student {
     @JoinTable()
     courses: Course[];
 
-    @OneToMany(type => StudentToJob, studentToJob => studentToJob.student)
-    public studentToJob: StudentToJob[];
+    @OneToMany(type => JobApplication, jobApplication => jobApplication.student)
+    public studentToJob: JobApplication[];
 }
 
 export interface IStudent {

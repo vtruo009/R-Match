@@ -4,7 +4,7 @@ import { IStudent, Student } from '@entities/student';
 import { Course } from '@entities/course';
 import { Job } from '@entities/job';
 import { Department } from '@entities/department';
-import { StudentToJob } from '@entities/studentToJob';
+import { JobApplication } from '@entities/jobApplication';
 
 /**
  * @description Creates a student using an user record from the database
@@ -108,7 +108,7 @@ export const applyJob = async (
 ) => {
     const studentRepository = getRepository(Student);
     const jobRepository = getRepository(Job);
-    const studentToJobRepository = getRepository(StudentToJob);
+    const studentToJobRepository = getRepository(JobApplication);
 
     const student = await studentRepository.findOne(studentId);
     if (!student) throw new Error("Student does not exist.");
@@ -116,16 +116,16 @@ export const applyJob = async (
     // Check if job exists.
     const job = await jobRepository.findOne(jobId);
     if (job === undefined) throw new Error("Requested job does not exist.");
-
-    // Check if student already applied for a job.
+    console.log("DIPPO?");
+    // Check if student already applied for the job.
     const application = await studentToJobRepository.find({ job: job, student: student });
     if (application.length > 0) throw new Error("Student have already applied for the position.");
     
     // Create a new StudentToJob object.
-    const studentToJob = studentToJobRepository.create({
+    const jobApplication = studentToJobRepository.create({
         student: student,
         job: job,
         date: new Date()
     });
-    return studentToJobRepository.save(studentToJob);
+    return studentToJobRepository.save(jobApplication);
 };
