@@ -121,7 +121,7 @@ export const applyJob = async (
     const application = await studentToJobRepository.find({ job: job, student: student });
     if (application.length > 0) throw new Error("Student have already applied for the position.");
     
-    // Create a new StudentToJob object.
+    // Create a new JobApplication object.
     const jobApplication = studentToJobRepository.create({
         student: student,
         job: job,
