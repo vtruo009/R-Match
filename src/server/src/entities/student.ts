@@ -6,7 +6,8 @@ import {
     JoinColumn,
     ManyToMany,
     JoinTable,
-    ManyToOne
+    ManyToOne,
+    TreeParent
 } from 'typeorm';
 import { User, IUser } from './user';
 import { Course } from './course';
@@ -27,10 +28,10 @@ export class Student {
     classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior';
 
     @Column({ nullable: true })
-    resume: File;  
+    resume: object;  
 
     @Column({ nullable: true })
-    transcript: File; 
+    transcript: object; 
 
     @OneToOne(() => User)
     @JoinColumn()
