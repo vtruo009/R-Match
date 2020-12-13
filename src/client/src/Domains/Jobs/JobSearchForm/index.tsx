@@ -123,7 +123,6 @@ function JobSearchForm({ setJobs, children }: props) {
                                     <Field
                                         name='type'
                                         label='Type'
-                                        //component={TextFormField}
                                         options={jobTypes}
                                         multiple
                                         component={SelectFormField}
