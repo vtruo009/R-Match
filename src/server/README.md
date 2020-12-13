@@ -426,10 +426,10 @@ Faculty Member API
                             college:{
                                 name: string
                             }
-                        }, // optional
-                        websiteLink: string, // optional
-                        office: string, // optional
-                        title: string // optional
+                        },
+                        websiteLink: string,
+                        office: string,
+                        title: string
                     }
                 }
                 ```

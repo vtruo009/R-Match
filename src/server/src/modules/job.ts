@@ -91,10 +91,24 @@ export const createJob = async (
     return facultyMemberRepository.save(facultyToUpdate);
 };
 
-/**
- * @description gets all sample documents from the database
- * @returns Promise<Job[]>
- */
+// /**
+//  * @description gets all sample documents from the database
+//  * @returns Promise<Job[]>
+//  */
+// export const getJobs = () => {
+//     return getRepository(Job)
+//         .createQueryBuilder('job')
+//         .select([
+//             'job',
+//             'facultyMember.id',
+//             'facultyMember.title',
+//             'user.firstName',
+//             'user.lastName',
+//         ])
+//         .leftJoin('job.facultyMember', 'facultyMember')
+//         .leftJoin('facultyMember.user', 'user')
+//         .getMany();
+
 // TODO: Do filtering by start date. maybe?
 export const getJobs = async (
     title: string,

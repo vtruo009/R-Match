@@ -9,7 +9,6 @@ import {
     updateFacultyMember,
 } from '@modules/facultyMember';
 import { JWTUser } from '@entities/user';
-import logger from '@shared/Logger';
 
 const router = Router();
 
@@ -94,7 +93,6 @@ router.get('/get-profile',
                 .status(UNAUTHORIZED)
                 .json({ error: 'You should log in to your account to view the page.' });
         }
-
 
         const { id } = req.body;
         try {

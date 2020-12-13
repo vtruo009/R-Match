@@ -40,6 +40,7 @@ router.post(
         }
 
         const { job } = req.body;
+
         const {
             targetYears,
             hoursPerWeek,
@@ -54,6 +55,7 @@ router.post(
             maxSalary,
             departmentId,
         } = job;
+
         if (!job) {
             return res.status(BAD_REQUEST).json({
                 error: errors.paramMissingError,
