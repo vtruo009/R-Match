@@ -119,6 +119,10 @@ export const getJobs = async (
     page: number,
     numOfItems: number
 ) => {
+    let modType = '';
+    if (types) {
+        modType = types.join(',');
+    }
     return await getRepository(Job)
         .createQueryBuilder('job')
         .select([
@@ -134,6 +138,7 @@ export const getJobs = async (
             title: `%${title.toLowerCase()}%`,
         })
         .orWhere('job.type IN (:...types)', { types })
+        .orWhere('job.type LIKE :type', { type: `%${modType}%`})
         .orWhere('job.minSalary >= :minSalary', { minSalary })
         .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
         .skip((page - 1) * numOfItems)

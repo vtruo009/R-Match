@@ -10,8 +10,9 @@ import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
 import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
-import { getJobs, IJob } from 'Domains/Jobs/api/api';
+import { getJobs, IJob, jobTypes } from 'Domains/Jobs/api/api';
 import { Pagination } from '@material-ui/lab';
+import { SelectFormField } from 'Components/SelectFormField';
 
 interface props {
     setJobs: (jobs: IJob[]) => void;
@@ -20,18 +21,22 @@ interface props {
 
 interface JobSearchFormType {
     title: string;
+    type: string[];
     minSalary: string;
     hoursPerWeek: string;
 }
 
 const formInitialValues = {
     title: '',
+    type: [],
     minSalary: '',
     hoursPerWeek: '',
 };
 
 const formSchema = yup.object({
     title: yup.string().required(),
+    //title: yup.string().optional(),
+    type: yup.string().optional(),
     minSalary: yup.number().min(0).optional(),
     hoursPerWeek: yup.number().moreThan(0).optional(),
 });
@@ -48,6 +53,7 @@ function JobSearchForm({ setJobs, children }: props) {
         () =>
             getJobs(
                 formState.title,
+                formState.type,
                 formState.minSalary,
                 formState.hoursPerWeek,
                 page,
@@ -113,7 +119,15 @@ function JobSearchForm({ setJobs, children }: props) {
                                         component={TextFormField}
                                     />
                                 </Grid>
-
+                                <Grid item md={3} xs={12} >
+                                    <Field
+                                        name='type'
+                                        label='Type'
+                                        options={jobTypes}
+                                        multiple
+                                        component={SelectFormField}
+                                    />
+                                </Grid>
                                 <Grid item md={2} xs={12}>
                                     <Field
                                         name='minSalary'
