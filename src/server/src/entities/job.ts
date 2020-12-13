@@ -56,7 +56,7 @@ export class Job {
     facultyMember: FacultyMember;
 
     @OneToMany(type => JobApplication, jobApplication => jobApplication.job)
-    public studentToJob: JobApplication[];
+    public jobApplications: JobApplication[];
 }
 
 export interface IJob {

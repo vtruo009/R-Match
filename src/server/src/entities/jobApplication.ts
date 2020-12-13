@@ -10,9 +10,9 @@ export class JobApplication {
     @Column()
     public date: Date;
 
-    @ManyToOne(type => Job, job => job.studentToJob)
+    @ManyToOne(type => Job, job => job.jobApplications)
     public job: Job;
 
-    @ManyToOne(type => Student, student => student.studentToJob)
+    @ManyToOne(type => Student, student => student.jobApplications)
     public student: Student;
 }

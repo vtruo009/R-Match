@@ -37,7 +37,7 @@ export class Student {
     courses: Course[];
 
     @OneToMany(type => JobApplication, jobApplication => jobApplication.student)
-    public studentToJob: JobApplication[];
+    public jobApplications: JobApplication[];
 }
 
 export interface IStudent {

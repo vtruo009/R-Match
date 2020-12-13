@@ -116,7 +116,7 @@ export const applyJob = async (
     // Check if job exists.
     const job = await jobRepository.findOne(jobId);
     if (job === undefined) throw new Error("Requested job does not exist.");
-    console.log("DIPPO?");
+
     // Check if student already applied for the job.
     const application = await studentToJobRepository.find({ job: job, student: student });
     if (application.length > 0) throw new Error("Student have already applied for the position.");
