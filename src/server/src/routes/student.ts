@@ -9,8 +9,7 @@ import {
     getStudentProfile,
     applyJob
 } from '@modules/student';
-import { JWTStudent } from '@entities/user';
-import logger from '@shared/Logger';
+import { JWTUser } from '@entities/user';
 
 const router = Router();
 
@@ -83,21 +82,23 @@ router.post('/update-profile', async (req: studentRequest, res: Response) => {
 });
 
 /******************************************************************************
- *          GET Request - Read - "GET /api/student/get-profile"
+ *          GET Request - Read - "GET /api/student/get-profile/:studentId"
  ******************************************************************************/
 
-router.get('/get-profile',
+router.get('/get-profile/:studentId',
     passport.authenticate('jwt', { session: false }),
-    async (req: studentProfileRequest, res: Response) => {
-        const { studentId } = req.body;
+    async (req: Request, res: Response) => {
+        console.log("?");
+        const { studentId } = req.params;
 
+        console.log("?dd");
         if (!studentId) {
             return res.status(BAD_REQUEST).json({
                 error: errors.paramMissingError,
             });
         }
         try {
-            const student = await getStudentProfile(studentId);
+            const student = await getStudentProfile(parseInt(studentId, 10));
             return res.status(OK).json({ student }).end();
         } catch (error) {
             logger.err(error);
@@ -116,7 +117,7 @@ router.post('/apply-job',
     passport.authenticate('jwt', { session: false }),
     async (req: jobApplicationRequest, res: Response) => {
         //checks that caller is a student.
-        const { role, studentId } = req.user as JWTStudent;
+        const { role, specificUserId } = req.user as JWTUser;
         if (role !== 'student') {
             return res
                 .status(UNAUTHORIZED)
@@ -132,7 +133,7 @@ router.post('/apply-job',
         }
   try {
         await applyJob(
-            studentId,
+            specificUserId,
             jobId
         );
         return res.status(OK).end();

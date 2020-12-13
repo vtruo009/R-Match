@@ -19,12 +19,6 @@ interface facultyMemberRequest extends Request {
     };
 }
 
-interface facultyMemberProfileRequest extends Request {
-    body: {
-        facultyMemberId: number;
-    };
-}
-
 /******************************************************************************
  *   POST Request - Update Profile - /api/facultyMember/update-profile
  ******************************************************************************/
@@ -86,13 +80,13 @@ router.post(
 );
 
 /******************************************************************************
- *          GET Request - Read - "GET /api/facultyMember/get-profile"
+ * GET Request - Read - "GET /api/facultyMember/get-profile/:facultyMemberId"
  ******************************************************************************/
 
-router.get('/get-profile',
+router.get('/get-profile/:facultyMemberId',
     passport.authenticate('jwt', { session: false }),
-    async (req: facultyMemberProfileRequest, res: Response) => {
-        const { facultyMemberId } = req.body;
+    async (req: Request, res: Response) => {
+        const { facultyMemberId } = req.params;
 
         if (!facultyMemberId) {
             return res.status(BAD_REQUEST).json({
@@ -101,7 +95,7 @@ router.get('/get-profile',
         }
 
         try {
-            const facultyMember = await getFacultyMemberProfile(facultyMemberId);
+            const facultyMember = await getFacultyMemberProfile(parseInt(facultyMemberId, 10));
             return res.status(OK).json({ facultyMember }).end();
         } catch (error) {
             logger.err(error);

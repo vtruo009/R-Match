@@ -401,13 +401,8 @@ Faculty Member API
     -   api/facultyMember/get-profile
 
         -   Returns an existing faculty member object and associated user, department, and course objects from the database.
-        -   Body:
-            ```
-            {
-                facultyMemberId: number
-            }
-            ```
-        -   Parameters: None
+        -   Body: None
+        -   Parameters: /:facultyMemberId
         -   Response:
             -   success:
                 Status code: 200
@@ -494,13 +489,8 @@ Student API
     -   api/student/get-profile
     
         -   Returns an existing student object and associated user, department, and course objects from the database.
-        -   Body:
-            ```
-            {
-                studentId: number
-            }
-            ```
-        -   Parameters: None
+        -   Body: None
+        -   Parameters: /:studentId
         -   Response:
             -   success:
                 Status code: 200
