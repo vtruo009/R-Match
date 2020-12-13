@@ -89,10 +89,8 @@ router.post('/update-profile', async (req: studentRequest, res: Response) => {
 router.get('/get-profile/:studentId',
     passport.authenticate('jwt', { session: false }),
     async (req: Request, res: Response) => {
-        console.log("?");
         const { studentId } = req.params;
 
-        console.log("?dd");
         if (!studentId) {
             return res.status(BAD_REQUEST).json({
                 error: errors.paramMissingError,
