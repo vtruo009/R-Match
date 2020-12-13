@@ -1,7 +1,8 @@
 import API from 'api';
 
 export interface IAuthUser {
-    id: number;
+    userId: number;
+    specificUserId: number;
     firstName: string;
     lastName: string;
     role: 'student' | 'facultyMember';

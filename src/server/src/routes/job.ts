@@ -4,7 +4,7 @@ import { Request, Response, Router } from 'express';
 import { IJob } from '@entities/job';
 import { errors } from '@shared/errors';
 import { createJob, updateJob, deleteJob, getJobs } from '@modules/job';
-import { JWTFacultyMember } from '@entities/user';
+import { JWTUser } from '@entities/user';
 import logger from '@shared/Logger';
 
 const router = Router();
@@ -32,7 +32,7 @@ router.post(
     passport.authenticate('jwt', { session: false }),
     async (req: jobRequest, res: Response) => {
         //checks that caller is a faculty member
-        const { role, facultyMemberId } = req.user as JWTFacultyMember;
+        const { role, specificUserId } = req.user as JWTUser;
         if (role !== 'facultyMember') {
             return res
                 .status(UNAUTHORIZED)
@@ -90,7 +90,7 @@ router.post(
                 minSalary,
                 maxSalary,
                 departmentId,
-                facultyMemberId
+                specificUserId
             );
             return res.status(CREATED).end();
         } catch (error) {
