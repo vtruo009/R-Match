@@ -7,7 +7,6 @@ import {
     ManyToMany,
     JoinTable,
     ManyToOne,
-    TreeParent
 } from 'typeorm';
 import { User, IUser } from './user';
 import { Course } from './course';
