@@ -400,7 +400,7 @@ Faculty Member API
         -   Body:
             ```
             {
-                id: number
+                facultyMemberId: number
             }
             ```
         -   Parameters: None
@@ -493,7 +493,7 @@ Student API
         -   Body:
             ```
             {
-                id: number
+                studentId: number
             }
             ```
         -   Parameters: None
