@@ -1,17 +1,25 @@
 import StatusCodes from 'http-status-codes';
+import passport from 'passport';
 import { Request, Response, Router } from 'express';
 import { IStudent } from '@entities/student';
 import { errors } from '@shared/errors';
-import { updateStudent } from '@modules/student';
+import { updateStudent, applyJob } from '@modules/student';
+import { JWTStudent } from '@entities/user';
 import logger from '@shared/Logger';
 
 const router = Router();
 
-const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
+const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED } = StatusCodes;
 
 interface studentRequest extends Request {
     body: {
         student: IStudent;
+    };
+}
+
+interface jobApplicationRequest extends Request {
+    body: {
+        jobId: number;
     };
 }
 
@@ -60,6 +68,44 @@ router.post('/update-profile', async (req: studentRequest, res: Response) => {
         return res
             .status(INTERNAL_SERVER_ERROR)
             .json(errors.internalServerError)
+            .end();
+    }
+});
+
+/******************************************************************************
+ *          POST Request - Apply Job - /api/student/apply-job
+ ******************************************************************************/
+
+router.post('/apply-job',
+    passport.authenticate('jwt', { session: false }),
+    async (req: jobApplicationRequest, res: Response) => {
+        //checks that caller is a student.
+        const { role, studentId } = req.user as JWTStudent;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' });
+        }
+        const { jobId } = req.body;
+
+        // Check if required field is missing.
+        if (!jobId) {
+            return res.status(BAD_REQUEST).json({
+                error: errors.paramMissingError,
+            });
+        }
+
+    try {
+        await applyJob(
+            studentId,
+            jobId
+        );
+        return res.status(OK).end();
+    } catch (error) {
+        logger.err(error);
+        return res
+            .status(INTERNAL_SERVER_ERROR)
+            .json({ error })
             .end();
     }
 });
