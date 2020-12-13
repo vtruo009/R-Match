@@ -8,7 +8,7 @@ import {
     OneToMany,
     ManyToMany,
     ManyToOne,
-    BaseEntity,
+    BaseEntity
 } from 'typeorm';
 import { User, JWTUser } from './user';
 import { Course } from './course';
@@ -36,10 +36,10 @@ export class Student extends BaseEntity {
     userId: number;
 
     @Column({ nullable: true })
-    resume: File;  
+    resume: object;  
 
     @Column({ nullable: true })
-    transcript: File; 
+    transcript: object; 
 
     @OneToOne(() => User)
     @JoinColumn()
