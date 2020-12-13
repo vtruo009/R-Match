@@ -397,6 +397,46 @@ Faculty Member API
             -   errors:
                 -   Missing fields in body -> Status code: 400
                 -   Internal server error -> Status code: 500
+                
+    -   api/facultyMember/get-profile
+
+        -   Returns an existing faculty member object and associated user, department, and course objects from the database.
+        -   Body: None
+        -   Parameters: /:facultyMemberId
+        -   Response:
+            -   success:
+                Status code: 200
+                ```
+                {
+                    facultyMember: {
+                        id: number,
+                        user:{
+                            id: number,
+                            email: : string,
+                            biography: string,
+                            firstName: string,
+                            lastName: string,
+                            middleName: string,
+                            role: 'student'
+                        },
+                        department: {
+                            id: number,
+                            name: string,
+                            college:{
+                                name: string
+                            }
+                        },
+                        websiteLink: string,
+                        office: string,
+                        title: string
+                    }
+                }
+                ```
+            -   error:
+                Internal server error -> Status code: 500
+            -   errors:
+                -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
 
 Student API
 
@@ -445,7 +485,51 @@ Student API
             -   errors:
                 -   Missing fields in body -> Status code: 400
                 -   Internal server error -> Status code: 500
-
+                
+    -   api/student/get-profile
+    
+        -   Returns an existing student object and associated user, department, and course objects from the database.
+        -   Body: None
+        -   Parameters: /:studentId
+        -   Response:
+            -   success:
+                Status code: 200
+                ```
+                {
+                    student: {
+                        id: number,
+                        sid: number,
+                        classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior',
+                        user: {
+                            id: number,
+                            email: : string,
+                            biography: string,
+                            firstName: string,
+                            lastName: string,
+                            middleName: string,
+                            role: 'student'
+                        },
+                        department: {
+                            id: number,
+                            name: string,
+                            college: {
+                                id: number,
+                                name: string
+                            }
+                        },
+                        courses: {
+                                id: number,
+                                title: string
+                        }[]
+                    }
+                }
+                ```
+            -   error:
+                Internal server error -> Status code: 500
+            -   errors:
+                -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
+                
     -   /api/student/apply-job
 
         -   Saves a student's job application information in the database.

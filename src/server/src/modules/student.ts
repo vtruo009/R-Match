@@ -90,10 +90,30 @@ export const updateStudent = async (
 
         return studentRepository.update(id, {
             sid,
-            classStanding,
+            classStanding
         });
     }
     return undefined;
+};
+
+export const getStudentProfile = async (
+    id: number
+) => {
+    return getRepository(Student)
+        .createQueryBuilder("student")
+        .where({ id })
+        .leftJoin("student.user", "user")
+        .addSelect([
+            "user.firstName",
+            "user.lastName",
+            "user.middleName",
+            "user.biography",
+            "user.email"
+        ])
+        .leftJoinAndSelect("student.department", "department")
+        .leftJoinAndSelect("department.college", "college")
+        .leftJoinAndSelect("student.courses", "courses")
+        .getOneOrFail();
 };
 
 /**

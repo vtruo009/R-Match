@@ -1,11 +1,15 @@
 import StatusCodes from 'http-status-codes';
 import passport from 'passport';
+import logger from '@shared/Logger';
 import { Request, Response, Router } from 'express';
 import { IStudent } from '@entities/student';
 import { errors } from '@shared/errors';
-import { updateStudent, applyJob } from '@modules/student';
+import {
+    updateStudent,
+    getStudentProfile,
+    applyJob
+} from '@modules/student';
 import { JWTUser } from '@entities/user';
-import logger from '@shared/Logger';
 
 const router = Router();
 
@@ -79,7 +83,33 @@ router.post('/update-profile', async (req: studentRequest, res: Response) => {
 });
 
 /******************************************************************************
- *          POST Request - Apply Job - /api/student/apply-job
+ *          GET Request - Read - "GET /api/student/get-profile/:studentId"
+ ******************************************************************************/
+
+router.get('/get-profile/:studentId',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        const { studentId } = req.params;
+
+        if (!studentId) {
+            return res.status(BAD_REQUEST).json({
+                error: errors.paramMissingError,
+            });
+        }
+        try {
+            const student = await getStudentProfile(parseInt(studentId, 10));
+            return res.status(OK).json({ student }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+});
+  
+/******************************************************************************
+   *          POST Request - Apply Job - /api/student/apply-job
  ******************************************************************************/
 
 router.post(
@@ -101,16 +131,20 @@ router.post(
                 error: errors.paramMissingError,
             });
         }
-
         try {
-            await applyJob(specificUserId, jobId);
+            await applyJob(
+                specificUserId,
+                jobId
+            );
             return res.status(OK).end();
         } catch (error) {
             logger.err(error);
-            return res.status(INTERNAL_SERVER_ERROR).json({ error }).end();
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json({ error })
+                .end();
         }
-    }
-);
+    });
 
 /******************************************************************************
  *                                     Export
