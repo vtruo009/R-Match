@@ -414,7 +414,6 @@ Faculty Member API
                         user:{
                             id: number,
                             email: : string,
-                            password: : string, // Encoded
                             biography: string,
                             firstName: string,
                             lastName: string,
@@ -510,7 +509,6 @@ Student API
                         user: {
                             id: number,
                             email: : string,
-                            password: : string, // Encoded
                             biography: string,
                             firstName: string,
                             lastName: string,
@@ -526,8 +524,8 @@ Student API
                             }
                         },
                         courses: {
-                                "id": 5,
-                                "title": "CS200"
+                                id: number,
+                                title: string
                         }[]
                     }
                 }
