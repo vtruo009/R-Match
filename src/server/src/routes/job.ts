@@ -4,7 +4,7 @@ import { Request, Response, Router } from 'express';
 import { IJob } from '@entities/job';
 import { errors } from '@shared/errors';
 import { createJob, updateJob, deleteJob, getJobs } from '@modules/job';
-import { JWTFacultyMember } from '@entities/user';
+import { JWTUser } from '@entities/user';
 import logger from '@shared/Logger';
 
 const router = Router();
@@ -32,7 +32,7 @@ router.post(
     passport.authenticate('jwt', { session: false }),
     async (req: jobRequest, res: Response) => {
         //checks that caller is a faculty member
-        const { role, facultyMemberId } = req.user as JWTFacultyMember;
+        const { role, specificUserId } = req.user as JWTUser;
         if (role !== 'facultyMember') {
             return res
                 .status(UNAUTHORIZED)
@@ -90,7 +90,7 @@ router.post(
                 minSalary,
                 maxSalary,
                 departmentId,
-                facultyMemberId
+                specificUserId
             );
             return res.status(CREATED).end();
         } catch (error) {
@@ -121,7 +121,7 @@ router.get(
             numOfItems,
         } = req.query as {
             title: string;
-            type: string;
+            type: string[];
             startDate: string;
             minSalary: string;
             hoursPerWeek: string;
@@ -130,7 +130,6 @@ router.get(
         };
 
         try {
-            let types: string[] = [''];
             if (!title) {
                 title = '';
             }
@@ -143,12 +142,9 @@ router.get(
             if (!startDate) {
                 startDate = '01/01/3000';
             }
-            if (type) {
-                types = type.split(',');
-            }
             const [jobs, jobsCount] = await getJobs(
                 title,
-                types,
+                type,
                 startDate,
                 parseInt(minSalary),
                 parseInt(hoursPerWeek),

@@ -122,8 +122,8 @@ Job API
                 }
                 ```
             -   error:
-                - Internal server error -> Status code: 500
-                - Unauthorized user -> Status code: 401
+                -   Internal server error -> Status code: 500
+                -   Unauthorized user -> Status code: 401
 
     -   api/job/create
 
@@ -153,7 +153,7 @@ Job API
         -   Parameters: None
         -   Response:
             -   success:
-                    Status code: 201
+                Status code: 201
             -   errors:
                 -   Missing fields in body -> Status code: 400
                 -   Unauthorized user -> Status code: 401
@@ -282,7 +282,8 @@ User API
                         {
                             isAuthenticated: boolean,
                             user: {
-                                id: number,
+                                userId: number,
+                                specificUserId: number,
                                 role: student | facultyMember,
                                 firstName: string,
                                 lastName: string
@@ -297,6 +298,7 @@ User API
                 -   Unauthorized: -> Status code: 401
 
     -   api/user/sign-out
+
         -   HTTP Method: GET
         -   Sign out an user by clearing the cookie previously provided to the user
         -   Cookies:
@@ -313,7 +315,8 @@ User API
                         {
                             success: boolean,
                             user: {
-                                id: number,
+                                userId: number,
+                                specificUserId: number,
                                 role: student | facultyMember,
                                 firstName: string,
                                 lastName: string
@@ -340,7 +343,8 @@ User API
                         {
                             isAuthenticated: boolean,
                             user: {
-                                id: number,
+                                userId: number,
+                                specificUserId: number,
                                 role: student | facultyMember,
                                 firstName: string,
                                 lastName: string
@@ -488,7 +492,7 @@ Student API
                 -   Internal server error -> Status code: 500
                 
     -   api/student/get-profile
-
+    
         -   Returns an existing student object and associated user, department, and course objects from the database.
         -   Body:
             ```
@@ -536,6 +540,26 @@ Student API
                 -   Missing fields in body -> Status code: 400
                 -   Internal server error -> Status code: 500
                 
+    -   /api/student/apply-job
+
+        -   Saves a student's job application information in the database.
+        -   Body:
+            ```
+            {
+                jobId: number
+            }
+            ```
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a student
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 201
+            -   errors:
+                -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
+
 Department API
 
 -   Interacts with:
@@ -555,7 +579,7 @@ Department API
                     college: {
                         id: number,
                         name: string
-					}
+            		}
                 }
             }
             ```
@@ -566,7 +590,6 @@ Department API
             -   errors:
                 -   Missing fields in body -> Status code: 400
                 -   Internal server error -> Status code: 500
-                
 
 College API
 

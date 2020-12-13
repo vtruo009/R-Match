@@ -40,15 +40,8 @@ export interface IUser {
 
 export interface JWTUser {
     userId: number;
+    specificUserId: number;
     role: 'student' | 'facultyMember';
     firstName: string;
     lastName: string;
-}
-
-export interface JWTStudent extends JWTUser {
-    studentId: number;
-}
-
-export interface JWTFacultyMember extends JWTUser {
-    facultyMemberId: number;
 }

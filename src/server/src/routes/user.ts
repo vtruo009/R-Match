@@ -89,17 +89,25 @@ router.post(
     passport.authenticate('local', { session: false }),
     (req: Request, res: Response) => {
         if (req.isAuthenticated()) {
-            const { userId, role, firstName, lastName } = req.user as JWTUser;
+            const {
+                userId,
+                role,
+                firstName,
+                lastName,
+                specificUserId,
+            } = req.user as JWTUser;
+
             const token = signToken(userId);
             res.cookie('access_token', token, {
                 httpOnly: true,
                 sameSite: true,
             });
+
             return res
                 .status(OK)
                 .json({
                     isAuthenticated: true,
-                    user: { id: userId, role, firstName, lastName },
+                    user: { userId, specificUserId, role, firstName, lastName },
                 })
                 .end();
         }
@@ -116,7 +124,13 @@ router.get(
     (req: Request, res: Response) => {
         res.clearCookie('access_token');
         return res.status(OK).json({
-            user: { id: '', role: '', firstName: '', lastName: '' },
+            user: {
+                userId: '',
+                specificUserId: '',
+                role: '',
+                firstName: '',
+                lastName: '',
+            },
             success: true,
         });
     }
@@ -125,13 +139,21 @@ router.get(
 /******************************************************************************
  *              GET Request - Authenticated - /api/user/authenticated
  ******************************************************************************/
+
 router.get(
     '/authenticated',
     passport.authenticate('jwt', { session: false }),
     (req: Request, res: Response) => {
-        const { userId, role, firstName, lastName } = req.user as JWTUser;
+        const {
+            userId,
+            specificUserId,
+            role,
+            firstName,
+            lastName,
+        } = req.user as JWTUser;
+
         return res.status(OK).json({
-            user: { id: userId, role, firstName, lastName },
+            user: { userId, specificUserId, role, firstName, lastName },
             isAuthenticated: true,
         });
     }
