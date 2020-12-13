@@ -13,7 +13,13 @@ import { JWTUser } from '@entities/user';
 
 const router = Router();
 
-const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED } = StatusCodes;
+const {
+    BAD_REQUEST,
+    CREATED,
+    OK,
+    INTERNAL_SERVER_ERROR,
+    UNAUTHORIZED,
+} = StatusCodes;
 
 interface studentRequest extends Request {
     body: {
@@ -108,7 +114,8 @@ router.get('/get-profile/:studentId',
    *          POST Request - Apply Job - /api/student/apply-job
  ******************************************************************************/
 
-router.post('/apply-job',
+router.post(
+    '/apply-job',
     passport.authenticate('jwt', { session: false }),
     async (req: jobApplicationRequest, res: Response) => {
         //checks that caller is a student.
@@ -139,7 +146,7 @@ router.post('/apply-job',
             .json({ error })
             .end();
     }
-});
+);
 
 /******************************************************************************
  *                                     Export
