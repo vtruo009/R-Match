@@ -8,7 +8,6 @@ import {
     getFacultyMemberProfile,
     updateFacultyMember,
 } from '@modules/facultyMember';
-import { JWTUser } from '@entities/user';
 
 const router = Router();
 
@@ -17,6 +16,12 @@ const { BAD_REQUEST, CREATED, OK, UNAUTHORIZED, INTERNAL_SERVER_ERROR } = Status
 interface facultyMemberRequest extends Request {
     body: {
         facultyMember: IFacultyMember;
+    };
+}
+
+interface facultyMemberProfileRequest extends Request {
+    body: {
+        facultyMemberId: number;
     };
 }
 
@@ -86,23 +91,17 @@ router.post(
 
 router.get('/get-profile',
     passport.authenticate('jwt', { session: false }),
-    async (req: Request, res: Response) => {
-        const { userId } = req.user as JWTUser;
-        if (!userId) {
-            return res
-                .status(UNAUTHORIZED)
-                .json({ error: 'You should log in to your account to view the page.' });
+    async (req: facultyMemberProfileRequest, res: Response) => {
+        const { facultyMemberId } = req.body;
+
+        if (!facultyMemberId) {
+            return res.status(BAD_REQUEST).json({
+                error: errors.paramMissingError,
+            });
         }
 
-        const { id } = req.body;
         try {
-            if (!id) {
-                return res.status(BAD_REQUEST).json({
-                    error: errors.paramMissingError,
-                });
-            }
-
-            const facultyMember = await getFacultyMemberProfile(id);
+            const facultyMember = await getFacultyMemberProfile(facultyMemberId);
             return res.status(OK).json({ facultyMember }).end();
         } catch (error) {
             logger.err(error);

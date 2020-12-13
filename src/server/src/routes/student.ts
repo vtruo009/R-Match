@@ -8,7 +8,6 @@ import {
     updateStudent,
     getStudentProfile
 } from '@modules/student';
-import { JWTUser } from '@entities/user';
 
 const router = Router();
 
@@ -17,6 +16,12 @@ const { BAD_REQUEST, CREATED, OK, UNAUTHORIZED, INTERNAL_SERVER_ERROR } = Status
 interface studentRequest extends Request {
     body: {
         student: IStudent;
+    };
+}
+
+interface studentProfileRequest extends Request {
+    body: {
+        studentId: number;
     };
 }
 
@@ -75,22 +80,16 @@ router.post('/update-profile', async (req: studentRequest, res: Response) => {
 
 router.get('/get-profile',
     passport.authenticate('jwt', { session: false }),
-    async (req: Request, res: Response) => {
-        const { userId } = req.user as JWTUser;
-        if (!userId) {
-            return res
-                .status(UNAUTHORIZED)
-                .json({ error: 'You should log in to your account to view the page.' });
-        }
-        const { id } = req.body;
-        try {
-            if (!id) {
-                return res.status(BAD_REQUEST).json({
-                    error: errors.paramMissingError,
-                });
-            }
+    async (req: studentProfileRequest, res: Response) => {
+        const { studentId } = req.body;
 
-            const student = await getStudentProfile(id);
+        if (!studentId) {
+            return res.status(BAD_REQUEST).json({
+                error: errors.paramMissingError,
+            });
+        }
+        try {
+            const student = await getStudentProfile(studentId);
             return res.status(OK).json({ student }).end();
         } catch (error) {
             logger.err(error);
