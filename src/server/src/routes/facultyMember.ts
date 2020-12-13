@@ -9,6 +9,7 @@ import {
     updateFacultyMember,
 } from '@modules/facultyMember';
 import { JWTUser } from '@entities/user';
+import logger from '@shared/Logger';
 
 const router = Router();
 

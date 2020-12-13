@@ -1,7 +1,6 @@
 import { IJob, Job } from '@entities/job';
 import { FacultyMember } from '@entities/facultyMember';
-import { getRepository } from 'typeorm';
-
+import { getRepository, MoreThanOrEqual, In, Any } from 'typeorm';
 /**
  * @description saves a new job in the database ans assigns a relationship of job-facultyMember. If faculty member does not exist it throws an error
  * @param targetYears string[]
@@ -108,6 +107,15 @@ export const getJobs = async (
 ) => {
     return await getRepository(Job)
         .createQueryBuilder('job')
+        .select([
+            'job',
+            'facultyMember.id',
+            'facultyMember.title',
+            'user.firstName',
+            'user.lastName',
+        ])
+        .leftJoin('job.facultyMember', 'facultyMember')
+        .leftJoin('facultyMember.user', 'user')
         .where('LOWER(job.title) LIKE :title', {
             title: `%${title.toLowerCase()}%`,
         })

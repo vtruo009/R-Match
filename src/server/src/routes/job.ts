@@ -105,60 +105,64 @@ router.post(
  *            GET Request - Read - /api/job/read
  ******************************************************************************/
 
-router.get('/read', async (req: Request, res: Response) => {
-    let {
-        title,
-        type,
-        startDate,
-        minSalary,
-        hoursPerWeek,
-        page,
-        numOfItems,
-    } = req.query as {
-        title: string;
-        type: string;
-        startDate: string;
-        minSalary: string;
-        hoursPerWeek: string;
-        page: string;
-        numOfItems: string;
-    };
-
-    try {
-        let types: string[] = [''];
-        if (!title) {
-            title = '';
-        }
-        if (!minSalary) {
-            minSalary = '10000';
-        }
-        if (!hoursPerWeek) {
-            hoursPerWeek = '10000';
-        }
-        if (!startDate) {
-            startDate = '01/01/3000';
-        }
-        if (type) {
-            types = type.split(',');
-        }
-        const [jobs, jobsCount] = await getJobs(
+router.get(
+    '/read',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        let {
             title,
-            types,
+            type,
             startDate,
-            parseInt(minSalary),
-            parseInt(hoursPerWeek),
-            parseInt(page),
-            parseInt(numOfItems)
-        );
-        return res.status(OK).json({ jobs, jobsCount }).end();
-    } catch (error) {
-        logger.err(error);
-        return res
-            .status(INTERNAL_SERVER_ERROR)
-            .json(errors.internalServerError)
-            .end();
+            minSalary,
+            hoursPerWeek,
+            page,
+            numOfItems,
+        } = req.query as {
+            title: string;
+            type: string;
+            startDate: string;
+            minSalary: string;
+            hoursPerWeek: string;
+            page: string;
+            numOfItems: string;
+        };
+
+        try {
+            let types: string[] = [''];
+            if (!title) {
+                title = '';
+            }
+            if (!minSalary) {
+                minSalary = '10000';
+            }
+            if (!hoursPerWeek) {
+                hoursPerWeek = '10000';
+            }
+            if (!startDate) {
+                startDate = '01/01/3000';
+            }
+            if (type) {
+                types = type.split(',');
+            }
+            const [jobs, jobsCount] = await getJobs(
+                title,
+                types,
+                startDate,
+                parseInt(minSalary),
+                parseInt(hoursPerWeek),
+                parseInt(page),
+                parseInt(numOfItems)
+            );
+            return res.status(OK).json({ jobs, jobsCount }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
     }
-});
+);
 
 /******************************************************************************
  *             POST Request - Update - /api/job/update
