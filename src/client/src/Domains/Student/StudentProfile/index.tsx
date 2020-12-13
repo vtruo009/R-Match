@@ -4,9 +4,11 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 import useApi from 'hooks/useApi';
-import useSnack from 'hooks/useSnack';
 import LabelValue from 'Components/LabelValue';
+import Loader from 'Components/Loader';
+import StudentProfileForm from 'Domains/Student/StudentProfileForm';
 import { getStudentProfile, IStudent } from 'Domains/Student/api/api';
+import { AuthContext } from 'Contexts/AuthContext';
 
 // TODO: Make sure PDF Files are not greater than some number of bytes
 
@@ -38,10 +40,12 @@ function StudentProfile() {
     const [studentProfile, setStudentProfile] = React.useState<IStudent>(
         mockStudent
     );
+    const { user } = React.useContext(AuthContext);
 
-    const [snack] = useSnack();
-
-    const getProfileRequest = React.useCallback(() => getStudentProfile(), []);
+    const getProfileRequest = React.useCallback(
+        () => getStudentProfile(user?.specificUserId as number),
+        [user?.specificUserId]
+    );
     const [sendGetProfileRequest, isGettingProfileLoading] = useApi(
         getProfileRequest,
         {
@@ -50,9 +54,13 @@ function StudentProfile() {
             },
         }
     );
+    React.useEffect(() => {
+        sendGetProfileRequest();
+    }, [sendGetProfileRequest]);
 
-    React.useEffect(() => {});
-    return (
+    return isGettingProfileLoading ? (
+        <Loader center />
+    ) : (
         <Paper style={{ padding: 50 }}>
             <Grid container spacing={3} alignContent='center'>
                 <Grid item container justify='flex-start'>

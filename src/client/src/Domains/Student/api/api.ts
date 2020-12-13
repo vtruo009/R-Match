@@ -56,6 +56,6 @@ export async function updateStudentProfile(
     });
 }
 // No parameters needed since user will have to be authenticated
-export async function getStudentProfile() {
+export async function getStudentProfile(studentId: number) {
     return API.get<{ student: IStudent }>('student/get-profile');
 }

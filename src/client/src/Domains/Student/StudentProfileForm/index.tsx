@@ -11,7 +11,7 @@ import useSnack from 'hooks/useSnack';
 import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
-import Button from 'Components/Button';
+import SubmitButton from 'Components/Button';
 import {
     classStandingTypes,
     updateStudentProfile,
@@ -210,7 +210,7 @@ function StudentProfileForm() {
                                 </Grid>
                             </Grid>
                             <Grid container item xs={12}>
-                                <Button
+                                <SubmitButton
                                     type='submit'
                                     isLoading={isUpdatingProfileLoading}
                                 >
@@ -218,7 +218,7 @@ function StudentProfileForm() {
                                     {isUpdatingProfileLoading && (
                                         <Loader size={20} />
                                     )}
-                                </Button>
+                                </SubmitButton>
                             </Grid>
                         </Grid>
                     </Form>
