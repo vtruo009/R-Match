@@ -11,49 +11,6 @@ export type jobType =
 
 export type targetYearsType = 'Freshman' | 'Sophmore' | 'Junior' | 'Senior';
 
-export const departments = [
-    {
-        label: 'Biochemistry',
-        value: 'Biochemistry',
-    },
-    {
-        label: 'Bioengineering',
-        value: 'Bioengineering',
-    },
-    {
-        label: 'Chemical Engineering',
-        value: 'Chemical Engineering',
-    },
-    {
-        label: 'Computer Science',
-        value: 'Computer Science',
-    },
-    {
-        label: 'Computer Engineering',
-        value: 'Computer Engineering',
-    },
-    {
-        label: 'Data Science',
-        value: 'Data Science',
-    },
-    {
-        label: 'Environmental Engineering',
-        value: 'Environmental Engineering',
-    },
-    {
-        label: 'Electrical Engineering',
-        value: 'Electrical Engineering',
-    },
-    {
-        label: 'Materials Science and Engineering',
-        value: 'Materials Science and Engineering',
-    },
-    {
-        label: 'Mechanical Engineering',
-        value: 'Mechanical Engineering',
-    },
-];
-
 export const jobTypes = [
     {
         label: 'Grader',
@@ -108,12 +65,21 @@ export interface IJob {
     expirationDate?: string;
     startDate: string;
     endDate?: string;
+    postedOn: string;
     type: jobType[];
     title: string;
     status: 'Hiring' | 'Closed';
     minSalary: number;
     maxSalary?: number;
     departmentId: string;
+    facultyMember: {
+        id: number;
+        title?: string;
+        user: {
+            firstName: string;
+            lastName: string;
+        };
+    };
 }
 
 export async function getJobs(
