@@ -37,3 +37,11 @@ export interface IUser {
     lastName: string;
     role: 'student' | 'facultyMember';
 }
+
+export interface JWTUser {
+    userId: number;
+    specificUserId: number;
+    role: 'student' | 'facultyMember';
+    firstName: string;
+    lastName: string;
+}

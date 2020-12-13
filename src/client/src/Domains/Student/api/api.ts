@@ -1,6 +1,7 @@
 import API from 'api';
 import { IStudentProfileForm } from 'Domains/Student/StudentProfileForm';
 import { IUser } from 'Domains/Accounts/api/api';
+
 export const classStandingTypes = [
     {
         label: 'Freshman',
@@ -19,6 +20,7 @@ export const classStandingTypes = [
         value: 'senior',
     },
 ];
+
 // TODO: Move these interfaces to their respective in the future
 interface ICollege {
     id: number;
@@ -43,6 +45,7 @@ export interface IStudent {
     resume?: File;
     transcript?: File;
 }
+
 export async function updateStudentProfile(
     studentProfile: IStudentProfileForm
 ) {

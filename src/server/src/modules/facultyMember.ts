@@ -41,7 +41,9 @@ export const updateFacultyMember = async (
     const facultyToUpdate = await facultyMemberRepository.findOne(id);
     if (facultyToUpdate !== undefined) {
         if (department !== undefined) {
-            const departmentObject = await departmentRepository.findOne(department.id)
+            const departmentObject = await departmentRepository.findOne(
+                department.id
+            );
             if (departmentObject !== undefined) {
                 facultyToUpdate.department = departmentObject;
                 await facultyMemberRepository.save(facultyToUpdate);

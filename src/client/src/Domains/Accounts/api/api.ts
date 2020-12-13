@@ -1,6 +1,7 @@
 import API from 'api';
 import { ISignInForm } from 'Domains/Accounts/SignInForm';
 import { ISignUpForm } from 'Domains/Accounts/SignUpForm';
+import { IAuthUser } from 'Contexts/AuthContext/api';
 
 export const roles = [
     {
@@ -30,11 +31,11 @@ export async function signUp(signUpData: ISignUpForm) {
 }
 
 export async function signIn(signInData: ISignInForm) {
-    return API.post<{ user: IUser; isAuthenticated: boolean }>('user/sign-in', {
+    return API.post<{ user: IAuthUser; isAuthenticated: boolean }>('user/sign-in', {
         ...signInData,
     });
 }
 
 export async function signOut() {
-    return API.get<{ user: IUser }>('user/sign-out');
+    return API.get<{ user: IAuthUser }>('user/sign-out');
 }
