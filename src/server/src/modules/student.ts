@@ -101,7 +101,14 @@ export const getStudentProfile = async (
     return getRepository(Student)
         .createQueryBuilder("student")
         .where({ id })
-        .leftJoinAndSelect("student.user", "user")
+        .leftJoin("student.user", "user")
+        .addSelect([
+            "user.firstName",
+            "user.lastName",
+            "user.middleName",
+            "user.biography",
+            "user.email"
+        ])
         .leftJoinAndSelect("student.department", "department")
         .leftJoinAndSelect("department.college", "college")
         .leftJoinAndSelect("student.courses", "courses")

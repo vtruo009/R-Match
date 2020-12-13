@@ -72,7 +72,14 @@ export const getFacultyMemberProfile = async (
     return getRepository(FacultyMember)
         .createQueryBuilder("facultyMember")
         .where({ id })
-        .leftJoinAndSelect("facultyMember.user", "user")
+        .leftJoin("facultyMember.user", "user")
+        .addSelect([
+            "user.firstName",
+            "user.lastName",
+            "user.middleName",
+            "user.biography",
+            "user.email"
+        ])
         .leftJoinAndSelect("facultyMember.department", "department")
         .leftJoinAndSelect("department.college", "college")
         .getOneOrFail();

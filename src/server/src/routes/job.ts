@@ -158,7 +158,7 @@ router.get('/read', async (req: Request, res: Response) => {
             .json(errors.internalServerError)
             .end();
     }
-);
+});
 
 /******************************************************************************
  *             POST Request - Update - /api/job/update
