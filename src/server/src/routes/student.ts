@@ -133,20 +133,20 @@ router.post(
                 error: errors.paramMissingError,
             });
         }
-  try {
-        await applyJob(
-            specificUserId,
-            jobId
-        );
-        return res.status(OK).end();
-    } catch (error) {
-        logger.err(error);
-        return res
-            .status(INTERNAL_SERVER_ERROR)
-            .json({ error })
-            .end();
-    }
-);
+        try {
+            await applyJob(
+                specificUserId,
+                jobId
+            );
+            return res.status(OK).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json({ error })
+                .end();
+        }
+    });
 
 /******************************************************************************
  *                                     Export
