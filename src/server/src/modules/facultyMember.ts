@@ -56,6 +56,7 @@ export const updateFacultyMember = async (
             middleName: user.middleName,
             lastName: user.lastName,
         });
+
         return facultyMemberRepository.update(id, {
             websiteLink,
             office,
@@ -63,4 +64,21 @@ export const updateFacultyMember = async (
         });
     }
     return undefined;
+};
+
+export const getFacultyMemberProfile = async (id: number) => {
+    return getRepository(FacultyMember)
+        .createQueryBuilder('facultyMember')
+        .where({ id })
+        .leftJoin('facultyMember.user', 'user')
+        .addSelect([
+            'user.firstName',
+            'user.lastName',
+            'user.middleName',
+            'user.biography',
+            'user.email',
+        ])
+        .leftJoinAndSelect('facultyMember.department', 'department')
+        .leftJoinAndSelect('department.college', 'college')
+        .getOne();
 };

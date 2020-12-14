@@ -121,7 +121,7 @@ router.get(
             numOfItems,
         } = req.query as {
             title: string;
-            type: string;
+            type: string[];
             startDate: string;
             minSalary: string;
             hoursPerWeek: string;
@@ -130,7 +130,6 @@ router.get(
         };
 
         try {
-            let types: string[] = [''];
             if (!title) {
                 title = '';
             }
@@ -143,12 +142,9 @@ router.get(
             if (!startDate) {
                 startDate = '01/01/3000';
             }
-            if (type) {
-                types = type.split(',');
-            }
             const [jobs, jobsCount] = await getJobs(
                 title,
-                types,
+                type,
                 startDate,
                 parseInt(minSalary),
                 parseInt(hoursPerWeek),
