@@ -7,6 +7,12 @@ interface Props {
     isParagraph?: boolean;
 }
 function LabelValue({ label, value, isParagraph = false }: Props) {
+    const prepareValue = (value: string | string[] | number) => {
+        if (typeof value === 'object') {
+            return value.join(', ');
+        }
+        return value;
+    };
     return (
         <Grid item container direction='column'>
             <Grid item>
@@ -16,7 +22,7 @@ function LabelValue({ label, value, isParagraph = false }: Props) {
             </Grid>
             <Grid item>
                 <Typography variant={isParagraph ? 'body1' : 'h6'}>
-                    {value ? value : <i> Not provided</i>}
+                    {value ? prepareValue(value) : <i>Not provided</i>}
                 </Typography>
             </Grid>
         </Grid>

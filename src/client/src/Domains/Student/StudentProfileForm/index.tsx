@@ -11,7 +11,7 @@ import useSnack from 'hooks/useSnack';
 import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
-import SubmitButton from 'Components/Button';
+import SubmitButton from 'Components/SubmitButton';
 import {
     classStandingTypes,
     updateStudentProfile,
@@ -24,24 +24,28 @@ export interface IStudentProfileForm {
     middleName?: string;
     lastName: string;
     departmentId?: string;
-    sid?: number;
+    // sid?: number;
     classStanding?: string;
-    email: string;
+    // email: string;
     biography?: string;
     courses?: string[];
     resume?: File;
     transcript?: File;
 }
 
+interface Props {
+    studentInformation: IStudentProfileForm;
+}
+
 const formInitialValues: IStudentProfileForm = {
-    firstName: '',
-    middleName: '',
-    lastName: '',
-    departmentId: '',
-    sid: 0,
-    classStanding: '',
-    email: '',
-    biography: '',
+    firstName: 'Johan',
+    middleName: undefined,
+    lastName: 'Guzman',
+    departmentId: undefined,
+    // sid: 0,
+    classStanding: 'Junior',
+    // email: '',
+    biography: 'ubwoiv;nalbiuw',
     courses: [],
     resume: undefined,
     transcript: undefined,
@@ -51,9 +55,9 @@ const formSchema = yup.object({
     firstName: yup.string().required('First name is required'),
     lastName: yup.string().required('Last name is required'),
     departmentId: yup.string(),
-    sid: yup.string().required('Student ID is is required'),
+    // sid: yup.string().required('Student ID is is required'),
     classStanding: yup.string(),
-    email: yup.string().email('Please enter valid email'),
+    // email: yup.string().email('Please enter valid email'),
     biography: yup.string(),
     resume: yup
         .mixed()
@@ -74,18 +78,17 @@ const formSchema = yup.object({
 });
 
 // TODO: Make sure PDF Files are not greater than some number of bytes
-
 function StudentProfileForm() {
     const [
-        studentProfile,
+        studentProfileInformation,
         setStudentProfile,
     ] = React.useState<IStudentProfileForm>(formInitialValues);
 
     const [snack] = useSnack();
 
     const updateProfileRequest = React.useCallback(
-        () => updateStudentProfile(studentProfile),
-        [studentProfile]
+        () => updateStudentProfile(studentProfileInformation),
+        [studentProfileInformation]
     );
     const [sendUpdateProfileRequest, isUpdatingProfileLoading] = useApi(
         updateProfileRequest,
@@ -115,9 +118,9 @@ function StudentProfileForm() {
                 {() => (
                     <Form>
                         <Grid container spacing={3} alignContent='center'>
-                            <Grid item container justify='flex-start'>
+                            <Grid item container justify='center'>
                                 <Typography variant='h4'>
-                                    Student Profile
+                                    Edit Profile
                                 </Typography>
                             </Grid>
                             <Grid item container spacing={5}>
@@ -142,6 +145,8 @@ function StudentProfileForm() {
                                         component={TextFormField}
                                     />
                                 </Grid>
+                                {/* 
+                                Maybe not needed here. It's private information
                                 <Grid item md={6} xs={12}>
                                     <Field
                                         name='email'
@@ -149,7 +154,7 @@ function StudentProfileForm() {
                                         disabled
                                         component={TextFormField}
                                     />
-                                </Grid>
+                                </Grid> */}
                                 <Grid item md={6} xs={12}>
                                     <Field
                                         name='classStanding'
@@ -158,6 +163,8 @@ function StudentProfileForm() {
                                         component={SelectFormField}
                                     />
                                 </Grid>
+                                {/* 
+                                Maybe not needed here. It's private information
                                 <Grid item md={6} xs={12}>
                                     <Field
                                         name='sid'
@@ -165,7 +172,7 @@ function StudentProfileForm() {
                                         type='number'
                                         component={TextFormField}
                                     />
-                                </Grid>
+                                </Grid> */}
                                 <Grid item md={6} xs={12}>
                                     <Field
                                         name='departmentId'

@@ -5,19 +5,19 @@ import { IUser } from 'Domains/Accounts/api/api';
 export const classStandingTypes = [
     {
         label: 'Freshman',
-        value: 'freshman',
+        value: 'Freshman',
     },
     {
         label: 'Sophomore',
-        value: 'sophomore',
+        value: 'Sophomore',
     },
     {
         label: 'Junior',
-        value: 'junior',
+        value: 'Junior',
     },
     {
         label: 'Senior',
-        value: 'senior',
+        value: 'Senior',
     },
 ];
 
@@ -41,7 +41,7 @@ export interface IStudent {
     department?: IDepartment;
     sid?: number;
     classStanding?: string;
-    courses?: ICourse[];
+    courses: ICourse[];
     resume?: File;
     transcript?: File;
 }
@@ -57,5 +57,5 @@ export async function updateStudentProfile(
 }
 // No parameters needed since user will have to be authenticated
 export async function getStudentProfile(studentId: number) {
-    return API.get<{ student: IStudent }>('student/get-profile');
+    return API.get<{ student: IStudent }>(`student/get-profile/${studentId}`);
 }
