@@ -46,7 +46,9 @@ export const updateStudent = async (
 
     if (studentToUpdate !== undefined) {
         if (department !== undefined) {
-            const departmentObject = await departmentRepository.findOne(department.id)
+            const departmentObject = await departmentRepository.findOne(
+                department.id
+            );
             if (departmentObject !== undefined) {
                 studentToUpdate.department = departmentObject;
                 await studentRepository.save(studentToUpdate);
@@ -57,8 +59,9 @@ export const updateStudent = async (
             studentToUpdate.courses = [];
             courses.forEach(async (item: any, index: any) => {
                 // Check if the course exists.
-                const course = await courseRepository.findOne(
-                    { where: { title: item.title } });
+                const course = await courseRepository.findOne({
+                    where: { title: item.title },
+                });
                 // If the course does not exist, create new course.
                 if (course === undefined) {
                     const newCourse = new Course();
@@ -69,12 +72,14 @@ export const updateStudent = async (
                 } else {
                     studentToUpdate.courses.push(course);
                 }
-            })
+            });
             await studentRepository.save(studentToUpdate);
         }
 
         if (department !== undefined) {
-            const departmentObject = await departmentRepository.findOne(department.id)
+            const departmentObject = await departmentRepository.findOne(
+                department.id
+            );
             if (departmentObject !== undefined) {
                 studentToUpdate.department = departmentObject;
                 await studentRepository.save(studentToUpdate);
@@ -90,30 +95,28 @@ export const updateStudent = async (
 
         return studentRepository.update(id, {
             sid,
-            classStanding
+            classStanding,
         });
     }
     return undefined;
 };
 
-export const getStudentProfile = async (
-    id: number
-) => {
+export const getStudentProfile = async (id: number) => {
     return getRepository(Student)
-        .createQueryBuilder("student")
+        .createQueryBuilder('student')
         .where({ id })
-        .leftJoin("student.user", "user")
+        .leftJoin('student.user', 'user')
         .addSelect([
-            "user.firstName",
-            "user.lastName",
-            "user.middleName",
-            "user.biography",
-            "user.email"
+            'user.firstName',
+            'user.lastName',
+            'user.middleName',
+            'user.biography',
+            'user.email',
         ])
-        .leftJoinAndSelect("student.department", "department")
-        .leftJoinAndSelect("department.college", "college")
-        .leftJoinAndSelect("student.courses", "courses")
-        .getOneOrFail();
+        .leftJoinAndSelect('student.department', 'department')
+        .leftJoinAndSelect('department.college', 'college')
+        .leftJoinAndSelect('student.courses', 'courses')
+        .getOne();
 };
 
 /**
@@ -122,30 +125,31 @@ export const getStudentProfile = async (
  * @param jobId number
  * @returns Promise
  */
-export const applyJob = async (
-    studentId: number,
-    jobId: number
-) => {
+export const applyJob = async (studentId: number, jobId: number) => {
     const studentRepository = getRepository(Student);
     const jobRepository = getRepository(Job);
     const jobApplicationRepository = getRepository(JobApplication);
 
     const student = await studentRepository.findOne(studentId);
-    if (!student) throw new Error("Student does not exist.");
+    if (!student) throw new Error('Student does not exist.');
 
     // Check if job exists.
     const job = await jobRepository.findOne(jobId);
-    if (job === undefined) throw new Error("Requested job does not exist.");
+    if (job === undefined) throw new Error('Requested job does not exist.');
 
     // Check if student already applied for the job.
-    const application = await jobApplicationRepository.find({ job: job, student: student });
-    if (application.length > 0) throw new Error("Student have already applied for the position.");
-    
+    const application = await jobApplicationRepository.find({
+        job: job,
+        student: student,
+    });
+    if (application.length > 0)
+        throw new Error('Student have already applied for the position.');
+
     // Create a new JobApplication object.
     const jobApplication = jobApplicationRepository.create({
         student: student,
         job: job,
-        date: new Date()
+        date: new Date(),
     });
     return jobApplicationRepository.save(jobApplication);
 };
