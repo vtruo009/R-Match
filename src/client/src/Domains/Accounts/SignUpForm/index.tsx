@@ -10,7 +10,7 @@ import useSnack from 'hooks/useSnack';
 import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
-import Button from 'Components/Button';
+import SubmitButton from 'Components/SubmitButton';
 import { signUp, roles } from 'Domains/Accounts/api/api';
 
 export interface ISignUpForm {
@@ -139,10 +139,10 @@ function SignUpForm() {
                                 </Grid>
                             </Grid>
                             <Grid container item xs={12}>
-                                <Button type='submit' isLoading={isLoading}>
+                                <SubmitButton type='submit' isLoading={isLoading}>
                                     Submit
                                     {isLoading && <Loader size={20} />}
-                                </Button>
+                                </SubmitButton>
                             </Grid>
                         </Grid>
                     </Form>

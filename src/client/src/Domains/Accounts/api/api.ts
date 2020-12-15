@@ -14,6 +14,16 @@ export const roles = [
     },
 ];
 
+export interface IUser {
+    id: number;
+    email: string;
+    biography?: string;
+    firstName: string;
+    lastName: string;
+    middleName?: string;
+    role: 'student' | 'facultyMember';
+}
+
 export async function signUp(signUpData: ISignUpForm) {
     return API.post<{ error: string }>('user/sign-up', {
         user: { ...signUpData },

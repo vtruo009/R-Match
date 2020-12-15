@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 
-import Button from 'Components/Button';
+import SubmitButton from 'Components/SubmitButton';
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
 import Loader from 'Components/Loader';
@@ -35,8 +35,7 @@ const formInitialValues = {
 
 const formSchema = yup.object({
     title: yup.string().required(),
-    //title: yup.string().optional(),
-    type: yup.string().optional(),
+    type: yup.string().required(),
     minSalary: yup.number().min(0).optional(),
     hoursPerWeek: yup.number().moreThan(0).optional(),
 });
@@ -119,7 +118,7 @@ function JobSearchForm({ setJobs, children }: props) {
                                         component={TextFormField}
                                     />
                                 </Grid>
-                                <Grid item md={3} xs={12} >
+                                <Grid item md={3} xs={12}>
                                     <Field
                                         name='type'
                                         label='Type'
@@ -145,13 +144,13 @@ function JobSearchForm({ setJobs, children }: props) {
                                     />
                                 </Grid>
                                 <Grid item md={2} xs={12}>
-                                    <Button
+                                    <SubmitButton
                                         type='submit'
                                         isLoading={isLoading}
                                         startIcon={<SearchIcon />}
                                     >
                                         Search
-                                    </Button>
+                                    </SubmitButton>
                                 </Grid>
                                 <Grid item md={1} xs={12}>
                                     {isLoading && <Loader size={50} />}

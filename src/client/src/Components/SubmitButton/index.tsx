@@ -6,7 +6,7 @@ interface Props {
     size?: 'small' | 'medium' | 'large';
 }
 
-function Button({
+function SubmitButton({
     isLoading,
     children,
     size = 'large',
@@ -25,4 +25,4 @@ function Button({
     );
 }
 
-export default Button;
+export default SubmitButton;

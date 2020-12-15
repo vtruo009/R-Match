@@ -10,7 +10,7 @@ import useSnack from 'hooks/useSnack';
 import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
-import Button from 'Components/Button';
+import SubmitButton from 'Components/SubmitButton';
 import { createFacultyMemberProfile } from 'Domains/FacultyMember/api/api';
 
 import { departments } from 'sharedData';
@@ -157,10 +157,10 @@ function FacultyMemberProfileForm() {
                                 </Grid>
                             </Grid>
                             <Grid container item xs={12}>
-                                <Button type='submit' isLoading={isLoading}>
+                                <SubmitButton type='submit' isLoading={isLoading}>
                                     Submit
                                     {isLoading && <Loader size={20} />}
-                                </Button>
+                                </SubmitButton>
                             </Grid>
                         </Grid>
                     </Form>

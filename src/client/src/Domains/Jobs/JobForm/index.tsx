@@ -11,7 +11,7 @@ import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import { DatePickerFormField } from 'Components/DatePickerFormField';
-import Button from 'Components/Button';
+import SubmitButton from 'Components/SubmitButton';
 import {
     createJob,
     targetYears,
@@ -207,10 +207,10 @@ function JobForm() {
                                 </Grid>
                             </Grid>
                             <Grid container item xs={12}>
-                                <Button type='submit' isLoading={isLoading}>
+                                <SubmitButton type='submit' isLoading={isLoading}>
                                     Submit
                                     {isLoading && <Loader size={20} />}
-                                </Button>
+                                </SubmitButton>
                             </Grid>
                         </Grid>
                     </Form>
