@@ -50,9 +50,7 @@ export async function updateStudentProfile(
     studentProfile: IStudentProfileForm
 ) {
     return API.post('student/update-profile', {
-        studentProfile: {
-            ...studentProfile,
-        },
+        studentProfile,
     });
 }
 // No parameters needed since user will have to be authenticated

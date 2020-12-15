@@ -23,10 +23,10 @@ export interface IStudentProfileForm {
     firstName: string;
     middleName?: string;
     lastName: string;
-    departmentId?: string;
-    // sid?: number;
+    department?: string;
+    sid?: number;
     classStanding?: string;
-    // email: string;
+    email: string;
     biography?: string;
     courses?: string[];
     resume?: File;
@@ -34,30 +34,30 @@ export interface IStudentProfileForm {
 }
 
 interface Props {
-    studentInformation: IStudentProfileForm;
+    studentProfileInformation: IStudentProfileForm;
 }
 
-const formInitialValues: IStudentProfileForm = {
-    firstName: 'Johan',
-    middleName: undefined,
-    lastName: 'Guzman',
-    departmentId: undefined,
-    // sid: 0,
-    classStanding: 'Junior',
-    // email: '',
-    biography: 'ubwoiv;nalbiuw',
-    courses: [],
-    resume: undefined,
-    transcript: undefined,
-};
+// const formInitialValues: IStudentProfileForm = {
+//     firstName: 'Johan',
+//     middleName: undefined,
+//     lastName: 'Guzman',
+//     departmentId: undefined,
+//     sid: 12312547,
+//     classStanding: 'Junior',
+//     email: 'jguz1707@mgmail.com',
+//     biography: 'ubwoiv;nalbiuw',
+//     courses: [],
+//     resume: undefined,
+//     transcript: undefined,
+// };
 
 const formSchema = yup.object({
     firstName: yup.string().required('First name is required'),
     lastName: yup.string().required('Last name is required'),
     departmentId: yup.string(),
-    // sid: yup.string().required('Student ID is is required'),
+    sid: yup.string().required('Student ID is is required'),
     classStanding: yup.string(),
-    // email: yup.string().email('Please enter valid email'),
+    email: yup.string().email('Please enter valid email'),
     biography: yup.string(),
     resume: yup
         .mixed()
@@ -77,42 +77,36 @@ const formSchema = yup.object({
         .optional(),
 });
 
-// TODO: Make sure PDF Files are not greater than some number of bytes
-function StudentProfileForm() {
+function StudentProfileForm({ studentProfileInformation }: Props) {
     const [
-        studentProfileInformation,
+        studentProfileForm,
         setStudentProfile,
-    ] = React.useState<IStudentProfileForm>(formInitialValues);
+    ] = React.useState<IStudentProfileForm>(studentProfileInformation);
 
     const [snack] = useSnack();
-
     const updateProfileRequest = React.useCallback(
-        () => updateStudentProfile(studentProfileInformation),
-        [studentProfileInformation]
+        () => updateStudentProfile(studentProfileForm),
+        [studentProfileForm]
     );
     const [sendUpdateProfileRequest, isUpdatingProfileLoading] = useApi(
         updateProfileRequest,
         {
             onSuccess: () => {
-                snack('Student profile successfully created!', 'success');
+                snack('Student profile successfully updated!', 'success');
             },
         }
     );
-
-    React.useEffect(() => {});
-
     return (
         <Paper style={{ padding: 50 }}>
             <Formik
                 validationSchema={formSchema}
-                initialValues={formInitialValues}
+                initialValues={studentProfileInformation}
                 onSubmit={(formValues, actions) => {
-                    console.log(formValues);
                     setStudentProfile(formValues);
                     sendUpdateProfileRequest();
-                    actions.resetForm({
-                        values: { ...formInitialValues },
-                    });
+                    // actions.resetForm({
+                    //     values: { ...formInitialValues },
+                    // });
                 }}
             >
                 {() => (
@@ -145,8 +139,6 @@ function StudentProfileForm() {
                                         component={TextFormField}
                                     />
                                 </Grid>
-                                {/* 
-                                Maybe not needed here. It's private information
                                 <Grid item md={6} xs={12}>
                                     <Field
                                         name='email'
@@ -154,7 +146,7 @@ function StudentProfileForm() {
                                         disabled
                                         component={TextFormField}
                                     />
-                                </Grid> */}
+                                </Grid>
                                 <Grid item md={6} xs={12}>
                                     <Field
                                         name='classStanding'
@@ -163,8 +155,6 @@ function StudentProfileForm() {
                                         component={SelectFormField}
                                     />
                                 </Grid>
-                                {/* 
-                                Maybe not needed here. It's private information
                                 <Grid item md={6} xs={12}>
                                     <Field
                                         name='sid'
@@ -172,16 +162,16 @@ function StudentProfileForm() {
                                         type='number'
                                         component={TextFormField}
                                     />
-                                </Grid> */}
+                                </Grid>
                                 <Grid item md={6} xs={12}>
                                     <Field
-                                        name='departmentId'
+                                        name='department'
                                         label='Department'
                                         options={departments}
                                         component={SelectFormField}
                                     />
                                 </Grid>
-
+                                {/* TODO: Make sure PDF Files are not greater than some number of bytes */}
                                 <Grid item md={6} xs={12}>
                                     <Field
                                         name='transcript'

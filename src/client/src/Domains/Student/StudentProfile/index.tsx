@@ -35,26 +35,39 @@ function StudentProfile() {
             },
         }
     );
+
+    const isUserProfileOwner = () =>
+        user?.specificUserId === studentProfile?.id;
+
     React.useEffect(() => {
         sendGetProfileRequest();
     }, [sendGetProfileRequest]);
+
+    const getCoursesTitles = () => {
+        return studentProfile?.courses.map((course) => course.title);
+    };
 
     return isGettingProfileLoading ? (
         <Loader center />
     ) : studentProfile ? (
         <Paper style={{ padding: 50 }}>
-            <Grid container spacing={3} alignContent='center'>
+            <Grid container spacing={3}>
                 <Grid item container justify='flex-start'>
                     <Grid item>
                         <Typography variant='h4'>Student Profile</Typography>
                     </Grid>
-                    <Grid item>
-                        <IconButton color='primary' onClick={handleClickOpen}>
-                            <EditIcon />
-                        </IconButton>
-                    </Grid>
+                    {isUserProfileOwner() && (
+                        <Grid item>
+                            <IconButton
+                                color='primary'
+                                onClick={handleClickOpen}
+                            >
+                                <EditIcon />
+                            </IconButton>
+                        </Grid>
+                    )}
                 </Grid>
-                <Grid item container spacing={5} justify='center'>
+                <Grid item container spacing={5}>
                     <Grid item md={3} xs={12}>
                         <LabelValue
                             label='First Name'
@@ -80,7 +93,7 @@ function StudentProfile() {
                         />
                     </Grid>
                 </Grid>
-                <Grid item container spacing={5} justify='center'>
+                <Grid item container spacing={5}>
                     <Grid item md={3} xs={12}>
                         <LabelValue
                             label='Class Standing'
@@ -90,9 +103,7 @@ function StudentProfile() {
                     <Grid item md={3} xs={12}>
                         <LabelValue
                             label='Courses Taken'
-                            value={studentProfile.courses.map(
-                                (course) => course.title
-                            )}
+                            value={getCoursesTitles()}
                         />
                     </Grid>
                     <Grid item md={3} xs={12}>
@@ -108,6 +119,22 @@ function StudentProfile() {
                         />
                     </Grid>
                 </Grid>
+                {isUserProfileOwner() && (
+                    <Grid item container spacing={5}>
+                        <Grid item md={3} xs={12}>
+                            <LabelValue
+                                label='SID'
+                                value={studentProfile.sid}
+                            />
+                        </Grid>
+                        <Grid item md={3} xs={12}>
+                            <LabelValue
+                                label='Email'
+                                value={studentProfile.user.email}
+                            />
+                        </Grid>
+                    </Grid>
+                )}
                 <Grid item container>
                     <LabelValue
                         label='About'
@@ -117,7 +144,19 @@ function StudentProfile() {
                 </Grid>
             </Grid>
             <Dialog open={open} onClose={handleClose} maxWidth='md' fullWidth>
-                <StudentProfileForm />
+                <StudentProfileForm
+                    studentProfileInformation={{
+                        firstName: studentProfile.user.firstName,
+                        middleName: studentProfile.user.middleName,
+                        lastName: studentProfile.user.lastName,
+                        department: studentProfile.department?.name,
+                        sid: studentProfile.sid,
+                        classStanding: studentProfile.classStanding,
+                        email: studentProfile.user.email,
+                        biography: studentProfile.user.email,
+                        courses: getCoursesTitles(),
+                    }}
+                />
             </Dialog>
         </Paper>
     ) : (

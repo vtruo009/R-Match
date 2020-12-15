@@ -137,8 +137,8 @@ export const getJobs = async (
         .where('LOWER(job.title) LIKE :title', {
             title: `%${title.toLowerCase()}%`,
         })
-        .orWhere('job.type IN (:...types)', { types })
-        .orWhere('job.type LIKE :type', { type: `%${modType}%`})
+        // .orWhere('job.type IN (:...types)', { types })
+        .orWhere('job.type LIKE :type', { type: `%${modType}%` })
         .orWhere('job.minSalary >= :minSalary', { minSalary })
         .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
         .skip((page - 1) * numOfItems)

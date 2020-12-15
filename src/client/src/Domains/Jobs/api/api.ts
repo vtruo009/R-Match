@@ -17,7 +17,7 @@ export const jobTypes = [
         value: 'grader',
     },
     {
-        label: 'Assitant',
+        label: 'Assistant',
         value: 'assistant',
     },
     {
@@ -88,7 +88,7 @@ export async function getJobs(
     minSalary: string,
     hoursPerWeek: string,
     page: number,
-    numOfItems: number,
+    numOfItems: number
 ) {
     const params = {
         title,
@@ -98,7 +98,7 @@ export async function getJobs(
         page,
         numOfItems,
     };
-    return API.get<{ jobs: IJob[], jobsCount: number }>('job/read', { params });
+    return API.get<{ jobs: IJob[]; jobsCount: number }>('job/read', { params });
 }
 
 export async function createJob(job: IJobForm) {

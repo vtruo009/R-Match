@@ -35,8 +35,7 @@ const formInitialValues = {
 
 const formSchema = yup.object({
     title: yup.string().required(),
-    //title: yup.string().optional(),
-    type: yup.string().optional(),
+    type: yup.string().required(),
     minSalary: yup.number().min(0).optional(),
     hoursPerWeek: yup.number().moreThan(0).optional(),
 });
@@ -119,7 +118,7 @@ function JobSearchForm({ setJobs, children }: props) {
                                         component={TextFormField}
                                     />
                                 </Grid>
-                                <Grid item md={3} xs={12} >
+                                <Grid item md={3} xs={12}>
                                     <Field
                                         name='type'
                                         label='Type'
