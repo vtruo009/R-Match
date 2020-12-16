@@ -529,6 +529,7 @@ Student API
             -   errors:
                 -   Missing fields in body -> Status code: 400
                 -   Internal server error -> Status code: 500
+
     -   /api/student/apply-job
 
         -   Saves a student's job application information in the database.
@@ -551,7 +552,7 @@ Student API
                 
     -   api/student/get-applied-job
     
-        -   Returns a list of JobApplication objects associated with the user.
+        -   Returns a list of JobApplication objects associated with the logged-in user.
         -   Body: None
         -   Authorization restrictions:
             -   User must be logged in

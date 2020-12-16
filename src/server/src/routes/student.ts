@@ -146,7 +146,7 @@ router.post(
 );
 
 /******************************************************************************
- *          GET Request - Read - "GET /api/student/get-profile/:studentId"
+ *          GET Request - Read - "GET /api/student/get-applied-job"
  ******************************************************************************/
 
 router.get(
