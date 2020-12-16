@@ -7,7 +7,7 @@ import logger from '@shared/Logger';
 
 const router = Router();
 
-const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
+const { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR } = StatusCodes;
 
 interface departmentRequest extends Request {
     body: {

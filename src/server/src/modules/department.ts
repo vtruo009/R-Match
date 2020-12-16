@@ -1,6 +1,5 @@
 import { Department } from '@entities/department';
 import { College } from '@entities/college';
-import { getRepository } from 'typeorm';
 
 /**
  * @description saves a new department in the database
