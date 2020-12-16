@@ -1,7 +1,7 @@
 import StatusCodes from 'http-status-codes';
 import passport from 'passport';
 import { Request, Response, Router } from 'express';
-import { ICollege } from '@entities/college';
+import { College } from '@entities/college';
 import { errors } from '@shared/errors';
 import { createCollege, getColleges } from '@modules/college';
 import logger from '@shared/Logger';
@@ -12,7 +12,7 @@ const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
 
 interface collegeRequest extends Request {
     body: {
-        college: ICollege;
+        college: College;
     };
 }
 

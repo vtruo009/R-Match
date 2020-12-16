@@ -1,20 +1,17 @@
-import { ICollege, College } from '@entities/college';
-import { getRepository } from 'typeorm';
+import { College } from '@entities/college';
+
 /**
  * @description saves a new college in the database
  * @param name string
  * @returns Promise
  */
-export const createCollege = async (name: ICollege['name']) => {
-    const repository = getRepository(College);
-    const collegeToInsert = repository.create({
-        name,
-        departments: [],
-    });
-    return repository.save(collegeToInsert);
+export const createCollege = async (name: College['name']) => {
+    const collegeToInsert = new College();
+    collegeToInsert.name = name;
+    collegeToInsert.departments = [];
+    return collegeToInsert.save();
 };
 
 export const getColleges = async () => {
-    const repository = getRepository(College);
-    return repository.find({ relations: ['departments'] });
+    return College.find({ relations: ['departments'] });
 };

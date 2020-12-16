@@ -1,25 +1,20 @@
 import {
     Entity,
     Column,
+    BaseEntity,
     PrimaryGeneratedColumn,
-    ManyToOne
+    ManyToOne,
 } from 'typeorm';
 import { College } from './college';
 
 @Entity()
-export class Department {
+export class Department extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
     name: string;
 
-    @ManyToOne(() => College, college => college.departments)
-    college: College;
-}
-
-export interface IDepartment {
-    id: number;
-    name: string;
+    @ManyToOne(() => College, (college) => college.departments)
     college: College;
 }
