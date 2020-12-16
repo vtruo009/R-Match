@@ -1,25 +1,21 @@
 import {
     Entity,
     Column,
+    BaseEntity,
     PrimaryGeneratedColumn,
-    OneToMany
+    OneToMany,
 } from 'typeorm';
 import { Department } from './department';
 
 @Entity()
-export class College {
+export class College extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
     name: string;
 
-    @OneToMany(() => Department, department => department.college)
+    @OneToMany(() => Department, (department) => department.college)
     departments: Department[];
 }
 
-export interface ICollege {
-    id: number;
-    name: string;
-    departments?: Department[];
-}

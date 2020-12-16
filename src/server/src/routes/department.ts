@@ -1,6 +1,6 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
-import { IDepartment } from '@entities/department';
+import { Department } from '@entities/department';
 import { errors } from '@shared/errors';
 import { createDepartment } from '@modules/department';
 import logger from '@shared/Logger';
@@ -11,7 +11,7 @@ const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
 
 interface departmentRequest extends Request {
     body: {
-        department: IDepartment;
+        department: Department;
     };
 }
 
