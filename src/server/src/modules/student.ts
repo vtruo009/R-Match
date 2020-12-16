@@ -107,6 +107,7 @@ export const getStudentProfile = async (id: number) => {
         .where({ id })
         .leftJoin('student.user', 'user')
         .addSelect([
+            'user.id',
             'user.firstName',
             'user.lastName',
             'user.middleName',

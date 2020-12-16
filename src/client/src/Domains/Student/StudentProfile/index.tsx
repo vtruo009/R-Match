@@ -23,10 +23,12 @@ function StudentProfile() {
         setOpen(false);
     };
     const { user } = React.useContext(AuthContext);
+
     const getProfileRequest = React.useCallback(
         () => getStudentProfile(user?.specificUserId as number),
         [user?.specificUserId]
     );
+
     const [sendGetProfileRequest, isGettingProfileLoading] = useApi(
         getProfileRequest,
         {
