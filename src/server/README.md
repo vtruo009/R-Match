@@ -529,7 +529,6 @@ Student API
             -   errors:
                 -   Missing fields in body -> Status code: 400
                 -   Internal server error -> Status code: 500
-                
     -   /api/student/apply-job
 
         -   Saves a student's job application information in the database.
@@ -546,6 +545,61 @@ Student API
         -   Response:
             -   success:
                 Status code: 201
+            -   errors:
+                -   Missing fields in body -> Status code: 400
+                -   Internal server error -> Status code: 500
+                
+    -   api/student/get-applied-job
+    
+        -   Returns a list of JobApplication objects associated with the user.
+        -   Body: None
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a student
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 200
+                ```
+                {
+                    jobs: [
+                        {
+                            id: number,
+                            date: Date,
+                            job: {
+                                id: number,
+                                targetYears: string[],
+                                hoursPerWeek: number,
+                                description: string,
+                                expirationDate: "Date,
+                                startDate: Date,
+                                endDate: Date,
+                                postedOn: Date,
+                                type: string[],
+                                title: string,
+                                status: 'Hiring' | 'Closed',
+                                minSalary: number,
+                                maxSalary: number,
+                                departmentId: string,
+                                facultyMember: {
+                                    id: number,
+                                    websiteLink: string,
+                                    office: string,
+                                    title: string,
+                                    user: {
+                                        id: number,
+                                        email: string,
+                                        biography: string,
+                                        firstName: string,
+                                        lastName: string,
+                                        middleName: string
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+                ```
             -   errors:
                 -   Missing fields in body -> Status code: 400
                 -   Internal server error -> Status code: 500
