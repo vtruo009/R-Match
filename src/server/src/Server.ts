@@ -6,7 +6,6 @@ import express, { NextFunction, Request, Response } from 'express';
 import StatusCodes from 'http-status-codes';
 import passport from 'passport';
 import 'express-async-errors';
-import { createConnection } from 'typeorm';
 import BaseRouter from './routes';
 import logger from '@shared/Logger';
 import cors from 'cors';
@@ -25,22 +24,6 @@ app.use(express.json());
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(passport.initialize());
 
-/************************************************************************************
- *                              PostgresQL connection
- ***********************************************************************************/
-
-const connectToDb = async () => {
-    try {
-        await createConnection();
-        logger.info('PostgresQL database connection established successfully');
-    } catch (error) {
-        logger.err('PostgresQL database connection was not established');
-    }
-};
-
-(async () => {
-    await connectToDb();
-})();
 
 // Show routes called in console during development
 if (process.env.NODE_ENV === 'development') {

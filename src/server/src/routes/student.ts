@@ -9,17 +9,11 @@ import { JWTUser } from '@entities/user';
 
 const router = Router();
 
-const {
-    BAD_REQUEST,
-    CREATED,
-    OK,
-    INTERNAL_SERVER_ERROR,
-    UNAUTHORIZED,
-} = StatusCodes;
+const { BAD_REQUEST, OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED } = StatusCodes;
 
 interface studentRequest extends Request {
     body: {
-        student: IStudent;
+        studentProfile: IStudent;
     };
 }
 
@@ -34,15 +28,22 @@ interface jobApplicationRequest extends Request {
  ******************************************************************************/
 
 router.post('/update-profile', async (req: studentRequest, res: Response) => {
-    const { student } = req.body;
+    const { studentProfile } = req.body;
 
-    if (!student) {
+    if (!studentProfile) {
         return res.status(BAD_REQUEST).json({
             error: errors.paramMissingError,
         });
     }
 
-    const { user, department, sid, classStanding, courses, id } = student;
+    const {
+        user,
+        department,
+        sid,
+        classStanding,
+        courses,
+        id,
+    } = studentProfile;
 
     // Check if required field is missing.
     if (!id || !user || !user.id || !user.firstName || !user.lastName) {
