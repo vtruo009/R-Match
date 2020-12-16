@@ -13,8 +13,9 @@ function LabelValue({ label, value, isParagraph = false }: Props) {
     const checkValue = () => {
         if (!value) return false;
         if (typeof value === 'object' && value.length === 0) return false;
+        return true;
     };
-    
+
     return (
         <Grid item container direction='column'>
             <Grid item>
