@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
-import { IUser, User } from '@entities/user';
-import { IStudent, Student } from '@entities/student';
+import { User } from '@entities/user';
+import { Student } from '@entities/student';
 import { Course } from '@entities/course';
 import { Job } from '@entities/job';
 import { Department } from '@entities/department';
@@ -8,100 +8,76 @@ import { JobApplication } from '@entities/jobApplication';
 
 /**
  * @description Creates a student using an user record from the database
- * @param user user object
+ * @param {User} user - User object used to create the student
  * @returns Promise
  */
-export const createStudent = async (user: IUser) => {
-    const studentRepository = getRepository(Student);
-    const studentToInsert = studentRepository.create({
-        user,
+export const createStudent = (user: User) => {
+    const studentToInsert = Student.create({
+        userId: user.id,
     });
-
-    return studentRepository.save(studentToInsert);
+    return studentToInsert.save();
 };
 
 /**
- * @description updates an existing student profile in the database
- * @param id number
- * @param user User
- * @param department Department
- * @param sid number
- * @param classStanding 'freshman' | 'sophomore' | 'junior' | 'senior'
+ * @description Updates an existing student profile in the database
+ * @param {number} id - Id of student to update
+ * @param {User} user - User object to update
+ * @param {number} departmentId - New id of the department that the student belongs to
+ * @param {number} sid - New student's sid
+ * @param {'Freshman' | 'Sophomore' | 'Junior' | 'Senior'} classStanding - Student's class standing
+ * @param {Course[]} courses - New courses of the student
  * @returns Promise
  */
 export const updateStudent = async (
-    user: IStudent['user'],
-    department: IStudent['department'],
-    sid: IStudent['sid'],
-    classStanding: IStudent['classStanding'],
-    courses: IStudent['courses'],
-    id: number
+    id: Student['id'],
+    user: Student['user'],
+    departmentId: Student['departmentId'],
+    sid: Student['sid'],
+    classStanding: Student['classStanding'],
+    courses: Student['courses']
 ) => {
-    const studentRepository = getRepository(Student);
-    const departmentRepository = getRepository(Department);
-    const courseRepository = getRepository(Course);
-    const userRepository = getRepository(User);
+    const studentToUpdate = await Student.findOne(id);
 
-    const studentToUpdate = await studentRepository.findOne(id);
+    if (!studentToUpdate) return undefined;
 
-    if (studentToUpdate !== undefined) {
-        if (department !== undefined) {
-            const departmentObject = await departmentRepository.findOne(
-                department.id
-            );
-            if (departmentObject !== undefined) {
-                studentToUpdate.department = departmentObject;
-                await studentRepository.save(studentToUpdate);
-            }
+    if (departmentId) {
+        const departmentObject = await Department.findOne(departmentId);
+        if (departmentObject) {
+            studentToUpdate.departmentId = departmentId;
+            await studentToUpdate.save();
         }
-
-        if (courses !== undefined) {
-            studentToUpdate.courses = [];
-            courses.forEach(async (item: any, index: any) => {
-                // Check if the course exists.
-                const course = await courseRepository.findOne({
-                    where: { title: item.title },
-                });
-                // If the course does not exist, create new course.
-                if (course === undefined) {
-                    const newCourse = new Course();
-                    newCourse.title = item.title;
-                    await courseRepository.save(newCourse);
-                    item = newCourse;
-                    studentToUpdate.courses.push(newCourse);
-                } else {
-                    studentToUpdate.courses.push(course);
-                }
-            });
-            await studentRepository.save(studentToUpdate);
-        }
-
-        if (department !== undefined) {
-            const departmentObject = await departmentRepository.findOne(
-                department.id
-            );
-            if (departmentObject !== undefined) {
-                studentToUpdate.department = departmentObject;
-                await studentRepository.save(studentToUpdate);
-            }
-        }
-
-        await userRepository.update(user.id, {
-            biography: user.biography,
-            firstName: user.firstName,
-            middleName: user.middleName,
-            lastName: user.lastName,
-        });
-
-        return studentRepository.update(id, {
-            sid,
-            classStanding,
-        });
     }
-    return undefined;
+
+    if (courses) {
+        studentToUpdate.courses = [];
+        for (const course of courses) {
+            const _course = await Course.findOne(course.id);
+            if (_course) {
+                studentToUpdate.courses.push(course);
+            }
+        }
+        studentToUpdate.save();
+    }
+
+    await User.update(user.id, {
+        biography: user.biography,
+        firstName: user.firstName,
+        middleName: user.middleName,
+        lastName: user.lastName,
+    });
+
+    return Student.update(id, {
+        sid,
+        classStanding,
+    });
 };
 
-export const getStudentProfile = async (id: number) => {
+/**
+ * @description Gets the profile of a student using its id
+ * @param {number} id - Id of student's profile to retrieve
+ * @returns Promise
+ */
+export const getStudentProfile = (id: number) => {
     return getRepository(Student)
         .createQueryBuilder('student')
         .where({ id })
@@ -121,36 +97,53 @@ export const getStudentProfile = async (id: number) => {
 };
 
 /**
- * @description saves a student's job application in the database.
- * @param studentId number
- * @param jobId number
+ * @description Saves a student's job application in the database.
+ * @param {number} studentId - Id of student that submits the application
+ * @param {number} jobId - Id of job that students apply to
  * @returns Promise
  */
-export const applyJob = async (studentId: number, jobId: number) => {
-    const studentRepository = getRepository(Student);
-    const jobRepository = getRepository(Job);
-    const jobApplicationRepository = getRepository(JobApplication);
+export const applyToJob = async (studentId: number, jobId: number) => {
+    const applicationResult: {
+        result: JobApplication | undefined;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
 
-    const student = await studentRepository.findOne(studentId);
-    if (!student) throw new Error('Student does not exist.');
+    // Check if student exists.
+    const student = await Student.findOne(studentId);
+    if (!student) {
+        applicationResult.message = 'Student does not exist';
+        return applicationResult;
+    }
 
     // Check if job exists.
-    const job = await jobRepository.findOne(jobId);
-    if (job === undefined) throw new Error('Requested job does not exist.');
+    const job = await Job.findOne(jobId);
+    if (!job) {
+        applicationResult.message = 'Requested job does not exist';
+        return applicationResult;
+    }
 
     // Check if student already applied for the job.
-    const application = await jobApplicationRepository.find({
-        job: job,
-        student: student,
+    const application = await JobApplication.findOne({
+        where: { jobId, studentId },
     });
-    if (application.length > 0)
-        throw new Error('Student have already applied for the position.');
 
-    // Create a new JobApplication object.
-    const jobApplication = jobApplicationRepository.create({
-        student: student,
-        job: job,
+    if (application) {
+        applicationResult.message =
+            'Student has already applied for the position';
+        return applicationResult;
+    }
+
+    // Creates a new job application object and saves it
+    const jobApplication = await JobApplication.create({
+        studentId,
+        jobId,
         date: new Date(),
-    });
-    return jobApplicationRepository.save(jobApplication);
+    }).save();
+
+    applicationResult.message = 'Job application successfully submitted';
+    applicationResult.result = jobApplication;
+    return applicationResult;
 };

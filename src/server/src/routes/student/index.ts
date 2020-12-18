@@ -2,18 +2,19 @@ import StatusCodes from 'http-status-codes';
 import passport from 'passport';
 import logger from '@shared/Logger';
 import { Request, Response, Router } from 'express';
-import { IStudent } from '@entities/student';
+import { Student } from '@entities/student';
 import { errors } from '@shared/errors';
-import { updateStudent, getStudentProfile, applyJob } from '@modules/student';
+import { updateStudent, getStudentProfile, applyToJob } from '@modules/student';
 import { JWTUser } from '@entities/user';
+import { validationMiddleware } from '@middlewares/validation';
+import { studentProfileSchema, applyToJobSchema } from './schemas';
 
 const router = Router();
-
 const { BAD_REQUEST, OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED } = StatusCodes;
 
 interface studentRequest extends Request {
     body: {
-        studentProfile: IStudent;
+        studentProfile: Student;
     };
 }
 
@@ -27,57 +28,47 @@ interface jobApplicationRequest extends Request {
  *          POST Request - Update - /api/student/update-profile
  ******************************************************************************/
 
-router.post('/update-profile', async (req: studentRequest, res: Response) => {
-    const { studentProfile } = req.body;
-
-    if (!studentProfile) {
-        return res.status(BAD_REQUEST).json({
-            error: errors.paramMissingError,
-        });
-    }
-
-    const {
-        user,
-        department,
-        sid,
-        classStanding,
-        courses,
-        id,
-    } = studentProfile;
-
-    // Check if required field is missing.
-    if (!id || !user || !user.id || !user.firstName || !user.lastName) {
-        return res.status(BAD_REQUEST).json({
-            error: errors.paramMissingError,
-        });
-    }
-
-    try {
-        const updateResult = await updateStudent(
+router.post(
+    '/update-profile',
+    validationMiddleware({ bodySchema: studentProfileSchema }),
+    passport.authenticate('jwt', { session: false }),
+    async (req: studentRequest, res: Response) => {
+        const {
             user,
-            department,
+            departmentId,
             sid,
             classStanding,
             courses,
-            id
-        );
-        if (updateResult) {
-            return res.status(OK).end();
+            id,
+        } = req.body.studentProfile;
+        try {
+            const updateResult = await updateStudent(
+                id,
+                user,
+                departmentId,
+                sid,
+                classStanding,
+                courses
+            );
+
+            return updateResult
+                ? res.status(OK).end()
+                : res
+                      .status(BAD_REQUEST)
+                      .json({
+                          error:
+                              "Student's id provided does not belong to any record",
+                      })
+                      .end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
         }
-        return res
-            .status(BAD_REQUEST)
-            .json({
-                error: 'Student provided does not belong to any record',
-            })
-            .end();
-    } catch (error) {
-        logger.err(error);
-        return res
-            .status(INTERNAL_SERVER_ERROR)
-            .json(errors.internalServerError)
-            .end();
     }
-});
+);
 
 /******************************************************************************
  *          GET Request - Read - "GET /api/student/get-profile/:studentId"
@@ -88,12 +79,6 @@ router.get(
     passport.authenticate('jwt', { session: false }),
     async (req: Request, res: Response) => {
         const { studentId } = req.params;
-
-        if (!studentId) {
-            return res.status(BAD_REQUEST).json({
-                error: errors.paramMissingError,
-            });
-        }
         try {
             const student = await getStudentProfile(parseInt(studentId, 10));
             return res.status(OK).json({ student }).end();
@@ -112,7 +97,8 @@ router.get(
  ******************************************************************************/
 
 router.post(
-    '/apply-job',
+    '/apply-to-job',
+    validationMiddleware({ bodySchema: applyToJobSchema }),
     passport.authenticate('jwt', { session: false }),
     async (req: jobApplicationRequest, res: Response) => {
         //checks that caller is a student.
@@ -123,19 +109,17 @@ router.post(
                 .json({ error: 'User is not a student' });
         }
         const { jobId } = req.body;
-
-        // Check if required field is missing.
-        if (!jobId) {
-            return res.status(BAD_REQUEST).json({
-                error: errors.paramMissingError,
-            });
-        }
         try {
-            await applyJob(specificUserId, jobId);
-            return res.status(OK).end();
+            const { result, message } = await applyToJob(specificUserId, jobId);
+            return result
+                ? res.status(OK).end()
+                : res.status(BAD_REQUEST).json({ error: message });
         } catch (error) {
             logger.err(error);
-            return res.status(INTERNAL_SERVER_ERROR).json({ error }).end();
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
         }
     }
 );

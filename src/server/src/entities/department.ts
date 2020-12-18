@@ -4,8 +4,11 @@ import {
     BaseEntity,
     PrimaryGeneratedColumn,
     ManyToOne,
+    OneToMany,
 } from 'typeorm';
 import { College } from './college';
+import { Job } from './job';
+import { Course } from './course';
 
 @Entity()
 export class Department extends BaseEntity {
@@ -15,6 +18,15 @@ export class Department extends BaseEntity {
     @Column()
     name: string;
 
+    @Column()
+    collegeId: number;
+
     @ManyToOne(() => College, (college) => college.departments)
     college: College;
+
+    @OneToMany(() => Job, (job) => job.department)
+    jobs: Job[];
+
+    @OneToMany(() => Course, (course) => course.department)
+    courses: Course[];
 }

@@ -140,7 +140,6 @@ Job API
                     endDate: Date, (Optional)
                     type: string[],
                     title: string,
-                    status: 'Hiring' | 'Closed',
                     minSalary: number,
                     maxSalary: number, (Optional)
                     departmentId: string
@@ -470,11 +469,9 @@ Student API
                     }, // optional
                     sid: number, // optional
                     classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior', // optional
-                    courses:[
-                        {
-                            title: string
-                        }
-                    ] // optional
+                    courses: {
+                        id: number
+                    }[] // optional
                 }
             }
             ```

@@ -1,59 +1,57 @@
 import bcrypt from 'bcrypt';
-import { getRepository } from 'typeorm';
-import { IUser, User } from '@entities/user';
+import { User } from '@entities/user';
 import { createStudent } from '@modules/student';
 import { createFacultyMember } from '@modules/facultyMember';
 /**
  * @description Finds user by email
- * @param email user's email address
+ * @param {string} email - user's email address
  * @returns Promise
  */
 export const findUserByEmail = (email: string) => {
-    return getRepository(User).findOne({ email });
+    return User.findOne({ email });
 };
 
 /**
- * @description Creates a user  object and saves it in the database
- * @param email user's email address
- * @param password user's password *
- * @param firstName user's first name
- * @param lastName user's last name
- * @param role user's role, either 'student' or 'facultyMember'
+ * @description Creates a user object and saves it in the database
+ * @param {string} email - User's email address
+ * @param {string} password - User's password
+ * @param {string} firstName - User's first name
+ * @param {string} lastName - User's last name
+ * @param {'student' | 'facultyMember'} role - user's role, either 'student' or 'facultyMember'
  * @returns Promise
  */
 export const createUser = (
-    email: IUser['email'],
-    password: IUser['password'],
-    firstName: IUser['firstName'],
-    lastName: IUser['lastName'],
-    role: IUser['role']
+    email: User['email'],
+    password: User['password'],
+    firstName: User['firstName'],
+    lastName: User['lastName'],
+    role: User['role']
 ) => {
-    const repository = getRepository(User);
-    const userToInsert = repository.create({
+    const userToInsert = User.create({
         email,
         password,
         firstName,
         lastName,
         role,
     });
-    return repository.save(userToInsert);
+    return userToInsert.save();
 };
 
 /**
- * @description registers user's information
- * @param email user's email address
- * @param password user's password (not encrypted)
- * @param firstName user's first name
- * @param lastName user's last name
- * @param role user's role, either 'student' or 'facultyMember'
+ * @description Registers user's information based on their role
+ * @param {string} email - User's email address
+ * @param {string} password - User's password (not encrypted)
+ * @param {string} firstName - User's first name
+ * @param {string} lastName - User's last name
+ * @param {'student' | 'facultyMember'} role - User's role, either 'student' or 'facultyMember'
  * @returns Promise
  */
 export const registerUser = async (
-    email: IUser['email'],
-    password: IUser['password'],
-    firstName: IUser['firstName'],
-    lastName: IUser['lastName'],
-    role: IUser['role']
+    email: User['email'],
+    password: User['password'],
+    firstName: User['firstName'],
+    lastName: User['lastName'],
+    role: User['role']
 ) => {
     const encryptedPassword = await bcrypt.hash(password, 10);
     // Create user regardless of role

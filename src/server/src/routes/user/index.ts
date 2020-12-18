@@ -1,18 +1,21 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import passport from 'passport';
-import { IUser, JWTUser } from '@entities/user';
+
+import { JWTUser } from '@entities/user';
 import { errors } from '@shared/errors';
 import logger from '@shared/Logger';
-
 import { findUserByEmail, registerUser } from '@modules/user';
+import { User } from '@entities/user';
 import { signToken } from '@lib/jwt';
+import { validationMiddleware } from '@middlewares/validation';
+import { SignUpSchema } from './schemas';
 
 const router = Router();
 const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
 interface ISignUpRequest extends Request {
     body: {
-        user: IUser & { confirmedPassword: string };
+        user: User;
     };
 }
 
@@ -20,65 +23,31 @@ interface ISignUpRequest extends Request {
  *              POST Request - Sign up - /api/user/sign-up
  ******************************************************************************/
 
-router.post('/sign-up', async (req: ISignUpRequest, res: Response) => {
-    const { user } = req.body;
-    const {
-        email,
-        password,
-        confirmedPassword,
-        role,
-        firstName,
-        lastName,
-    } = user;
-
-    if (!user) {
-        return res
-            .status(BAD_REQUEST)
-            .json({ error: errors.paramMissingError })
-            .end();
-    }
-    if (
-        !email ||
-        !password ||
-        !confirmedPassword ||
-        !role ||
-        !firstName ||
-        !lastName
-    ) {
-        return res
-            .status(BAD_REQUEST)
-            .json({ error: errors.paramMissingError })
-            .end();
-    }
-    if (password !== confirmedPassword) {
-        return res
-            .status(BAD_REQUEST)
-            .json({ error: 'Passwords do not match' });
-    }
-    if (role !== 'student' && role !== 'facultyMember') {
-        return res.status(BAD_REQUEST).json({ error: 'Invalid role' }).end();
-    }
-
-    try {
-        const user = await findUserByEmail(email);
-        if (user) {
+router.post(
+    '/sign-up',
+    validationMiddleware({ bodySchema: SignUpSchema }),
+    async (req: ISignUpRequest, res: Response) => {
+        const { email, password, role, firstName, lastName } = req.body.user;
+        try {
+            const user = await findUserByEmail(email);
+            if (user) {
+                return res
+                    .status(BAD_REQUEST)
+                    .json({ error: 'Email is already taken' })
+                    .end();
+            } else {
+                await registerUser(email, password, firstName, lastName, role);
+                return res.send(CREATED).end();
+            }
+        } catch (error) {
+            logger.err(error);
             return res
-                .status(BAD_REQUEST)
-                .json({ error: 'Email is already taken' })
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
                 .end();
-        } else {
-            // Creates an user account based on the role
-            await registerUser(email, password, firstName, lastName, role);
-            return res.send(CREATED).end();
         }
-    } catch (error) {
-        logger.err(error);
-        return res
-            .status(INTERNAL_SERVER_ERROR)
-            .json(errors.internalServerError)
-            .end();
     }
-});
+);
 
 /******************************************************************************
  *              POST Request - Sign in- /api/user/sign-in

@@ -2,7 +2,7 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JWTStrategy } from 'passport-jwt';
 
-import { IUser, User, JWTUser } from '@entities/user';
+import { User, JWTUser } from '@entities/user';
 import { FacultyMember } from '@entities/facultyMember';
 import { Student } from '@entities/student';
 import { getRepository } from 'typeorm';
@@ -11,7 +11,7 @@ import logger from '@shared/Logger';
 import { cookieExtractor } from './jwt';
 
 const filterSensitiveInformation = async (
-    user: IUser
+    user: User
 ): Promise<JWTUser | undefined> => {
     const filteredUser = {
         userId: user.id,
@@ -20,7 +20,7 @@ const filterSensitiveInformation = async (
         lastName: user.lastName,
     };
     switch (user.role) {
-        case 'student':
+        case 'student': {
             const student = await getRepository(Student).findOne({
                 where: { user: { id: user.id } },
                 select: ['id'],
@@ -31,8 +31,9 @@ const filterSensitiveInformation = async (
                 ...filteredUser,
                 specificUserId: student.id,
             };
+        }
 
-        case 'facultyMember':
+        case 'facultyMember': {
             const facultyMember = await getRepository(FacultyMember).findOne({
                 where: { user: { id: user.id } },
                 select: ['id'],
@@ -43,6 +44,7 @@ const filterSensitiveInformation = async (
                 ...filteredUser,
                 specificUserId: facultyMember.id,
             };
+        }
 
         default:
             return undefined;

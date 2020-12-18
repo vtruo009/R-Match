@@ -1,77 +1,76 @@
-import { getRepository } from 'typeorm';
 import { FacultyMember } from '@entities/facultyMember';
-import { IUser, User } from '@entities/user';
-import { IFacultyMember } from '@entities/facultyMember';
+import { User } from '@entities/user';
 import { Department } from '@entities/department';
+import { getRepository } from 'typeorm';
 
 /**
  * @description Creates a faculty member using an existing user record from the database
- * @param user user object
+ * @param {User} user - User object used to create the faculty member
  * @returns Promise
  */
-export const createFacultyMember = (user: IUser) => {
-    const facultyMemberRepository = getRepository(FacultyMember);
-    const facultyMemberToInsert = facultyMemberRepository.create({
-        user,
+export const createFacultyMember = (user: User) => {
+    const facultyMemberToInsert = FacultyMember.create({
+        userId: user.id,
     });
-    return facultyMemberRepository.save(facultyMemberToInsert);
+    return facultyMemberToInsert.save();
 };
 
 /**
- * @description updates an existing faculty member profile in the database
- * @param id number
- * @param user User
- * @param department Department
- * @param websiteLink string
- * @param office string
- * @param title string
+ * @description Updates an existing faculty member profile in the database
+ * @param {number} id - Id of faculty member to update
+ * @param {User} user - User object to update
+ * @param {number} departmentId - New id of the department that the faculty member belongs to
+ * @param {string} websiteLink - New faculty member's website link
+ * @param {string} office - New faculty member's office
+ * @param {string} title - New faculty member's title
  * @returns Promise
  */
 export const updateFacultyMember = async (
-    user: IFacultyMember['user'],
-    department: IFacultyMember['department'],
-    websiteLink: IFacultyMember['websiteLink'],
-    office: IFacultyMember['office'],
-    title: IFacultyMember['title'],
-    id: number
+    id: FacultyMember['id'],
+    user: FacultyMember['user'],
+    departmentId: FacultyMember['departmentId'],
+    websiteLink: FacultyMember['websiteLink'],
+    office: FacultyMember['office'],
+    title: FacultyMember['title']
 ) => {
-    const departmentRepository = getRepository(Department);
-    const facultyMemberRepository = getRepository(FacultyMember);
+    const facultyToUpdate = await FacultyMember.findOne(id);
 
-    const facultyToUpdate = await facultyMemberRepository.findOne(id);
-    if (facultyToUpdate !== undefined) {
-        if (department !== undefined) {
-            const departmentObject = await departmentRepository.findOne(
-                department.id
-            );
-            if (departmentObject !== undefined) {
-                facultyToUpdate.department = departmentObject;
-                await facultyMemberRepository.save(facultyToUpdate);
-            }
+    if (!facultyToUpdate) return undefined;
+
+    if (departmentId) {
+        const departmentObject = await Department.findOne(departmentId);
+        if (departmentObject) {
+            facultyToUpdate.departmentId = departmentId;
+            await facultyToUpdate.save();
         }
-
-        await getRepository(User).update(user.id, {
-            biography: user.biography,
-            firstName: user.firstName,
-            middleName: user.middleName,
-            lastName: user.lastName,
-        });
-
-        return facultyMemberRepository.update(id, {
-            websiteLink,
-            office,
-            title,
-        });
     }
-    return undefined;
+
+    await User.update(user.id, {
+        biography: user.biography,
+        firstName: user.firstName,
+        middleName: user.middleName,
+        lastName: user.lastName,
+    });
+
+    return FacultyMember.update(id, {
+        websiteLink,
+        office,
+        title,
+    });
 };
 
-export const getFacultyMemberProfile = async (id: number) => {
+/**
+ * @description Gets the profile information of a faculty member
+ * @param {number} id - Id of faculty member's profile to retrieve
+ * @returns Promise
+ */
+export const getFacultyMemberProfile = (id: number) => {
     return getRepository(FacultyMember)
         .createQueryBuilder('facultyMember')
         .where({ id })
         .leftJoin('facultyMember.user', 'user')
         .addSelect([
+            'user.id',
             'user.firstName',
             'user.lastName',
             'user.middleName',

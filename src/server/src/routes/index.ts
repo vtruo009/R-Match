@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import sampleRouter from './sample';
+import sampleRouter from './Sample';
 import jobRouter from './job';
-import facultyMemberRouter from './facultyMember';
+import facultyMemberRouter from './facutltyMember';
 import studentRouter from './student';
 import userRouter from './user';
 import collegeRouter from './college';
@@ -12,7 +12,7 @@ const router = Router();
 // Add sub-routes
 router.use('/sample', sampleRouter);
 router.use('/job', jobRouter);
-router.use('/facultyMember', facultyMemberRouter);
+router.use('/faculty-member', facultyMemberRouter);
 router.use('/student', studentRouter);
 router.use('/user', userRouter);
 router.use('/college', collegeRouter);

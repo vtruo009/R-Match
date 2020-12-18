@@ -26,7 +26,8 @@
         "@shared": "dist/shared",
         "@server": "dist/Server",
         "@lib": "dist/lib",
-        "@db": "dis/db"
+        "@db": "dis/db",
+        "@middlewares": "dist/middlewares"
     },
     "eslintConfig": {
         "parser": "@typescript-eslint/parser",
@@ -79,6 +80,7 @@
         "helmet": "^4.1.1",
         "http-status-codes": "^2.1.4",
         "jet-logger": "^1.0.2",
+        "joi": "^17.3.0",
         "jsonfile": "^6.0.1",
         "jsonwebtoken": "^8.5.1",
         "module-alias": "^2.2.2",
