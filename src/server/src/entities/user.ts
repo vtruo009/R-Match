@@ -1,7 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
 
 @Entity()
-export class User {
+export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -12,7 +12,7 @@ export class User {
     password: string;
 
     @Column({ nullable: true })
-    biography: string;
+    biography?: string;
 
     @Column()
     firstName: string;
@@ -21,20 +21,9 @@ export class User {
     lastName: string;
 
     @Column({ nullable: true })
-    middleName: string;
+    middleName?: string;
 
     @Column()
-    role: 'student' | 'facultyMember';
-}
-
-export interface IUser {
-    id: number;
-    email: string;
-    password: string;
-    biography?: string;
-    firstName: string;
-    middleName?: string;
-    lastName: string;
     role: 'student' | 'facultyMember';
 }
 

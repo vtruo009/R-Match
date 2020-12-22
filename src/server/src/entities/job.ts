@@ -3,13 +3,15 @@ import {
     Column,
     PrimaryGeneratedColumn,
     ManyToOne,
-    OneToMany
+    OneToMany,
+    BaseEntity,
 } from 'typeorm';
 import { FacultyMember } from './facultyMember';
 import { JobApplication } from './jobApplication';
+import { Department } from './department';
 
 @Entity()
-export class Job {
+export class Job extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -23,13 +25,13 @@ export class Job {
     description: string;
 
     @Column()
-    expirationDate: Date;
+    expirationDate?: Date;
 
     @Column()
     startDate: Date;
 
     @Column({ nullable: true })
-    endDate: Date;
+    endDate?: Date;
 
     @Column()
     postedOn: Date;
@@ -46,33 +48,21 @@ export class Job {
     @Column()
     minSalary: number;
 
-    @Column()
-    maxSalary: number;
+    @Column({ nullable: true })
+    maxSalary?: number;
 
     @Column()
-    departmentId: string;
+    departmentId: number;
+
+    @ManyToOne(() => Department, (department) => department.jobs)
+    department: Department;
+
+    @Column()
+    facultyMemberId: number;
 
     @ManyToOne(() => FacultyMember, (facultyMember) => facultyMember.jobs)
     facultyMember: FacultyMember;
 
-    @OneToMany(type => JobApplication, jobApplication => jobApplication.job)
+    @OneToMany(() => JobApplication, (jobApplication) => jobApplication.job)
     public jobApplications: JobApplication[];
-}
-
-export interface IJob {
-    id: number;
-    targetYears: string[];
-    hoursPerWeek: number;
-    description: string;
-    expirationDate?: string;
-    startDate: string;
-    endDate?: string;
-    postedOn: string;
-    type: string[];
-    title: string;
-    status: 'Hiring' | 'Closed';
-    minSalary: number;
-    maxSalary?: number;
-    departmentId: string;
-    facultyMember: FacultyMember;
 }

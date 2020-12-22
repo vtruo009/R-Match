@@ -1,25 +1,26 @@
 import StatusCodes from 'http-status-codes';
 import passport from 'passport';
 import { Request, Response, Router } from 'express';
-import { IJob } from '@entities/job';
+import { Job } from '@entities/job';
 import { errors } from '@shared/errors';
 import { createJob, updateJob, deleteJob, getJobs } from '@modules/job';
 import { JWTUser } from '@entities/user';
 import logger from '@shared/Logger';
+import { validationMiddleware } from '@middlewares/validation';
+import { jobCreateSchema, jobUpdateSchema, jobReadSchema } from './schemas';
 
 const router = Router();
-
 const {
-    BAD_REQUEST,
     CREATED,
     OK,
     INTERNAL_SERVER_ERROR,
     UNAUTHORIZED,
+    BAD_REQUEST,
 } = StatusCodes;
 
 interface jobRequest extends Request {
     body: {
-        job: IJob;
+        job: Job;
     };
 }
 
@@ -29,6 +30,7 @@ interface jobRequest extends Request {
 
 router.post(
     '/create',
+    validationMiddleware({ bodySchema: jobCreateSchema }),
     passport.authenticate('jwt', { session: false }),
     async (req: jobRequest, res: Response) => {
         //checks that caller is a faculty member
@@ -36,10 +38,9 @@ router.post(
         if (role !== 'facultyMember') {
             return res
                 .status(UNAUTHORIZED)
-                .json({ error: 'User is not a faculty member' });
+                .json({ error: 'User is not a faculty member' })
+                .end();
         }
-
-        const { job } = req.body;
 
         const {
             targetYears,
@@ -50,34 +51,13 @@ router.post(
             endDate,
             type,
             title,
-            status,
             minSalary,
             maxSalary,
             departmentId,
-        } = job;
+        } = req.body.job;
 
-        if (!job) {
-            return res.status(BAD_REQUEST).json({
-                error: errors.paramMissingError,
-            });
-        }
-        if (
-            !targetYears ||
-            !hoursPerWeek ||
-            !description ||
-            !startDate ||
-            !type ||
-            !title ||
-            !status ||
-            minSalary === undefined ||
-            !departmentId
-        ) {
-            return res.status(BAD_REQUEST).json({
-                error: errors.paramMissingError,
-            });
-        }
         try {
-            await createJob(
+            const { result, message } = await createJob(
                 targetYears,
                 hoursPerWeek,
                 description,
@@ -86,13 +66,14 @@ router.post(
                 endDate,
                 type,
                 title,
-                status,
                 minSalary,
                 maxSalary,
                 departmentId,
                 specificUserId
             );
-            return res.status(CREATED).end();
+            return result
+                ? res.status(CREATED).end()
+                : res.status(BAD_REQUEST).json({ error: message }).end();
         } catch (error) {
             logger.err(error);
             return res
@@ -107,32 +88,27 @@ router.post(
  *            GET Request - Read - /api/job/read
  ******************************************************************************/
 
+interface JobReadRequest extends Request {
+    query: {
+        title: string;
+        types: string[];
+        startDate?: string;
+        minSalary?: string;
+        hoursPerWeek?: string;
+        page: string;
+        numOfItems: string;
+    };
+}
+
 router.get(
     '/read',
+    validationMiddleware({ querySchema: jobReadSchema }),
     passport.authenticate('jwt', { session: false }),
-    async (req: Request, res: Response) => {
-        let {
-            title,
-            type,
-            startDate,
-            minSalary,
-            hoursPerWeek,
-            page,
-            numOfItems,
-        } = req.query as {
-            title: string;
-            type: string[];
-            startDate: string;
-            minSalary: string;
-            hoursPerWeek: string;
-            page: string;
-            numOfItems: string;
-        };
+    async (req: JobReadRequest, res: Response) => {
+        const { title, types, page, numOfItems } = req.query;
+        let { startDate, minSalary, hoursPerWeek } = req.query;
 
         try {
-            if (!title) {
-                title = '';
-            }
             if (!minSalary) {
                 minSalary = '10000';
             }
@@ -142,9 +118,10 @@ router.get(
             if (!startDate) {
                 startDate = '01/01/3000';
             }
+
             const [jobs, jobsCount] = await getJobs(
                 title,
-                type,
+                types,
                 startDate,
                 parseInt(minSalary),
                 parseInt(hoursPerWeek),
@@ -166,95 +143,63 @@ router.get(
  *             POST Request - Update - /api/job/update
  ******************************************************************************/
 
-router.post('/update', async (req: jobRequest, res: Response) => {
-    const { job } = req.body;
-
-    if (!job) {
-        return res.status(BAD_REQUEST).json({
-            error: errors.paramMissingError,
-        });
+router.post(
+    '/update',
+    validationMiddleware({ bodySchema: jobUpdateSchema }),
+    passport.authenticate('jwt', { session: false }),
+    async (req: jobRequest, res: Response) => {
+        const { role } = req.user as JWTUser;
+        if (role !== 'facultyMember') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a faculty member' })
+                .end();
+        }
+        const { job } = req.body;
+        try {
+            const { result, message } = await updateJob(job);
+            return result
+                ? res.status(OK).end()
+                : res.status(BAD_REQUEST).json({ error: message }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
     }
-
-    const {
-        targetYears,
-        hoursPerWeek,
-        description,
-        expirationDate,
-        startDate,
-        endDate,
-        type,
-        title,
-        status,
-        minSalary,
-        maxSalary,
-        departmentId,
-        id,
-    } = job;
-
-    if (
-        !id ||
-        !targetYears ||
-        !hoursPerWeek ||
-        !description ||
-        !startDate ||
-        !type ||
-        !title ||
-        !status ||
-        minSalary === undefined ||
-        !departmentId
-    ) {
-        return res.status(BAD_REQUEST).json({
-            error: errors.paramMissingError,
-        });
-    }
-    try {
-        await updateJob(
-            targetYears,
-            hoursPerWeek,
-            description,
-            expirationDate,
-            startDate,
-            endDate,
-            type,
-            title,
-            status,
-            minSalary,
-            maxSalary,
-            departmentId,
-            id
-        );
-        return res.status(OK).end();
-    } catch (error) {
-        logger.err(error);
-        return res
-            .status(INTERNAL_SERVER_ERROR)
-            .json(errors.internalServerError)
-            .end();
-    }
-});
+);
 
 /******************************************************************************
- *        DELETE Request - Delete - /api/job/delete/:id
+ *              DELETE Request - Delete - /api/job/delete/:id
  ******************************************************************************/
 
-router.delete('/delete/:id', async (req: jobRequest, res: Response) => {
-    const { id } = req.params;
-    if (!id) {
-        return res.status(BAD_REQUEST).json({
-            error: errors.paramMissingError,
-        });
+// TODO: Needs to delete joh applications related to the job as well
+router.delete(
+    '/delete/:id',
+    passport.authenticate('jwt', { session: false }),
+    async (req: jobRequest, res: Response) => {
+        const { role } = req.user as JWTUser;
+        if (role !== 'facultyMember') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a faculty member' })
+                .end();
+        }
+        const { id } = req.params;
+        try {
+            await deleteJob(parseInt(id, 10));
+            return res.status(OK).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
     }
-    try {
-        await deleteJob(parseInt(id, 10));
-        return res.status(OK).end();
-    } catch (error) {
-        logger.err(error);
-        return res
-            .status(INTERNAL_SERVER_ERROR)
-            .json(errors.internalServerError)
-            .end();
-    }
-});
+);
 
 /******************************************************************************
  *                                     Export

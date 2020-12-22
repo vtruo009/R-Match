@@ -2,24 +2,30 @@ import {
     Entity,
     Column,
     PrimaryGeneratedColumn,
-    ManyToMany
+    ManyToMany,
+    ManyToOne,
+    BaseEntity,
 } from 'typeorm';
-import { Student } from '../entities/student';
+import { Student } from './student';
+import { Department } from './department';
 
 @Entity()
-export class Course {
+export class Course extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    title: string;
+    shortTitle: string;
 
-    @ManyToMany(() => Student, student => student.courses)
-    students: Student[];
-}
+    @Column()
+    fullTitle: string;
 
-export interface ICourse {
-    id: number;
-    title: string;
+    @Column()
+    departmentId: number;
+
+    @ManyToOne(() => Department, (department) => department.courses)
+    department: Department;
+
+    @ManyToMany(() => Student, (student) => student.courses)
     students: Student[];
 }

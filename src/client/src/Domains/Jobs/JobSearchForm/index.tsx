@@ -21,21 +21,22 @@ interface props {
 
 interface JobSearchFormType {
     title: string;
-    type: string[];
+    types: string[];
     minSalary: string;
     hoursPerWeek: string;
 }
 
 const formInitialValues = {
     title: '',
-    type: [],
+    types: [],
     minSalary: '',
     hoursPerWeek: '',
 };
 
 const formSchema = yup.object({
     title: yup.string().required(),
-    type: yup.string().required(),
+    // TODO: should be array type?
+    types: yup.string().required(),
     minSalary: yup.number().min(0).optional(),
     hoursPerWeek: yup.number().moreThan(0).optional(),
 });
@@ -52,7 +53,7 @@ function JobSearchForm({ setJobs, children }: props) {
         () =>
             getJobs(
                 formState.title,
-                formState.type,
+                formState.types,
                 formState.minSalary,
                 formState.hoursPerWeek,
                 page,
@@ -120,8 +121,8 @@ function JobSearchForm({ setJobs, children }: props) {
                                 </Grid>
                                 <Grid item md={3} xs={12}>
                                     <Field
-                                        name='type'
-                                        label='Type'
+                                        name='types'
+                                        label='Types'
                                         options={jobTypes}
                                         multiple
                                         component={SelectFormField}

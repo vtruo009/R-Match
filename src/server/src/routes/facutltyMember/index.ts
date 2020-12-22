@@ -2,73 +2,73 @@ import StatusCodes from 'http-status-codes';
 import passport from 'passport';
 import logger from '@shared/Logger';
 import { Request, Response, Router } from 'express';
-import { IFacultyMember } from '@entities/facultyMember';
+import { FacultyMember } from '@entities/facultyMember';
 import { errors } from '@shared/errors';
 import {
     getFacultyMemberProfile,
     updateFacultyMember,
 } from '@modules/facultyMember';
+import { validationMiddleware } from '@middlewares/validation';
+import { facultyMemberProfileSchema } from './schemas';
+import { JWTUser } from '@entities/user';
 
 const router = Router();
-
-const { BAD_REQUEST, CREATED, OK, UNAUTHORIZED, INTERNAL_SERVER_ERROR } = StatusCodes;
+const { BAD_REQUEST, OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED } = StatusCodes;
 
 interface facultyMemberRequest extends Request {
     body: {
-        facultyMember: IFacultyMember;
+        facultyMemberProfile: FacultyMember;
     };
 }
 
 /******************************************************************************
- *   POST Request - Update Profile - /api/facultyMember/update-profile
+ *   POST Request - Update Profile - /api/faculty-member/update-profile
  ******************************************************************************/
 
 router.post(
     '/update-profile',
+    validationMiddleware({ bodySchema: facultyMemberProfileSchema }),
+    passport.authenticate('jwt', { session: false }),
     async (req: facultyMemberRequest, res: Response) => {
-        const { facultyMember } = req.body;
-
-        if (!facultyMember) {
-            return res.status(BAD_REQUEST).json({
-                error: errors.paramMissingError,
-            });
+        const { specificUserId, role } = req.user as JWTUser;
+        if (role !== 'facultyMember') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a faculty member' });
         }
 
         const {
             user,
-            department,
+            departmentId,
             websiteLink,
             office,
             title,
             id,
-        } = facultyMember;
+        } = req.body.facultyMemberProfile;
 
-        // Check if required field is missing.
-        if (!id || !user || !user.id || !user.firstName || !user.lastName) {
-            return res.status(BAD_REQUEST).json({
-                error: errors.paramMissingError,
-            });
+        if (specificUserId !== id) {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not owner of the profile' });
         }
-
         try {
             const updateResult = await updateFacultyMember(
+                id,
                 user,
-                department,
+                departmentId,
                 websiteLink,
                 office,
-                title,
-                id
+                title
             );
-            if (updateResult) {
-                return res.status(OK).end();
-            }
-            return res
-                .status(BAD_REQUEST)
-                .json({
-                    error:
-                        'Faculty member provided does not belong to any record',
-                })
-                .end();
+            return updateResult
+                ? res.status(OK).end()
+                : res
+                      .status(BAD_REQUEST)
+                      .json({
+                          error:
+                              "Faculty member's id  provided does not belong to any record",
+                      })
+                      .end();
         } catch (error) {
             logger.err(error);
             return res
@@ -80,22 +80,18 @@ router.post(
 );
 
 /******************************************************************************
- * GET Request - Read - "GET /api/facultyMember/get-profile/:facultyMemberId"
+ * GET Request - Read - "GET /api/faculty-member/get-profile/:facultyMemberId"
  ******************************************************************************/
 
-router.get('/get-profile/:facultyMemberId',
+router.get(
+    '/get-profile/:facultyMemberId',
     passport.authenticate('jwt', { session: false }),
     async (req: Request, res: Response) => {
         const { facultyMemberId } = req.params;
-
-        if (!facultyMemberId) {
-            return res.status(BAD_REQUEST).json({
-                error: errors.paramMissingError,
-            });
-        }
-
         try {
-            const facultyMember = await getFacultyMemberProfile(parseInt(facultyMemberId, 10));
+            const facultyMember = await getFacultyMemberProfile(
+                parseInt(facultyMemberId, 10)
+            );
             return res.status(OK).json({ facultyMember }).end();
         } catch (error) {
             logger.err(error);
@@ -104,7 +100,8 @@ router.get('/get-profile/:facultyMemberId',
                 .json(errors.internalServerError)
                 .end();
         }
-});
+    }
+);
 
 /******************************************************************************
  *                                     Export
