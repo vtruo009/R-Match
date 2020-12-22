@@ -4,7 +4,12 @@ import logger from '@shared/Logger';
 import { Request, Response, Router } from 'express';
 import { IStudent } from '@entities/student';
 import { errors } from '@shared/errors';
-import { updateStudent, getStudentProfile, applyJob } from '@modules/student';
+import {
+    updateStudent,
+    getStudentProfile,
+    applyJob,
+    getJobApplications
+} from '@modules/student';
 import { JWTUser } from '@entities/user';
 
 const router = Router();
@@ -136,6 +141,35 @@ router.post(
         } catch (error) {
             logger.err(error);
             return res.status(INTERNAL_SERVER_ERROR).json({ error }).end();
+        }
+    }
+);
+
+/******************************************************************************
+ *          GET Request - Read - "GET /api/student/get-applied-job"
+ ******************************************************************************/
+
+router.get(
+    '/get-applied-job',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        //checks that caller is a student.
+        const { role, specificUserId } = req.user as JWTUser;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' });
+        }
+
+        try {
+            const jobs = await getJobApplications(specificUserId);
+            return res.status(OK).json({ jobs }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
         }
     }
 );
