@@ -146,6 +146,7 @@ function StudentProfile() {
             </Grid>
             <Dialog open={open} onClose={handleClose} title='Edit Profile'>
                 <StudentProfileForm
+                    onCancel={handleClose}
                     studentProfileInformation={{
                         firstName: studentProfile.user.firstName,
                         middleName: studentProfile.user.middleName,
