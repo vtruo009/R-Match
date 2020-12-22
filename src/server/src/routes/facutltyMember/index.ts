@@ -10,9 +10,10 @@ import {
 } from '@modules/facultyMember';
 import { validationMiddleware } from '@middlewares/validation';
 import { facultyMemberProfileSchema } from './schemas';
+import { JWTUser } from '@entities/user';
 
 const router = Router();
-const { BAD_REQUEST, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
+const { BAD_REQUEST, OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED } = StatusCodes;
 
 interface facultyMemberRequest extends Request {
     body: {
@@ -29,6 +30,13 @@ router.post(
     validationMiddleware({ bodySchema: facultyMemberProfileSchema }),
     passport.authenticate('jwt', { session: false }),
     async (req: facultyMemberRequest, res: Response) => {
+        const { specificUserId, role } = req.user as JWTUser;
+        if (role !== 'facultyMember') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a faculty member' });
+        }
+
         const {
             user,
             departmentId,
@@ -38,6 +46,11 @@ router.post(
             id,
         } = req.body.facultyMemberProfile;
 
+        if (specificUserId !== id) {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not owner of the profile' });
+        }
         try {
             const updateResult = await updateFacultyMember(
                 id,

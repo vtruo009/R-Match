@@ -8,83 +8,6 @@
 
 ### API Design
 
-Sample API (follow this as a template when designing your API endpoints)
-
--   Interacts with:
-
-    -   Sample database table
-
--   Routes:
-
-    -   api/sample/read
-        -   Returns all sample objects from the database
-        -   Body: None
-        -   Parameters: None
-        -   Response:
-            -   success:
-                Status code: 200
-                ```
-                {
-                    samples: {
-                        message: string,
-                        num: number,
-                        id: number
-                    } []
-                }
-                ```
-            -   errors:
-                -   Internal server error -> Status code: 500
-    -   api/sample/create
-
-        -   Saves a sample object in the database
-        -   Body:
-            ```
-            {
-                sample: {
-                    message: string,
-                    num: number,
-                }
-            }
-            ```
-        -   Parameters: None
-        -   Response:
-            -   success:
-                Status code: 201
-            -   errors:
-                -   Missing fields in body -> Status code: 400
-                -   Internal server error -> Status code: 500
-
-    -   api/sample/update
-
-        -   Updates the fields of existing sample object from the database
-        -   Body:
-            ```
-            {
-                sample: {
-                    id: number,
-                    message: string,
-                    num: number
-                }
-            }
-            ```
-        -   Parameters: None
-        -   Response:
-            -   success:
-                Status code: 200
-            -   errors:
-                -   Missing fields in body -> Status code: 400
-                -   Internal server error -> Status code: 500
-
-    -   api/sample/delete
-        -   Deletes an existing sample object from the database
-        -   Body: None
-        -   Parameters: /:id
-        -   Response:
-            -   success:
-                Status code: 200
-            -   errors:
-                -   Internal server error -> Status code: 500
-
 Job API
 
 -   Interacts with:
@@ -95,7 +18,7 @@ Job API
 
     -   api/job/read
 
-        -   Returns all job objects from database
+        -   Returns all job records from database.
         -   Body: None
         -   Parameters: None
         -   Authorization restrictions:
@@ -111,23 +34,35 @@ Job API
                         hoursPerWeek: number,
                         description: string,
                         startDate: Date,
-                        endDate: Date (Optional),
+                        endDate?: Date,
+                        expirationDate: Date,
+                        postedOn: Date,
                         type: string[],
                         title: string,
                         status: 'Hiring' | 'Closed',
                         minSalary: number,
-                        maxSalary: number,
-                        departmentID: string,
+                        maxSalary?: number,
+                        departmentId: number,
+                        facultyMember: {
+                            id: number,
+                            title: string,
+                            user: {
+                                firstName: string,
+                                lastName: string
+                            }
+                        }
                     } []
                 }
                 ```
             -   error:
-                -   Internal server error -> Status code: 500
+                -   Invalid request -> Status code: 400
                 -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
 
     -   api/job/create
 
-        -   Saves a job object in the database
+        -   Saves a job record in the database.
         -   Body:
             ```
             {
@@ -135,68 +70,79 @@ Job API
                     targetYears: string[],
                     hoursPerWeek: number,
                     description: string,
-                    expirationDate: Date, (Optional)
+                    expirationDate?: Date,
                     startDate: Date,
-                    endDate: Date, (Optional)
+                    endDate?: Date,
                     type: string[],
                     title: string,
                     minSalary: number,
-                    maxSalary: number, (Optional)
-                    departmentId: string
+                    maxSalary?: number,
+                    departmentId: number
                 }
             }
             ```
         -   Authorization restrictions:
             -   User must be logged in
-            -   User must be faculty member
+            -   User must be a faculty member
         -   Parameters: None
         -   Response:
             -   success:
                 Status code: 201
             -   errors:
-                -   Missing fields in body -> Status code: 400
+                -   Invalid request -> Status code: 400
                 -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
                 -   Internal server error -> Status code: 500
 
     -   api/job/update
 
-        -   Updates the fields of existing job object from the database
+        -   Updates the fields of existing job record from the database.
         -   Body:
             ```
             {
-                sample: {
+                job: {
                     id: number,
                     targetYears: string[],
                     hoursPerWeek: number,
                     description: string,
                     expirationDate: Date,
                     startDate: Date,
-                    endDate: Date,
+                    endDate?: Date,
+                    expirationDate?: Date,
                     type: string[],
                     title: string,
-                    status: string,
+                    status: 'Hiring' | 'Closed,
                     minSalary: number,
-                    maxSalary: number,
-                    departmentId: string
+                    maxSalary?: number,
+                    departmentId: number
                 }
             }
             ```
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a faculty member
         -   Parameters: None
         -   Response:
             -   success:
                 Status code: 200
             -   errors:
-                -   Missing fields in body -> Status code: 400
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
                 -   Internal server error -> Status code: 500
 
-    -   api/job/delete
-        -   Deletes an existing job object from the database
+    -   api/job/delete/:id
+        -   Deletes an existing job object from the database.
         -   Body: None
-        -   Parameters: /:id
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a faculty member
+        -   Parameters: id of job
         -   Response:
             -   success:
                 Status code: 200
             -   errors:
+                -   Unauthorized user -> Status code: 401
                 -   Internal server error -> Status code: 500
 
 User API
@@ -210,8 +156,7 @@ User API
     -   api/user/sign-up
 
         -   HTTP Method: POST
-        -   Creates and saves an user record in the user's table and a specific table (student and facultyMember), depending on the user's role
-
+        -   Creates and saves an user record in the user's table and a specific table (student and facultyMember), depending on the user's role.
         -   Body:
 
             ```
@@ -232,37 +177,38 @@ User API
             -   success:
                 -   Created: -> Status code: 201
             -   error:
-                -   Internal server error: -> Status code: 500
-                -   Bad request: -> Status code: 400
+                -   Invalid request -> Status code: 400
+                -   Internal server error -> Status code: 500
+                -   Unprocessable Entity -> Status code: 422
                     -   Missing required parameters:
                         ```
-                            {
-                                error: 'One or more of the required parameters was missing.'
-                            }
+                        {
+                            error: 'One or more of the required parameters was missing.'
+                        }
                         ```
                     -   Password and confirmedPassword do not match
                         ```
-                            {
-                                error: 'Passwords do not match'
-                            }
+                        {
+                            error: 'Passwords do not match'
+                        }
                         ```
                     -   Invalid role
                         ```
-                            {
-                                error: 'Invalid role'
-                            }
+                        {
+                            error: 'Invalid role'
+                        }
                         ```
                     -   Email sent already belongs to an user
                         ```
-                            {
-                                error: 'Email is already taken'
-                            }
+                        {
+                            error: 'Email is already taken'
+                        }
                         ```
 
     -   api/user/sign-in
 
         -   HTTP Method: POST
-        -   Sign ins an user by returning a cookie that contains a json web token
+        -   Sign ins an user by returning a cookie that contains a json web token.
         -   Body:
             ```
             {
@@ -275,31 +221,33 @@ User API
 
             -   success:
 
-                -   OK: -> Status code: 200
-
+                -   OK -> Status code: 200
                     ```
-                        {
-                            isAuthenticated: boolean,
-                            user: {
-                                userId: number,
-                                specificUserId: number,
-                                role: student | facultyMember,
-                                firstName: string,
-                                lastName: string
-                            }
+                    {
+                        isAuthenticated: boolean,
+                        user: {
+                            userId: number,
+                            specificUserId: number,
+                            role: 'student' | 'facultyMember',
+                            firstName: string,
+                            lastName: string
                         }
-                        cookie: {
-                            'access_token': jwt
-                        }
+                    }
+                    cookie: {
+                        'access_token': jwt
+                    }
                     ```
 
             -   error:
-                -   Unauthorized: -> Status code: 401
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
 
     -   api/user/sign-out
 
         -   HTTP Method: GET
-        -   Sign out an user by clearing the cookie previously provided to the user
+        -   Sign out an user by clearing the cookie previously provided to the user.
         -   Cookies:
             ```
             {
@@ -309,25 +257,25 @@ User API
         -   Parameters: None
         -   Response:
             -   success:
-                -   OK: -> Status code: 200
+                -   OK -> Status code: 200
                     ```
-                        {
-                            success: boolean,
-                            user: {
-                                userId: number,
-                                specificUserId: number,
-                                role: student | facultyMember,
-                                firstName: string,
-                                lastName: string
-                            }
+                    {
+                        success: boolean,
+                        user: {
+                            userId: number,
+                            specificUserId: number,
+                            role: 'student' | 'facultyMember',
+                            firstName: string,
+                            lastName: string
                         }
+                    }
                     ```
             -   error:
                 -   Unauthorized: -> Status code: 401
 
     -   api/user/authenticated
         -   HTTP Method: GET
-        -   Verifies whether or not an user is authenticated
+        -   Verifies whether or not an user is authenticated.
         -   Cookies:
             ```
             {
@@ -337,14 +285,14 @@ User API
         -   Parameters: None
         -   Response:
             -   success:
-                -   OK: -> Status code: 200
+                -   OK -> Status code: 200
                     ```
                         {
                             isAuthenticated: boolean,
                             user: {
                                 userId: number,
                                 specificUserId: number,
-                                role: student | facultyMember,
+                                role: 'student' | 'facultyMember',
                                 firstName: string,
                                 lastName: string
                             }
@@ -363,45 +311,48 @@ Faculty Member API
 
     -   api/facultyMember/update-profile
 
-        -   Updates the fields of an existing facultyMember and associated user object from the database.
+        -   Updates the fields of an existing faculty member and associated user record from the database.
         -   Body:
             ```
             {
                 facultyMember: {
                     id: number,
-                    user:{
+                    user: {
                         id: number,
                         firstName: string,
-                        middleName: string, // optional
+                        middleName?: string,
                         lastName: string,
-                        biography: string, // optional
+                        biography?: string,
+                        email: string,
                     },
-                    department: {
-                        id: number,
-                        name: string,
-                        college:{
-                            name: string
-                        }
-                    }, // optional
-                    websiteLink: string, // optional
-                    office: string, // optional
-                    title: string // optional
+                    departmentId?: number,
+                    websiteLink?: string,
+                    office?: string,
+                    title?: string
                 }
             }
             ```
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a faculty member
+            -   User must be owner of the profile
         -   Parameters: None
         -   Response:
             -   success:
                 Status code: 201
             -   errors:
-                -   Missing fields in body -> Status code: 400
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
                 -   Internal server error -> Status code: 500
-                
-    -   api/facultyMember/get-profile
 
-        -   Returns an existing faculty member object and associated user, department, and course objects from the database.
+    -   api/facultyMember/get-profile/:facultyMemberId
+
+        -   Returns an existing faculty member and associated user, department, and course records from the database.
         -   Body: None
-        -   Parameters: /:facultyMemberId
+        -   Authorization restrictions:
+            -   User must be logged in
+        -   Parameters: id of faculty member
         -   Response:
             -   success:
                 Status code: 200
@@ -411,37 +362,36 @@ Faculty Member API
                         id: number,
                         user:{
                             id: number,
-                            email: : string,
-                            biography: string,
+                            email: string,
+                            biography?: string,
                             firstName: string,
                             lastName: string,
-                            middleName: string,
-                            role: 'student'
+                            middleName?: string,
                         },
-                        department: {
+                        department?: {
                             id: number,
                             name: string,
-                            college:{
+                            college: {
                                 name: string
                             }
                         },
-                        websiteLink: string,
-                        office: string,
-                        title: string
+                        websiteLink?: string,
+                        office?: string,
+                        title?: string
                     }
                 }
                 ```
-            -   error:
-                Internal server error -> Status code: 500
             -   errors:
-                -   Missing fields in body -> Status code: 400
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
                 -   Internal server error -> Status code: 500
 
 Student API
 
 -   Interacts with:
 
-    -   User and Student tables
+    -   User, Student, Department, and Courses tables
 
 -   Routes:
 
@@ -456,38 +406,40 @@ Student API
                     user:{
                         id: number,
                         firstName: string,
-                        middleName: string, // optional
+                        middleName?: string,
                         lastName: string,
-                        biography: string, // optional
+                        biography?: string,
                     },
-                    department: {
-                        id: number,
-                        name: string,
-                        college:{
-                            name: string
-                        }
-                    }, // optional
-                    sid: number, // optional
-                    classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior', // optional
-                    courses: {
+                    departmentId: number,
+                    sid?: number,
+                    classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior',
+                    courses?: {
                         id: number
-                    }[] // optional
+                    }[]
                 }
             }
             ```
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a student
+            -   User must be owner of the profile
         -   Parameters: None
         -   Response:
             -   success:
                 Status code: 201
             -   errors:
-                -   Missing fields in body -> Status code: 400
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
                 -   Internal server error -> Status code: 500
-                
-    -   api/student/get-profile
-    
-        -   Returns an existing student object and associated user, department, and course objects from the database.
+
+    -   api/student/get-profile/:studentId
+
+        -   Returns an existing student record and associated user, department, and course records from the database.
         -   Body: None
-        -   Parameters: /:studentId
+        -   Authorization restrictions:
+            -   User must be logged in
+        -   Parameters: id of student
         -   Response:
             -   success:
                 Status code: 200
@@ -495,18 +447,18 @@ Student API
                 {
                     student: {
                         id: number,
-                        sid: number,
-                        classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior',
+                        sid?: number,
+                        classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior',
                         user: {
                             id: number,
                             email: : string,
-                            biography: string,
+                            biography?: string,
                             firstName: string,
                             lastName: string,
-                            middleName: string,
+                            middleName?: string,
                             role: 'student'
                         },
-                        department: {
+                        department?: {
                             id: number,
                             name: string,
                             college: {
@@ -515,19 +467,19 @@ Student API
                             }
                         },
                         courses: {
-                                id: number,
-                                title: string
+                            id: number,
+                            title: string
                         }[]
                     }
                 }
                 ```
-            -   error:
-                Internal server error -> Status code: 500
             -   errors:
-                -   Missing fields in body -> Status code: 400
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
                 -   Internal server error -> Status code: 500
-                
-    -   /api/student/apply-job
+
+    -   /api/student/apply-to-job
 
         -   Saves a student's job application information in the database.
         -   Body:
@@ -544,7 +496,69 @@ Student API
             -   success:
                 Status code: 201
             -   errors:
-                -   Missing fields in body -> Status code: 400
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
+
+    -   api/student/get-applied-jobs
+
+        -   Returns a list of job application records associated with the logged-in student.
+        -   Body: None
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a student
+        -   Parameters: None
+        -   Response:
+
+            -   success:
+                Status code: 200
+
+                ```
+                {
+                    jobs: {
+                        id: number,
+                        date: Date,
+                        job: {
+                            id: number,
+                            targetYears: string[],
+                            hoursPerWeek: number,
+                            description: string,
+                            expirationDate: Date,
+                            startDate: Date,
+                            endDate: Date,
+                            postedOn: Date,
+                            type: string[],
+                            title: string,
+                            status: 'Hiring' | 'Closed',
+                            minSalary: number,
+                            maxSalary: number,
+                            department:{
+                                id: number,
+                                name: string,
+                                collegeId: number
+                            },
+                            facultyMember: {
+                                id: number,
+                                websiteLink: string,
+                                office: string,
+                                title: string,
+                                user: {
+                                    id: number,
+                                    email: string,
+                                    biography: string,
+                                    firstName: string,
+                                    lastName: string,
+                                    middleName: string
+                                }
+                            }
+                        }
+                    }[]
+                }
+                ```
+
+            -   errors:
+                -   Unauthorized user -> Status code: 401
                 -   Internal server error -> Status code: 500
 
 Department API
@@ -565,7 +579,6 @@ Department API
                     name: string,
                     college: {
                         id: number,
-                        name: string
             		}
                 }
             }
@@ -575,14 +588,50 @@ Department API
             -   success:
                 Status code: 201
             -   errors:
-                -   Missing fields in body -> Status code: 400
+                -   Invalid request -> Status code: 400
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
+
+    -   api/department/read
+
+        -   Gets all department records from the database.
+        -   Body: None
+        -   Parameters: None
+        -   Response:
+
+            -   success:
+                Status code: 201
+
+                    {
+                        departments: {
+                            id: number,
+                            name: string,
+                            college: {
+                                id: number,
+                                name: string,
+                            }
+                         }[]
+                    }
+
+            -   errors:
+                -   Internal server error -> Status code: 500
+
+    -   api/department/delete/:id
+
+        -   Deletes an existing department record from the database.
+        -   Body: None
+        -   Parameters: id of department
+        -   Response:
+            -   success:
+                Status code: 200
+            -   errors:
                 -   Internal server error -> Status code: 500
 
 College API
 
 -   Interacts with:
 
-    -   College tables
+    -   College and Department tables
 
 -   Routes:
 
@@ -602,5 +651,41 @@ College API
             -   success:
                 Status code: 201
             -   errors:
-                -   Missing fields in body -> Status code: 400
+                -   Invalid request -> Status code: 400
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
+
+    -   api/college/read
+
+        -   Gets all college records from the database.
+        -   Body: None
+        -   Parameters: None
+        -   Response:
+
+            -   success:
+                Status code: 201
+
+                    {
+                        colleges: {
+                            id: number,
+                            name: string,
+                            departments: {
+                                id: number,
+                                name: string,
+                            }[]
+                        }[]
+                    }
+
+            -   errors:
+                -   Internal server error -> Status code: 500
+
+    -   api/college/delete/:id
+
+        -   Deletes an existing college record from the database.
+        -   Body: None
+        -   Parameters: id of college
+        -   Response:
+            -   success:
+                Status code: 200
+            -   errors:
                 -   Internal server error -> Status code: 500

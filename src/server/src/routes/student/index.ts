@@ -4,7 +4,12 @@ import logger from '@shared/Logger';
 import { Request, Response, Router } from 'express';
 import { Student } from '@entities/student';
 import { errors } from '@shared/errors';
-import { updateStudent, getStudentProfile, applyToJob } from '@modules/student';
+import {
+    updateStudent,
+    getStudentProfile,
+    applyToJob,
+    getJobApplications,
+} from '@modules/student';
 import { JWTUser } from '@entities/user';
 import { validationMiddleware } from '@middlewares/validation';
 import { studentProfileSchema, applyToJobSchema } from './schemas';
@@ -33,6 +38,13 @@ router.post(
     validationMiddleware({ bodySchema: studentProfileSchema }),
     passport.authenticate('jwt', { session: false }),
     async (req: studentRequest, res: Response) => {
+        const { specificUserId, role } = req.user as JWTUser;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' });
+        }
+
         const {
             user,
             departmentId,
@@ -41,6 +53,13 @@ router.post(
             courses,
             id,
         } = req.body.studentProfile;
+
+        if (specificUserId !== id) {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not owner of the profile' });
+        }
+
         try {
             const updateResult = await updateStudent(
                 id,
@@ -114,6 +133,35 @@ router.post(
             return result
                 ? res.status(OK).end()
                 : res.status(BAD_REQUEST).json({ error: message });
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
+ *          GET Request - Read - "GET /api/student/get-applied-job"
+ ******************************************************************************/
+
+router.get(
+    '/get-applied-jobs',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        //checks that caller is a student.
+        const { role, specificUserId } = req.user as JWTUser;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' });
+        }
+
+        try {
+            const jobs = await getJobApplications(specificUserId);
+            return res.status(OK).json({ jobs }).end();
         } catch (error) {
             logger.err(error);
             return res

@@ -148,6 +148,13 @@ router.post(
     validationMiddleware({ bodySchema: jobUpdateSchema }),
     passport.authenticate('jwt', { session: false }),
     async (req: jobRequest, res: Response) => {
+        const { role } = req.user as JWTUser;
+        if (role !== 'facultyMember') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a faculty member' })
+                .end();
+        }
         const { job } = req.body;
         try {
             const { result, message } = await updateJob(job);
@@ -168,10 +175,18 @@ router.post(
  *              DELETE Request - Delete - /api/job/delete/:id
  ******************************************************************************/
 
+// TODO: Needs to delete joh applications related to the job as well
 router.delete(
     '/delete/:id',
     passport.authenticate('jwt', { session: false }),
     async (req: jobRequest, res: Response) => {
+        const { role } = req.user as JWTUser;
+        if (role !== 'facultyMember') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a faculty member' })
+                .end();
+        }
         const { id } = req.params;
         try {
             await deleteJob(parseInt(id, 10));

@@ -147,3 +147,32 @@ export const applyToJob = async (studentId: number, jobId: number) => {
     applicationResult.result = jobApplication;
     return applicationResult;
 };
+
+/**
+ * @description get all job applications submitted by the student
+ * @param studentId number
+ * @returns Promise
+ */
+export const getJobApplications = async (studentId: number) => {
+    // Check if a student exists.
+    const student = await Student.findOne(studentId);
+    if (!student) throw new Error('Student does not exist.');
+
+    // Return all job application submitted by the student.
+    return getRepository(JobApplication)
+        .createQueryBuilder('jobApplication')
+        .where({ studentId })
+        .leftJoinAndSelect('jobApplication.job', 'job')
+        .leftJoinAndSelect('job.facultyMember', 'facultyMember')
+        .leftJoinAndSelect('job.department', 'department')
+        .leftJoin('facultyMember.user', 'user')
+        .addSelect([
+            'user.id',
+            'user.firstName',
+            'user.lastName',
+            'user.middleName',
+            'user.biography',
+            'user.email',
+        ])
+        .getMany();
+};
