@@ -4,8 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
-import Dialog from '@material-ui/core/Dialog';
-
+import Dialog from 'Components/Dialog';
 import useApi from 'hooks/useApi';
 import LabelValue from 'Components/LabelValue';
 import Loader from 'Components/Loader';
@@ -145,7 +144,7 @@ function StudentProfile() {
                     />
                 </Grid>
             </Grid>
-            <Dialog open={open} onClose={handleClose} maxWidth='md' fullWidth>
+            <Dialog open={open} onClose={handleClose}>
                 <StudentProfileForm
                     studentProfileInformation={{
                         firstName: studentProfile.user.firstName,
@@ -155,7 +154,7 @@ function StudentProfile() {
                         sid: studentProfile.sid,
                         classStanding: studentProfile.classStanding,
                         email: studentProfile.user.email,
-                        biography: studentProfile.user.email,
+                        biography: studentProfile.user.biography,
                         courses: getCoursesTitles(),
                     }}
                 />

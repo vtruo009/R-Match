@@ -97,7 +97,7 @@ function StudentProfileForm({ studentProfileInformation }: Props) {
         }
     );
     return (
-        <Paper style={{ padding: 50 }}>
+        <Paper style={{ padding: 40 }}>
             <Formik
                 validationSchema={formSchema}
                 initialValues={studentProfileInformation}
