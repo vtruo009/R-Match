@@ -7,44 +7,42 @@ import {
     OneToOne,
     OneToMany,
     ManyToMany,
-    ManyToOne
+    ManyToOne,
+    BaseEntity,
 } from 'typeorm';
-import { User, IUser } from './user';
+import { User } from './user';
 import { Course } from './course';
 import { Department } from './department';
 import { JobApplication } from './jobApplication';
 
 @Entity()
-export class Student {
+export class Student extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @Column({ nullable: true })
+    departmentId?: number;
+
     @ManyToOne(() => Department, { nullable: true })
-    department: Department;
+    department?: Department;
 
     @Column({ nullable: true })
-    sid: number;
+    sid?: number;
 
     @Column({ nullable: true })
-    classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior';
+    classStanding?: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior';
+
+    @Column()
+    userId: number;
 
     @OneToOne(() => User)
     @JoinColumn()
     user: User;
 
-    @ManyToMany(() => Course, course => course.students)
+    @ManyToMany(() => Course, (course) => course.students)
     @JoinTable()
     courses: Course[];
 
-    @OneToMany(type => JobApplication, jobApplication => jobApplication.student)
+    @OneToMany(() => JobApplication, (jobApplication) => jobApplication.student)
     public jobApplications: JobApplication[];
-}
-
-export interface IStudent {
-    id: number;
-    department?: Department;
-    sid?: number;
-    classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior';
-    user: IUser;
-    courses?: Course[];
 }

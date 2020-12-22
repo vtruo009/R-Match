@@ -1,53 +1,52 @@
-import { ISample, Sample } from '@entities/sample';
-import { getRepository } from 'typeorm';
+import { Sample } from '@entities/sample';
 /**
- * @description saves a new sample in the database
- * @param message sample message
- * @param num sample number
+ * @description Saves a new sample in the database
+ * @param {string} message sample's message
+ * @param {number} num - sample's number
  * @returns Promise
  */
 export const createSample = (
-    message: ISample['message'],
-    num: ISample['num']
+    message: Sample['message'],
+    num: Sample['num']
 ) => {
-    const repository = getRepository(Sample);
-    const sampleToInsert = repository.create({
+    const sampleToInsert = Sample.create({
         num,
         message,
     });
-    return repository.save(sampleToInsert);
+    return sampleToInsert.save();
 };
 
 /**
- * @description gets all sample documents from the database
+ * @description Gets all sample documents from the database
  * @returns Promise<Sample[]>
  */
 export const getSamples = () => {
-    return getRepository(Sample).find();
+    return Sample.find();
 };
+
 /**
- * @description updates an existing sample from the database
- * @param newMessage sample message
- * @param newNum sample number
+ * @description Updates an existing sample from the database
+ * @param {string} newMessage new sample's message
+ * @param {number} newNum - new sample's number
  * @returns Promise
  */
 export const updateSample = (
-    newMessage: ISample['message'],
-    newNum: ISample['num'],
-    id: number
+    newMessage: Sample['message'],
+    newNum: Sample['num'],
+    id: Sample['id']
 ) => {
-    return getRepository(Sample).update(id, {
+    return Sample.update(id, {
         message: newMessage,
         num: newNum,
     });
 };
 
 /**
- * @description deletes an existing sample from the database
- * @param id sample's unique identifier
+ * @description Deletes an existing sample from the database
+ * @param {number} id  - Id of  sample to delete
  * @returns Promise
  */
 export const deleteSample = (id: number) => {
     // return sample.findByIdAndDelete(_id);
-    return getRepository(Sample).delete(id);
+    return Sample.delete(id);
 };

@@ -6,42 +6,39 @@ import {
     JoinColumn,
     ManyToOne,
     OneToMany,
+    BaseEntity,
 } from 'typeorm';
-import { User, IUser } from './user';
+import { User } from './user';
 import { Department } from './department';
 import { Job } from './job';
 
 @Entity()
-export class FacultyMember {
+export class FacultyMember extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @Column({ nullable: true })
+    departmentId?: number;
+
     @ManyToOne(() => Department, { nullable: true })
-    department: Department;
+    department?: Department;
 
     @Column({ nullable: true })
-    websiteLink: string;
+    websiteLink?: string;
 
     @Column({ nullable: true })
-    office: string;
+    office?: string;
 
     @Column({ nullable: true })
-    title: string;
+    title?: string;
+
+    @Column()
+    userId: number;
 
     @OneToOne(() => User)
     @JoinColumn()
     user: User;
 
     @OneToMany(() => Job, (job) => job.facultyMember)
-    jobs: Job[];
-}
-
-export interface IFacultyMember {
-    id: number;
-    department?: Department;
-    websiteLink?: string;
-    office?: string;
-    title?: string;
-    user: IUser;
     jobs: Job[];
 }

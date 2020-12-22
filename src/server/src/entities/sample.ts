@@ -1,8 +1,8 @@
 // import mongoose, { Schema, Document } from 'mongoose';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
 
 @Entity()
-export class Sample {
+export class Sample extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -10,11 +10,5 @@ export class Sample {
     message: string;
 
     @Column()
-    num: number;
-}
-
-export interface ISample {
-    id: number;
-    message: string;
     num: number;
 }

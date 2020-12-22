@@ -71,7 +71,8 @@
             "@shared/*": ["src/shared/*"],
             "@lib/*": ["src/lib/*"],
             "@server": ["src/Server"],
-            "@db/*": ["src/db/*"]
+            "@db/*": ["src/db/*"],
+            "@middlewares/*": ["src/middlewares/*"]
         }
     },
     "include": ["src/**/*.ts", "spec/**/*.ts"]
