@@ -149,14 +149,14 @@ export const applyToJob = async (studentId: number, jobId: number) => {
 };
 
 /**
- * @description get all job applications submitted by the student
- * @param studentId number
+ * @description Gets all job applications submitted by the student
+ * @param {number} studentId - id of student
  * @returns Promise
  */
 export const getJobApplications = async (studentId: number) => {
     // Check if a student exists.
     const student = await Student.findOne(studentId);
-    if (!student) throw new Error('Student does not exist.');
+    if (!student) return undefined;
 
     // Return all job application submitted by the student.
     return getRepository(JobApplication)

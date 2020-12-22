@@ -161,7 +161,11 @@ router.get(
 
         try {
             const jobs = await getJobApplications(specificUserId);
-            return res.status(OK).json({ jobs }).end();
+            return jobs
+                ? res.status(OK).json({ jobs }).end()
+                : res
+                      .status(BAD_REQUEST)
+                      .json({ error: 'Student does not exist' });
         } catch (error) {
             logger.err(error);
             return res
