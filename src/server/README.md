@@ -387,6 +387,107 @@ Faculty Member API
                 -   Unprocessable Entity -> Status code: 422
                 -   Internal server error -> Status code: 500
 
+    -   api/facultyMember/get-posted-jobs
+
+        -   Returns a list of job posted by the logged-in faculty member from the database.
+        -   Body: None
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a faculty member
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 200
+                ```
+                {
+                    jobs: [
+                        {
+                            id: number,
+                            targetYears: string[],
+                            hoursPerWeek: number,
+                            description: string,
+                            expirationDate: Date,
+                            startDate: Date,
+                            endDate: Date,
+                            postedOn: Date,
+                            type: string[],
+                            title: string,
+                            status: 'Hiring' | 'Closed',
+                            minSalary: number,
+                            maxSalary: number,
+                            departmentId: number,
+                            facultyMemberId: number,
+                            department: {
+                                id: number,
+                                name: string,
+                                collegeId: number,
+                                college: {
+                                    id: number,
+                                    name: string
+                                }
+                            }
+                        }
+                    ]
+                }
+                ```
+            -   errors:
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
+
+    -   api/facultyMember/get-applicants/:jobId
+
+        -   Returns a list of students who applied for a job with the given job Id from the database.
+        -   Body: None
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a faculty member
+            -   User must be an owner of the job
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 200
+                ```
+                {
+                    students: [
+                        {
+                            id: number,
+                            sid: number,
+                            classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior',
+                            user: {
+                                id: number,
+                                email: : string,
+                                biography: string,
+                                firstName: string,
+                                lastName: string,
+                                middleName: string,
+                                role: 'student'
+                            },
+                            department: {
+                                id: number,
+                                name: string,
+                                college: {
+                                    id: number,
+                                    name: string
+                                }
+                            },
+                            courses: [
+                                {
+                                    id: number,
+                                    title: string
+                                }
+                            ]
+                        }
+                    ]
+                }
+                ```
+            -   errors:
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
+
 Student API
 
 -   Interacts with:

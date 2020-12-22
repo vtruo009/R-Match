@@ -7,6 +7,8 @@ import { errors } from '@shared/errors';
 import {
     getFacultyMemberProfile,
     updateFacultyMember,
+    getPostedJobs,
+    getApplicants
 } from '@modules/facultyMember';
 import { validationMiddleware } from '@middlewares/validation';
 import { facultyMemberProfileSchema } from './schemas';
@@ -93,6 +95,67 @@ router.get(
                 parseInt(facultyMemberId, 10)
             );
             return res.status(OK).json({ facultyMember }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
+ * GET Request - Read - "GET /api/faculty-member/get-posted-jobs"
+ ******************************************************************************/
+
+router.get(
+    '/get-posted-jobs',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        const { specificUserId, role } = req.user as JWTUser;
+        if (role !== 'facultyMember') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a faculty member' });
+        }
+
+        try {
+            const jobs = await getPostedJobs(specificUserId);
+            return res.status(OK).json({ jobs }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
+ * GET Request - Read - "GET /api/faculty-member/get-applicants/:jobId"
+ ******************************************************************************/
+
+router.get(
+    '/get-applicants/:jobId',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        const { specificUserId, role } = req.user as JWTUser;
+        if (role !== 'facultyMember') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a faculty member' });
+        }
+
+        const { jobId } = req.params;
+
+        try {
+            const students = await getApplicants(
+                specificUserId,
+                parseInt(jobId, 10)
+            );
+            return res.status(OK).json({ students }).end();
         } catch (error) {
             logger.err(error);
             return res

@@ -1,7 +1,9 @@
 import { FacultyMember } from '@entities/facultyMember';
 import { User } from '@entities/user';
 import { Department } from '@entities/department';
+import { Job } from '@entities/job';
 import { getRepository } from 'typeorm';
+import { JobApplication } from '../entities/jobApplication';
 
 /**
  * @description Creates a faculty member using an existing user record from the database
@@ -80,4 +82,64 @@ export const getFacultyMemberProfile = (id: number) => {
         .leftJoinAndSelect('facultyMember.department', 'department')
         .leftJoinAndSelect('department.college', 'college')
         .getOne();
+};
+
+/**
+ * @description Get a list of jobs posted by a faculty member
+ * @param {number} facultyMemberId - Id of faculty member
+ * @returns Promise
+ */
+export const getPostedJobs = async (facultyMemberId: number) => {
+    // Check if a faculty member with the given id exists.
+    const facultyMember = await FacultyMember.findOne(facultyMemberId);
+    if (!facultyMember) return undefined;
+
+    // Returns all jobs he posted.
+    return getRepository(Job)
+        .createQueryBuilder('job')
+        .where({ facultyMemberId: facultyMemberId })
+        .leftJoinAndSelect('job.department', 'department')
+        .leftJoinAndSelect('department.college', 'college')
+        .getMany();
+};
+
+
+
+/**
+ * @description Get a list of students who applied to a job.
+ * @param {number} facultyMemberId - Id of faculty member
+ * @param {number} jobId - Id of the job
+ * @returns Promise
+ */
+export const getApplicants = async (facultyMemberId: number, jobId: number) => {
+    // Check if a faculty member with the given id exists.
+    const facultyMember = await FacultyMember.findOne(facultyMemberId);
+    if (!facultyMember) throw new Error("The faculty member does not exist.");
+
+    // Check if a job with the given id exists.
+    const job = await Job.findOne(jobId);
+    if (!job) throw new Error("The requested job does not exist.");
+
+    // Check if the job is posted by the faculty member.
+    if (job.facultyMemberId != facultyMemberId)
+        throw new Error("The user does not have permission.");
+
+    // Returns all students applied to the position.
+    return getRepository(JobApplication)
+        .createQueryBuilder('jobApplication')
+        .where({ jobId })
+        .leftJoinAndSelect('jobApplication.student', 'student')
+        .leftJoin('student.user', 'user')
+        .addSelect([
+            'user.id',
+            'user.firstName',
+            'user.lastName',
+            'user.middleName',
+            'user.biography',
+            'user.email',
+        ])
+        .leftJoinAndSelect('student.department', 'department')
+        .leftJoinAndSelect('department.college', 'college')
+        .leftJoinAndSelect('student.courses', 'courses')
+        .getMany();
 };
