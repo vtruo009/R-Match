@@ -1,5 +1,4 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Formik, Form, Field } from 'formik';
@@ -112,11 +111,6 @@ function StudentProfileForm({ studentProfileInformation }: Props) {
                 {() => (
                     <Form>
                         <Grid container spacing={3} alignContent='center'>
-                            <Grid item container justify='center'>
-                                <Typography variant='h4'>
-                                    Edit Profile
-                                </Typography>
-                            </Grid>
                             <Grid item container spacing={5}>
                                 <Grid item md={4} xs={12}>
                                     <Field
