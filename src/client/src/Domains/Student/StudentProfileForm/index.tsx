@@ -11,6 +11,7 @@ import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import SubmitButton from 'Components/SubmitButton';
+import CancelButton from 'Components/CancelButton';
 import {
     classStandingTypes,
     updateStudentProfile,
@@ -34,6 +35,7 @@ export interface IStudentProfileForm {
 
 interface Props {
     studentProfileInformation: IStudentProfileForm;
+    onCancel: () => void;
 }
 
 // const formInitialValues: IStudentProfileForm = {
@@ -76,7 +78,7 @@ const formSchema = yup.object({
         .optional(),
 });
 
-function StudentProfileForm({ studentProfileInformation }: Props) {
+function StudentProfileForm({ studentProfileInformation, onCancel }: Props) {
     const [
         studentProfileForm,
         setStudentProfile,
@@ -200,16 +202,26 @@ function StudentProfileForm({ studentProfileInformation }: Props) {
                                     />
                                 </Grid>
                             </Grid>
-                            <Grid container item xs={12}>
-                                <SubmitButton
-                                    type='submit'
-                                    isLoading={isUpdatingProfileLoading}
-                                >
-                                    Submit
-                                    {isUpdatingProfileLoading && (
-                                        <Loader size={20} />
-                                    )}
-                                </SubmitButton>
+                            <Grid
+                                container
+                                item
+                                spacing={2}
+                                alignItems='center'
+                            >
+                                <Grid item>
+                                    <SubmitButton
+                                        type='submit'
+                                        isLoading={isUpdatingProfileLoading}
+                                    >
+                                        Submit
+                                        {isUpdatingProfileLoading && (
+                                            <Loader size={20} />
+                                        )}
+                                    </SubmitButton>
+                                </Grid>
+                                <Grid item>
+                                    <CancelButton onClick={onCancel} />
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Form>
