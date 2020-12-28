@@ -151,11 +151,13 @@ router.get(
         const { jobId } = req.params;
 
         try {
-            const students = await getApplicants(
+            const { result, message } = await getApplicants(
                 specificUserId,
                 parseInt(jobId, 10)
             );
-            return res.status(OK).json({ students }).end();
+            return result
+                ? res.status(OK).json({ result }).end()
+                : res.status(BAD_REQUEST).json({ error: message });
         } catch (error) {
             logger.err(error);
             return res

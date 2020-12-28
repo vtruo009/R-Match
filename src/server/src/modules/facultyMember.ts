@@ -112,20 +112,39 @@ export const getPostedJobs = async (facultyMemberId: number) => {
  * @returns Promise
  */
 export const getApplicants = async (facultyMemberId: number, jobId: number) => {
+    const getApplicantsResult: {
+        result: JobApplication[] | undefined;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
+
     // Check if a faculty member with the given id exists.
     const facultyMember = await FacultyMember.findOne(facultyMemberId);
-    if (!facultyMember) throw new Error("The faculty member does not exist.");
+    if (!facultyMember) {
+        getApplicantsResult.message =
+            'The faculty member does not exist.';
+        return getApplicantsResult;
+    }
 
     // Check if a job with the given id exists.
     const job = await Job.findOne(jobId);
-    if (!job) throw new Error("The requested job does not exist.");
+    if (!job) {
+        getApplicantsResult.message =
+            'The requested job does not exist.';
+        return getApplicantsResult;
+    }
 
     // Check if the job is posted by the faculty member.
-    if (job.facultyMemberId != facultyMemberId)
-        throw new Error("The user does not have permission.");
+    if (job.facultyMemberId != facultyMemberId) {
+        getApplicantsResult.message =
+            'The user does not have permission.';
+        return getApplicantsResult;
+    }
 
     // Returns all students applied to the position.
-    return getRepository(JobApplication)
+    const applications = await getRepository(JobApplication)
         .createQueryBuilder('jobApplication')
         .where({ jobId })
         .leftJoinAndSelect('jobApplication.student', 'student')
@@ -142,4 +161,10 @@ export const getApplicants = async (facultyMemberId: number, jobId: number) => {
         .leftJoinAndSelect('department.college', 'college')
         .leftJoinAndSelect('student.courses', 'courses')
         .getMany();
+
+
+    getApplicantsResult.message = 'Successfully obtained applicants.';
+    getApplicantsResult.result = applications;
+
+    return getApplicantsResult;
 };
