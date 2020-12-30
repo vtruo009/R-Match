@@ -100,7 +100,7 @@ function JobPreview({ job, onClick, isSelected }: Props) {
                     <Grid item>
                         <Typography variant='body1'>
                             Posted by:{' '}
-                            {job.facultyMember.title && job.facultyMember.title}
+                            {job.facultyMember.title && job.facultyMember.title}{' '}
                             {job.facultyMember.user.firstName}{' '}
                             {job.facultyMember.user.lastName}
                         </Typography>
