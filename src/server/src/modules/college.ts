@@ -15,7 +15,7 @@ export const createCollege = (name: College['name']) => {
  * @returns Promise
  */
 export const getColleges = () => {
-    return College.find({ relations: ['departments'] });
+    return College.find({ relations: ['departments', 'departments.courses'] });
 };
 
 /**

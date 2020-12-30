@@ -1,13 +1,18 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import Button, { ButtonProps } from '@material-ui/core/Button';
 
 interface Props {
     onClick: () => void;
 }
 
-function CancelButton({ onClick }: Props) {
+function CancelButton({ onClick, ...passThroughProps }: Props & ButtonProps) {
     return (
-        <Button color='secondary' variant='contained' onClick={onClick}>
+        <Button
+            {...passThroughProps}
+            color='secondary'
+            variant='contained'
+            onClick={onClick}
+        >
             Cancel
         </Button>
     );
