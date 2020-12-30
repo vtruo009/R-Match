@@ -10,7 +10,8 @@ import {
 
 interface SelectFormFieldProps {
     label?: string;
-    options: Array<{ label: string; value: string }>;
+    defaultLabel?: string;
+    options: Array<{ label: string; value: string | number }>;
 }
 
 export const SelectFormField: React.FC<FieldProps & SelectFormFieldProps> = ({
@@ -18,6 +19,7 @@ export const SelectFormField: React.FC<FieldProps & SelectFormFieldProps> = ({
     form,
     label,
     options,
+    defaultLabel,
     ...props
 }) => {
     const errorText =
@@ -26,6 +28,11 @@ export const SelectFormField: React.FC<FieldProps & SelectFormFieldProps> = ({
         <FormControl fullWidth error={!!errorText}>
             {label && <InputLabel>{label}</InputLabel>}
             <Select fullWidth {...field} {...props}>
+                {defaultLabel && (
+                    <MenuItem value={undefined}>
+                        {defaultLabel}
+                    </MenuItem>
+                )}
                 {options.map((op) => (
                     <MenuItem key={op.value} value={op.value}>
                         {op.label}

@@ -21,3 +21,9 @@ export const createCourse = async (
     });
     return courseToInsert.save();
 };
+
+export const getCourseByDepartmentId = (
+    departmentId: Course['departmentId']
+) => {
+    return Course.find({ where: { departmentId } });
+};

@@ -511,7 +511,7 @@ Student API
                         lastName: string,
                         biography?: string,
                     },
-                    departmentId: number,
+                    departmentId?: number,
                     sid?: number,
                     classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior',
                     courses?: {

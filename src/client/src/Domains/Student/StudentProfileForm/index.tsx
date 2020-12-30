@@ -17,13 +17,14 @@ import {
     updateStudentProfile,
 } from 'Domains/Student/api/api';
 
-import { departments, courseList } from 'sharedData';
+import AcademicInfo from 'Components/AcademicInfo';
 
 export interface IStudentProfileForm {
     firstName: string;
     middleName?: string;
     lastName: string;
-    department?: string;
+    collegeId?: number;
+    departmentId?: number;
     sid?: number;
     classStanding?: string;
     email: string;
@@ -38,28 +39,15 @@ interface Props {
     onCancel: () => void;
 }
 
-// const formInitialValues: IStudentProfileForm = {
-//     firstName: 'Johan',
-//     middleName: undefined,
-//     lastName: 'Guzman',
-//     departmentId: undefined,
-//     sid: 12312547,
-//     classStanding: 'Junior',
-//     email: 'jguz1707@mgmail.com',
-//     biography: 'ubwoiv;nalbiuw',
-//     courses: [],
-//     resume: undefined,
-//     transcript: undefined,
-// };
-
 const formSchema = yup.object({
     firstName: yup.string().required('First name is required'),
+    middleName: yup.string().nullable(),
     lastName: yup.string().required('Last name is required'),
     departmentId: yup.string(),
-    sid: yup.string().required('Student ID is is required'),
-    classStanding: yup.string(),
+    sid: yup.string().nullable(),
+    classStanding: yup.string().nullable(),
     email: yup.string().email('Please enter valid email'),
-    biography: yup.string(),
+    biography: yup.string().nullable(),
     resume: yup
         .mixed()
         .test('fileFormat', 'PDF only', (value) => {
@@ -83,7 +71,6 @@ function StudentProfileForm({ studentProfileInformation, onCancel }: Props) {
         studentProfileForm,
         setStudentProfile,
     ] = React.useState<IStudentProfileForm>(studentProfileInformation);
-
     const [snack] = useSnack();
     const updateProfileRequest = React.useCallback(
         () => updateStudentProfile(studentProfileForm),
@@ -102,126 +89,101 @@ function StudentProfileForm({ studentProfileInformation, onCancel }: Props) {
             <Formik
                 validationSchema={formSchema}
                 initialValues={studentProfileInformation}
-                onSubmit={(formValues, actions) => {
+                onSubmit={(formValues) => {
+                    console.log(formValues);
                     setStudentProfile(formValues);
-                    sendUpdateProfileRequest();
-                    // actions.resetForm({
-                    //     values: { ...formInitialValues },
-                    // });
+                    // sendUpdateProfileRequest();
                 }}
             >
                 {() => (
                     <Form>
-                        <Grid container spacing={3} alignContent='center'>
-                            <Grid item container spacing={5}>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='firstName'
-                                        label='First Name'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='middleName'
-                                        label='Middle Name'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='lastName'
-                                        label='Last Name'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='email'
-                                        label='Email'
-                                        disabled
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='classStanding'
-                                        label='Class Standing'
-                                        options={classStandingTypes}
-                                        component={SelectFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='sid'
-                                        label='SID'
-                                        type='number'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='department'
-                                        label='Department'
-                                        options={departments}
-                                        component={SelectFormField}
-                                    />
-                                </Grid>
-                                {/* TODO: Make sure PDF Files are not greater than some number of bytes */}
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='transcript'
-                                        label='Transcript'
-                                        type='file'
-                                        component={SimpleFileUpload}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='resume'
-                                        label='Resume'
-                                        type='file'
-                                        component={SimpleFileUpload}
-                                    />
-                                </Grid>
-                                <Grid item md={12} xs={12}>
-                                    <Field
-                                        name='biography'
-                                        label='Biography'
-                                        multiline
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={12} xs={12}>
-                                    <Field
-                                        name='courses'
-                                        label='Courses'
-                                        options={courseList}
-                                        multiple
-                                        component={SelectFormField}
-                                    />
-                                </Grid>
+                        <Grid container spacing={4} alignContent='center'>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='firstName'
+                                    label='First Name'
+                                    component={TextFormField}
+                                />
                             </Grid>
-                            <Grid
-                                container
-                                item
-                                spacing={2}
-                                alignItems='center'
-                            >
-                                <Grid item>
-                                    <SubmitButton
-                                        type='submit'
-                                        isLoading={isUpdatingProfileLoading}
-                                    >
-                                        Submit
-                                        {isUpdatingProfileLoading && (
-                                            <Loader size={20} />
-                                        )}
-                                    </SubmitButton>
-                                </Grid>
-                                <Grid item>
-                                    <CancelButton onClick={onCancel} />
-                                </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='middleName'
+                                    label='Middle Name'
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='lastName'
+                                    label='Last Name'
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='email'
+                                    label='Email'
+                                    disabled
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='classStanding'
+                                    label='Class Standing'
+                                    options={classStandingTypes}
+                                    component={SelectFormField}
+                                    defaultLabel='Select your class standing'
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='sid'
+                                    label='SID'
+                                    type='number'
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            {/* TODO: Make sure PDF Files are not greater than some number of bytes */}
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='transcript'
+                                    label='Transcript'
+                                    type='file'
+                                    component={SimpleFileUpload}
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='resume'
+                                    label='Resume'
+                                    type='file'
+                                    component={SimpleFileUpload}
+                                />
+                            </Grid>
+                            <Grid item md={12} xs={12}>
+                                <Field
+                                    name='biography'
+                                    label='Biography'
+                                    multiline
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <AcademicInfo showCourses />
+                            <Grid item xs={12} md={6}>
+                                <SubmitButton
+                                    type='submit'
+                                    fullWidth
+                                    isLoading={isUpdatingProfileLoading}
+                                >
+                                    Submit
+                                    {isUpdatingProfileLoading && (
+                                        <Loader size={20} />
+                                    )}
+                                </SubmitButton>
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <CancelButton onClick={onCancel} fullWidth />
                             </Grid>
                         </Grid>
                     </Form>
