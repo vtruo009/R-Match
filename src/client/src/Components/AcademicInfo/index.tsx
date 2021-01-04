@@ -122,7 +122,11 @@ function AcademicInfo({ showCourses }: Props) {
                             label='College'
                             options={colleges}
                             component={SelectFormField}
-                            onChange={triggerCollegeChange}
+                            onChange={(
+                                e: React.ChangeEvent<{ value: number }>
+                            ) => {
+                                console.log(e.target.value);
+                            }}
                             defaultLabel='Select a college'
                         />
                     </Grid>

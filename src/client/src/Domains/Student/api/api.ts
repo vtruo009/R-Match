@@ -1,7 +1,7 @@
 import API from 'api';
 import { IStudentProfileForm } from 'Domains/Student/StudentProfileForm';
 import { IUser } from 'Domains/Accounts/api/api';
-
+import { ICourse, IDepartment } from 'Components/AcademicInfo/api';
 export const classStandingTypes = [
     {
         label: 'Freshman',
@@ -21,20 +21,6 @@ export const classStandingTypes = [
     },
 ];
 
-// TODO: Move these interfaces to their respective in the future
-interface ICollege {
-    id: number;
-    name: string;
-}
-interface IDepartment {
-    id: number;
-    name: string;
-    college: ICollege;
-}
-interface ICourse {
-    id: number;
-    title: string;
-}
 export interface IStudent {
     id: number;
     user: IUser;

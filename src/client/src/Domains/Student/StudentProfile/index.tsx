@@ -1,12 +1,14 @@
 import React from 'react';
+import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
+import Card from '@material-ui/core/Card';
 import Dialog from 'Components/Dialog';
 import useApi from 'hooks/useApi';
 import LabelValue from 'Components/LabelValue';
+import LabelValues from 'Components/LabelValues';
 import Loader from 'Components/Loader';
 import StudentProfileForm from 'Domains/Student/StudentProfileForm';
 import { getStudentProfile, IStudent } from 'Domains/Student/api/api';
@@ -45,103 +47,103 @@ function StudentProfile() {
     }, [sendGetProfileRequest]);
 
     const getCoursesTitles = () => {
-        return studentProfile?.courses.map((course) => course.title);
+        return studentProfile?.courses.map(
+            (course) => `${course.shortTitle} - ${course.fullTitle}`
+        );
+    };
+
+    const getStudentName = () => {
+        const middleName = studentProfile?.user.middleName;
+        const middleInitial = middleName ? middleName.charAt(0) + '.' : '';
+        return `${studentProfile?.user.firstName} ${middleInitial} ${studentProfile?.user.lastName}`;
     };
 
     return isGettingProfileLoading ? (
         <Loader center />
     ) : studentProfile ? (
-        <Paper style={{ padding: 50 }}>
-            <Grid container spacing={3}>
-                <Grid item container justify='flex-start'>
-                    <Grid item>
-                        <Typography variant='h4'>Student Profile</Typography>
-                    </Grid>
-                    {isUserProfileOwner() && (
-                        <Grid item>
-                            <IconButton
-                                color='primary'
-                                onClick={handleClickOpen}
+        <div style={{ padding: 50 }}>
+            <Grid container spacing={2}>
+                <Grid item container spacing={2} justify='center'>
+                    <Grid item md={12} xs={12}>
+                        <Card variant='outlined' style={{ padding: 30 }}>
+                            <Grid
+                                container
+                                direction='column'
+                                alignItems='center'
+                                justify='center'
+                                spacing={3}
                             >
-                                <EditIcon />
-                            </IconButton>
-                        </Grid>
-                    )}
-                </Grid>
-                <Grid item container spacing={5}>
-                    <Grid item md={3} xs={12}>
-                        <LabelValue
-                            label='First Name'
-                            value={studentProfile.user.firstName}
-                        />
+                                {isUserProfileOwner() && (
+                                    <Grid container item justify='flex-end'>
+                                        <IconButton
+                                            color='primary'
+                                            onClick={handleClickOpen}
+                                        >
+                                            <EditIcon />
+                                        </IconButton>
+                                    </Grid>
+                                )}
+                                <Grid item>
+                                    <Avatar
+                                        alt={getStudentName()}
+                                        style={{ width: 170, height: 170 }}
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <Typography variant='h4'>
+                                        {getStudentName()}
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                        </Card>
                     </Grid>
-                    <Grid item md={3} xs={12}>
-                        <LabelValue
-                            label='Middle Name'
-                            value={studentProfile.user.middleName}
-                        />
-                    </Grid>
-                    <Grid item md={3} xs={12}>
-                        <LabelValue
-                            label='Last Name'
-                            value={studentProfile.user.lastName}
-                        />
-                    </Grid>
-                    <Grid item md={3} xs={12}>
-                        <LabelValue
-                            label='Class Standing'
-                            value={studentProfile.classStanding}
-                        />
-                    </Grid>
-                </Grid>
-                <Grid item container spacing={5}>
-                    <Grid item md={3} xs={12}>
+                    <Grid item md={4} xs={12}>
                         <LabelValue
                             label='Class Standing'
                             value={studentProfile.classStanding}
                         />
                     </Grid>
-                    <Grid item md={3} xs={12}>
-                        <LabelValue
-                            label='Courses Taken'
-                            value={getCoursesTitles()}
-                        />
-                    </Grid>
-                    <Grid item md={3} xs={12}>
+                    <Grid item md={4} xs={12}>
                         <LabelValue
                             label='College'
                             value={studentProfile.department?.college.name}
                         />
                     </Grid>
-                    <Grid item md={3} xs={12}>
+                    <Grid item md={4} xs={12}>
                         <LabelValue
                             label='Department'
                             value={studentProfile.department?.name}
                         />
                     </Grid>
-                </Grid>
-                {isUserProfileOwner() && (
-                    <Grid item container spacing={5}>
-                        <Grid item md={3} xs={12}>
-                            <LabelValue
-                                label='SID'
-                                value={studentProfile.sid}
-                            />
-                        </Grid>
-                        <Grid item md={3} xs={12}>
-                            <LabelValue
-                                label='Email'
-                                value={studentProfile.user.email}
-                            />
-                        </Grid>
+                    <Grid item md={12} xs={12}>
+                        <LabelValue
+                            label='About'
+                            value={studentProfile.user.biography}
+                            isParagraph
+                        />
                     </Grid>
-                )}
-                <Grid item container>
-                    <LabelValue
-                        label='About'
-                        value={studentProfile.user.biography}
-                        isParagraph
-                    />
+                    {isUserProfileOwner() && (
+                        <Grid item container spacing={2}>
+                            <Grid item md={6} xs={12}>
+                                <LabelValue
+                                    label='SID'
+                                    value={studentProfile.sid}
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <LabelValue
+                                    label='Email'
+                                    value={studentProfile.user.email}
+                                />
+                            </Grid>
+                        </Grid>
+                    )}
+                    <Grid item md={12} xs={12}>
+                        <LabelValues
+                            label='Courses Taken'
+                            values={getCoursesTitles()}
+                        />
+                    </Grid>
                 </Grid>
             </Grid>
             <Dialog open={open} onClose={handleClose} title='Edit Profile'>
@@ -161,7 +163,7 @@ function StudentProfile() {
                     }}
                 />
             </Dialog>
-        </Paper>
+        </div>
     ) : (
         <> </>
     );
