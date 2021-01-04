@@ -18,7 +18,7 @@ export interface ICollege extends _ICollege {
     departments: _IDepartment[];
 }
 
-interface ICourse {
+export interface ICourse {
     id: number;
     shortTitle: string;
     fullTitle: string;

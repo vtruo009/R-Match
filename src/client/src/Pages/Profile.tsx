@@ -7,7 +7,7 @@ function Profile() {
     const { user } = React.useContext(AuthContext);
 
     return (
-        <div style={{ margin: 50 }}>
+        <div>
             {user?.role === 'student' ? (
                 <StudentProfile />
             ) : (
