@@ -152,7 +152,7 @@ function StudentProfile() {
                 title='Edit Profile'
             >
                 <StudentProfileForm
-                    onCancel={() => setOpen(false)}
+                    onClose={() => setOpen(false)}
                     onSuccess={sendGetProfileRequest}
                     studentProfileInformation={{
                         id: studentProfile.id,
