@@ -7,7 +7,6 @@ import { SimpleFileUpload } from 'formik-material-ui';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
-import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import SubmitButton from 'Components/SubmitButton';
@@ -16,10 +15,11 @@ import {
     classStandingTypes,
     updateStudentProfile,
 } from 'Domains/Student/api/api';
-
 import AcademicInfo from 'Components/AcademicInfo';
 
 export interface IStudentProfileForm {
+    id: number;
+    userId: number;
     firstName: string;
     middleName?: string;
     lastName: string;
@@ -29,7 +29,7 @@ export interface IStudentProfileForm {
     classStanding?: string;
     email: string;
     biography?: string;
-    courses?: string[];
+    courses?: number[];
     resume?: File;
     transcript?: File;
 }
@@ -37,6 +37,7 @@ export interface IStudentProfileForm {
 interface Props {
     studentProfileInformation: IStudentProfileForm;
     onCancel: () => void;
+    onSuccess: () => void;
 }
 
 const formSchema = yup.object({
@@ -66,7 +67,11 @@ const formSchema = yup.object({
         .optional(),
 });
 
-function StudentProfileForm({ studentProfileInformation, onCancel }: Props) {
+function StudentProfileForm({
+    studentProfileInformation,
+    onCancel,
+    onSuccess,
+}: Props) {
     const [
         studentProfileForm,
         setStudentProfile,
@@ -80,6 +85,8 @@ function StudentProfileForm({ studentProfileInformation, onCancel }: Props) {
         updateProfileRequest,
         {
             onSuccess: () => {
+                onCancel();
+                onSuccess();
                 snack('Student profile successfully updated!', 'success');
             },
         }
@@ -90,9 +97,8 @@ function StudentProfileForm({ studentProfileInformation, onCancel }: Props) {
                 validationSchema={formSchema}
                 initialValues={studentProfileInformation}
                 onSubmit={(formValues) => {
-                    console.log(formValues);
                     setStudentProfile(formValues);
-                    // sendUpdateProfileRequest();
+                    sendUpdateProfileRequest();
                 }}
             >
                 {() => (
@@ -172,15 +178,9 @@ function StudentProfileForm({ studentProfileInformation, onCancel }: Props) {
                             <AcademicInfo showCourses />
                             <Grid item xs={12} md={6}>
                                 <SubmitButton
-                                    type='submit'
                                     fullWidth
                                     isLoading={isUpdatingProfileLoading}
-                                >
-                                    Submit
-                                    {isUpdatingProfileLoading && (
-                                        <Loader size={20} />
-                                    )}
-                                </SubmitButton>
+                                />
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <CancelButton onClick={onCancel} fullWidth />
