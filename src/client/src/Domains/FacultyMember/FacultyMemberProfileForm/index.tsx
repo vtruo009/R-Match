@@ -7,7 +7,6 @@ import * as yup from 'yup';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
-import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import SubmitButton from 'Components/SubmitButton';
@@ -157,10 +156,7 @@ function FacultyMemberProfileForm() {
                                 </Grid>
                             </Grid>
                             <Grid container item xs={12}>
-                                <SubmitButton type='submit' isLoading={isLoading}>
-                                    Submit
-                                    {isLoading && <Loader size={20} />}
-                                </SubmitButton>
+                                <SubmitButton isLoading={isLoading} />
                             </Grid>
                         </Grid>
                     </Form>
