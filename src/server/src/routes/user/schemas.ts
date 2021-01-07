@@ -4,8 +4,8 @@ export const userProfileSchema = Joi.object({
     id: Joi.number().required(),
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
-    middleName: Joi.string().allow('').optional(),
-    biography: Joi.string().allow('').optional(),
+    middleName: Joi.string().allow('').allow(null).optional(),
+    biography: Joi.string().allow('').allow(null).optional(),
 }).required();
 
 export const SignUpSchema = Joi.object({
