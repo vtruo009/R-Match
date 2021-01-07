@@ -8,7 +8,6 @@ import * as yup from 'yup';
 import SubmitButton from 'Components/SubmitButton';
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
-import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import { getJobs, IJob, jobTypes } from 'Domains/Jobs/api/api';
 import { Pagination } from '@material-ui/lab';
@@ -146,15 +145,10 @@ function JobSearchForm({ setJobs, children }: props) {
                                 </Grid>
                                 <Grid item md={2} xs={12}>
                                     <SubmitButton
-                                        type='submit'
                                         isLoading={isLoading}
                                         startIcon={<SearchIcon />}
-                                    >
-                                        Search
-                                    </SubmitButton>
-                                </Grid>
-                                <Grid item md={1} xs={12}>
-                                    {isLoading && <Loader size={50} />}
+                                        label='Search'
+                                    />
                                 </Grid>
                             </Grid>
                         </Form>
