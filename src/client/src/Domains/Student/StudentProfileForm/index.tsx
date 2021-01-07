@@ -36,7 +36,7 @@ export interface IStudentProfileForm {
 
 interface Props {
     studentProfileInformation: IStudentProfileForm;
-    onCancel: () => void;
+    onClose: () => void;
     onSuccess: () => void;
 }
 
@@ -69,7 +69,7 @@ const formSchema = yup.object({
 
 function StudentProfileForm({
     studentProfileInformation,
-    onCancel,
+    onClose,
     onSuccess,
 }: Props) {
     const [
@@ -85,7 +85,7 @@ function StudentProfileForm({
         updateProfileRequest,
         {
             onSuccess: () => {
-                onCancel();
+                onClose();
                 onSuccess();
                 snack('Student profile successfully updated!', 'success');
             },
@@ -183,7 +183,7 @@ function StudentProfileForm({
                                 />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <CancelButton onClick={onCancel} fullWidth />
+                                <CancelButton onClick={onClose} fullWidth />
                             </Grid>
                         </Grid>
                     </Form>
