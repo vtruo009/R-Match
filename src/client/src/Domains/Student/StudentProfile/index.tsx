@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
+
 import Dialog from 'Components/Dialog';
 import useApi from 'hooks/useApi';
 import LabelValue from 'Components/LabelValue';
@@ -17,12 +18,7 @@ import { AuthContext } from 'Contexts/AuthContext';
 function StudentProfile() {
     const [studentProfile, setStudentProfile] = React.useState<IStudent>();
     const [open, setOpen] = React.useState(false);
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
+
     const { user } = React.useContext(AuthContext);
 
     const getProfileRequest = React.useCallback(
@@ -42,14 +38,14 @@ function StudentProfile() {
     const isUserProfileOwner = () =>
         user?.specificUserId === studentProfile?.id;
 
-    React.useEffect(() => {
-        sendGetProfileRequest();
-    }, [sendGetProfileRequest]);
-
     const getCoursesTitles = () => {
         return studentProfile?.courses.map(
             (course) => `${course.shortTitle} - ${course.fullTitle}`
         );
+    };
+
+    const getCoursesIds = () => {
+        return studentProfile?.courses.map((course) => course.id);
     };
 
     const getStudentName = () => {
@@ -57,6 +53,10 @@ function StudentProfile() {
         const middleInitial = middleName ? middleName.charAt(0) + '.' : '';
         return `${studentProfile?.user.firstName} ${middleInitial} ${studentProfile?.user.lastName}`;
     };
+
+    React.useEffect(() => {
+        sendGetProfileRequest();
+    }, [sendGetProfileRequest]);
 
     return isGettingProfileLoading ? (
         <Loader center />
@@ -77,7 +77,7 @@ function StudentProfile() {
                                     <Grid container item justify='flex-end'>
                                         <IconButton
                                             color='primary'
-                                            onClick={handleClickOpen}
+                                            onClick={() => setOpen(true)}
                                         >
                                             <EditIcon />
                                         </IconButton>
@@ -146,10 +146,17 @@ function StudentProfile() {
                     </Grid>
                 </Grid>
             </Grid>
-            <Dialog open={open} onClose={handleClose} title='Edit Profile'>
+            <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                title='Edit Profile'
+            >
                 <StudentProfileForm
-                    onCancel={handleClose}
+                    onCancel={() => setOpen(false)}
+                    onSuccess={sendGetProfileRequest}
                     studentProfileInformation={{
+                        id: studentProfile.id,
+                        userId: studentProfile.user.id,
                         firstName: studentProfile.user.firstName,
                         middleName: studentProfile.user.middleName,
                         lastName: studentProfile.user.lastName,
@@ -159,7 +166,7 @@ function StudentProfile() {
                         classStanding: studentProfile.classStanding,
                         email: studentProfile.user.email,
                         biography: studentProfile.user.biography,
-                        courses: getCoursesTitles(),
+                        courses: getCoursesIds(),
                     }}
                 />
             </Dialog>

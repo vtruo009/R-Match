@@ -35,9 +35,25 @@ export interface IStudent {
 export async function updateStudentProfile(
     studentProfile: IStudentProfileForm
 ) {
-    return API.post('student/update-profile', {
-        studentProfile,
-    });
+    const body = {
+        studentProfile: {
+            id: studentProfile.id,
+            departmentId: studentProfile.departmentId,
+            classStanding: studentProfile.classStanding,
+            sid: studentProfile.sid,
+            courses: studentProfile.courses?.map((course) => ({
+                id: course,
+            })),
+            user: {
+                id: studentProfile.userId,
+                firstName: studentProfile.firstName,
+                lastName: studentProfile.lastName,
+                middleName: studentProfile.middleName,
+                biography: studentProfile.biography,
+            },
+        },
+    };
+    return API.post('student/update-profile', body);
 }
 export async function getStudentProfile(studentId: number) {
     return API.get<{ student: IStudent }>(`student/get-profile/${studentId}`);
