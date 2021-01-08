@@ -14,6 +14,8 @@ export const studentProfileSchema = Joi.object({
         courses: Joi.array()
             .items(Joi.object().keys({ id: Joi.number().required() }))
             .optional(),
+        transcript: Joi.any().optional().allow(null),
+        resume: Joi.any().optional().allow(null),
     }).required(),
 });
 

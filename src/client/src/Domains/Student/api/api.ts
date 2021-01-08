@@ -35,14 +35,15 @@ export interface IStudent {
 export async function updateStudentProfile(
     studentProfile: IStudentProfileForm
 ) {
+    console.log(studentProfile);
     const body = {
         studentProfile: {
             id: studentProfile.id,
             departmentId: studentProfile.departmentId,
             classStanding: studentProfile.classStanding,
             sid: studentProfile.sid,
-            courses: studentProfile.courses?.map((course) => ({
-                id: course,
+            courses: studentProfile.courseIds?.map((courseId) => ({
+                id: courseId,
             })),
             user: {
                 id: studentProfile.userId,
@@ -51,6 +52,8 @@ export async function updateStudentProfile(
                 middleName: studentProfile.middleName,
                 biography: studentProfile.biography,
             },
+            resume: studentProfile.resume,
+            transcript: studentProfile.transcript,
         },
     };
     return API.post('student/update-profile', body);
