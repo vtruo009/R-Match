@@ -38,11 +38,9 @@ const formInitialValues = {
 
 const formSchema = yup.object({
     title: yup.string().required(),
-    // title: yup.string().optional(),
     // TODO: should be array type?
     types: yup.string().required(),
-    // types: yup.string().optional(),
-    startDate: yup.string().optional(), //add validation
+    startDate: yup.date().optional(),
     minSalary: yup.number().min(0).optional(),
     hoursPerWeek: yup.number().moreThan(0).optional(),
 });
