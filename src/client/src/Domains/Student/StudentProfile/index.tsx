@@ -166,7 +166,7 @@ function StudentProfile() {
                         classStanding: studentProfile.classStanding,
                         email: studentProfile.user.email,
                         biography: studentProfile.user.biography,
-                        courses: getCoursesIds(),
+                        courseIds: getCoursesIds(),
                     }}
                 />
             </Dialog>

@@ -15,7 +15,7 @@ interface Props {
     values?: string[];
 }
 
-function LabelValue({ label, values }: Props) {
+function LabelValues({ label, values }: Props) {
     const labelCounter = () => (values ? `(${values.length})` : '(0)');
     const [expanded, setExpanded] = React.useState(false);
 
@@ -41,7 +41,7 @@ function LabelValue({ label, values }: Props) {
                     {values ? (
                         <List>
                             {values.map((value, index) => (
-                                <div>
+                                <div key={index}>
                                     {index ? (
                                         <Divider />
                                     ) : (
@@ -63,4 +63,4 @@ function LabelValue({ label, values }: Props) {
         </Card>
     );
 }
-export default LabelValue;
+export default LabelValues;

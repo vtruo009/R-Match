@@ -6,8 +6,19 @@ import Loader from 'Components/Loader';
 import { getCollegesAndDepartments, getCourses } from './api';
 import useApi from 'hooks/useApi';
 
+/*
+    TODO: This component is not done yet
+    Note: The form state of the parent component must have the following attributes:
+        - collegeId
+        - departmentId
+        - courseIds
+*/
+
 interface Props {
     showCourses?: boolean;
+    collegeIdFromForm?: number;
+    departmentIdFromForm?: number;
+    courseIdsFromForm?: number[];
 }
 
 interface IBaseSelectValues {
@@ -19,7 +30,12 @@ interface ICollegeDepartmentDict {
     [id: number]: IBaseSelectValues[];
 }
 
-function AcademicInfo({ showCourses }: Props) {
+function AcademicInfo({
+    showCourses,
+    collegeIdFromForm,
+    departmentIdFromForm,
+    courseIdsFromForm,
+}: Props) {
     const [
         collegeDepartmentDict,
         setCollegeDepartmentDict,
@@ -37,12 +53,13 @@ function AcademicInfo({ showCourses }: Props) {
         () => getCollegesAndDepartments(),
         []
     );
+
     const [sendCollegeDepartmentRequest, areCollegeDepartmentsLoading] = useApi(
         collegeDepartmentApiRequest,
         {
             onSuccess: (response) => {
                 const colleges = response.data.colleges.map((college) => {
-                    // Saving department in cache
+                    // Saving departments in cache
                     const departments = college.departments.map(
                         (department) => ({
                             value: department.id,
@@ -79,33 +96,50 @@ function AcademicInfo({ showCourses }: Props) {
     );
 
     const triggerCollegeChange = (e: React.ChangeEvent<{ value: number }>) => {
-        const collegeId = e.target.value;
-        if (!collegeId) {
-            setDepartments([
-                { value: undefined, label: 'Select a college first' },
-            ]);
-            return;
-        }
-        // Getting departments from cache
-        setDepartments(collegeDepartmentDict[collegeId]);
+        // Need to wait for 500 ms for event to stabilize
+        setTimeout(() => {
+            const collegeId = e.target.value;
+            if (collegeId) {
+                // Getting departments from cache
+                setDepartments(collegeDepartmentDict[collegeId]);
+            } else {
+                setDepartments([
+                    { value: undefined, label: 'Select a college first' },
+                ]);
+            }
+        }, 500);
     };
 
     const triggerDepartmentChange = (
         e: React.ChangeEvent<{ value: number }>
     ) => {
-        const departmentId = e.target.value;
-        if (!departmentId) {
-            setCourses([
-                { value: undefined, label: 'Select a department first' },
-            ]);
-            return;
-        }
-        setDepartmentIdSelected(departmentId);
-        sendGetCoursesRequest();
+        // Need to wait for 500 ms for event to stabilize
+        setTimeout(() => {
+            const departmentId = e.target.value;
+            if (departmentId) {
+                setDepartmentIdSelected(departmentId);
+                sendGetCoursesRequest();
+            } else {
+                setCourses([
+                    { value: undefined, label: 'Select a department first' },
+                ]);
+            }
+        }, 500);
     };
 
     React.useEffect(() => {
         sendCollegeDepartmentRequest();
+        // setTimeout(() => {
+        //     // Initializes values for the select components
+        //     console.log(collegeDepartmentDict);
+        //     if (collegeIdFromForm && departmentIdFromForm) {
+        //         setDepartments(collegeDepartmentDict[collegeIdFromForm]);
+        //     }
+        //     if (departmentIdFromForm && courseIdsFromForm) {
+        //         setDepartmentIdSelected(departmentIdFromForm);
+        //         sendGetCoursesRequest();
+        //     }
+        // }, 3000);
     }, [sendCollegeDepartmentRequest]);
 
     return (
@@ -122,7 +156,7 @@ function AcademicInfo({ showCourses }: Props) {
                             label='College'
                             options={colleges}
                             component={SelectFormField}
-                            onChange={triggerCollegeChange}
+                            onClose={triggerCollegeChange}
                             defaultLabel='Select a college'
                         />
                     </Grid>
@@ -132,7 +166,7 @@ function AcademicInfo({ showCourses }: Props) {
                             label='Department'
                             options={departments}
                             component={SelectFormField}
-                            onChange={triggerDepartmentChange}
+                            onClose={triggerDepartmentChange}
                         />
                     </Grid>
                     {showCourses && (
@@ -144,7 +178,7 @@ function AcademicInfo({ showCourses }: Props) {
                             ) : (
                                 <Grid item md={12} xs={12}>
                                     <Field
-                                        name='courses'
+                                        name='courseIds'
                                         label='Courses'
                                         options={courses}
                                         multiple

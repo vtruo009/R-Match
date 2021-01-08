@@ -29,7 +29,7 @@ export interface IStudentProfileForm {
     classStanding?: string;
     email: string;
     biography?: string;
-    courses?: number[];
+    courseIds?: number[];
     resume?: File;
     transcript?: File;
 }
@@ -175,7 +175,14 @@ function StudentProfileForm({
                                     component={TextFormField}
                                 />
                             </Grid>
-                            <AcademicInfo showCourses />
+                            <AcademicInfo
+                                showCourses
+                                collegeIdFromForm={studentProfileForm.collegeId}
+                                departmentIdFromForm={
+                                    studentProfileForm.departmentId
+                                }
+                                courseIdsFromForm={studentProfileForm.courseIds}
+                            />
                             <Grid item xs={12} md={6}>
                                 <SubmitButton
                                     fullWidth
