@@ -100,7 +100,6 @@ export const createJob = async (
     return insertResult;
 };
 
-// TODO: Do filtering by start date. maybe?
 export const getJobs = (
     title: string,
     types: string[],
@@ -111,8 +110,16 @@ export const getJobs = (
     numOfItems: number
 ) => {
     let modType = 'none';
+    let modStart;
     if (types) {
         modType = types.join(',');
+    }
+    if (startDate) {
+        modStart = new Date(startDate);
+        let month = modStart.getMonth() + 1;
+        let date = modStart.getDate();
+        let year = modStart.getFullYear();
+        modStart = month + '/' + date + '/' + year;
     }
     return getRepository(Job)
         .createQueryBuilder('job')
@@ -131,6 +138,7 @@ export const getJobs = (
         })
         .orWhere('job.type IN (:...types)', { types })
         .orWhere('job.type LIKE :type', { type: `%${modType}%` })
+        .orWhere('job.startDate >= :startDate', {startDate: modStart})
         .orWhere('job.minSalary >= :minSalary', { minSalary })
         .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
         .skip((page - 1) * numOfItems)

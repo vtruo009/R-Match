@@ -85,6 +85,7 @@ export interface IJob {
 export async function getJobs(
     title: string,
     types: string[],
+    startDate: string,
     minSalary: string,
     hoursPerWeek: string,
     page: number,
@@ -93,6 +94,7 @@ export async function getJobs(
     const params = {
         title,
         types,
+        startDate,
         minSalary,
         hoursPerWeek,
         page,
