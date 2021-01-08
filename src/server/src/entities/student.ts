@@ -15,6 +15,7 @@ import { Course } from './course';
 import { Department } from './department';
 import { JobApplication } from './jobApplication';
 
+export type classStandings = 'Freshman' | 'Sophomore' | 'Junior' | 'Senior';
 @Entity()
 export class Student extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -29,15 +30,25 @@ export class Student extends BaseEntity {
     @Column({ nullable: true })
     sid?: number;
 
-    @Column({ nullable: true })
-    classStanding?: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior';
+    @Column({
+        nullable: true,
+        type: 'enum',
+        enum: ['Freshman', 'Sophomore', 'Junior', 'Senior'],
+    })
+    classStanding?: classStandings;
 
-    @Column()
-    userId: number;
+    @Column({ type: 'bytea', nullable: false })
+    resume: Buffer;
+
+    @Column({ type: 'bytea', nullable: true })
+    transcript: Buffer;
 
     @OneToOne(() => User)
     @JoinColumn()
     user: User;
+
+    @Column()
+    userId: number;
 
     @ManyToMany(() => Course, (course) => course.students)
     @JoinTable()
