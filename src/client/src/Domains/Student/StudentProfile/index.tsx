@@ -30,6 +30,7 @@ function StudentProfile() {
         getProfileRequest,
         {
             onSuccess: (results) => {
+                console.log(results.data.student);
                 setStudentProfile(results.data.student);
             },
         }
@@ -167,6 +168,8 @@ function StudentProfile() {
                         email: studentProfile.user.email,
                         biography: studentProfile.user.biography,
                         courseIds: getCoursesIds(),
+                        resume: studentProfile.resume,
+                        transcript: studentProfile.transcript,
                     }}
                 />
             </Dialog>

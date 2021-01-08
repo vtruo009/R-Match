@@ -37,7 +37,7 @@ export class Student extends BaseEntity {
     })
     classStanding?: classStandings;
 
-    @Column({ type: 'bytea', nullable: false })
+    @Column({ type: 'bytea', nullable: true })
     resume: Buffer;
 
     @Column({ type: 'bytea', nullable: true })
