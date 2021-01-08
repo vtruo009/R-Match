@@ -30,8 +30,8 @@ export interface IStudentProfileForm {
     email: string;
     biography?: string;
     courseIds?: number[];
-    resume?: File;
-    transcript?: File;
+    resume?: Buffer;
+    transcript?: Buffer;
 }
 
 interface Props {

@@ -28,8 +28,8 @@ export interface IStudent {
     sid?: number;
     classStanding?: string;
     courses: ICourse[];
-    resume?: File;
-    transcript?: File;
+    resume?: Buffer;
+    transcript?: Buffer;
 }
 
 export async function updateStudentProfile(

@@ -35,6 +35,9 @@ export class Student extends BaseEntity {
     @Column()
     userId: number;
 
+    @Column({ type: 'bytea', nullable: true })
+    resume: Buffer;
+
     @Column({ nullable: true })
     resume: object;  
 
