@@ -5,6 +5,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 interface props {
     size?: number | string;
     center?: boolean;
+    style?: React.CSSProperties;
 }
 
 const useStyles = makeStyles(() =>
@@ -20,10 +21,13 @@ const useStyles = makeStyles(() =>
     })
 );
 
-function Loader({ size = 40, center = false }: props) {
+function Loader({ size = 40, center = false, style = {} }: props) {
     const classes = useStyles();
     return (
-        <div className={center ? classes.center : classes.nothing}>
+        <div
+            className={center ? classes.center : classes.nothing}
+            style={style}
+        >
             <CircularProgress size={size} thickness={5.0} />
         </div>
     );

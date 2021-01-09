@@ -23,7 +23,8 @@ function SubmitButton({
             color='primary'
             size={size}
         >
-            {isLoading ? <Loader size={20} /> : <> {label} </>}
+            {label}
+            {isLoading && <Loader size={20} style={{ marginLeft: 7 }} />}
         </MUIButton>
     );
 }
