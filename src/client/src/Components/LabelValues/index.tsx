@@ -18,17 +18,11 @@ interface Props {
 function LabelValues({ label, values }: Props) {
     const labelCounter = () => (values ? `(${values.length})` : '(0)');
     const [expanded, setExpanded] = React.useState(false);
-
-    const handleChange = (event: React.ChangeEvent<{}>) => {
-        setExpanded(!expanded);
-    };
-
     return (
         <Card style={{ padding: 25 }} variant='outlined'>
             <Accordion
                 expanded={expanded}
-                onChange={handleChange}
-                style={{ borderStyle: 'none' }}
+                onChange={() => setExpanded(!expanded)}
             >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon color='primary' />}
@@ -38,7 +32,7 @@ function LabelValues({ label, values }: Props) {
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    {values ? (
+                    {values && values.length > 0 ? (
                         <List>
                             {values.map((value, index) => (
                                 <div key={index}>
