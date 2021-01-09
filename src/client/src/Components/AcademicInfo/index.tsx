@@ -5,20 +5,15 @@ import { SelectFormField } from 'Components/SelectFormField';
 import Loader from 'Components/Loader';
 import { getCollegesAndDepartments, getCourses } from './api';
 import useApi from 'hooks/useApi';
-
-/*
-    TODO: This component is not done yet
-    Note: The form state of the parent component must have the following attributes:
-        - collegeId
-        - departmentId
-        - courseIds
-*/
-
 interface Props {
     showCourses?: boolean;
     collegeIdFromForm?: number;
     departmentIdFromForm?: number;
-    courseIdsFromForm?: number[];
+    setFieldValue: (
+        field: string,
+        value: any,
+        shouldValidate?: boolean
+    ) => void;
 }
 
 interface IBaseSelectValues {
@@ -34,7 +29,7 @@ function AcademicInfo({
     showCourses,
     collegeIdFromForm,
     departmentIdFromForm,
-    courseIdsFromForm,
+    setFieldValue,
 }: Props) {
     const [
         collegeDepartmentDict,
@@ -66,6 +61,10 @@ function AcademicInfo({
                             label: department.name,
                         })
                     );
+                    // Initializes departments values
+                    if (collegeIdFromForm === college.id) {
+                        setDepartments(departments);
+                    }
                     setCollegeDepartmentDict((prev) => ({
                         ...prev,
                         [college.id]: departments,
@@ -73,6 +72,11 @@ function AcademicInfo({
                     return { value: college.id, label: college.name };
                 });
                 setColleges(colleges);
+                // Initializes courses values
+                if (departmentIdFromForm) {
+                    setDepartmentIdSelected(departmentIdFromForm);
+                    sendGetCoursesRequest();
+                }
             },
         }
     );
@@ -96,58 +100,44 @@ function AcademicInfo({
     );
 
     const triggerCollegeChange = (e: React.ChangeEvent<{ value: number }>) => {
-        // Need to wait for 500 ms for event to stabilize
-        setTimeout(() => {
-            const collegeId = e.target.value;
-            if (collegeId) {
-                // Getting departments from cache
-                setDepartments(collegeDepartmentDict[collegeId]);
-            } else {
-                setDepartments([
-                    { value: undefined, label: 'Select a college first' },
-                ]);
-            }
-        }, 500);
+        const collegeId = e.target.value;
+        if (collegeId) {
+            setFieldValue('collegeId', collegeId, true);
+            // Getting departments from cache
+            setDepartments(collegeDepartmentDict[collegeId]);
+        } else {
+            setFieldValue('collegeId', undefined, true);
+            setFieldValue('departmentId', undefined, true);
+            setDepartments([
+                { value: undefined, label: 'Select a college first' },
+            ]);
+        }
     };
 
     const triggerDepartmentChange = (
         e: React.ChangeEvent<{ value: number }>
     ) => {
-        // Need to wait for 500 ms for event to stabilize
-        setTimeout(() => {
-            const departmentId = e.target.value;
-            if (departmentId) {
-                setDepartmentIdSelected(departmentId);
-                sendGetCoursesRequest();
-            } else {
-                setCourses([
-                    { value: undefined, label: 'Select a department first' },
-                ]);
-            }
-        }, 500);
+        const departmentId = e.target.value;
+        if (departmentId) {
+            setFieldValue('departmentId', departmentId, true);
+            setDepartmentIdSelected(departmentId);
+            sendGetCoursesRequest();
+        } else {
+            setFieldValue('departmentId', undefined, true);
+            setCourses([
+                { value: undefined, label: 'Select a department first' },
+            ]);
+        }
     };
 
     React.useEffect(() => {
         sendCollegeDepartmentRequest();
-        // setTimeout(() => {
-        //     // Initializes values for the select components
-        //     console.log(collegeDepartmentDict);
-        //     if (collegeIdFromForm && departmentIdFromForm) {
-        //         setDepartments(collegeDepartmentDict[collegeIdFromForm]);
-        //     }
-        //     if (departmentIdFromForm && courseIdsFromForm) {
-        //         setDepartmentIdSelected(departmentIdFromForm);
-        //         sendGetCoursesRequest();
-        //     }
-        // }, 3000);
     }, [sendCollegeDepartmentRequest]);
 
     return (
         <Grid container item justify='center'>
             {areCollegeDepartmentsLoading ? (
-                <Grid item>
-                    <Loader size={30} />
-                </Grid>
+                <Loader size={30} />
             ) : (
                 <Grid container item spacing={4} justify='center'>
                     <Grid item md={6} xs={12}>
@@ -156,7 +146,7 @@ function AcademicInfo({
                             label='College'
                             options={colleges}
                             component={SelectFormField}
-                            onClose={triggerCollegeChange}
+                            onChange={triggerCollegeChange}
                             defaultLabel='Select a college'
                         />
                     </Grid>
@@ -166,25 +156,21 @@ function AcademicInfo({
                             label='Department'
                             options={departments}
                             component={SelectFormField}
-                            onClose={triggerDepartmentChange}
+                            onChange={triggerDepartmentChange}
                         />
                     </Grid>
                     {showCourses && (
-                        <Grid container item justify='center'>
+                        <Grid container item justify='center' md={12} xs={12}>
                             {areCoursesLoading ? (
-                                <Grid item>
-                                    <Loader size={30} />
-                                </Grid>
+                                <Loader size={30} />
                             ) : (
-                                <Grid item md={12} xs={12}>
-                                    <Field
-                                        name='courseIds'
-                                        label='Courses'
-                                        options={courses}
-                                        multiple
-                                        component={SelectFormField}
-                                    />
-                                </Grid>
+                                <Field
+                                    name='courseIds'
+                                    label='Courses'
+                                    options={courses}
+                                    multiple
+                                    component={SelectFormField}
+                                />
                             )}
                         </Grid>
                     )}

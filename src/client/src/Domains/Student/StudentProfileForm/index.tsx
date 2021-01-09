@@ -11,11 +11,9 @@ import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import SubmitButton from 'Components/SubmitButton';
 import CancelButton from 'Components/CancelButton';
-import {
-    classStandingTypes,
-    updateStudentProfile,
-} from 'Domains/Student/api/api';
+import { classStandingValues, updateStudentProfile } from 'Domains/Student/api';
 import AcademicInfo from 'Components/AcademicInfo';
+import { classStandingTypes } from '../api';
 
 export interface IStudentProfileForm {
     id: number;
@@ -26,7 +24,7 @@ export interface IStudentProfileForm {
     collegeId?: number;
     departmentId?: number;
     sid?: number;
-    classStanding?: string;
+    classStanding?: classStandingTypes;
     email: string;
     biography?: string;
     courseIds?: number[];
@@ -42,13 +40,14 @@ interface Props {
 
 const formSchema = yup.object({
     firstName: yup.string().required('First name is required'),
-    middleName: yup.string().nullable(),
+    middleName: yup.string().optional().nullable(),
     lastName: yup.string().required('Last name is required'),
-    departmentId: yup.string(),
-    sid: yup.string().nullable(),
+    collegeId: yup.number().optional().nullable(),
+    departmentId: yup.number().optional().nullable(),
+    sid: yup.number().optional().nullable(),
     classStanding: yup.string().nullable(),
     email: yup.string().email('Please enter valid email'),
-    biography: yup.string().nullable(),
+    biography: yup.string().optional().nullable(),
     resume: yup
         .mixed()
         .test('fileFormat', 'PDF only', (value) => {
@@ -56,7 +55,8 @@ const formSchema = yup.object({
                 !value || (value && ['application/pdf'].includes(value.type))
             );
         })
-        .optional(),
+        .optional()
+        .nullable(),
     transcript: yup
         .mixed()
         .test('fileFormat', 'PDF only', (value) => {
@@ -64,7 +64,8 @@ const formSchema = yup.object({
                 !value || (value && ['application/pdf'].includes(value.type))
             );
         })
-        .optional(),
+        .optional()
+        .nullable(),
 });
 
 function StudentProfileForm({
@@ -101,7 +102,7 @@ function StudentProfileForm({
                     sendUpdateProfileRequest();
                 }}
             >
-                {() => (
+                {({ setFieldValue }) => (
                     <Form>
                         <Grid container spacing={4} alignContent='center'>
                             <Grid item md={6} xs={12}>
@@ -137,7 +138,7 @@ function StudentProfileForm({
                                 <Field
                                     name='classStanding'
                                     label='Class Standing'
-                                    options={classStandingTypes}
+                                    options={classStandingValues}
                                     component={SelectFormField}
                                     defaultLabel='Select your class standing'
                                 />
@@ -181,7 +182,7 @@ function StudentProfileForm({
                                 departmentIdFromForm={
                                     studentProfileForm.departmentId
                                 }
-                                courseIdsFromForm={studentProfileForm.courseIds}
+                                setFieldValue={setFieldValue}
                             />
                             <Grid item xs={12} md={6}>
                                 <SubmitButton
