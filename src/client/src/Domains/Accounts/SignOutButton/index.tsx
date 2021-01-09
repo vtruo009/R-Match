@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import SignOutIcon from '@material-ui/icons/ExitToApp';
 import useApi from 'hooks/useApi';
-import { signOut } from 'Domains/Accounts/api/api';
+import { signOut } from 'Domains/Accounts/api';
 import { AuthContext } from 'Contexts/AuthContext';
 
 function SignInForm() {

@@ -1,6 +1,6 @@
 import API from 'api';
 import { IStudentProfileForm } from 'Domains/Student/StudentProfileForm';
-import { IUser } from 'Domains/Accounts/api/api';
+import { IUser } from 'Domains/Accounts/api';
 import { ICourse, IDepartment } from 'Components/AcademicInfo/api';
 export const classStandingValues = [
     {

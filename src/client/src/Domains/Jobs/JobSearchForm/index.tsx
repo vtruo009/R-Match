@@ -9,7 +9,7 @@ import SubmitButton from 'Components/SubmitButton';
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
 import { TextFormField } from 'Components/TextFormField';
-import { getJobs, IJob, jobTypes } from 'Domains/Jobs/api/api';
+import { getJobs, IJob, jobTypes } from 'Domains/Jobs/api';
 import { Pagination } from '@material-ui/lab';
 import { SelectFormField } from 'Components/SelectFormField';
 

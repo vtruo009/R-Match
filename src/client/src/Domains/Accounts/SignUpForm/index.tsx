@@ -10,7 +10,7 @@ import useSnack from 'hooks/useSnack';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import SubmitButton from 'Components/SubmitButton';
-import { signUp, roles } from 'Domains/Accounts/api/api';
+import { signUp, roles } from 'Domains/Accounts/api';
 
 export interface ISignUpForm {
     email: string;
