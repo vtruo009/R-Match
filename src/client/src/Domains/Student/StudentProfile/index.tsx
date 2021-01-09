@@ -12,7 +12,7 @@ import LabelValue from 'Components/LabelValue';
 import LabelValues from 'Components/LabelValues';
 import Loader from 'Components/Loader';
 import StudentProfileForm from 'Domains/Student/StudentProfileForm';
-import { getStudentProfile, IStudent } from 'Domains/Student/api/api';
+import { getStudentProfile, IStudent } from 'Domains/Student/api';
 import { AuthContext } from 'Contexts/AuthContext';
 
 function StudentProfile() {

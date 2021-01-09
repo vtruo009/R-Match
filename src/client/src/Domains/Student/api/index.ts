@@ -2,7 +2,7 @@ import API from 'api';
 import { IStudentProfileForm } from 'Domains/Student/StudentProfileForm';
 import { IUser } from 'Domains/Accounts/api/api';
 import { ICourse, IDepartment } from 'Components/AcademicInfo/api';
-export const classStandingTypes = [
+export const classStandingValues = [
     {
         label: 'Freshman',
         value: 'Freshman',
@@ -21,12 +21,13 @@ export const classStandingTypes = [
     },
 ];
 
+export type classStandingTypes = 'Freshman' | 'Sophomore' | 'Junior' | 'Senior';
 export interface IStudent {
     id: number;
     user: IUser;
     department?: IDepartment;
     sid?: number;
-    classStanding?: string;
+    classStanding?: classStandingTypes;
     courses: ICourse[];
     resume?: Buffer;
     transcript?: Buffer;
