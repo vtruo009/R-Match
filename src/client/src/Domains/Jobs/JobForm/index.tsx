@@ -7,7 +7,6 @@ import * as yup from 'yup';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
-import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import { DatePickerFormField } from 'Components/DatePickerFormField';
@@ -17,10 +16,8 @@ import {
     targetYears,
     jobTypes,
     jobType,
-} from 'Domains/Jobs/api/api';
-import {
-    departments,
-} from 'sharedData'
+} from 'Domains/Jobs/api';
+import { departments } from 'sharedData';
 export interface IJobForm {
     title: string;
     type: jobType[];
@@ -207,10 +204,7 @@ function JobForm() {
                                 </Grid>
                             </Grid>
                             <Grid container item xs={12}>
-                                <SubmitButton type='submit' isLoading={isLoading}>
-                                    Submit
-                                    {isLoading && <Loader size={20} />}
-                                </SubmitButton>
+                                <SubmitButton isLoading={isLoading} />
                             </Grid>
                         </Grid>
                     </Form>

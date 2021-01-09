@@ -1,5 +1,4 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Formik, Form, Field } from 'formik';
@@ -8,57 +7,47 @@ import { SimpleFileUpload } from 'formik-material-ui';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
-import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import SubmitButton from 'Components/SubmitButton';
-import {
-    classStandingTypes,
-    updateStudentProfile,
-} from 'Domains/Student/api/api';
-
-import { departments, courseList } from 'sharedData';
+import CancelButton from 'Components/CancelButton';
+import { classStandingValues, updateStudentProfile } from 'Domains/Student/api';
+import AcademicInfo from 'Components/AcademicInfo';
+import { classStandingTypes } from '../api';
 
 export interface IStudentProfileForm {
+    id: number;
+    userId: number;
     firstName: string;
     middleName?: string;
     lastName: string;
-    department?: string;
+    collegeId?: number;
+    departmentId?: number;
     sid?: number;
-    classStanding?: string;
+    classStanding?: classStandingTypes;
     email: string;
     biography?: string;
-    courses?: string[];
-    resume?: File;
-    transcript?: File;
+    courseIds?: number[];
+    resume?: Buffer;
+    transcript?: Buffer;
 }
 
 interface Props {
     studentProfileInformation: IStudentProfileForm;
+    onClose: () => void;
+    onSuccess: () => void;
 }
-
-// const formInitialValues: IStudentProfileForm = {
-//     firstName: 'Johan',
-//     middleName: undefined,
-//     lastName: 'Guzman',
-//     departmentId: undefined,
-//     sid: 12312547,
-//     classStanding: 'Junior',
-//     email: 'jguz1707@mgmail.com',
-//     biography: 'ubwoiv;nalbiuw',
-//     courses: [],
-//     resume: undefined,
-//     transcript: undefined,
-// };
 
 const formSchema = yup.object({
     firstName: yup.string().required('First name is required'),
+    middleName: yup.string().optional().nullable(),
     lastName: yup.string().required('Last name is required'),
-    departmentId: yup.string(),
-    sid: yup.string().required('Student ID is is required'),
-    classStanding: yup.string(),
+    collegeId: yup.number().optional().nullable(),
+    departmentId: yup.number().optional().nullable(),
+    sid: yup.number().optional().nullable(),
+    classStanding: yup.string().nullable(),
     email: yup.string().email('Please enter valid email'),
-    biography: yup.string(),
+    biography: yup.string().optional().nullable(),
     resume: yup
         .mixed()
         .test('fileFormat', 'PDF only', (value) => {
@@ -66,7 +55,8 @@ const formSchema = yup.object({
                 !value || (value && ['application/pdf'].includes(value.type))
             );
         })
-        .optional(),
+        .optional()
+        .nullable(),
     transcript: yup
         .mixed()
         .test('fileFormat', 'PDF only', (value) => {
@@ -74,15 +64,19 @@ const formSchema = yup.object({
                 !value || (value && ['application/pdf'].includes(value.type))
             );
         })
-        .optional(),
+        .optional()
+        .nullable(),
 });
 
-function StudentProfileForm({ studentProfileInformation }: Props) {
+function StudentProfileForm({
+    studentProfileInformation,
+    onClose,
+    onSuccess,
+}: Props) {
     const [
         studentProfileForm,
         setStudentProfile,
     ] = React.useState<IStudentProfileForm>(studentProfileInformation);
-
     const [snack] = useSnack();
     const updateProfileRequest = React.useCallback(
         () => updateStudentProfile(studentProfileForm),
@@ -92,130 +86,112 @@ function StudentProfileForm({ studentProfileInformation }: Props) {
         updateProfileRequest,
         {
             onSuccess: () => {
+                onClose();
+                onSuccess();
                 snack('Student profile successfully updated!', 'success');
             },
         }
     );
     return (
-        <Paper style={{ padding: 50 }}>
+        <Paper style={{ padding: 40 }}>
             <Formik
                 validationSchema={formSchema}
                 initialValues={studentProfileInformation}
-                onSubmit={(formValues, actions) => {
+                onSubmit={(formValues) => {
                     setStudentProfile(formValues);
                     sendUpdateProfileRequest();
-                    // actions.resetForm({
-                    //     values: { ...formInitialValues },
-                    // });
                 }}
             >
-                {() => (
+                {({ setFieldValue }) => (
                     <Form>
-                        <Grid container spacing={3} alignContent='center'>
-                            <Grid item container justify='center'>
-                                <Typography variant='h4'>
-                                    Edit Profile
-                                </Typography>
+                        <Grid container spacing={4} alignContent='center'>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='firstName'
+                                    label='First Name'
+                                    component={TextFormField}
+                                />
                             </Grid>
-                            <Grid item container spacing={5}>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='firstName'
-                                        label='First Name'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='middleName'
-                                        label='Middle Name'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='lastName'
-                                        label='Last Name'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='email'
-                                        label='Email'
-                                        disabled
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='classStanding'
-                                        label='Class Standing'
-                                        options={classStandingTypes}
-                                        component={SelectFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='sid'
-                                        label='SID'
-                                        type='number'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='department'
-                                        label='Department'
-                                        options={departments}
-                                        component={SelectFormField}
-                                    />
-                                </Grid>
-                                {/* TODO: Make sure PDF Files are not greater than some number of bytes */}
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='transcript'
-                                        label='Transcript'
-                                        type='file'
-                                        component={SimpleFileUpload}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='resume'
-                                        label='Resume'
-                                        type='file'
-                                        component={SimpleFileUpload}
-                                    />
-                                </Grid>
-                                <Grid item md={12} xs={12}>
-                                    <Field
-                                        name='biography'
-                                        label='Biography'
-                                        multiline
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={12} xs={12}>
-                                    <Field
-                                        name='courses'
-                                        label='Courses'
-                                        options={courseList}
-                                        multiple
-                                        component={SelectFormField}
-                                    />
-                                </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='middleName'
+                                    label='Middle Name'
+                                    component={TextFormField}
+                                />
                             </Grid>
-                            <Grid container item xs={12}>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='lastName'
+                                    label='Last Name'
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='email'
+                                    label='Email'
+                                    disabled
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='classStanding'
+                                    label='Class Standing'
+                                    options={classStandingValues}
+                                    component={SelectFormField}
+                                    defaultLabel='Select your class standing'
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='sid'
+                                    label='SID'
+                                    type='number'
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            {/* TODO: Make sure PDF Files are not greater than some number of bytes */}
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='transcript'
+                                    label='Transcript'
+                                    type='file'
+                                    component={SimpleFileUpload}
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='resume'
+                                    label='Resume'
+                                    type='file'
+                                    component={SimpleFileUpload}
+                                />
+                            </Grid>
+                            <Grid item md={12} xs={12}>
+                                <Field
+                                    name='biography'
+                                    label='Biography'
+                                    multiline
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <AcademicInfo
+                                showCourses
+                                collegeIdFromForm={studentProfileForm.collegeId}
+                                departmentIdFromForm={
+                                    studentProfileForm.departmentId
+                                }
+                                setFieldValue={setFieldValue}
+                            />
+                            <Grid item xs={12} md={6}>
                                 <SubmitButton
-                                    type='submit'
+                                    fullWidth
                                     isLoading={isUpdatingProfileLoading}
-                                >
-                                    Submit
-                                    {isUpdatingProfileLoading && (
-                                        <Loader size={20} />
-                                    )}
-                                </SubmitButton>
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <CancelButton onClick={onClose} fullWidth />
                             </Grid>
                         </Grid>
                     </Form>

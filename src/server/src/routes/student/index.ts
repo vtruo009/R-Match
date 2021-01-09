@@ -38,6 +38,8 @@ router.post(
     validationMiddleware({ bodySchema: studentProfileSchema }),
     passport.authenticate('jwt', { session: false }),
     async (req: studentRequest, res: Response) => {
+        // Output body of request for visualization purposes
+        console.log(req.body.studentProfile);
         const { specificUserId, role } = req.user as JWTUser;
         if (role !== 'student') {
             return res
@@ -52,6 +54,8 @@ router.post(
             classStanding,
             courses,
             id,
+            resume,
+            transcript,
         } = req.body.studentProfile;
 
         if (specificUserId !== id) {
@@ -67,7 +71,9 @@ router.post(
                 departmentId,
                 sid,
                 classStanding,
-                courses
+                courses,
+                transcript,
+                resume
             );
 
             return updateResult

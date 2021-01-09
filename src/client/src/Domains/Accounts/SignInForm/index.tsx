@@ -8,10 +8,9 @@ import * as yup from 'yup';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
-import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import SubmitButton from 'Components/SubmitButton';
-import { signIn } from 'Domains/Accounts/api/api';
+import { signIn } from 'Domains/Accounts/api';
 import { AuthContext } from 'Contexts/AuthContext';
 export interface ISignInForm {
     email: string;
@@ -104,10 +103,7 @@ function SignInForm() {
                                 </Grid>
                             </Grid>
                             <Grid item>
-                                <SubmitButton type='submit' isLoading={isLoading}>
-                                    Submit
-                                    {isLoading && <Loader size={20} />}
-                                </SubmitButton>
+                                <SubmitButton isLoading={isLoading} />
                             </Grid>
                             <Grid item>
                                 <Typography variant='h6'>

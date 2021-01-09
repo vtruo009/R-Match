@@ -6,6 +6,7 @@ import studentRouter from './student';
 import userRouter from './user';
 import collegeRouter from './college';
 import departmentRouter from './department';
+import courseRouter from './course';
 // Init router and path
 const router = Router();
 
@@ -16,6 +17,7 @@ router.use('/faculty-member', facultyMemberRouter);
 router.use('/student', studentRouter);
 router.use('/user', userRouter);
 router.use('/college', collegeRouter);
+router.use('/course', courseRouter);
 router.use('/department', departmentRouter);
 // Export the base-router
 export default router;
