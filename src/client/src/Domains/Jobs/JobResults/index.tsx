@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 
 import JobPreview from 'Domains/Jobs/JobPreview';
 import JobSummary from 'Domains/Jobs/JobSummary';
-import { IJob } from 'Domains/Jobs/api/api';
+import { IJob } from 'Domains/Jobs/api';
 
 interface Props {
     jobs: IJob[];

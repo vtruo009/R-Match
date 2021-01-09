@@ -16,7 +16,7 @@ import {
     targetYears,
     jobTypes,
     jobType,
-} from 'Domains/Jobs/api/api';
+} from 'Domains/Jobs/api';
 import { departments } from 'sharedData';
 export interface IJobForm {
     title: string;

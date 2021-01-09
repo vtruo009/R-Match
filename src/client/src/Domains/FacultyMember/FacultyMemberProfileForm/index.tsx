@@ -10,7 +10,7 @@ import useSnack from 'hooks/useSnack';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import SubmitButton from 'Components/SubmitButton';
-import { createFacultyMemberProfile } from 'Domains/FacultyMember/api/api';
+import { createFacultyMemberProfile } from 'Domains/FacultyMember/api';
 
 import { departments } from 'sharedData';
 

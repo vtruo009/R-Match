@@ -11,7 +11,7 @@ import VolunteerIcon from '@material-ui/icons/Accessibility';
 import OtherIcon from '@material-ui/icons/AddCircle';
 
 import SalaryDisplayer from 'Domains/Jobs/SalaryDisplayer';
-import { IJob, jobType } from 'Domains/Jobs/api/api';
+import { IJob, jobType } from 'Domains/Jobs/api';
 
 interface Props {
     job: IJob;

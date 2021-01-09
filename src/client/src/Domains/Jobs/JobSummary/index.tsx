@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import { formatDateString } from 'utils/format';
-import { IJob } from 'Domains/Jobs/api/api';
+import { IJob } from 'Domains/Jobs/api';
 import SalaryDisplayer from 'Domains/Jobs/SalaryDisplayer';
 
 interface props {
