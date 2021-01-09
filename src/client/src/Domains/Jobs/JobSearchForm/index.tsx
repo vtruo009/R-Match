@@ -12,6 +12,7 @@ import { TextFormField } from 'Components/TextFormField';
 import { getJobs, IJob, jobTypes } from 'Domains/Jobs/api';
 import { Pagination } from '@material-ui/lab';
 import { SelectFormField } from 'Components/SelectFormField';
+import { DatePickerFormField } from 'Components/DatePickerFormField';
 
 interface props {
     setJobs: (jobs: IJob[]) => void;
@@ -21,6 +22,7 @@ interface props {
 interface JobSearchFormType {
     title: string;
     types: string[];
+    startDate: string;
     minSalary: string;
     hoursPerWeek: string;
 }
@@ -28,6 +30,7 @@ interface JobSearchFormType {
 const formInitialValues = {
     title: '',
     types: [],
+    startDate: '',
     minSalary: '',
     hoursPerWeek: '',
 };
@@ -36,6 +39,7 @@ const formSchema = yup.object({
     title: yup.string().required(),
     // TODO: should be array type?
     types: yup.string().required(),
+    startDate: yup.date().optional(),
     minSalary: yup.number().min(0).optional(),
     hoursPerWeek: yup.number().moreThan(0).optional(),
 });
@@ -53,6 +57,7 @@ function JobSearchForm({ setJobs, children }: props) {
             getJobs(
                 formState.title,
                 formState.types,
+                formState.startDate,
                 formState.minSalary,
                 formState.hoursPerWeek,
                 page,
@@ -111,14 +116,14 @@ function JobSearchForm({ setJobs, children }: props) {
                                 alignItems='center'
                                 justify='center'
                             >
-                                <Grid item md={3} xs={12}>
+                                <Grid item md={4} xs={12}>
                                     <Field
                                         name='title'
                                         label='Title'
                                         component={TextFormField}
                                     />
                                 </Grid>
-                                <Grid item md={3} xs={12}>
+                                <Grid item md={4} xs={12}>
                                     <Field
                                         name='types'
                                         label='Types'
@@ -127,7 +132,14 @@ function JobSearchForm({ setJobs, children }: props) {
                                         component={SelectFormField}
                                     />
                                 </Grid>
-                                <Grid item md={2} xs={12}>
+                                <Grid item md={4} xs={12}>
+                                    <Field
+                                        name='startDate'
+                                        label='Start date'
+                                        component={DatePickerFormField}
+                                    />
+                                </Grid>
+                                <Grid item md={4} xs={12}>
                                     <Field
                                         name='minSalary'
                                         label='Minimum Salary'
@@ -135,7 +147,7 @@ function JobSearchForm({ setJobs, children }: props) {
                                         type='number'
                                     />
                                 </Grid>
-                                <Grid item md={3} xs={12}>
+                                <Grid item md={4} xs={12}>
                                     <Field
                                         name='hoursPerWeek'
                                         label='Minimum hours per week'
@@ -143,12 +155,20 @@ function JobSearchForm({ setJobs, children }: props) {
                                         type='number'
                                     />
                                 </Grid>
-                                <Grid item md={2} xs={12}>
+                                <Grid
+                                    container
+                                    justify='flex-end'
+                                    item
+                                    md={4}
+                                    xs={12}
+                                >
                                     <SubmitButton
                                         isLoading={isLoading}
                                         startIcon={<SearchIcon />}
                                         label='Search'
-                                    />
+                                    >
+                                        Search
+                                    </SubmitButton>
                                 </Grid>
                             </Grid>
                         </Form>
