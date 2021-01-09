@@ -176,14 +176,7 @@ function StudentProfileForm({
                                     component={TextFormField}
                                 />
                             </Grid>
-                            <AcademicInfo
-                                showCourses
-                                collegeIdFromForm={studentProfileForm.collegeId}
-                                departmentIdFromForm={
-                                    studentProfileForm.departmentId
-                                }
-                                setFieldValue={setFieldValue}
-                            />
+                            <Field component={AcademicInfo} showCourses />
                             <Grid item xs={12} md={6}>
                                 <SubmitButton
                                     fullWidth

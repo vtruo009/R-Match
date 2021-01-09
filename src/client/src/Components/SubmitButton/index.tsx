@@ -24,7 +24,7 @@ function SubmitButton({
             size={size}
         >
             {label}
-            {isLoading && <Loader size={20} style={{ marginLeft: 7 }} />}
+            {isLoading && <Loader size={20} style={{ marginLeft: 5   }} />}
         </MUIButton>
     );
 }

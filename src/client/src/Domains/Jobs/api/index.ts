@@ -104,10 +104,8 @@ export async function getJobs(
 }
 
 export async function createJob(job: IJobForm) {
+    delete job.collegeId;
     return API.post('job/create', {
-        job: {
-            ...job,
-            status: 'Hiring',
-        },
+        job,
     });
 }
