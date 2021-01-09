@@ -138,7 +138,7 @@ export const getJobs = (
         })
         .orWhere('job.type IN (:...types)', { types })
         .orWhere('job.type LIKE :type', { type: `%${modType}%` })
-        .orWhere('job.startDate >= :startDate', {startDate: modStart})
+        .orWhere('job.startDate >= :startDate', { startDate: modStart })
         .orWhere('job.minSalary >= :minSalary', { minSalary })
         .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
         .skip((page - 1) * numOfItems)
