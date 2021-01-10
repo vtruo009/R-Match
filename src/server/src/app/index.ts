@@ -12,8 +12,6 @@ import cors from 'cors';
 import '@lib/passportSetup';
 const app = express();
 const { BAD_REQUEST } = StatusCodes;
-import socketio from "socket.io";
-import * as http from "http";
 
 /************************************************************************************
  *                              Set basic express settings
