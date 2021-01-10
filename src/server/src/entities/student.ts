@@ -27,7 +27,7 @@ export class Student extends BaseEntity {
     department?: Department;
 
     @Column({ nullable: true })
-    sid?: number;
+    sid?: string;
 
     @Column({ nullable: true })
     classStanding?: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior';

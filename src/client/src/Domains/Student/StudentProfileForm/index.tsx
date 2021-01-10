@@ -23,7 +23,7 @@ export interface IStudentProfileForm {
     lastName: string;
     collegeId?: number;
     departmentId?: number;
-    sid?: number;
+    sid?: string;
     classStanding?: classStandingTypes;
     email: string;
     biography?: string;
@@ -44,7 +44,12 @@ const formSchema = yup.object({
     lastName: yup.string().required('Last name is required'),
     collegeId: yup.number().optional().nullable(),
     departmentId: yup.number().optional().nullable(),
-    sid: yup.number().optional().nullable(),
+    sid: yup
+        .string()
+        .matches(/^\d+$/, 'SID must only contain digits')
+        .length(9, 'SID must contain 9 digits')
+        .optional()
+        .nullable(),
     classStanding: yup.string().nullable(),
     email: yup.string().email('Please enter valid email'),
     biography: yup.string().optional().nullable(),
@@ -102,7 +107,7 @@ function StudentProfileForm({
                     sendUpdateProfileRequest();
                 }}
             >
-                {({ setFieldValue }) => (
+                {() => (
                     <Form>
                         <Grid container spacing={4} alignContent='center'>
                             <Grid item md={6} xs={12}>
@@ -147,7 +152,6 @@ function StudentProfileForm({
                                 <Field
                                     name='sid'
                                     label='SID'
-                                    type='number'
                                     component={TextFormField}
                                 />
                             </Grid>

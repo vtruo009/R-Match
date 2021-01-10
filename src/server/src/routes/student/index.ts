@@ -102,6 +102,7 @@ router.get(
         const { studentId } = req.params;
         try {
             const student = await getStudentProfile(parseInt(studentId, 10));
+
             return res.status(OK).json({ student }).end();
         } catch (error) {
             logger.err(error);
