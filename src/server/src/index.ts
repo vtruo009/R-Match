@@ -14,8 +14,8 @@ const server = app.listen(port, () => {
 // Socket setup
 // When I use 5000 instead of 6000, I get an error saying something like
 // "5000 is already in use".
-const io = new socketio.Server(app.listen(6000));//.listen(6000);
-io.on('connect', (socket: any) => {
+const io = new socketio.Server(server);//.listen(6000);
+io.on('connection', (socket: any) => {
     // This message should appear console log whenever a client
     // accesses the website.
     console.log('Connected with socket!!');

@@ -106,4 +106,4 @@ export const courseList = [
         label: 'CS 178A/B',
         value: 'CS 178A/B',
     },
-]
+];

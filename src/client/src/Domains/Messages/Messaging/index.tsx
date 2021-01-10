@@ -1,5 +1,4 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import * as socketio_client from 'socket.io-client';
 
 export interface IMessaging {
@@ -8,13 +7,9 @@ export interface IMessaging {
 
 function Messaging() {
     // Initiate socket.
-    const io = socketio_client.connect('http://localhost:6000');
-
-    return (
-        <div className="App">
-                Hello World!
-        </div>
-    );
+    const io = socketio_client.connect('http://localhost:5000');
+    console.log(io);
+    return <div>Hello World!</div>;
 }
 
 export default Messaging;
