@@ -18,7 +18,6 @@ import { AuthContext } from 'Contexts/AuthContext';
 function StudentProfile() {
     const [studentProfile, setStudentProfile] = React.useState<IStudent>();
     const [open, setOpen] = React.useState(false);
-
     const { user } = React.useContext(AuthContext);
 
     const getProfileRequest = React.useCallback(
