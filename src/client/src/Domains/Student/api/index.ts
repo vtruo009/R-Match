@@ -26,7 +26,7 @@ export interface IStudent {
     id: number;
     user: IUser;
     department?: IDepartment;
-    sid?: number;
+    sid?: string;
     classStanding?: classStandingTypes;
     courses: ICourse[];
     resume?: Buffer;
@@ -36,7 +36,6 @@ export interface IStudent {
 export async function updateStudentProfile(
     studentProfile: IStudentProfileForm
 ) {
-    console.log(studentProfile);
     const body = {
         studentProfile: {
             id: studentProfile.id,
