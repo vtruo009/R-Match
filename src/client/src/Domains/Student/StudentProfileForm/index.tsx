@@ -32,7 +32,7 @@ export interface IStudentProfileForm {
     transcript?: Buffer;
 }
 
-interface Props {
+interface StudentProfileFormProps {
     studentProfileInformation: IStudentProfileForm;
     onClose: () => void;
     onSuccess: () => void;
@@ -51,7 +51,6 @@ const formSchema = yup.object({
         .optional()
         .nullable(),
     classStanding: yup.string().nullable(),
-    email: yup.string().email('Please enter valid email'),
     biography: yup.string().optional().nullable(),
     resume: yup
         .mixed()
@@ -77,7 +76,7 @@ function StudentProfileForm({
     studentProfileInformation,
     onClose,
     onSuccess,
-}: Props) {
+}: StudentProfileFormProps) {
     const [
         studentProfileForm,
         setStudentProfile,
@@ -98,7 +97,7 @@ function StudentProfileForm({
         }
     );
     return (
-        <Paper style={{ padding: 40 }}>
+        <Paper style={{ padding: 50 }}>
             <Formik
                 validationSchema={formSchema}
                 initialValues={studentProfileInformation}
@@ -109,7 +108,12 @@ function StudentProfileForm({
             >
                 {() => (
                     <Form>
-                        <Grid container spacing={4} alignContent='center'>
+                        <Grid
+                            container
+                            spacing={4}
+                            justify='center'
+                            alignItems='center'
+                        >
                             <Grid item md={6} xs={12}>
                                 <Field
                                     name='firstName'
@@ -181,13 +185,13 @@ function StudentProfileForm({
                                 />
                             </Grid>
                             <Field component={AcademicInfo} showCourses />
-                            <Grid item xs={12} md={6}>
+                            <Grid item md={6} xs={12}>
                                 <SubmitButton
                                     fullWidth
                                     isLoading={isUpdatingProfileLoading}
                                 />
                             </Grid>
-                            <Grid item xs={12} md={6}>
+                            <Grid item md={6} xs={12}>
                                 <CancelButton onClick={onClose} fullWidth />
                             </Grid>
                         </Grid>

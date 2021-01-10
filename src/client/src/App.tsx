@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import Container from '@material-ui/core/Container';
 import { Switch, Route } from 'react-router-dom';
+
 import {
     studentRoutes,
     facultyMemberRoutes,
@@ -41,7 +42,7 @@ export default function App() {
     return (
         <div className='App'>
             <NavBar />
-            <Container>
+            <Container style={{ marginTop: 50, marginBottom: 50 }}>
                 <Switch>
                     {generalRoutes.map((route) => (
                         <Route exact path={route.path} key={route.path}>

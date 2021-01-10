@@ -2,7 +2,7 @@ import React from 'react';
 import Loader from 'Components/Loader';
 import MUIButton, { ButtonProps } from '@material-ui/core/Button';
 
-interface Props {
+interface SubmitButtonProps {
     isLoading: boolean;
     size?: 'small' | 'medium' | 'large';
     label?: string;
@@ -13,7 +13,7 @@ function SubmitButton({
     size = 'large',
     label = 'Submit',
     ...passThroughProps
-}: ButtonProps & Props) {
+}: ButtonProps & SubmitButtonProps) {
     return (
         <MUIButton
             {...passThroughProps}

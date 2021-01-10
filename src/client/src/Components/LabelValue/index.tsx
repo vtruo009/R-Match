@@ -3,12 +3,12 @@ import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
-interface Props {
+interface LabelValueProps {
     label: string;
     value?: string | number;
     isParagraph?: boolean;
 }
-function LabelValue({ label, value, isParagraph = false }: Props) {
+function LabelValue({ label, value, isParagraph = false }: LabelValueProps) {
     return (
         <Card style={{ padding: 25 }} variant='outlined'>
             <Grid item container direction='column'>
