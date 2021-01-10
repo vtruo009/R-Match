@@ -1,14 +1,19 @@
 import React from 'react';
 import * as socketio_client from 'socket.io-client';
-
+import { serverPath } from 'api';
 export interface IMessaging {
     data: string;
 }
 
 function Messaging() {
-    // Initiate socket.
-    const io = socketio_client.connect('http://localhost:5000');
-    console.log(io);
+    // Establishing io connection on first render of Messaging component
+    React.useEffect(() => {
+        // Initiate socket.
+        const io = socketio_client.connect(serverPath);
+        // Outputting io object to browser's console (remove if not needed)
+        console.log(io);
+    }, []);
+
     return <div>Hello World!</div>;
 }
 
