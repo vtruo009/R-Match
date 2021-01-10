@@ -23,7 +23,7 @@ export interface IStudentProfileForm {
     lastName: string;
     collegeId?: number;
     departmentId?: number;
-    sid?: number;
+    sid?: string;
     classStanding?: classStandingTypes;
     email: string;
     biography?: string;
@@ -32,7 +32,7 @@ export interface IStudentProfileForm {
     transcript?: Buffer;
 }
 
-interface Props {
+interface StudentProfileFormProps {
     studentProfileInformation: IStudentProfileForm;
     onClose: () => void;
     onSuccess: () => void;
@@ -44,9 +44,13 @@ const formSchema = yup.object({
     lastName: yup.string().required('Last name is required'),
     collegeId: yup.number().optional().nullable(),
     departmentId: yup.number().optional().nullable(),
-    sid: yup.number().optional().nullable(),
+    sid: yup
+        .string()
+        .matches(/^\d+$/, 'SID must only contain digits')
+        .length(9, 'SID must contain 9 digits')
+        .optional()
+        .nullable(),
     classStanding: yup.string().nullable(),
-    email: yup.string().email('Please enter valid email'),
     biography: yup.string().optional().nullable(),
     resume: yup
         .mixed()
@@ -72,7 +76,7 @@ function StudentProfileForm({
     studentProfileInformation,
     onClose,
     onSuccess,
-}: Props) {
+}: StudentProfileFormProps) {
     const [
         studentProfileForm,
         setStudentProfile,
@@ -93,7 +97,7 @@ function StudentProfileForm({
         }
     );
     return (
-        <Paper style={{ padding: 40 }}>
+        <Paper style={{ padding: 50 }}>
             <Formik
                 validationSchema={formSchema}
                 initialValues={studentProfileInformation}
@@ -102,9 +106,14 @@ function StudentProfileForm({
                     sendUpdateProfileRequest();
                 }}
             >
-                {({ setFieldValue }) => (
+                {() => (
                     <Form>
-                        <Grid container spacing={4} alignContent='center'>
+                        <Grid
+                            container
+                            spacing={4}
+                            justify='center'
+                            alignItems='center'
+                        >
                             <Grid item md={6} xs={12}>
                                 <Field
                                     name='firstName'
@@ -147,7 +156,6 @@ function StudentProfileForm({
                                 <Field
                                     name='sid'
                                     label='SID'
-                                    type='number'
                                     component={TextFormField}
                                 />
                             </Grid>
@@ -176,21 +184,14 @@ function StudentProfileForm({
                                     component={TextFormField}
                                 />
                             </Grid>
-                            <AcademicInfo
-                                showCourses
-                                collegeIdFromForm={studentProfileForm.collegeId}
-                                departmentIdFromForm={
-                                    studentProfileForm.departmentId
-                                }
-                                setFieldValue={setFieldValue}
-                            />
-                            <Grid item xs={12} md={6}>
+                            <Field component={AcademicInfo} showCourses />
+                            <Grid item md={6} xs={12}>
                                 <SubmitButton
                                     fullWidth
                                     isLoading={isUpdatingProfileLoading}
                                 />
                             </Grid>
-                            <Grid item xs={12} md={6}>
+                            <Grid item md={6} xs={12}>
                                 <CancelButton onClick={onClose} fullWidth />
                             </Grid>
                         </Grid>

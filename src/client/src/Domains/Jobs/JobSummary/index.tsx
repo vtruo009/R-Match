@@ -6,12 +6,11 @@ import Button from '@material-ui/core/Button';
 
 import { formatDateString } from 'utils/format';
 import { IJob } from 'Domains/Jobs/api';
-import SalaryDisplayer from 'Domains/Jobs/SalaryDisplayer';
+import Salary from 'Domains/Jobs/Salary';
 
-interface props {
+interface JobSummaryProps {
     job: IJob;
 }
-
 interface SubTitleProps {
     title: string;
 }
@@ -21,12 +20,12 @@ const SubTitle = ({ title }: SubTitleProps) => (
     </Typography>
 );
 
-function JobSummary({ job }: props) {
+function JobSummary({ job }: JobSummaryProps) {
     return (
         <Card
             variant='outlined'
             style={{
-                padding: 30,
+                padding: 40,
                 position: 'sticky',
                 top: '100px',
             }}
@@ -49,7 +48,7 @@ function JobSummary({ job }: props) {
                         <Grid item>
                             <SubTitle title={'Salary'} />
                             {job.minSalary > 0 ? (
-                                <SalaryDisplayer
+                                <Salary
                                     minSalary={job.minSalary}
                                     maxSalary={job.maxSalary}
                                 />
@@ -83,7 +82,6 @@ function JobSummary({ job }: props) {
                                 </Typography>
                             </Grid>
                         )}
-
                         {job.expirationDate && (
                             <Grid item>
                                 <SubTitle title={'Expiration date'} />

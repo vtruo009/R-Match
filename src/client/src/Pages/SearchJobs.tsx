@@ -1,4 +1,5 @@
 import React from 'react';
+
 import JobRoot from 'Domains/Jobs/JobRoot';
 
 function SearchJobs() {

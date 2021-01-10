@@ -2,7 +2,7 @@ import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
-interface props {
+interface LoaderProps {
     size?: number | string;
     center?: boolean;
     style?: React.CSSProperties;
@@ -21,7 +21,7 @@ const useStyles = makeStyles(() =>
     })
 );
 
-function Loader({ size = 40, center = false, style = {} }: props) {
+function Loader({ size = 40, center = false, style = {} }: LoaderProps) {
     const classes = useStyles();
     return (
         <div

@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+
 import { isAuthenticatedRequest, IAuthUser } from './api';
 import useApi from 'hooks/useApi';
 import Loader from 'Components/Loader';
@@ -19,7 +20,11 @@ const AuthContextDefaultValue = {
 
 export const AuthContext = createContext<IAuthContext>(AuthContextDefaultValue);
 
-function AuthContextComponent({ children }: { children: JSX.Element }) {
+interface AuthContextProps {
+    children: JSX.Element;
+}
+
+function AuthContextComponent({ children }: AuthContextProps) {
     const [user, setUser] = useState<IAuthUser>();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 

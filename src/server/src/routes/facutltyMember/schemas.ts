@@ -6,8 +6,8 @@ export const facultyMemberProfileSchema = Joi.object({
         user: userProfileSchema,
         id: Joi.number().required(),
         departmentId: Joi.number().optional(),
-        websiteLink: Joi.string().allow('').optional(),
-        office: Joi.string().allow('').optional(),
-        title: Joi.string().allow('').optional(),
+        websiteLink: Joi.string().allow('').optional().allow(null).allow(''),
+        office: Joi.string().allow('').optional().allow(null).allow(''),
+        title: Joi.string().allow('').optional().allow(null).allow(''),
     }).required(),
 });

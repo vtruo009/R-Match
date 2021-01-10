@@ -5,31 +5,29 @@ import JobPreview from 'Domains/Jobs/JobPreview';
 import JobSummary from 'Domains/Jobs/JobSummary';
 import { IJob } from 'Domains/Jobs/api';
 
-interface Props {
+interface JobResultsProps {
     jobs: IJob[];
 }
 
-function JobResults({ jobs }: Props) {
+function JobResults({ jobs }: JobResultsProps) {
     const [jobSelected, setJobSelected] = React.useState<IJob>(jobs[0]);
     // Resets job selected to first job after new jobs are fetched
     React.useEffect(() => {
         setJobSelected(jobs[0]);
     }, [jobs]);
     return (
-        <Grid container spacing={3} style={{ marginTop: 20 }}>
-            <Grid item xs={5}>
-                {/* Render all jobs */}
-                <Grid container spacing={3} direction='column'>
-                    {jobs.map((job, key) => (
-                        <Grid item key={key}>
-                            <JobPreview
-                                job={job}
-                                onClick={setJobSelected}
-                                isSelected={job.id === jobSelected.id}
-                            />
-                        </Grid>
-                    ))}
-                </Grid>
+        <Grid container spacing={5} style={{ marginTop: 20 }}>
+            {/* Render all jobs */}
+            <Grid container item direction='column' spacing={3} xs={5}>
+                {jobs.map((job, index) => (
+                    <Grid item key={index}>
+                        <JobPreview
+                            job={job}
+                            onClick={setJobSelected}
+                            isSelected={job.id === jobSelected.id}
+                        />
+                    </Grid>
+                ))}
             </Grid>
             <Grid item xs={7}>
                 <JobSummary job={jobSelected} />

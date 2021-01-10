@@ -1,19 +1,14 @@
 import React from 'react';
-import { Field } from 'formik';
+import { Field, FieldProps } from 'formik';
 import Grid from '@material-ui/core/Grid';
+
 import { SelectFormField } from 'Components/SelectFormField';
 import Loader from 'Components/Loader';
 import { getCollegesAndDepartments, getCourses } from './api';
 import useApi from 'hooks/useApi';
-interface Props {
+
+interface AcademicInfoProps extends FieldProps {
     showCourses?: boolean;
-    collegeIdFromForm?: number;
-    departmentIdFromForm?: number;
-    setFieldValue: (
-        field: string,
-        value: any,
-        shouldValidate?: boolean
-    ) => void;
 }
 
 interface IBaseSelectValues {
@@ -25,24 +20,32 @@ interface ICollegeDepartmentDict {
     [id: number]: IBaseSelectValues[];
 }
 
+const departmentsDefaultValues = [
+    { value: undefined, label: 'Select a college first' },
+];
+
+const coursesDefaultValues = [
+    { value: undefined, label: 'Select a department first' },
+];
+
 function AcademicInfo({
     showCourses,
-    collegeIdFromForm,
-    departmentIdFromForm,
-    setFieldValue,
-}: Props) {
+    form: {
+        setFieldValue,
+        values: { collegeId, departmentId },
+    },
+}: AcademicInfoProps) {
     const [
         collegeDepartmentDict,
         setCollegeDepartmentDict,
     ] = React.useState<ICollegeDepartmentDict>({});
-    const [departmentIdSelected, setDepartmentIdSelected] = React.useState(0);
     const [colleges, setColleges] = React.useState<IBaseSelectValues[]>([]);
-    const [departments, setDepartments] = React.useState<IBaseSelectValues[]>([
-        { value: undefined, label: 'Select a college first' },
-    ]);
-    const [courses, setCourses] = React.useState<IBaseSelectValues[]>([
-        { value: undefined, label: 'Select a department first' },
-    ]);
+    const [departments, setDepartments] = React.useState<IBaseSelectValues[]>(
+        departmentsDefaultValues
+    );
+    const [courses, setCourses] = React.useState<IBaseSelectValues[]>(
+        coursesDefaultValues
+    );
 
     const collegeDepartmentApiRequest = React.useCallback(
         () => getCollegesAndDepartments(),
@@ -61,10 +64,6 @@ function AcademicInfo({
                             label: department.name,
                         })
                     );
-                    // Initializes departments values
-                    if (collegeIdFromForm === college.id) {
-                        setDepartments(departments);
-                    }
                     setCollegeDepartmentDict((prev) => ({
                         ...prev,
                         [college.id]: departments,
@@ -72,18 +71,13 @@ function AcademicInfo({
                     return { value: college.id, label: college.name };
                 });
                 setColleges(colleges);
-                // Initializes courses values
-                if (departmentIdFromForm) {
-                    setDepartmentIdSelected(departmentIdFromForm);
-                    sendGetCoursesRequest();
-                }
             },
         }
     );
 
     const getCoursesApiRequest = React.useCallback(
-        () => getCourses(departmentIdSelected),
-        [departmentIdSelected]
+        () => getCourses(departmentId),
+        [departmentId]
     );
 
     const [sendGetCoursesRequest, areCoursesLoading] = useApi(
@@ -99,40 +93,26 @@ function AcademicInfo({
         }
     );
 
-    const triggerCollegeChange = (e: React.ChangeEvent<{ value: number }>) => {
-        const collegeId = e.target.value;
-        if (collegeId) {
-            setFieldValue('collegeId', collegeId, true);
-            // Getting departments from cache
-            setDepartments(collegeDepartmentDict[collegeId]);
-        } else {
-            setFieldValue('collegeId', undefined, true);
-            setFieldValue('departmentId', undefined, true);
-            setDepartments([
-                { value: undefined, label: 'Select a college first' },
-            ]);
-        }
-    };
-
-    const triggerDepartmentChange = (
-        e: React.ChangeEvent<{ value: number }>
-    ) => {
-        const departmentId = e.target.value;
-        if (departmentId) {
-            setFieldValue('departmentId', departmentId, true);
-            setDepartmentIdSelected(departmentId);
-            sendGetCoursesRequest();
-        } else {
-            setFieldValue('departmentId', undefined, true);
-            setCourses([
-                { value: undefined, label: 'Select a department first' },
-            ]);
-        }
-    };
-
     React.useEffect(() => {
         sendCollegeDepartmentRequest();
     }, [sendCollegeDepartmentRequest]);
+
+    React.useEffect(() => {
+        if (!collegeId) {
+            setFieldValue('departmentId', undefined, true);
+            setDepartments(departmentsDefaultValues);
+        } else if (collegeDepartmentDict[collegeId]) {
+            setDepartments(collegeDepartmentDict[collegeId]);
+        }
+    }, [collegeId, collegeDepartmentDict, setFieldValue]);
+
+    React.useEffect(() => {
+        if (departmentId && showCourses) {
+            sendGetCoursesRequest();
+        } else {
+            setCourses(coursesDefaultValues);
+        }
+    }, [departmentId, sendGetCoursesRequest, showCourses]);
 
     return (
         <Grid container item justify='center'>
@@ -146,7 +126,6 @@ function AcademicInfo({
                             label='College'
                             options={colleges}
                             component={SelectFormField}
-                            onChange={triggerCollegeChange}
                             defaultLabel='Select a college'
                         />
                     </Grid>
@@ -156,7 +135,6 @@ function AcademicInfo({
                             label='Department'
                             options={departments}
                             component={SelectFormField}
-                            onChange={triggerDepartmentChange}
                         />
                     </Grid>
                     {showCourses && (
