@@ -2,6 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 
@@ -36,9 +37,8 @@ const formSchema = yup.object({
         .string()
         .required('Password is required.')
         .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-            'Password must contain a minimum of 8 characters, at least one lowercase ' +
-                'letter, one uppercase letter, and one number.'
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/,
+            'Password must contain 8 to 15 characters with at least one lowercase letter, one uppercase letter, one digit, and one special character.'
         ),
     confirmedPassword: yup
         .mixed()
@@ -70,27 +70,27 @@ function SignUpForm() {
         },
     });
     return (
-        <Paper style={{ padding: 50 }}>
-            <Formik
-                validationSchema={formSchema}
-                initialValues={formInitialValues}
-                onSubmit={(formValues, actions) => {
-                    setSignUpInfo(formValues);
-                    sendRequest();
-                    actions.resetForm({
-                        values: { ...formInitialValues },
-                    });
-                }}
-            >
-                {() => (
-                    <Form>
-                        <Grid container spacing={3} alignContent='center'>
-                            <Grid item container justify='center'>
-                                <Typography variant='h4'>
-                                    Create New Account
-                                </Typography>
-                            </Grid>
-                            <Grid item container spacing={5}>
+        <Container maxWidth='md'>
+            <Paper style={{ padding: 80 }}>
+                <Formik
+                    validationSchema={formSchema}
+                    initialValues={formInitialValues}
+                    onSubmit={(formValues, actions) => {
+                        setSignUpInfo(formValues);
+                        sendRequest();
+                        actions.resetForm({
+                            values: { ...formInitialValues },
+                        });
+                    }}
+                >
+                    {() => (
+                        <Form>
+                            <Grid container spacing={5} justify='center'>
+                                <Grid item xs={12}>
+                                    <Typography variant='h4' align='center'>
+                                        Create New Account
+                                    </Typography>
+                                </Grid>
                                 <Grid item md={6} xs={12}>
                                     <Field
                                         name='firstName'
@@ -107,11 +107,20 @@ function SignUpForm() {
                                 </Grid>
                                 <Grid item md={6} xs={12}>
                                     <Field
+                                        name='role'
+                                        label='You are...'
+                                        options={roles}
+                                        component={SelectFormField}
+                                    />
+                                </Grid>
+                                <Grid item md={6} xs={12}>
+                                    <Field
                                         name='email'
                                         label='Email'
                                         component={TextFormField}
                                     />
                                 </Grid>
+
                                 <Grid item md={6} xs={12}>
                                     <Field
                                         name='password'
@@ -122,29 +131,25 @@ function SignUpForm() {
                                 </Grid>
                                 <Grid item md={6} xs={12}>
                                     <Field
-                                        name='role'
-                                        label='You are...'
-                                        options={roles}
-                                        component={SelectFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
                                         name='confirmedPassword'
                                         label='Confirm Password'
                                         type='password'
                                         component={TextFormField}
                                     />
                                 </Grid>
+                                <Grid item xs={12}>
+                                    <SubmitButton
+                                        isLoading={isLoading}
+                                        fullWidth
+                                        label='sign up'
+                                    />
+                                </Grid>
                             </Grid>
-                            <Grid container item xs={12}>
-                                <SubmitButton isLoading={isLoading} />
-                            </Grid>
-                        </Grid>
-                    </Form>
-                )}
-            </Formik>
-        </Paper>
+                        </Form>
+                    )}
+                </Formik>
+            </Paper>
+        </Container>
     );
 }
 

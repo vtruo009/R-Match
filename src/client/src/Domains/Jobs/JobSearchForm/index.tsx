@@ -14,7 +14,7 @@ import { Pagination } from '@material-ui/lab';
 import { SelectFormField } from 'Components/SelectFormField';
 import { DatePickerFormField } from 'Components/DatePickerFormField';
 
-interface props {
+interface JobSearchFormProps {
     setJobs: (jobs: IJob[]) => void;
     children: JSX.Element;
 }
@@ -27,7 +27,7 @@ interface JobSearchFormType {
     hoursPerWeek: string;
 }
 
-const formInitialValues = {
+const formInitialValues: JobSearchFormType = {
     title: '',
     types: [],
     startDate: '',
@@ -45,7 +45,8 @@ const formSchema = yup.object({
 });
 
 const numOfItems = 5;
-function JobSearchForm({ setJobs, children }: props) {
+
+function JobSearchForm({ setJobs, children }: JobSearchFormProps) {
     const [formState, setFormState] = React.useState<JobSearchFormType>(
         formInitialValues
     );
@@ -70,8 +71,6 @@ function JobSearchForm({ setJobs, children }: props) {
         onSuccess: (response) => {
             const jobs = response.data.jobs;
             const count = response.data.jobsCount;
-            console.log(count);
-
             if (jobs.length === 0) {
                 snack('No jobs were found', 'warning');
             } else {
@@ -99,7 +98,7 @@ function JobSearchForm({ setJobs, children }: props) {
 
     return (
         <div>
-            <Paper style={{ padding: 30 }}>
+            <Paper style={{ padding: 40 }}>
                 <Formik
                     validationSchema={formSchema}
                     initialValues={formInitialValues}

@@ -10,12 +10,12 @@ import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-interface Props {
+interface LabelValuesProps {
     label: string;
     values?: string[];
 }
 
-function LabelValues({ label, values }: Props) {
+function LabelValues({ label, values }: LabelValuesProps) {
     const labelCounter = () => (values ? `(${values.length})` : '(0)');
     const [expanded, setExpanded] = React.useState(false);
     return (
