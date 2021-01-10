@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
-import { SimpleFileUpload } from 'formik-material-ui';
+import { SimpleFileUpload } from 'Components/FileUploadField';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
