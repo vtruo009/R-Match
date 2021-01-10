@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import sampleRouter from './sample';
+import sampleRouter from './Sample';
 import jobRouter from './job';
 import facultyMemberRouter from './facutltyMember';
 import studentRouter from './student';
@@ -8,6 +8,7 @@ import collegeRouter from './college';
 import departmentRouter from './department';
 import messageRouter from './message';
 import courseRouter from './course';
+import messageRouter from './message';
 // Init router and path
 const router = Router();
 

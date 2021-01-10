@@ -1,4 +1,5 @@
 import API from 'api';
+<<<<<<< HEAD
 import { IMessageForm } from 'Domains/Messages/SendMessageForm';
 import { INewMessageForm } from 'Domains/Messages/NewMessageForm';
 import { IUser } from 'Domains/Accounts/api/api';
@@ -63,3 +64,33 @@ export function getDateString(dateString: string) {
 };
 
 export const io: SocketIOClient.Socket = socketio_client.connect(serverPath);
+=======
+import { IMessaging } from 'Domains/Messages/Messaging'; 
+
+export const roles = [
+    {
+        label: 'Faculty member',
+        value: 'facultyMember',
+    },
+    {
+        label: 'Student',
+        value: 'student',
+    },
+];
+
+export interface IUser {
+    id: number;
+    email: string;
+    biography?: string;
+    firstName: string;
+    lastName: string;
+    middleName?: string;
+    role: 'student' | 'facultyMember';
+}
+
+export async function signUp(signUpData: IMessaging) {
+    return API.post<{ error: string }>('user/sign-up', {
+        user: { ...signUpData },
+    });
+}
+>>>>>>> Initial commit

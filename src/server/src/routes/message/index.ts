@@ -1,8 +1,7 @@
 import StatusCodes from 'http-status-codes';
-import express, { Request, Response, Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { validationMiddleware } from '@middlewares/validation';
 import { sendMessageSchema } from './schemas';
-import { Message } from '@entities/message';
 import passport from 'passport';
 import logger from '@shared/Logger';
 import { errors } from '@shared/errors';
