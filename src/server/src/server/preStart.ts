@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
 import commandLineArgs from 'command-line-args';
 
+import { connectToDb, seedDb } from '../connection';
+
 // Setup command line options
 const options = commandLineArgs([
     {
@@ -19,3 +21,9 @@ const result2 = dotenv.config({
 if (result2.error) {
     throw result2.error;
 }
+
+// Initializes database
+(async () => {
+    await connectToDb();
+    await seedDb();
+})();

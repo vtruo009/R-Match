@@ -1,10 +1,8 @@
-<<<<<<< HEAD
 import './preStart';
-import './postStart';
-import app, { clientPath } from '@server';
+import app, { clientPath } from 'src/app';
 import logger from '@shared/Logger';
 import socketio from 'socket.io';
-import { Message } from '@entities/message';
+import { Message } from '@entities/message'
 
 // Start the server
 const port = Number(process.env.PORT || 5000);
@@ -26,6 +24,3 @@ io.on('connection', (socket: any) => {
         io.sockets.emit('chat', message);
     });
 });
-=======
-import './server';
->>>>>>> creates testing environment and starts sample testing

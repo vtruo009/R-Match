@@ -6,10 +6,10 @@ import express, { NextFunction, Request, Response } from 'express';
 import StatusCodes from 'http-status-codes';
 import passport from 'passport';
 import 'express-async-errors';
-import BaseRouter from './routes';
+import BaseRouter from '../routes';
 import logger from '@shared/Logger';
 import cors from 'cors';
-import 'src/lib/passportSetup';
+import '@lib/passportSetup';
 const app = express();
 const { BAD_REQUEST } = StatusCodes;
 
