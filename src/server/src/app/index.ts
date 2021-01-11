@@ -6,10 +6,10 @@ import express, { NextFunction, Request, Response } from 'express';
 import StatusCodes from 'http-status-codes';
 import passport from 'passport';
 import 'express-async-errors';
-import BaseRouter from './routes';
+import BaseRouter from '../routes';
 import logger from '@shared/Logger';
 import cors from 'cors';
-import 'src/lib/passportSetup';
+import '@lib/passportSetup';
 const app = express();
 const { BAD_REQUEST } = StatusCodes;
 
@@ -23,7 +23,6 @@ app.use(express.json());
 // TODO: Update so that the origin can be also a production URL
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(passport.initialize());
-
 
 // Show routes called in console during development
 if (process.env.NODE_ENV === 'development') {

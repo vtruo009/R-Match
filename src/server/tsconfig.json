@@ -70,10 +70,10 @@
             "@entities/*": ["src/entities/*"],
             "@shared/*": ["src/shared/*"],
             "@lib/*": ["src/lib/*"],
-            "@server": ["src/Server"],
+            "@server": ["src/app"],
             "@db/*": ["src/db/*"],
             "@middlewares/*": ["src/middlewares/*"]
         }
     },
-    "include": ["src/**/*.ts", "spec/**/*.ts"]
+    "include": ["src/**/*.ts"]
 }
