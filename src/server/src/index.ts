@@ -11,8 +11,6 @@ const server = app.listen(port, () => {
 });
 
 // Socket setup
-// When I use 5000 instead of 6000, I get an error saying something like
-// "5000 is already in use".
 const io = new socketio.Server(server, {
     cors: {
         origin: clientPath,
@@ -20,7 +18,8 @@ const io = new socketio.Server(server, {
     },
 });
 io.on('connection', (socket: any) => {
-    // This message should appear console log whenever a client
-    // accesses the website the message page on the website.
-    console.log('Connected with socket!!');
+    console.log('Connected with socket.');
+    socket.on('chat', (data: any) => {
+        io.sockets.emit('chat', data);
+    });
 });

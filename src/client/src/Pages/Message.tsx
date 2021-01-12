@@ -1,9 +1,11 @@
 import React from 'react';
-import Messaging from 'Domains/Messages/Messaging';
+import MessageRoot from 'Domains/Messages/MessageRoot';
+import Sample from 'Components/Sample';
+
 function Message() {
     return (
         <div style={{ margin: 50 }}>
-            <Messaging />
+            <MessageRoot />
         </div>
     );
 }
