@@ -106,7 +106,7 @@ function StudentProfileForm({
                     sendUpdateProfileRequest();
                 }}
             >
-                {() => (
+                {({setFieldValue}) => (
                     <Form>
                         <Grid
                             container
@@ -167,6 +167,7 @@ function StudentProfileForm({
                                     type='file'
                                     component={SimpleFileUpload}
                                 />
+                                <button type = "reset" onClick={() => setFieldValue("transcript", " ")}>Delete</button>
                             </Grid>
                             <Grid item md={6} xs={12}>
                                 <Field
@@ -175,6 +176,7 @@ function StudentProfileForm({
                                     type='file'
                                     component={SimpleFileUpload}
                                 />
+                                <button type = "reset" onClick={() => setFieldValue("resume", " ")}>Delete</button>
                             </Grid>
                             <Grid item md={12} xs={12}>
                                 <Field
