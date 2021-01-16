@@ -44,7 +44,9 @@ export class Student extends BaseEntity {
     @Column({ nullable: true })
     transcript: object; 
 
-    @OneToOne(() => User)
+    @OneToOne(() => User, {
+        onDelete: 'CASCADE',
+    })
     @JoinColumn()
     user: User;
 

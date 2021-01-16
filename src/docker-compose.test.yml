@@ -15,7 +15,7 @@ services:
     ports:
       - '5000:5000'
     depends_on:
-      - database
+      - databaseTest
   # client:
   #     build:
   #         context: client
@@ -27,20 +27,15 @@ services:
   #         - ./client/tsconfig.json:/usr/app/tsconfig.json
   #     ports:
   #         - '3000:3000'
-  database:
+  databaseTest:
     image: postgres:11
-    container_name: database
+    container_name: databaseTest
     restart: always
     expose:
       - '5432'
     ports:
       - '5432:5432'
     environment:
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=postgresTest
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    volumes:
-      - database-data:/var/lib/postgresql/data/
-
-volumes:
-  database-data:

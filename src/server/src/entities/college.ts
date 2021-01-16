@@ -15,7 +15,8 @@ export class College extends BaseEntity {
     @Column()
     name: string;
 
-    @OneToMany(() => Department, (department) => department.college)
+    @OneToMany(() => Department, (department) => department.college, {
+        onDelete: 'CASCADE',
+    })
     departments: Department[];
 }
-

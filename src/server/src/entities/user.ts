@@ -2,6 +2,8 @@ import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany } from 't
 
 import { Message } from './message';
 
+export type role = 'student' | 'facultyMember';
+
 @Entity()
 export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -33,12 +35,18 @@ export class User extends BaseEntity {
 
     @OneToMany(() => Message, (message) => message.receiver)
     public receivedMessages: Message[];
+
+    @Column({
+        type: 'enum',
+        enum: ['student', 'facultyMember'],
+    })
+    role: role;
 }
 
 export interface JWTUser {
     userId: number;
     specificUserId: number;
-    role: 'student' | 'facultyMember';
+    role: role;
     firstName: string;
     lastName: string;
 }

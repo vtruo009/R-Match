@@ -83,7 +83,9 @@ passport.use(
     new JWTStrategy(
         {
             jwtFromRequest: cookieExtractor,
-            secretOrKey: process.env.JWT_SECRET,
+            // secretOrKey: process.env.JWT_SECRET,
+            // TODO: Find a way to set up JWT_SECRET as an environment variable for the testing environment
+            secretOrKey: '123456',
         },
         async (jwtPayload, done) => {
             try {

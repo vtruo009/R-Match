@@ -18,7 +18,7 @@ export const findUserByEmail = (email: string) => {
  * @param {string} password - User's password
  * @param {string} firstName - User's first name
  * @param {string} lastName - User's last name
- * @param {'student' | 'facultyMember'} role - user's role, either 'student' or 'facultyMember'
+ * @param {role} role - user's role, either 'student' or 'facultyMember'
  * @returns Promise
  */
 export const createUser = (
@@ -44,7 +44,7 @@ export const createUser = (
  * @param {string} password - User's password (not encrypted)
  * @param {string} firstName - User's first name
  * @param {string} lastName - User's last name
- * @param {'student' | 'facultyMember'} role - User's role, either 'student' or 'facultyMember'
+ * @param {role} role - User's role, either 'student' or 'facultyMember'
  * @returns Promise
  */
 export const registerUser = async (

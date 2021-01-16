@@ -1,3 +1,17 @@
+export const studentTestUser = {
+    email: 'abc@example.com',
+    password: '12345',
+    firstName: 'John',
+    lastName: 'Doe',
+};
+
+export const facultyMemberTestUser = {
+    email: 'def@example.com',
+    password: '12345',
+    firstName: 'Elena',
+    lastName: 'Wright',
+};
+
 export const colleges = [
     {
         name: 'Bourns College of Engineering',

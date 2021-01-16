@@ -36,6 +36,10 @@ if (process.env.NODE_ENV === 'production') {
     app.use(helmet());
 }
 
+if (process.env.NODE_ENV === 'test') {
+    app.get('/', (req, res) => res.sendStatus(200));
+}
+
 // Add APIs
 app.use('/api', BaseRouter);
 

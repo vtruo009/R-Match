@@ -16,5 +16,6 @@ module.exports = {
         '@server/(.*)': '<rootDir>/src/server/$1',
         '@db/(.*)': '<rootDir>/src/db/$1',
         '@middlewares/(.*)': '<rootDir>/src/middlewares/$1',
+        '@app/(.*)': '<rootDir>/src/app/$1',
     },
 };

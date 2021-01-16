@@ -62,6 +62,7 @@ function SignUpForm() {
             snack('Account successfully created', 'success');
         },
         onFailure: (error, results) => {
+            console.log(error);
             if (results) {
                 snack(`${results.data.error}`, 'error');
             } else {

@@ -16,7 +16,7 @@ const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
 interface ISignUpRequest extends Request {
     body: {
         user: User;
-    };
+    };  
 }
 
 interface IGetUserByEmailRequest extends Request {
