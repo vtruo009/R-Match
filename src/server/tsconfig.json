@@ -70,7 +70,7 @@
             "@entities/*": ["src/entities/*"],
             "@shared/*": ["src/shared/*"],
             "@lib/*": ["src/lib/*"],
-            "@server": ["src/app"],
+            "@server": ["src/server/*"],
             "@db/*": ["src/db/*"],
             "@middlewares/*": ["src/middlewares/*"],
             "@app/*": ["src/app/*"]
