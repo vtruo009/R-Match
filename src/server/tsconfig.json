@@ -72,7 +72,8 @@
             "@lib/*": ["src/lib/*"],
             "@server": ["src/app"],
             "@db/*": ["src/db/*"],
-            "@middlewares/*": ["src/middlewares/*"]
+            "@middlewares/*": ["src/middlewares/*"],
+            "@app/*": ["src/app/*"]
         }
     },
     "include": ["src/**/*.ts"]

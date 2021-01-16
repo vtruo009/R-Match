@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import commandLineArgs from 'command-line-args';
 
-import { connectToDb, seedDb } from '../connection';
+import { connectToDb, seedDb } from '@db/connection';
 
 // Setup command line options
 const options = commandLineArgs([

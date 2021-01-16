@@ -1,10 +1,26 @@
-{
-    "type": "postgres",
-    "host": "database",
-    "port": 5432,
-    "username": "postgres",
-    "password": "postgres",
-    "database": "postgres",
-    "entities": ["src/entities/*.ts"],
-    "synchronize": true
-}
+[
+    {
+        "name": "development",
+        "type": "postgres",
+        "host": "database",
+        "port": 5432,
+        "username": "postgres",
+        "password": "postgres",
+        "database": "postgres",
+        "entities": ["src/entities/*.ts"],
+        "synchronize": true,
+        "logging": true
+    },
+    {
+        "name": "test",
+        "type": "postgres",
+        "host": "databaseTest",
+        "port": 5432,
+        "username": "postgres",
+        "password": "postgres",
+        "database": "postgresTest",
+        "entities": ["src/entities/*.ts"],
+        "synchronize": true,
+        "logging": false
+    }
+]

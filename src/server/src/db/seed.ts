@@ -3,6 +3,7 @@ import { createCollege, getColleges } from '@modules/college';
 import { createDepartment } from '@modules/department';
 import { createCourse } from '@modules/course';
 
+
 // Saves college and respective departments data into the database
 export const seedData = async () => {
     // TODO: Not best practice as every time the server is restarted we are fetching all college

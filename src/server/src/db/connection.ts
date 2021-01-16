@@ -1,5 +1,5 @@
-import { createConnection, getConnection } from 'typeorm';
-import { seedData } from '@db/seed';
+import { createConnection, getConnection, getConnectionOptions } from 'typeorm';
+import { seedData } from './seed';
 import logger from '@shared/Logger';
 
 /************************************************************************************
@@ -8,7 +8,11 @@ import logger from '@shared/Logger';
 
 export const connectToDb = async () => {
     try {
-        await createConnection();
+        const connectionOptions = await getConnectionOptions(
+            process.env.NODE_ENV
+        );
+        await createConnection({ ...connectionOptions, name: 'default' });
+        // await createConnection();
         logger.info('PostgreSQL database connection established successfully');
     } catch (error) {
         logger.err('PostgreSQL database connection was not established');
@@ -35,10 +39,14 @@ export const disconnectFromDb = async () => {
 export const clearDb = async () => {
     const connection = getConnection();
     const entities = connection.entityMetadatas;
-    entities.forEach(async (entity) => {
-        const repository = connection.getRepository(entity.name);
-        await repository.query(`DELETE FROM ${entity.tableName}`);
-    });
+    try {
+        for (const entity of entities) {
+            const repository = await connection.getRepository(entity.name);
+            await repository.query(`DELETE FROM "${entity.tableName}";`);
+        }
+    } catch (error) {
+        logger.err(`ERROR: Cleaning test db: ${error}`);
+    }
 };
 
 /************************************************************************************
