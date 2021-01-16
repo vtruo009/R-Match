@@ -29,8 +29,8 @@ interface sampleRequest extends Request {
 
 router.post(
     '/create',
-    validationMiddleware({ bodySchema: sampleCreatSchema }),
     passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ bodySchema: sampleCreatSchema }),
     async (req: sampleRequest, res: Response) => {
         const { message, num } = req.body.sample;
         try {
@@ -78,16 +78,10 @@ router.get(
 
 router.post(
     '/update',
-    validationMiddleware({ bodySchema: sampleUpdateSchema }),
     passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ bodySchema: sampleUpdateSchema }),
     async (req: sampleRequest, res: Response) => {
-        const { sample } = req.body;
-        const { message, num, id } = sample;
-        if (!sample) {
-            return res.status(BAD_REQUEST).json({
-                error: errors.paramMissingError,
-            });
-        }
+        const { message, num, id } = req.body.sample;
         try {
             await updateSample(message, num, id);
             return res.status(OK).end();
@@ -105,19 +99,23 @@ router.post(
  *              DELETE Request - Delete - /api/sample/delete/:id
  ******************************************************************************/
 
-router.delete('/delete/:id', async (req: Request, res: Response) => {
-    const { id } = req.params;
-    try {
-        await deleteSample(parseInt(id, 10));
-        return res.status(OK).end();
-    } catch (error) {
-        logger.err(error);
-        return res
-            .status(INTERNAL_SERVER_ERROR)
-            .json(errors.internalServerError)
-            .end();
+router.delete(
+    '/delete/:id',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        const { id } = req.params;
+        try {
+            await deleteSample(parseInt(id, 10));
+            return res.status(OK).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
     }
-});
+);
 
 /******************************************************************************
  *                                     Export

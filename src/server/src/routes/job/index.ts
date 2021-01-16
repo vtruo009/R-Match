@@ -30,8 +30,8 @@ interface jobRequest extends Request {
 
 router.post(
     '/create',
-    validationMiddleware({ bodySchema: jobCreateSchema }),
     passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ bodySchema: jobCreateSchema }),
     async (req: jobRequest, res: Response) => {
         //checks that caller is a faculty member
         const { role, specificUserId } = req.user as JWTUser;
@@ -103,8 +103,8 @@ interface JobReadRequest extends Request {
 
 router.get(
     '/read',
-    validationMiddleware({ querySchema: jobReadSchema }),
     passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ querySchema: jobReadSchema }),
     async (req: JobReadRequest, res: Response) => {
         const { title, types, page, numOfItems } = req.query;
         let { startDate, minSalary, hoursPerWeek } = req.query;
@@ -146,8 +146,8 @@ router.get(
 
 router.post(
     '/update',
-    validationMiddleware({ bodySchema: jobUpdateSchema }),
     passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ bodySchema: jobUpdateSchema }),
     async (req: jobRequest, res: Response) => {
         const { role } = req.user as JWTUser;
         if (role !== 'facultyMember') {

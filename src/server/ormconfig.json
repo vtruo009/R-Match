@@ -21,6 +21,7 @@
         "database": "postgresTest",
         "entities": ["src/entities/*.ts"],
         "synchronize": true,
-        "logging": false
+        "logging": false,
+        "dropSchema": true
     }
 ]
