@@ -28,8 +28,8 @@ interface departmentRequest extends Request {
 
 router.post(
     '/create',
-    validationMiddleware({ bodySchema: departmentSchema }),
     passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ bodySchema: departmentSchema }),
     async (req: departmentRequest, res: Response) => {
         const { name, college } = req.body.department;
         try {
