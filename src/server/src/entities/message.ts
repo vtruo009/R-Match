@@ -7,6 +7,7 @@ import {
     BaseEntity,
 } from 'typeorm';
 import { FacultyMember } from './facultyMember';
+import { User } from './user';
 import { JobApplication } from './jobApplication';
 import { Department } from './department';
 
@@ -17,4 +18,19 @@ export class Message extends BaseEntity {
 
     @Column()
     message: string;
+
+    @Column()
+    public senderId: number;
+
+    @ManyToOne(() => User, (user) => user.sentMessages)
+    public sender: User;
+
+    @Column()
+    public receiverId: number;
+
+    @ManyToOne(() => User, (user) => user.receivedMessages)
+    public receiver: User;
+
+    @Column()
+    public date: Date;
 }

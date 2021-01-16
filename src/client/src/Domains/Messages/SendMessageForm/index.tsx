@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { TextFormField } from 'Components/TextFormField';
 import SubmitButton from 'Components/SubmitButton';
 import Loader from 'Components/Loader';
+import { IUser } from 'Domains/Accounts/api/api';
 import {
     sendMessage,
     getMessages,
@@ -27,7 +28,11 @@ const messageInitialValues: IMessageForm = {
     message: ''
 };
 
-function Messaging() {;
+interface props {
+    receiver: IUser | undefined;
+}
+
+function MessageSendForm({ receiver }: props) {
     // Establishing io connection on first render of Messaging component
     React.useEffect(() => {
         // Initiate socket.
@@ -36,7 +41,7 @@ function Messaging() {;
 
     const [message, setMessage] = React.useState<IMessageForm>(messageInitialValues);
 
-    const request = React.useCallback(() => sendMessage(message), [message]);
+    const request = React.useCallback(() => sendMessage(message, receiver), [message]);
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
             io.emit('chat', message);
@@ -80,4 +85,4 @@ function Messaging() {;
     );
 }
 
-export default Messaging;
+export default MessageSendForm;

@@ -1,26 +1,32 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { IMessage } from 'Domains/Messages/api/api';
+import { IUser } from 'Domains/Accounts/api/api';
 
-import Messaging from 'Domains/Messages/SendMessage';
+import SendMessageForm from 'Domains/Messages/SendMessageForm';
 import MessageResults from 'Domains/Messages/GetMessages';
-
-interface Props {
-    messages: IMessage[];
-}
+import GetCommunicatedUser from 'Domains/Messages/GetCommunicatedUser';
 
 function MessageRoot() {
-    // const [jobSelected, setJobSelected] = React.useState<IJob>(jobs[0]);
-    // Resets job selected to first job after new jobs are fetched
+    const [userSelected, setSelectedUser] = React.useState<IUser>();
+
     return (
-        <Grid container spacing={3} style={{ marginTop: 20 }}>
-            <Grid item>
-                {/* Render all messages */}
-                <MessageResults />
-                <Messaging />
-            </Grid>
-        </Grid>
+        <div style={{ padding: 20 }}>
+            <GetCommunicatedUser
+                children={
+                    <div>
+                        <MessageResults receiver={userSelected} />
+                        <SendMessageForm receiver={userSelected} />
+                    </div>
+                }
+                setUser={setSelectedUser}
+            />
+        </div>
     );
 }
 
 export default MessageRoot;
+/*
+ *
+                        <MessageResults receiver={userSelected} />
+ */
