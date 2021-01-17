@@ -5,12 +5,14 @@ import CreateJob from './Pages/CreateJob';
 import Profile from './Pages/Profile';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
+import Dashboard from './Pages/Dashboard';
 
 import HomeIcon from '@material-ui/icons/Home';
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PersonIcon from '@material-ui/icons/Person';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 
 export interface IRoute {
     path: string;
@@ -73,4 +75,10 @@ export const facultyMemberRoutes = [
         component: CreateJob,
         icon: <AddIcon />,
     },
+    {
+        path: '/prof-dashboard',
+        name: 'Dashboard',
+        component: Dashboard,
+        icon: <DashboardIcon />,
+    }
 ];

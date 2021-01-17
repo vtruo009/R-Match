@@ -8,7 +8,7 @@ import {
     getFacultyMemberProfile,
     updateFacultyMember,
     getPostedJobs,
-    getApplicants
+    getJobApplications
 } from '@modules/facultyMember';
 import { validationMiddleware } from '@middlewares/validation';
 import { facultyMemberProfileSchema } from './schemas';
@@ -138,7 +138,7 @@ router.get(
  ******************************************************************************/
 
 router.get(
-    '/get-applicants/:jobId',
+    '/get-job-applications/:jobId',
     passport.authenticate('jwt', { session: false }),
     async (req: Request, res: Response) => {
         const { specificUserId, role } = req.user as JWTUser;
@@ -151,12 +151,12 @@ router.get(
         const { jobId } = req.params;
 
         try {
-            const { result, message } = await getApplicants(
+            const { result, message } = await getJobApplications(
                 specificUserId,
                 parseInt(jobId, 10)
             );
             return result
-                ? res.status(OK).json({ result }).end()
+                ? res.status(OK).json({ jobApplications: result }).end()
                 : res.status(BAD_REQUEST).json({ error: message });
         } catch (error) {
             logger.err(error);

@@ -111,7 +111,7 @@ export const getPostedJobs = async (facultyMemberId: number) => {
  * @param {number} jobId - Id of the job
  * @returns Promise
  */
-export const getApplicants = async (facultyMemberId: number, jobId: number) => {
+export const getJobApplications = async (facultyMemberId: number, jobId: number) => {
     const getApplicantsResult: {
         result: JobApplication[] | undefined;
         message: string;
