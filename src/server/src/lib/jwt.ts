@@ -12,7 +12,5 @@ export const cookieExtractor = (request: Request) => {
 
 export const signToken = (id: number) => {
     // token expires in 24 hrs.
-    // TODO: Replace with env.JWT_SECRET
-    // return jwt.sign({ id }, process.env.JWT_SECRET as string, {});
-    return jwt.sign({ id }, '123456' as string, {});
+    return jwt.sign({ id }, process.env.JWT_SECRET as string, {});
 };

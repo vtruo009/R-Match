@@ -2,7 +2,6 @@ import request from 'supertest';
 import { connectToDb } from '@db/connection';
 import app from '.';
 
-
 beforeAll(async () => {
     await connectToDb();
 });

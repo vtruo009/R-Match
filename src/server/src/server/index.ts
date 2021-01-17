@@ -1,8 +1,15 @@
 import './preStart';
 import app, { clientPath } from 'src/app';
+import '@dotenv/config';
+import { connectToDb } from '@db/connection';
 import logger from '@shared/Logger';
 import socketio from 'socket.io';
 import { Message } from '@entities/message'
+
+// Initializes database
+(async () => {
+    await connectToDb();
+})();
 
 // Start the server
 const port = Number(process.env.PORT || 5000);

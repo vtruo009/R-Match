@@ -29,7 +29,8 @@
         "@lib": "dist/lib",
         "@db": "dis/db",
         "@middlewares": "dist/middlewares",
-        "@app": "dist/app"
+        "@app": "dist/app",
+        "@dotenv": "dist/dotenv"
     },
     "eslintConfig": {
         "parser": "@typescript-eslint/parser",

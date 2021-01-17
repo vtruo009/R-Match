@@ -73,7 +73,8 @@
             "@server": ["src/server/*"],
             "@db/*": ["src/db/*"],
             "@middlewares/*": ["src/middlewares/*"],
-            "@app/*": ["src/app/*"]
+            "@app/*": ["src/app/*"],
+            "@dotenv/*": ["src/dotenv/*"]
         }
     },
     "include": ["src/**/*.ts"]
