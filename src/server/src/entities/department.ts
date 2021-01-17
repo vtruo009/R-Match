@@ -21,9 +21,7 @@ export class Department extends BaseEntity {
     @Column()
     collegeId: number;
 
-    @ManyToOne(() => College, (college) => college.departments, {
-        onDelete: 'CASCADE',
-    })
+    @ManyToOne(() => College, (college) => college.departments)
     college: College;
 
     @OneToMany(() => Job, (job) => job.department)

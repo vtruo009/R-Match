@@ -58,17 +58,13 @@ export class Job extends BaseEntity {
     @Column()
     departmentId: number;
 
-    @ManyToOne(() => Department, (department) => department.jobs, {
-        onDelete: 'CASCADE',
-    })
+    @ManyToOne(() => Department, (department) => department.jobs)
     department: Department;
 
     @Column()
     facultyMemberId: number;
 
-    @ManyToOne(() => FacultyMember, (facultyMember) => facultyMember.jobs, {
-        onDelete: 'CASCADE',
-    })
+    @ManyToOne(() => FacultyMember, (facultyMember) => facultyMember.jobs)
     facultyMember: FacultyMember;
 
     @OneToMany(() => JobApplication, (jobApplication) => jobApplication.job, {
