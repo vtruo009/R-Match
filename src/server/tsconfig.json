@@ -74,7 +74,8 @@
             "@db/*": ["src/db/*"],
             "@middlewares/*": ["src/middlewares/*"],
             "@app/*": ["src/app/*"],
-            "@dotenv/*": ["src/dotenv/*"]
+            "@dotenv/*": ["src/dotenv/*"],
+            "@routes/*": ["src/routes/*"]
         }
     },
     "include": ["src/**/*.ts"]

@@ -18,6 +18,7 @@ module.exports = {
         '@middlewares/(.*)': '<rootDir>/src/middlewares/$1',
         '@app/(.*)': '<rootDir>/src/app/$1',
         '@dotenv/(.*)': '<rootDir>/src/dotenv/$1',
+        '@routes/(.*)': '<rootDir>/src/routes/$1',
     },
     setupFiles: ['./src/dotenv/config.ts'],
 };
