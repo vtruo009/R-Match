@@ -7,7 +7,7 @@
         "start:prod": "node -r module-alias/register ./dist --env=production",
         "start": "nodemon",
         "test": "jest --watchAll --runInBand",
-        "seed": "typeorm migration:create -n seedMigration -d src/migration"
+        "migration": "ts-node -r tsconfig-paths/register node_modules/.bin/typeorm migration:generate -n migrationName -d src/migration -c development"
     },
     "nodemonConfig": {
         "watch": [
