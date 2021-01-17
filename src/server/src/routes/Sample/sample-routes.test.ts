@@ -143,7 +143,6 @@ describe('create', () => {
     });
 });
 
-// TODO: Figure out how to test updates and deletes
 describe('update', () => {
     const endpoint = '/api/sample/update';
     it('should fail since authorization token is not sent', async () => {
