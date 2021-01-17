@@ -19,16 +19,12 @@ export class JobApplication extends BaseEntity {
     @Column()
     public jobId: number;
 
-    @ManyToOne(() => Job, (job) => job.jobApplications, {
-        onDelete: 'CASCADE',
-    })
+    @ManyToOne(() => Job, (job) => job.jobApplications)
     public job: Job;
 
     @Column()
     public studentId: number;
 
-    @ManyToOne(() => Student, (student) => student.jobApplications, {
-        onDelete: 'CASCADE',
-    })
+    @ManyToOne(() => Student, (student) => student.jobApplications)
     public student: Student;
 }
