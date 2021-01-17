@@ -29,8 +29,8 @@ interface facultyMemberRequest extends Request {
 
 router.post(
     '/update-profile',
-    validationMiddleware({ bodySchema: facultyMemberProfileSchema }),
     passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ bodySchema: facultyMemberProfileSchema }),
     async (req: facultyMemberRequest, res: Response) => {
         const { specificUserId, role } = req.user as JWTUser;
         if (role !== 'facultyMember') {

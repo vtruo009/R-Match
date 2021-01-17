@@ -52,7 +52,6 @@ function SignInForm() {
             }
         },
         onFailure: (error, results) => {
-            console.log(error);
             if (results && results.status === 401) {
                 snack('Invalid username or password', 'error');
             } else {

@@ -43,7 +43,9 @@ export class Student extends BaseEntity {
     @Column({ type: 'bytea', nullable: true })
     transcript: Buffer;
 
-    @OneToOne(() => User)
+    @OneToOne(() => User, {
+        onDelete: 'CASCADE',
+    })
     @JoinColumn()
     user: User;
 
