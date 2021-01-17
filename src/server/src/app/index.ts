@@ -6,7 +6,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import StatusCodes from 'http-status-codes';
 import passport from 'passport';
 import 'express-async-errors';
-import BaseRouter from '../routes';
+import BaseRouter from '@routes/index';
 import logger from '@shared/Logger';
 import cors from 'cors';
 import '@lib/passportSetup';
