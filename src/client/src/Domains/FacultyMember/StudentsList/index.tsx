@@ -7,68 +7,97 @@ import { getStudentsApplied } from '../api';
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
 import { IStudent } from 'Domains/Student/api';
-//impo api hook
+import { Pagination} from '@material-ui/lab';
 
 // interface Props {
 //     students: IStudent[];
 //     setStudent: (students: IStudent[]) => void;
 // }
 
+const numOfItems = 2;
 function StudentsList() {
+    const [page, setPage] = React.useState(1);
+    const [numOfPages, setNumOfPages] = React.useState(0);
     const [students, setStudents] = React.useState<IStudent[]>([]);
     const [snack] = useSnack();
     const request = React.useCallback(
         () =>
-            getStudentsApplied( // the one that makes req
+            getStudentsApplied(
+                page,
+                numOfItems
             ),
-        [] // none as of now
+        [page]
     );
 
-    const [sendRequest, isLoading] = useApi(request, { // in students list omponent if isLoading T then spinner
-        onSuccess: (response) => { // save student result in state of this component
-            const jobApplications = response.data.jobApplications; // <- name of array 
+    const [sendRequest, isLoading] = useApi(request, {
+        onSuccess: (response) => {
+            const jobApplications = response.data.jobApplications;
+            const jobApplicationsCount = response.data.jobApplicationsCount;
             const students = jobApplications.map((jobApplication) => (
                 jobApplication.student
             ))
-            //const count = response.data.jobsCount;
-            //console.log(count);
+            // console.log(`*************THE COUNT IS ${jobApplicationsCount}`);
 
             if (students.length === 0) {
                 snack('No students were found', 'warning');
             } else {
-                // setNumOfPages(Math.ceil(count / numOfItems));
-                // setJobs(jobs);
+                setNumOfPages(Math.ceil(jobApplicationsCount / numOfItems));
                 setStudents(students);
             }
         },
     });
 
+    const handlePageChange = (
+        event: React.ChangeEvent<unknown>,
+        value: number
+    ) => {
+        setPage(value);
+        sendRequest();
+        window.scrollTo(0, 0);
+    };
+
+    const handleSearchAgain = () => {
+        if (page > 0) {
+            setPage(1);
+        }
+        sendRequest();
+    };
+
     React.useEffect(() => {
-        // can call sendRequest
         sendRequest();
     }, []);
-    // Maybe need to add reset?
-    // React.useEffect(() => {
-    //     setStudentSelected(students[0]);
-    // }, [students]);
-    //const studs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
     return (
-        <Grid container spacing={3} style={{ marginTop: 20 }}>
-            {/* {<h1>Professor's Dashboard</h1>} */}
-            <Grid item xs={5}>
-                <Grid container spacing={3} direction='column'>
-                    {students.map((student, key) => (
-                        <Grid item key={key}>
-                            <StudentPreview
-                                student={student}
-                                //onClick={setStudents}
-                                //isSelected={student.id === studentSelected.id}
-                            />
-                        </Grid>
-                    ))}
+        <div>
+            <Grid container spacing={3} style={{ marginTop: 20 }}>
+                {/* {<h1>Professor's Dashboard</h1>} */}
+                <Grid item xs={5}>
+                    <Grid container spacing={3} direction='column'>
+                        {students.map((student, key) => (
+                            <Grid item key={key}>
+                                <StudentPreview
+                                    student={student}
+                                    //onClick={setStudents}
+                                    //isSelected={student.id === studentSelected.id}
+                                />
+                            </Grid>
+                        ))}
+                    </Grid>
                 </Grid>
             </Grid>
-        </Grid>
+            {numOfPages > 1 && (
+                <Grid container justify='center' style={{ marginTop: 50 }}>
+                    <Pagination
+                        color='primary'
+                        shape='rounded'
+                        page={page}
+                        count={numOfPages}
+                        onChange={handlePageChange}
+                    />
+                </Grid>
+            )}
+        </div>
+
     );
 }
 

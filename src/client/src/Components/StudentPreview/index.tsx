@@ -50,7 +50,7 @@ function StudentPreview ({ student }: Props) {
                 >
                     <Grid item>
                         <Typography variant='h6' color='primary'>
-                            {student.sid}
+                            {`${student.user.firstName} ${student.user.lastName}`}
                         </Typography>
                     </Grid>
                     <Grid item>

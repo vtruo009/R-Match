@@ -20,9 +20,16 @@ export async function createFacultyMemberProfile(facultyMemberProfile: IFacultyM
     });
 }
 
-export async function getStudentsApplied() { // as of now no param
+export async function getStudentsApplied(
+    page: number,
+    numOfItems: number
+) {
+    const params = {
+        page,
+        numOfItems,
+    };
     //return API.get<{ /* students: IStudentsApplied[] -> name of array: TYPE[] */}>('/get-applicants/1') // to add job id; when put # can just put 1
-    return API.get<{ jobApplications: IJobApplication[] }>('faculty-member/get-job-applications/1');
+    return API.get<{ jobApplications: IJobApplication[], jobApplicationsCount: number }>('faculty-member/get-job-applications/1', { params });
 }
 
 export default IJobApplication;
