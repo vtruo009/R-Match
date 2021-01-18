@@ -1,11 +1,14 @@
 import API from 'api';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { IMessageForm } from 'Domains/Messages/SendMessageForm';
+=======
+import * as socketio_client from 'socket.io-client';
+import { IMessageSendForm } from 'Domains/Messages/MessageSendForm';
+>>>>>>> Organized code.
 import { INewMessageForm } from 'Domains/Messages/NewMessageForm';
 import { IUser } from 'Domains/Accounts/api/api';
-import * as socketio_client from 'socket.io-client';
 import { serverPath } from 'api';
-import Axios from 'axios';
 
 export interface IMessage {
     message: string;
@@ -19,7 +22,7 @@ export interface IConversation {
     latestMessage: IMessage;
 }
 
-export async function sendMessage(message: IMessageForm, receiver?: IUser) {
+export async function sendMessage(message: IMessageSendForm, receiver?: IUser) {
     return API.post('message/sendMessage', {
         message: message.message,
         receiverId: receiver?.id
@@ -38,6 +41,7 @@ export async function createMessage(newMessageForm: INewMessageForm) {
     return API.get < { user: IUser, error: string } >(`user/get-by-email/${newMessageForm.email}`);
 }
 
+<<<<<<< HEAD
 export function getDateString(dateString: string) {
     const date = new Date(dateString);
 
@@ -94,3 +98,6 @@ export async function signUp(signUpData: IMessaging) {
     });
 }
 >>>>>>> Initial commit
+=======
+export const io: SocketIOClient.Socket = socketio_client.connect(serverPath);
+>>>>>>> Organized code.

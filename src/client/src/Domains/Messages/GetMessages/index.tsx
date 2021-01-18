@@ -1,27 +1,25 @@
 import React from 'react';
+
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import {
-    IMessage,
-    getMessages,
-    io
-} from 'Domains/Messages/api/api';
 import Typography from '@material-ui/core/Typography';
+
 import useApi from 'hooks/useApi';
-import Button from '@material-ui/core/Button';
+import { AuthContext } from 'Contexts/AuthContext';
 import Loader from 'Components/Loader';
 import { IUser } from 'Domains/Accounts/api/api';
 import MessageDialog from 'Domains/Messages/MessageDialog';
-import { AuthContext } from 'Contexts/AuthContext';
+import { IMessage, getMessages, io } from 'Domains/Messages/api/api';
 
 interface props {
     receiver: IUser | undefined;
 }
 
-function MessageResults({ receiver }: props) {
+function Messages({ receiver }: props) {
     const [messages, setMessages] = React.useState<IMessage[]>([]);
-    const request = React.useCallback(() => getMessages(receiver), [receiver]);
+
     const { user } = React.useContext(AuthContext);
+
+    const request = React.useCallback(() => getMessages(receiver), [receiver]);
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: (response) => {
             setMessages(response.data.messages);
@@ -35,7 +33,8 @@ function MessageResults({ receiver }: props) {
         if (receiver) sendRequest();
     }, [receiver, sendRequest]);
 
-    // Listen for events.
+    // Reload messaging component if new message is created between the
+    // logged-in user and the current receiver.
     io.on('chat', (message: IMessage) => {
         if (receiver &&
             ((message.sender.id === receiver.id && message.receiver.id === user?.userId)
@@ -57,6 +56,7 @@ function MessageResults({ receiver }: props) {
                                     Message with {receiver.firstName} {receiver.lastName}
                                     </Typography>
                                     <Grid>
+                                        {/* Render all messages. */}
                                         {messages.map((message, key) => (
                                             <Grid item key={key}>
                                                 <MessageDialog
@@ -74,4 +74,4 @@ function MessageResults({ receiver }: props) {
     );
 }
 
-export default MessageResults;
+export default Messages;

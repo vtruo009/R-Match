@@ -1,7 +1,9 @@
 import React from 'react';
+
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 
@@ -9,16 +11,9 @@ import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
 import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
-import { SelectFormField } from 'Components/SelectFormField';
-import { DatePickerFormField } from 'Components/DatePickerFormField';
 import SubmitButton from 'Components/SubmitButton';
 import { IUser } from 'Domains/Accounts/api/api';
-import {
-    createMessage
-} from 'Domains/Messages/api/api';
-import {
-    departments,
-} from 'sharedData'
+import { createMessage } from 'Domains/Messages/api/api';
 
 export interface INewMessageForm {
     email: string;
@@ -33,17 +28,18 @@ const formSchema = yup.object({
 });
 
 interface Props {
-    setUser: (user: IUser) => void;
+    setReceiver: (user: IUser) => void;
     closeForm: () => void;
 }
 
-function NewMessageForm({ setUser, closeForm }: Props) {
+function NewMessageForm({ setReceiver, closeForm }: Props) {
     const [email, setEmail] = React.useState<INewMessageForm>(formInitialValues);
-    const request = React.useCallback(() => createMessage(email), [email]);
     const [snack] = useSnack();
+
+    const request = React.useCallback(() => createMessage(email), [email]);
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: (response) => {
-            setUser(response.data.user);
+            setReceiver(response.data.user);
             snack('New message successfully created', 'success');
             closeForm();
         },

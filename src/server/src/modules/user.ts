@@ -76,8 +76,9 @@ export const registerUser = async (
 };
 
 /**
- * @description Gets all job applications submitted by the student
- * @param {number} studentId - id of student
+ * @description Returns an user object corresponding to email in order to send a message.
+ * @param {number} userId - id of the logged-in user.
+ * @param {string} email - email address.
  * @returns Promise
  */
 export const getUserByEmail = async (userId: number, email: string) => {
@@ -88,7 +89,8 @@ export const getUserByEmail = async (userId: number, email: string) => {
         result: undefined,
         message: '',
     };
-    // Return all job application submitted by the student.
+
+    // Check if the user with the email exists.
     const user = await getRepository(User)
         .createQueryBuilder('user')
         .where({ email: email })
@@ -119,7 +121,6 @@ export const getUserByEmail = async (userId: number, email: string) => {
 
     return getUserByEmailResult;
 };
-
 
 /**
  * @description Gets a User object with the given id.

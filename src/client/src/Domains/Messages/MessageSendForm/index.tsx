@@ -1,23 +1,19 @@
 import React from 'react';
+
 import Paper from '@material-ui/core/Paper';
-import { Formik, Form, Field } from 'formik';
 import Grid from '@material-ui/core/Grid';
+
+import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
-import Typography from '@material-ui/core/Typography';
-import { TextFormField } from 'Components/TextFormField';
 import SubmitButton from 'Components/SubmitButton';
 import Loader from 'Components/Loader';
-import { IUser } from 'Domains/Accounts/api/api';
+import { TextFormField } from 'Components/TextFormField';
 import { AuthContext } from 'Contexts/AuthContext';
-import {
-    sendMessage,
-    getMessages,
-    IMessage,
-    io
-} from 'Domains/Messages/api/api';
+import { IUser } from 'Domains/Accounts/api/api';
+import { sendMessage, io } from 'Domains/Messages/api/api';
 import useApi from 'hooks/useApi';
 
-export interface IMessageForm {
+export interface IMessageSendForm {
     message: string;
 }
 
@@ -25,7 +21,7 @@ const formSchema = yup.object({
     message: yup.string().required('Message cannot be empty.'),
 });
 
-const messageInitialValues: IMessageForm = {
+const messageInitialValues: IMessageSendForm = {
     message: ''
 };
 
@@ -34,13 +30,17 @@ interface props {
 }
 
 function MessageSendForm({ receiver }: props) {
-    const [message, setMessage] = React.useState<IMessageForm>(messageInitialValues);
+    const [message, setMessage] = React.useState<IMessageSendForm>(messageInitialValues);
 
     const { user } = React.useContext(AuthContext);
+
     const request = React.useCallback(() => sendMessage(message, receiver), [message, receiver]);
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
             io.emit('chat', { message: message, receiver: receiver, sender: {id: user?.userId } });
+        },
+        onFailure: (error, response) => {
+            console.log(error);
         },
     });
 

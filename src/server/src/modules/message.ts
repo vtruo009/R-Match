@@ -3,7 +3,7 @@ import { User } from '@entities/user';
 import { getRepository } from 'typeorm';
 
 /**
- * @description Return a boolean value checking if the user with the given id exist.
+ * @description Return a boolean value checking if the user with the given id exists.
  * @param {number} userId - id of the user.
  * @returns Promise
  */
@@ -63,7 +63,8 @@ export const sendMessage = async (
 };
 
 /**
- * @description Get all messages between two users.
+ * @description Get all messages between two users,
+ *              sorted from the oldest to the newest
  * @param {number} userID1 - id of the first user.
  * @param {number} userId2 - id of the second user.
  * @returns Promise
@@ -76,9 +77,6 @@ export const getMessages = async (userId1: number, userId2: number) => {
         result: undefined,
         errorMessage: '',
     };
-
-    console.log("User 1: " + userId1);
-    console.log("User 2: " + userId2);
 
     // Check if user with the id userId1 exists.
     if (!userIdExists(userId1)) {
@@ -118,22 +116,21 @@ export const getMessages = async (userId1: number, userId2: number) => {
         .orderBy('message.date', 'ASC')
         .getMany();
 
-    console.log("MESSAGE NUMBER: " + messages.length);
-
-    getMessagesResult.errorMessage = "N/A";
+    getMessagesResult.errorMessage = "Successful";
     getMessagesResult.result = messages;
 
     return getMessagesResult;
 };
 
 /**
- * @description Get an array of User who has communicated with the user with the given id.
+ * @description Get an array of User who has communicated with the user with the given id
+ *              and the latest message between each user and the user with the given id.
  * @param {number} userId - id of the user.
  * @returns Promise
  */
 export const getConversationList = async (userId: number) => {
     const getConversationListResult: {
-        result: any;
+        result: { user: User, latestMessage: Message}[] | undefined;
         errorMessage: string;
     } = {
         result: undefined,
@@ -170,11 +167,10 @@ export const getConversationList = async (userId: number) => {
         ])
         .getMany();
 
-    // Get all users who have communicated with the logged-in user.
+    // Get all users who have communicated with the user.
     var users: User[]
     users = []
-
-    for (let message of messages) {
+    for (const message of messages) {
         if (!users.some(({ id }) => id === message.sender.id) && message.sender.id != userId) {
             users.push(message.sender);
         }
@@ -183,9 +179,10 @@ export const getConversationList = async (userId: number) => {
         }
     }
 
-    var unsortedConversationList = [];
-
-    for (let user of users) {
+    // Get the latest message between each user and the logged-in user.
+    var unsortedConversationList: { user: User, latestMessage: Message }[];
+    unsortedConversationList = [];
+    for (const user of users) {
         const getMessagesResult = await getMessages(user.id, userId);
         if (!getMessagesResult.result) {
             getConversationListResult.errorMessage = getMessagesResult.errorMessage;
@@ -197,6 +194,7 @@ export const getConversationList = async (userId: number) => {
         unsortedConversationList.push({ user: user, latestMessage: latestMessage });
     }
 
+    // Sort the conversations from the newst to the oldest.
     getConversationListResult.result =
         unsortedConversationList.sort((conversation1, conversation2) =>
             conversation2.latestMessage.date.getTime() - conversation1.latestMessage.date.getTime());

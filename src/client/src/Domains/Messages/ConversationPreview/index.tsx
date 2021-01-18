@@ -1,8 +1,10 @@
 import React from 'react';
+
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
 import { IUser } from 'Domains/Accounts/api/api';
 import { IConversation } from 'Domains/Messages/api/api';
 
@@ -24,29 +26,31 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
+// Convert dateString to a readable formatting.
 const getDateString = (dateString: string): string => {
-    const date = new Date(dateString);
-
+    const requestedDate = new Date(dateString);
     const dateNow = new Date();
 
-    // If same date, return time.
-    if (date.getMonth() === dateNow.getMonth()
-        && date.getDate() === dateNow.getDate()
-        && date.getFullYear() === dateNow.getFullYear()) {
-        var hour = date.getHours();
+    // If the requested date is today, return time.
+    if (requestedDate.getMonth() === dateNow.getMonth()
+        && requestedDate.getDate() === dateNow.getDate()
+        && requestedDate.getFullYear() === dateNow.getFullYear()) {
+        var hour = requestedDate.getHours();
         var abbreviation = 'am';
         if (hour >= 12) {
             if (hour > 12) hour -= 12;
             abbreviation = 'pm';
         }
-        return `${hour}:${date.getMinutes().toString().padStart(2, '0')} ${abbreviation}`;
+        return `${hour}:${requestedDate.getMinutes().toString().padStart(2, '0')} ${abbreviation}`;
     }
 
-    // If same year, return only month and date.
-    if (date.getFullYear() === dateNow.getFullYear())
-        return `${date.getMonth() + 1}/${date.getDate()}`;
+    // If the requested date is the same year, return only month and date.
+    if (requestedDate.getFullYear() === dateNow.getFullYear())
+        return `${requestedDate.getMonth() + 1}/${requestedDate.getDate()}`;
 
-    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+
+    // Else, return month, date, and year.
+    return `${requestedDate.getMonth() + 1}/${requestedDate.getDate()}/${requestedDate.getFullYear()}`;
 };
 
 function ConversationPreview({ conversation, onClick, isSelected }: Props) {

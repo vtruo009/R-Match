@@ -17,7 +17,6 @@ const {
     CREATED,
     OK,
     INTERNAL_SERVER_ERROR,
-    UNAUTHORIZED,
     BAD_REQUEST,
 } = StatusCodes;
 
@@ -45,7 +44,8 @@ router.post('/sendMessage',
         const { userId } = req.user as JWTUser;
         const { receiverId, message } = req.body;
         try {
-            const { result, errorMessage } = await sendMessage(message, receiverId, userId);
+            const { result, errorMessage } =
+                await sendMessage(message, receiverId, /*senderId=*/userId);
             return result
                 ? res.status(CREATED).end()
                 : res.status(BAD_REQUEST).json({ error: errorMessage }).end();
@@ -60,7 +60,7 @@ router.post('/sendMessage',
 );
 
 /******************************************************************************
- *        GET Request - Get Messages - /api/user/getMessages/:messengerId
+ *       GET Request - Get Messages - /api/user/getMessages/:messengerId
  ******************************************************************************/
 
 router.get('/getMessages/:messengerId',
@@ -68,7 +68,6 @@ router.get('/getMessages/:messengerId',
     async (req: getMessageRequest, res: Response) => {
         const { userId } = req.user as JWTUser;
         const { messengerId } = req.params;
-        console.log("MESSENGER ID: " + messengerId);
         try {
             const { result, errorMessage } = await getMessages(userId, parseInt(messengerId, 10));
             return result
@@ -85,7 +84,7 @@ router.get('/getMessages/:messengerId',
 );
 
 /******************************************************************************
- *  GET Request - Get Past Message Senders - /api/message/getPastMessageSenders
+ *  GET Request - Get conversation list - /api/message/getConversationList
  ******************************************************************************/
 
 router.get('/getConversationList',
