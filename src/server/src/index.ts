@@ -3,6 +3,7 @@ import './postStart';
 import app, { clientPath } from '@server';
 import logger from '@shared/Logger';
 import socketio from 'socket.io';
+import { Message } from '@entities/message';
 
 // Start the server
 const port = Number(process.env.PORT || 5000);
@@ -17,9 +18,10 @@ const io = new socketio.Server(server, {
         credentials: true,
     },
 });
+
 io.on('connection', (socket: any) => {
-    console.log('Connected with socket.');
-    socket.on('chat', (data: any) => {
-        io.sockets.emit('chat', data);
+    socket.on('chat', (message: Message) => {
+        // Check if sender is same as 
+        io.sockets.emit('chat', message);
     });
 });

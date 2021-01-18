@@ -3,13 +3,9 @@ import {
     Column,
     PrimaryGeneratedColumn,
     ManyToOne,
-    OneToMany,
     BaseEntity,
 } from 'typeorm';
-import { FacultyMember } from './facultyMember';
 import { User } from './user';
-import { JobApplication } from './jobApplication';
-import { Department } from './department';
 
 @Entity()
 export class Message extends BaseEntity {
@@ -18,6 +14,9 @@ export class Message extends BaseEntity {
 
     @Column()
     message: string;
+
+    @Column()
+    public date: Date;
 
     @Column()
     public senderId: number;
@@ -30,7 +29,4 @@ export class Message extends BaseEntity {
 
     @ManyToOne(() => User, (user) => user.receivedMessages)
     public receiver: User;
-
-    @Column()
-    public date: Date;
 }

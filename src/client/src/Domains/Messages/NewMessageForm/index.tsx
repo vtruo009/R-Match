@@ -48,6 +48,7 @@ function NewMessageForm({ setUser, closeForm }: Props) {
             closeForm();
         },
         onFailure: (error, results) => {
+            console.log(error);
             if (results) {
                 snack(`${results.data.error}`, 'error');
             } else {

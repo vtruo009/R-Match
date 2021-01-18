@@ -19,7 +19,7 @@ function MessageRoot() {
                         <SendMessageForm receiver={userSelected} />
                     </div>
                 }
-                setUser={setSelectedUser}
+                setReceiver={setSelectedUser}
             />
         </div>
     );

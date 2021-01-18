@@ -10,7 +10,7 @@ import { JWTUser } from '@entities/user';
 import {
     getMessages,
     sendMessage,
-    getCommunicatedUsers
+    getConversationList
 } from '@modules/message';
 
 const router = Router();
@@ -35,6 +35,10 @@ interface getMessageRequest extends Request {
     };
 }
 
+/******************************************************************************
+ *        POST Request - Send Message - /api/message/sendMessage
+ ******************************************************************************/
+
 router.post('/sendMessage',
     validationMiddleware({ bodySchema: sendMessageSchema }),
     passport.authenticate('jwt', { session: false }),
@@ -42,9 +46,10 @@ router.post('/sendMessage',
         const { userId } = req.user as JWTUser;
         const { receiverId, message } = req.body;
         try {
-            console.log("Sender ID2: " + userId);
-            await sendMessage(message, receiverId, userId);
-            return res.status(CREATED).end();
+            const { result, errorMessage } = await sendMessage(message, receiverId, userId);
+            return result
+                ? res.status(CREATED).end()
+                : res.status(BAD_REQUEST).json({ error: errorMessage }).end();
         } catch (error) {
             logger.err(error);
             return res
@@ -55,19 +60,21 @@ router.post('/sendMessage',
     }
 );
 
-router.get('/getMessages/:peerId',
+/******************************************************************************
+ *        GET Request - Get Messages - /api/user/getMessages/:messengerId
+ ******************************************************************************/
+
+router.get('/getMessages/:messengerId',
     passport.authenticate('jwt', { session: false }),
     async (req: getMessageRequest, res: Response) => {
         const { userId } = req.user as JWTUser;
-        const { peerId } = req.params;
+        const { messengerId } = req.params;
+        console.log("MESSENGER ID: " + messengerId);
         try {
-            const messages = await getMessages(userId, parseInt(peerId, 10));
-            return res
-                .status(OK)
-                .json({
-                    messages,
-                })
-                .end();
+            const { result, errorMessage } = await getMessages(userId, parseInt(messengerId, 10));
+            return result
+                ? res.status(OK).json({ messages: result }).end()
+                : res.status(BAD_REQUEST).json({ error: errorMessage }).end();
         } catch (error) {
             logger.err(error);
             return res
@@ -78,19 +85,19 @@ router.get('/getMessages/:peerId',
     }
 );
 
-router.get('/getPastMessageSenders',
+/******************************************************************************
+ *  GET Request - Get Past Message Senders - /api/message/getPastMessageSenders
+ ******************************************************************************/
+
+router.get('/getConversationList',
     passport.authenticate('jwt', { session: false }),
     async (req: Request, res: Response) => {
-        //checks that caller is a student.
         const { userId } = req.user as JWTUser;
         try {
-            const users = await getCommunicatedUsers(userId);
-            return res
-                .status(OK)
-                .json({
-                    users,
-                })
-                .end();
+            const { result, errorMessage } = await getConversationList(userId);
+            return result
+                ? res.status(OK).json({ conversationList: result }).end()
+                : res.status(BAD_REQUEST).json({ error: errorMessage }).end();
         } catch (error) {
             logger.err(error);
             return res

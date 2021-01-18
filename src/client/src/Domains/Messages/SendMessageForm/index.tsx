@@ -33,18 +33,12 @@ interface props {
 }
 
 function MessageSendForm({ receiver }: props) {
-    // Establishing io connection on first render of Messaging component
-    React.useEffect(() => {
-        // Initiate socket.
-        //const io = socketio_client.connect(serverPath);
-    }, []);
-
     const [message, setMessage] = React.useState<IMessageForm>(messageInitialValues);
 
-    const request = React.useCallback(() => sendMessage(message, receiver), [message]);
+    const request = React.useCallback(() => sendMessage(message, receiver), [message, receiver]);
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
-            io.emit('chat', message);
+            io.emit('chat', { message: message, receiver: receiver });
         },
     });
 
@@ -63,16 +57,19 @@ function MessageSendForm({ receiver }: props) {
             >
                 {() => (
                     <Form>
-                        <Grid container spacing={3} alignContent='center'>
-                            <Grid item container spacing={5}>
-                                <Grid item md={6} xs={8}>
-                                    <Field
-                                        name='message'
-                                        label='Message'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <SubmitButton type='submit' isLoading={isLoading}>
+                        <Grid item container spacing={5}
+                            direction='row'
+                            justify='space-evenly'
+                            alignItems='center'>
+                            <Grid item xs={8}>
+                                <Field
+                                    name='message'
+                                    label='Message'
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Grid item md={3} xs={2}>
+                                <SubmitButton fullWidth={true} type='submit' isLoading={isLoading || receiver === undefined}>
                                     Send
                                     {isLoading && <Loader size={20} />}
                                 </SubmitButton>

@@ -133,8 +133,9 @@ router.get(
         });
     }
 );
+
 /******************************************************************************
- *              GET Request - Sign out - /api/user/sign-out
+ *       GET Request - Get By Email - /api/user/get-by-email/:email
  ******************************************************************************/
 
 router.get(
@@ -143,12 +144,11 @@ router.get(
     async (req: IGetUserByEmailRequest, res: Response) => {
         const { userId } = req.user as JWTUser;
         const { email } = req.params;
-        console.log(email);
         try {
             const { result, message } = await getUserByEmail(userId, email);
             return result
-                ? res.status(OK).json({ result }).end()
-                : res.status(BAD_REQUEST).json({ error: message });
+                ? res.status(OK).json({ user: result }).end()
+                : res.status(BAD_REQUEST).json({ error: message }).end();
         } catch (error) {
             logger.err(error);
             return res

@@ -119,3 +119,44 @@ export const getUserByEmail = async (userId: number, email: string) => {
 
     return getUserByEmailResult;
 };
+
+
+/**
+ * @description Gets a User object with the given id.
+ * @param {number} userId - id of user
+ * @returns Promise
+ */
+export const getUserById = async (userId: number) => {
+    const getUserByIdResult: {
+        result: User | undefined;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
+
+    const user = await getRepository(User)
+        .createQueryBuilder('user')
+        .where({ id: userId })
+        .select([
+            'user.id',
+            'user.firstName',
+            'user.lastName',
+            'user.middleName',
+            'user.biography',
+            'user.email',
+        ])
+        .getOne();
+
+    if (!user) {
+        getUserByIdResult.message =
+            'A user with the given id does not exist.';
+        return getUserByIdResult;
+    }
+
+    getUserByIdResult.message = 'Successful';
+    getUserByIdResult.result = user;
+
+    return getUserByIdResult;
+};
+
