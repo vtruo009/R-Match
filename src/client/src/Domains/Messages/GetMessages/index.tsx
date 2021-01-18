@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 import Loader from 'Components/Loader';
 import { IUser } from 'Domains/Accounts/api/api';
 import MessageDialog from 'Domains/Messages/MessageDialog';
+import { AuthContext } from 'Contexts/AuthContext';
 
 interface props {
     receiver: IUser | undefined;
@@ -20,6 +21,7 @@ interface props {
 function MessageResults({ receiver }: props) {
     const [messages, setMessages] = React.useState<IMessage[]>([]);
     const request = React.useCallback(() => getMessages(receiver), [receiver]);
+    const { user } = React.useContext(AuthContext);
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: (response) => {
             setMessages(response.data.messages);
@@ -35,7 +37,9 @@ function MessageResults({ receiver }: props) {
 
     // Listen for events.
     io.on('chat', (message: IMessage) => {
-        if (receiver)
+        if (receiver &&
+            ((message.sender.id === receiver.id && message.receiver.id === user?.userId)
+              || (message.receiver.id === receiver.id && message.sender.id === user?.userId)))
             sendRequest();
     });
 

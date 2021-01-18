@@ -8,10 +8,11 @@ import Paper from '@material-ui/core/Paper';
 import useApi from 'hooks/useApi';
 import Button from '@material-ui/core/Button';
 import { IUser } from 'Domains/Accounts/api/api';
-import { IConversation } from 'Domains/Messages/api/api';
+import { IConversation, IMessage } from 'Domains/Messages/api/api';
 import Loader from 'Components/Loader';
 import NewMessageForm from 'Domains/Messages/NewMessageForm';
 import ConversationPreview from 'Domains/Messages/ConversationPreview';
+import { AuthContext } from 'Contexts/AuthContext';
 import Dialog from '@material-ui/core/Dialog';
 
 interface props {
@@ -22,6 +23,7 @@ interface props {
 function GetCommunicateUser({ setReceiver, children }: props) {
     const [open, setOpen] = React.useState(false);
 
+    const { user } = React.useContext(AuthContext);
     const [selectedReceiver, setSelectedReceiver] = React.useState<IUser>();
 
     var [conversations, setConversations] = React.useState<IConversation[]>([]);
@@ -29,8 +31,10 @@ function GetCommunicateUser({ setReceiver, children }: props) {
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: (response) => {
             if (response.data.conversationList.length > 0) {
-                setSelectedReceiver(response.data.conversationList[0].user);
-                setReceiver(response.data.conversationList[0].user);
+                if (!selectedReceiver) {
+                    setSelectedReceiver(response.data.conversationList[0].user);
+                    setReceiver(response.data.conversationList[0].user);
+                }
                 setConversations(response.data.conversationList);
             }
         }
@@ -52,7 +56,8 @@ function GetCommunicateUser({ setReceiver, children }: props) {
     }, [selectedReceiver]);
 
     // Listen for events.
-    io.on('chat', () => {
+    io.on('chat', (message: IMessage) => {
+        if (message.sender.id === user?.userId || message.receiver.id === user?.userId)
             sendRequest();
     });
 

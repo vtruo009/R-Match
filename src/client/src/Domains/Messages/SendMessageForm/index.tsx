@@ -8,6 +8,7 @@ import { TextFormField } from 'Components/TextFormField';
 import SubmitButton from 'Components/SubmitButton';
 import Loader from 'Components/Loader';
 import { IUser } from 'Domains/Accounts/api/api';
+import { AuthContext } from 'Contexts/AuthContext';
 import {
     sendMessage,
     getMessages,
@@ -35,10 +36,11 @@ interface props {
 function MessageSendForm({ receiver }: props) {
     const [message, setMessage] = React.useState<IMessageForm>(messageInitialValues);
 
+    const { user } = React.useContext(AuthContext);
     const request = React.useCallback(() => sendMessage(message, receiver), [message, receiver]);
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
-            io.emit('chat', { message: message, receiver: receiver });
+            io.emit('chat', { message: message, receiver: receiver, sender: {id: user?.userId } });
         },
     });
 
