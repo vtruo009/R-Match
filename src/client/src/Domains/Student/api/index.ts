@@ -31,6 +31,10 @@ export interface IStudent {
     courses: ICourse[];
     resume?: Buffer;
     transcript?: Buffer;
+    workStartDate: string; 
+    workEndDate?: string; 
+    workEmployer: string; 
+    workDescription: string; 
 }
 
 export async function updateStudentProfile(
@@ -54,6 +58,10 @@ export async function updateStudentProfile(
             },
             resume: studentProfile.resume,
             transcript: studentProfile.transcript,
+            workStartDate: studentProfile.workStartDate,
+            workEndDate: studentProfile.workEndDate,
+            workEmployer: studentProfile.workEmployer,
+            workDescription: studentProfile.workDescription,
         },
     };
     return API.post('student/update-profile', body);

@@ -19,7 +19,7 @@ export interface SimpleFileUploadProps extends FieldProps {
 
 export const SimpleFileUpload = ({
   field,
-  form: { isSubmitting, touched, errors, setFieldValue },
+  form: { isSubmitting, touched, errors, setFieldValue},
   label,
   accept,
   disabled = false,
@@ -56,6 +56,7 @@ export const SimpleFileUpload = ({
         {...inputProps}
       />
       {error && <FormHelperText error>{error}</FormHelperText>}
+      <button type = "reset" onClick={() => setFieldValue(field.name, null)}>Delete</button>
     </FormControl>
   );
 };

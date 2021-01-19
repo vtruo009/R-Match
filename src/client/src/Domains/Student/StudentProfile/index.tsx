@@ -142,6 +142,49 @@ function StudentProfile() {
                         values={getCoursesTitles()}
                     />
                 </Grid>
+                <Grid container spacing={2} justify='center' alignItems='center'>
+                <Grid item md={12} xs={12}>
+                    <Card variant='outlined' style={{ padding: 30 }}>
+                        <Grid
+                            container
+                            direction='column'
+                            //alignItems='center'
+                            //justify='center'
+                            spacing={3}
+                        >
+                            <Grid item>
+                                <Typography variant="h5">
+                                    Work Experiences
+                                </Typography>
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <LabelValue
+                                    label='Work Start Date'
+                                    //values={getCoursesTitles()}
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <LabelValue
+                                    label='Work End Date'
+                                    //values={getCoursesTitles()}
+                                />
+                            </Grid>
+                            <Grid item md={12} xs={12}>
+                                <LabelValue
+                                    label='Work Employer'
+                                    //values={getCoursesTitles()}
+                                />
+                            </Grid>
+                            <Grid item md={12} xs={12}>
+                                <LabelValue
+                                    label='Work Description'
+                                    //values={getCoursesTitles()}
+                                />
+                            </Grid>
+                        </Grid>
+                    </Card>
+                </Grid>
+                </Grid> 
             </Grid>
             <Dialog
                 open={open}
@@ -166,6 +209,10 @@ function StudentProfile() {
                         courseIds: getCoursesIds(),
                         resume: studentProfile.resume,
                         transcript: studentProfile.transcript,
+                        workStartDate: studentProfile.workStartDate,
+                        workEndDate: studentProfile.workEndDate,
+                        workEmployer: studentProfile.workEmployer,
+                        workDescription: studentProfile.workDescription,
                     }}
                 />
             </Dialog>
