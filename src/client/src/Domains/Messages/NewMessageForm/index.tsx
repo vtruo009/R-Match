@@ -12,8 +12,8 @@ import useSnack from 'hooks/useSnack';
 import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import SubmitButton from 'Components/SubmitButton';
-import { IUser } from 'Domains/Accounts/api/api';
-import { createMessage } from 'Domains/Messages/api/api';
+import { IUser } from 'Domains/Accounts/api';
+import { createMessage } from 'Domains/Messages/api';
 
 export interface INewMessageForm {
     email: string;

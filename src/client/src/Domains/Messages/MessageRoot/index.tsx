@@ -3,7 +3,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-import { IUser } from 'Domains/Accounts/api/api';
+import { IUser } from 'Domains/Accounts/api';
 
 import MessageSendForm from 'Domains/Messages/MessageSendForm';
 import Messages from 'Domains/Messages/GetMessages';

@@ -3,8 +3,8 @@ import app, { clientPath } from 'src/app';
 import '@dotenv/config';
 import { connectToDb } from '@db/connection';
 import logger from '@shared/Logger';
-import socketio from 'socket.io';
-import { Message } from '@entities/message'
+import socketio from 'socket.io'
+import { Message } from '@entities/message';
 
 // Initializes database
 (async () => {
@@ -27,7 +27,6 @@ const io = new socketio.Server(server, {
 
 io.on('connection', (socket: any) => {
     socket.on('chat', (message: Message) => {
-        // Check if sender is same as 
         io.sockets.emit('chat', message);
     });
 });

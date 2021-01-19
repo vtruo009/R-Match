@@ -9,8 +9,8 @@ import SubmitButton from 'Components/SubmitButton';
 import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import { AuthContext } from 'Contexts/AuthContext';
-import { IUser } from 'Domains/Accounts/api/api';
-import { sendMessage, io } from 'Domains/Messages/api/api';
+import { IUser } from 'Domains/Accounts/api';
+import { sendMessage, io } from 'Domains/Messages/api';
 import useApi from 'hooks/useApi';
 
 export interface IMessageSendForm {
@@ -71,7 +71,7 @@ function MessageSendForm({ receiver }: props) {
                                 />
                             </Grid>
                             <Grid item md={3} xs={2}>
-                                <SubmitButton fullWidth={true} type='submit' isLoading={isLoading || receiver === undefined}>
+                                <SubmitButton fullWidth={true} type='submit' isLoading={isLoading} disabled={receiver === undefined}>
                                     Send
                                     {isLoading && <Loader size={20} />}
                                 </SubmitButton>

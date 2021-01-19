@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import { AuthContext } from 'Contexts/AuthContext';
-import { IMessage } from 'Domains/Messages/api/api';
+import { IMessage } from 'Domains/Messages/api';
 
 interface Props {
     message: IMessage;

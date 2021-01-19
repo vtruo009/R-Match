@@ -7,8 +7,8 @@ import Dialog from '@material-ui/core/Dialog';
 import useApi from 'hooks/useApi';
 import { AuthContext } from 'Contexts/AuthContext';
 import Loader from 'Components/Loader';
-import { IUser } from 'Domains/Accounts/api/api';
-import { IConversation, IMessage, getConversationList, io } from 'Domains/Messages/api/api';
+import { IUser } from 'Domains/Accounts/api';
+import { IConversation, IMessage, getConversationList, io } from 'Domains/Messages/api';
 import NewMessageForm from 'Domains/Messages/NewMessageForm';
 import ConversationPreview from 'Domains/Messages/ConversationPreview';
 

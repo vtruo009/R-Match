@@ -6,9 +6,9 @@ import Typography from '@material-ui/core/Typography';
 import useApi from 'hooks/useApi';
 import { AuthContext } from 'Contexts/AuthContext';
 import Loader from 'Components/Loader';
-import { IUser } from 'Domains/Accounts/api/api';
+import { IUser } from 'Domains/Accounts/api';
 import MessageDialog from 'Domains/Messages/MessageDialog';
-import { IMessage, getMessages, io } from 'Domains/Messages/api/api';
+import { IMessage, getMessages, io } from 'Domains/Messages/api';
 
 interface props {
     receiver: IUser | undefined;
@@ -38,8 +38,9 @@ function Messages({ receiver }: props) {
     io.on('chat', (message: IMessage) => {
         if (receiver &&
             ((message.sender.id === receiver.id && message.receiver.id === user?.userId)
-              || (message.receiver.id === receiver.id && message.sender.id === user?.userId)))
+                || (message.receiver.id === receiver.id && message.sender.id === user?.userId))) {
             sendRequest();
+        }
     });
 
     return (

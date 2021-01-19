@@ -5,8 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import { IUser } from 'Domains/Accounts/api/api';
-import { IConversation } from 'Domains/Messages/api/api';
+import { IUser } from 'Domains/Accounts/api';
+import { IConversation } from 'Domains/Messages/api';
 
 interface Props {
     conversation: IConversation;
