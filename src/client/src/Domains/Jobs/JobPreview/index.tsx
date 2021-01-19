@@ -12,11 +12,13 @@ import OtherIcon from '@material-ui/icons/AddCircle';
 
 import Salary from 'Domains/Jobs/Salary';
 import { IJob, jobType } from 'Domains/Jobs/api';
+import { formatDateString } from 'utils/format';
 
 interface JobPreviewProps {
     job: IJob;
     onClick: (job: IJob) => void;
     isSelected: boolean;
+    hasPermission: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -50,8 +52,21 @@ const getIcon = (type: jobType): JSX.Element => {
     }
 };
 
-function JobPreview({ job, onClick, isSelected }: JobPreviewProps) {
+function JobPreview({
+    job,
+    onClick,
+    isSelected,
+    hasPermission,
+}: JobPreviewProps) {
     const classes = useStyles();
+
+    const getJobPosterName = () => {
+        const { title, user } = job.facultyMember;
+        const { firstName, lastName } = user;
+        const _title = title ? title : '';
+        return `${_title} ${firstName} ${lastName}`;
+    };
+
     return (
         <Card
             className={isSelected ? classes.Selected : classes.NonSelected}
@@ -99,10 +114,9 @@ function JobPreview({ job, onClick, isSelected }: JobPreviewProps) {
                     )}
                     <Grid item>
                         <Typography variant='body1'>
-                            Posted by:{' '}
-                            {job.facultyMember.title && job.facultyMember.title}{' '}
-                            {job.facultyMember.user.firstName}{' '}
-                            {job.facultyMember.user.lastName}
+                            {hasPermission
+                                ? `Posted on: ${formatDateString(job.postedOn)}`
+                                : `Posted by: ${getJobPosterName()}`}
                         </Typography>
                     </Grid>
                 </Grid>

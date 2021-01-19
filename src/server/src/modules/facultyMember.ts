@@ -97,13 +97,21 @@ export const getPostedJobs = async (facultyMemberId: number) => {
     // Returns all jobs he posted.
     return getRepository(Job)
         .createQueryBuilder('job')
+        .select([
+            'job',
+            'job.facultyMember',
+            'facultyMember.id',
+            'facultyMember.title',
+            'user.firstName',
+            'user.lastName',
+        ])
+        .leftJoin('job.facultyMember', 'facultyMember')
+        .leftJoin('facultyMember.user', 'user')
         .where({ facultyMemberId: facultyMemberId })
         .leftJoinAndSelect('job.department', 'department')
         .leftJoinAndSelect('department.college', 'college')
         .getMany();
 };
-
-
 
 /**
  * @description Get a list of students who applied to a job.
@@ -123,23 +131,20 @@ export const getApplicants = async (facultyMemberId: number, jobId: number) => {
     // Check if a faculty member with the given id exists.
     const facultyMember = await FacultyMember.findOne(facultyMemberId);
     if (!facultyMember) {
-        getApplicantsResult.message =
-            'The faculty member does not exist.';
+        getApplicantsResult.message = 'The faculty member does not exist.';
         return getApplicantsResult;
     }
 
     // Check if a job with the given id exists.
     const job = await Job.findOne(jobId);
     if (!job) {
-        getApplicantsResult.message =
-            'The requested job does not exist.';
+        getApplicantsResult.message = 'The requested job does not exist.';
         return getApplicantsResult;
     }
 
     // Check if the job is posted by the faculty member.
     if (job.facultyMemberId != facultyMemberId) {
-        getApplicantsResult.message =
-            'The user does not have permission.';
+        getApplicantsResult.message = 'The user does not have permission.';
         return getApplicantsResult;
     }
 
@@ -161,7 +166,6 @@ export const getApplicants = async (facultyMemberId: number, jobId: number) => {
         .leftJoinAndSelect('department.college', 'college')
         .leftJoinAndSelect('student.courses', 'courses')
         .getMany();
-
 
     getApplicantsResult.message = 'Successfully obtained applicants.';
     getApplicantsResult.result = applications;

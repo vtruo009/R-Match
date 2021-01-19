@@ -4,12 +4,17 @@ import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
+import JobDashboardContext from '../Contexts/JobDashBoard';
 import { formatDateString } from 'utils/format';
-import { IJob } from 'Domains/Jobs/api';
+import { IJob, deleteJob } from 'Domains/Jobs/api';
 import Salary from 'Domains/Jobs/Salary';
+
+import JobUpdateForm from 'Domains/Jobs/JobUpdateForm';
+import DeleteButton from 'Components/DeleteButton';
 
 interface JobSummaryProps {
     job: IJob;
+    hasPermission: boolean;
 }
 interface SubTitleProps {
     title: string;
@@ -20,7 +25,15 @@ const SubTitle = ({ title }: SubTitleProps) => (
     </Typography>
 );
 
-function JobSummary({ job }: JobSummaryProps) {
+function JobSummary({ job, hasPermission }: JobSummaryProps) {
+    const getJobDescriptionForDelete = () => {
+        const { title, postedOn } = job;
+        return `Job title: ${title}, Posted on: ${formatDateString(postedOn)}`;
+    };
+
+    const { removeJob } = React.useContext(JobDashboardContext);
+
+    const deleteRequest = React.useCallback(() => deleteJob(job.id), [job.id]);
     return (
         <Card
             variant='outlined'
@@ -38,9 +51,20 @@ function JobSummary({ job }: JobSummaryProps) {
                         </Typography>
                     </Grid>
                     <Grid item>
-                        <Button variant='contained' color='primary'>
-                            Apply
-                        </Button>
+                        {hasPermission ? (
+                            <Grid container>
+                                <JobUpdateForm job={job} />
+                                <DeleteButton
+                                    itemName={getJobDescriptionForDelete()}
+                                    onDeleteRequest={deleteRequest}
+                                    onSuccess={() => removeJob(job.id)}
+                                />
+                            </Grid>
+                        ) : (
+                            <Button variant='contained' color='primary'>
+                                Apply
+                            </Button>
+                        )}
                     </Grid>
                 </Grid>
                 <Grid container item spacing={3}>
@@ -98,7 +122,7 @@ function JobSummary({ job }: JobSummaryProps) {
                         </Grid>
                         <Grid item>
                             <SubTitle title={'Department'} />
-                            <Typography>{job.departmentId}</Typography>
+                            <Typography>{job.department.name}</Typography>
                         </Grid>
                     </Grid>
                 </Grid>

@@ -1,6 +1,7 @@
 import API from 'api';
-import { IJobForm } from 'Domains/Jobs/JobForm';
-
+import { IJobCreateFormValues } from 'Domains/Jobs/JobCreateForm';
+import { IJobUpdateFormValues } from 'Domains/Jobs/JobUpdateForm';
+import { IDepartment } from 'Components/AcademicInfo/api';
 export type jobType =
     | 'grader'
     | 'assistant'
@@ -71,7 +72,7 @@ export interface IJob {
     status: 'Hiring' | 'Closed';
     minSalary: number;
     maxSalary?: number;
-    departmentId: string;
+    department: IDepartment;
     facultyMember: {
         id: number;
         title?: string;
@@ -103,9 +104,26 @@ export async function getJobs(
     return API.get<{ jobs: IJob[]; jobsCount: number }>('job/read', { params });
 }
 
-export async function createJob(job: IJobForm) {
+export async function createJob(job: IJobCreateFormValues) {
+    // TODO: Fix
     delete job.collegeId;
     return API.post('job/create', {
         job,
     });
+}
+
+// TODO: Make sure job gets an id and an status
+export async function updateJob(job: IJobUpdateFormValues) {
+    // delete job.collegeId;
+    return API.post('job/update', {
+        job,
+    });
+}
+
+export async function deleteJob(jobId: number) {
+    return API.delete(`job/delete/${jobId}`);
+}
+
+export async function getPostedJobs() {
+    return API.get<{ jobs: IJob[] }>('faculty-member/get-posted-jobs');
 }

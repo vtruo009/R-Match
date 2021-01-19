@@ -4,7 +4,6 @@ import MUIButton, { ButtonProps } from '@material-ui/core/Button';
 
 interface SubmitButtonProps {
     isLoading: boolean;
-    size?: 'small' | 'medium' | 'large';
     label?: string;
 }
 
@@ -12,6 +11,7 @@ function SubmitButton({
     isLoading,
     size = 'large',
     label = 'Submit',
+    color = 'primary',
     ...passThroughProps
 }: ButtonProps & SubmitButtonProps) {
     return (
@@ -20,11 +20,11 @@ function SubmitButton({
             type='submit'
             disabled={isLoading}
             variant='contained'
-            color='primary'
+            color={color}
             size={size}
         >
             {label}
-            {isLoading && <Loader size={20} style={{ marginLeft: 5   }} />}
+            {isLoading && <Loader size={20} style={{ marginLeft: 5 }} />}
         </MUIButton>
     );
 }
