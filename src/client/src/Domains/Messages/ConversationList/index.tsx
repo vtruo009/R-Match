@@ -19,7 +19,7 @@ interface props {
 function ConversationList({ setReceiver }: props) {
     const [openNewMessageForm, setOpenNewMessageForm] = React.useState(false);
     const [selectedReceiver, setSelectedReceiver] = React.useState<IUser>();
-    var [conversationList, setConversationList] = React.useState<IConversation[]>([]);
+    const [conversationList, setConversationList] = React.useState<IConversation[]>([]);
 
     const { user } = React.useContext(AuthContext);
 
