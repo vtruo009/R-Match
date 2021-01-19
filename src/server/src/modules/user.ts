@@ -2,6 +2,8 @@ import bcrypt from 'bcrypt';
 import { User } from '@entities/user';
 import { createStudent } from '@modules/student';
 import { createFacultyMember } from '@modules/facultyMember';
+import { getRepository } from 'typeorm';
+
 /**
  * @description Finds user by email
  * @param {string} email - user's email address
@@ -72,4 +74,51 @@ export const registerUser = async (
         default:
             return undefined;
     }
+};
+
+/**
+ * @description Returns an user object corresponding to email in order to send a message.
+ * @param {number} userId - id of the logged-in user.
+ * @param {string} email - email address.
+ * @returns Promise
+ */
+export const getUserByEmail = async (userId: number, email: string) => {
+    const getUserByEmailResult: {
+        result: User | undefined;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
+
+    // Check if the user with the email exists.
+    const user = await getRepository(User)
+        .createQueryBuilder('user')
+        .where({ email: email })
+        .select([
+            'user.id',
+            'user.firstName',
+            'user.lastName',
+            'user.middleName',
+            'user.biography',
+            'user.email',
+        ])
+        .getOne();
+
+    if (!user) {
+        getUserByEmailResult.message =
+            'A user with the email does not exist.';
+        return getUserByEmailResult;
+    }
+
+    if (user.id == userId) {
+        getUserByEmailResult.message =
+            'You cannot send message to yourself.';
+        return getUserByEmailResult;
+    }
+
+    getUserByEmailResult.message = 'Successful';
+    getUserByEmailResult.result = user;
+
+    return getUserByEmailResult;
 };
