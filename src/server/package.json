@@ -93,6 +93,7 @@
         "passport-local": "^1.0.0",
         "pg": "^8.4.2",
         "reflect-metadata": "^0.1.13",
+        "socket.io": "^3.0.5",
         "typeorm": "^0.2.28"
     },
     "devDependencies": {

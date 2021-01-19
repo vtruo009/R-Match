@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import sampleRouter from './sample';
+import sampleRouter from './Sample';
 import jobRouter from './job';
 import facultyMemberRouter from './facutltyMember';
 import studentRouter from './student';
