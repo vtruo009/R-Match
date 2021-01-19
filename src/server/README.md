@@ -327,9 +327,9 @@ User API
                         }
                     ```
             -   error:
-                -   Unauthorized: -> Status code: 401
-                -   Email does not exist: -> Status code: 400
-                -   Email of the logged-in user is requested: -> Status code: 400
+                -   Unauthorized -> Status code: 401
+                -   Email does not exist -> Status code: 400
+                -   Email of the logged-in user is requested -> Status code: 400
 
 Faculty Member API
 
@@ -833,6 +833,8 @@ Messaging API
     -   api/message/sendMessage
 
         -   Creates and saves a message record in the message's table.
+        -   Authorization restrictions:
+            -   User must be logged in
         -   Body:
             ```
             {
@@ -850,6 +852,8 @@ Messaging API
     -   api/message/getMessages/:messengerId
 
         -   Gets all messages between the logged-in user and the user with the parameter id, sorted from the oldest to the newest.
+        -   Authorization restrictions:
+            -   User must be logged in
         -   Body: None
         -   Parameters: id of the messenger.
         -   Response:
@@ -889,6 +893,8 @@ Messaging API
     -   api/message/getConversationList
 
         -   Get an array of Users who have communicated with the user with the given id and the latest message between each user and the user with the given id.
+        -   Authorization restrictions:
+            -   User must be logged in
         -   Body: None
         -   Parameters: None.
         -   Response:

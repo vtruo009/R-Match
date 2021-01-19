@@ -1,17 +1,14 @@
-import React from 'react';
-
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-
-import { Formik, Form, Field } from 'formik';
-import * as yup from 'yup';
+import Paper from '@material-ui/core/Paper';
 import SubmitButton from 'Components/SubmitButton';
-import Loader from 'Components/Loader';
 import { TextFormField } from 'Components/TextFormField';
 import { AuthContext } from 'Contexts/AuthContext';
 import { IUser } from 'Domains/Accounts/api';
-import { sendMessage, io } from 'Domains/Messages/api';
+import { io, sendMessage } from 'Domains/Messages/api';
+import { Field, Form, Formik } from 'formik';
 import useApi from 'hooks/useApi';
+import React from 'react';
+import * as yup from 'yup';
 
 export interface IMessageSendForm {
     message: string;
@@ -25,11 +22,11 @@ const messageInitialValues: IMessageSendForm = {
     message: ''
 };
 
-interface props {
+interface MessageSendFormProps {
     receiver: IUser | undefined;
 }
 
-function MessageSendForm({ receiver }: props) {
+function MessageSendForm({ receiver }: MessageSendFormProps) {
     const [message, setMessage] = React.useState<IMessageSendForm>(messageInitialValues);
 
     const { user } = React.useContext(AuthContext);
@@ -46,10 +43,7 @@ function MessageSendForm({ receiver }: props) {
                     lastName: user?.lastName
                 }
             });
-        },
-        onFailure: (error, response) => {
-            console.log(error);
-        },
+        }
     });
 
     return (
@@ -81,7 +75,6 @@ function MessageSendForm({ receiver }: props) {
                             <Grid item md={3} xs={2}>
                                 <SubmitButton fullWidth={true} type='submit' isLoading={isLoading} disabled={receiver === undefined}>
                                     Send
-                                    {isLoading && <Loader size={20} />}
                                 </SubmitButton>
                             </Grid>
                         </Grid>

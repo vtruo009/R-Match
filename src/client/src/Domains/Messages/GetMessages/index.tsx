@@ -23,10 +23,7 @@ function Messages({ receiver }: MessagesProps) {
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: (response) => {
             setMessages(response.data.messages);
-        },
-        onFailure: (error, response) => {
-            console.log(error);
-        },
+        }
     });
 
     React.useEffect(() => {
@@ -49,27 +46,29 @@ function Messages({ receiver }: MessagesProps) {
             {(receiver === undefined) ? (
                 <div></div>
             ) : (
-                <div>
-                    {isLoading ? (
-                        <Loader />
-                    ) : (
-                            <div>
-                                <Typography variant='h6' color='primary'>
-                                    Message with {receiver.firstName} {receiver.lastName}
-                                    </Typography>
+                    <div>
+
+                        <div>
+                            <Typography variant='h6' color='primary'>
+                            Message with {receiver.firstName} {receiver.lastName}
+                            </Typography>
+
+                            {isLoading ? (
+                                <Loader />
+                            ) : (
                                     <Grid>
                                         {/* Render all messages. */}
-                                        {messages.map((message, key) => (
-                                            <Grid item key={key}>
+                                        {messages.map((message, index) => (
+                                            <Grid item key={index}>
                                                 <MessageDialog
                                                     message={message}
                                                 />
                                             </Grid>
-                                    ))}
+                                        ))}
                                     </Grid>
-                            </div>
-                        )}
-                </div>
+                            )}
+                        </div>
+                    </div>
             )
         }   
         </div >

@@ -53,11 +53,9 @@ function MessageDialog({ message }: Props) {
                         md={9}
                         xs={12}
                     >
-                        <Grid item>
-                            <Typography>
-                                {message.message}
-                            </Typography>
-                        </Grid>
+                        <Typography>
+                            {message.message}
+                        </Typography>
                     </Grid>
                 </Grid>
             </Card>
