@@ -8,7 +8,6 @@ import collegeRouter from './college';
 import departmentRouter from './department';
 import messageRouter from './message';
 import courseRouter from './course';
-import messageRouter from './message';
 // Init router and path
 const router = Router();
 

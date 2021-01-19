@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-export const serverPath = 'http://localhost:5000';
-
 axios.defaults.headers = {
     post: {
         'Content-Type': 'application/json',
@@ -9,6 +7,6 @@ axios.defaults.headers = {
 };
 
 export default axios.create({
-    baseURL: `${serverPath}/api/`,
+    baseURL: 'http://localhost:5000/api/',
     withCredentials: true,
 });

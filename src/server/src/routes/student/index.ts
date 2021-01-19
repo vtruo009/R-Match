@@ -54,6 +54,8 @@ router.post(
             classStanding,
             courses,
             id,
+            resume,
+            transcript,
         } = req.body.studentProfile;
 
         if (specificUserId !== id) {
@@ -69,7 +71,9 @@ router.post(
                 departmentId,
                 sid,
                 classStanding,
-                courses
+                courses,
+                transcript,
+                resume
             );
 
             return updateResult

@@ -45,7 +45,7 @@ function Messages({ receiver }: props) {
 
     return (
         <div style={{ margin: 30 }}>
-            {(receiver == undefined) ? (
+            {(receiver === undefined) ? (
                 <div></div>
             ) : (
                 <div>

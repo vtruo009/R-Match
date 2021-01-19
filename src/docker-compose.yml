@@ -41,4 +41,4 @@ services:
         volumes:
             - database-data:/var/lib/postgresql/data/
 volumes:
-  database-data:
+    database-data:

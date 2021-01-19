@@ -8,13 +8,14 @@ import {
     OneToMany,
     ManyToMany,
     ManyToOne,
-    BaseEntity
+    BaseEntity,
 } from 'typeorm';
-import { User, JWTUser } from './user';
+import { User } from './user';
 import { Course } from './course';
 import { Department } from './department';
 import { JobApplication } from './jobApplication';
 
+export type classStandings = 'Freshman' | 'Sophomore' | 'Junior' | 'Senior';
 @Entity()
 export class Student extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -29,20 +30,18 @@ export class Student extends BaseEntity {
     @Column({ nullable: true })
     sid?: string;
 
-    @Column({ nullable: true })
-    classStanding?: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior';
-
-    @Column()
-    userId: number;
+    @Column({
+        nullable: true,
+        type: 'enum',
+        enum: ['Freshman', 'Sophomore', 'Junior', 'Senior'],
+    })
+    classStanding?: classStandings;
 
     @Column({ type: 'bytea', nullable: true })
     resume: Buffer;
 
-    @Column({ nullable: true })
-    resume: object;  
-
-    @Column({ nullable: true })
-    transcript: object; 
+    @Column({ type: 'bytea', nullable: true })
+    transcript: Buffer;
 
     @OneToOne(() => User, {
         onDelete: 'CASCADE',
@@ -50,21 +49,13 @@ export class Student extends BaseEntity {
     @JoinColumn()
     user: User;
 
+    @Column()
+    userId: number;
+
     @ManyToMany(() => Course, (course) => course.students)
     @JoinTable()
     courses: Course[];
 
     @OneToMany(() => JobApplication, (jobApplication) => jobApplication.student)
     public jobApplications: JobApplication[];
-
-}
-
-export interface IStudent {
-    id: number;
-    departmentId?: string;
-    sid?: number;
-    classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior';
-    resume?: File;
-    transcript?: File;
-    user: JWTUser;
 }

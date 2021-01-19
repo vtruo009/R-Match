@@ -154,7 +154,13 @@ function JobSearchForm({ setJobs, children }: JobSearchFormProps) {
                                         type='number'
                                     />
                                 </Grid>
-                                <Grid container justify="flex-end" item md={4} xs={12}>
+                                <Grid
+                                    container
+                                    justify='flex-end'
+                                    item
+                                    md={4}
+                                    xs={12}
+                                >
                                     <SubmitButton
                                         isLoading={isLoading}
                                         startIcon={<SearchIcon />}

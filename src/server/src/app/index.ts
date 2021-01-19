@@ -17,13 +17,11 @@ const { BAD_REQUEST } = StatusCodes;
  *                              Set basic express settings
  ***********************************************************************************/
 
-export const clientPath = 'http://localhost:3000';
-
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
 // TODO: Update so that the origin can be also a production URL
-app.use(cors({ credentials: true, origin: clientPath }));
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(passport.initialize());
 
 // Show routes called in console during development

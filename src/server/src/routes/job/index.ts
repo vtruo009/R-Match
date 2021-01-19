@@ -42,7 +42,6 @@ router.post(
                 .end();
         }
 
-
         const {
             targetYears,
             hoursPerWeek,

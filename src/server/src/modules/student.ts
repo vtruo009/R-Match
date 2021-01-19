@@ -34,7 +34,9 @@ export const updateStudent = async (
     departmentId: Student['departmentId'],
     sid: Student['sid'],
     classStanding: Student['classStanding'],
-    courses: Student['courses']
+    courses: Student['courses'],
+    transcript: Student['transcript'],
+    resume: Student['resume']
 ) => {
     const studentToUpdate = await Student.findOne(id);
 
@@ -69,6 +71,8 @@ export const updateStudent = async (
     return Student.update(id, {
         sid,
         classStanding,
+        resume,
+        transcript,
     });
 };
 
