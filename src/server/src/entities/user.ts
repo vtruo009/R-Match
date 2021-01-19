@@ -1,5 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, BaseEntity } from 'typeorm';
 import { Message } from './message';
 
 export type role = 'student' | 'facultyMember';
@@ -27,20 +26,17 @@ export class User extends BaseEntity {
     @Column({ nullable: true })
     middleName?: string;
 
-    @Column()
-    role: 'student' | 'facultyMember';
+    @Column({
+        type: 'enum',
+        enum: ['student', 'facultyMember'],
+    })
+    role: role;
 
     @OneToMany(() => Message, (message) => message.sender)
     public sentMessages: Message[];
 
     @OneToMany(() => Message, (message) => message.receiver)
     public receivedMessages: Message[];
-
-    @Column({
-        type: 'enum',
-        enum: ['student', 'facultyMember'],
-    })
-    role: role;
 }
 
 export interface JWTUser {

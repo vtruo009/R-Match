@@ -134,6 +134,31 @@ router.get(
         });
     }
 );
+/******************************************************************************
+ *              GET Request - Sign out - /api/user/sign-out
+ ******************************************************************************/
+
+router.get(
+    '/get-by-email/:email',
+    passport.authenticate('jwt', { session: false }),
+    async (req: IGetUserByEmailRequest, res: Response) => {
+        const { userId } = req.user as JWTUser;
+        const { email } = req.params;
+        console.log(email);
+        try {
+            const { result, message } = await getUserByEmail(userId, email);
+            return result
+                ? res.status(OK).json({ result }).end()
+                : res.status(BAD_REQUEST).json({ error: message });
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
 
 /******************************************************************************
  *       GET Request - Get By Email - /api/user/get-by-email/:email
