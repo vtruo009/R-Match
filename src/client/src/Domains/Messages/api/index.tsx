@@ -1,4 +1,4 @@
-import API from 'api';
+import API, { serverPath }  from 'api';
 import * as socketio_client from 'socket.io-client';
 import { IMessageSendForm } from 'Domains/Messages/MessageSendForm';
 import { INewMessageForm } from 'Domains/Messages/NewMessageForm';
@@ -34,7 +34,5 @@ export async function getConversationList() {
 export async function createMessage(newMessageForm: INewMessageForm) {
     return API.get < { user: IUser, error: string } >(`user/get-by-email/${newMessageForm.email}`);
 }
-
-const serverPath = 'http://localhost:5000/';
 
 export const io: SocketIOClient.Socket = socketio_client.connect(serverPath);

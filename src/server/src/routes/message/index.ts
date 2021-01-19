@@ -27,12 +27,6 @@ interface sendMessageRequest extends Request {
     };
 }
 
-interface getMessageRequest extends Request {
-    body: {
-        communicatorId: number;
-    };
-}
-
 /******************************************************************************
  *        POST Request - Send Message - /api/message/sendMessage
  ******************************************************************************/
@@ -60,12 +54,12 @@ router.post('/sendMessage',
 );
 
 /******************************************************************************
- *       GET Request - Get Messages - /api/user/getMessages/:messengerId
+ *       GET Request - Get Messages - /api/message/getMessages/:messengerId
  ******************************************************************************/
 
 router.get('/getMessages/:messengerId',
     passport.authenticate('jwt', { session: false }),
-    async (req: getMessageRequest, res: Response) => {
+    async (req: Request, res: Response) => {
         const { userId } = req.user as JWTUser;
         const { messengerId } = req.params;
         try {

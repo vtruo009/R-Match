@@ -1,19 +1,7 @@
 import { Message } from '@entities/message';
 import { User } from '@entities/user';
 import { getRepository } from 'typeorm';
-
-/**
- * @description Return a boolean value checking if the user with the given id exists.
- * @param {number} userId - id of the user.
- * @returns Promise
- */
-const userIdExists = async (userId: number) => {
-    const user = await getRepository(User)
-        .createQueryBuilder('user')
-        .where({ id: userId })
-        .getOne();
-    return user !== undefined;
-}
+import { userIdExists } from '@modules/user';
 
 /**
  * @description Send a message to a receiver.
@@ -123,7 +111,7 @@ export const getMessages = async (userId1: number, userId2: number) => {
 };
 
 /**
- * @description Get an array of User who has communicated with the user with the given id
+ * @description Get an array of Users who have communicated with the user with the given id
  *              and the latest message between each user and the user with the given id.
  * @param {number} userId - id of the user.
  * @returns Promise

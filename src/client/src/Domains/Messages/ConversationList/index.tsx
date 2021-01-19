@@ -12,11 +12,11 @@ import { IConversation, IMessage, getConversationList, io } from 'Domains/Messag
 import NewMessageForm from 'Domains/Messages/NewMessageForm';
 import ConversationPreview from 'Domains/Messages/ConversationPreview';
 
-interface props {
+interface ConversationListProps {
     setReceiver: (user: IUser) => void;
 }
 
-function ConversationList({ setReceiver }: props) {
+function ConversationList({ setReceiver }: ConversationListProps) {
     const [openNewMessageForm, setOpenNewMessageForm] = React.useState(false);
     const [selectedReceiver, setSelectedReceiver] = React.useState<IUser>();
     const [conversationList, setConversationList] = React.useState<IConversation[]>([]);

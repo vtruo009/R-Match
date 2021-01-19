@@ -5,10 +5,11 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
+import { formatDateStringBasedOnCurrentDay } from 'utils/format';
 import { IUser } from 'Domains/Accounts/api';
 import { IConversation } from 'Domains/Messages/api';
 
-interface Props {
+interface ConversationPreviewProps {
     conversation: IConversation;
     onClick: (user: IUser) => void;
     isSelected: boolean;
@@ -26,34 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-// Convert dateString to a readable formatting.
-const getDateString = (dateString: string): string => {
-    const requestedDate = new Date(dateString);
-    const dateNow = new Date();
-
-    // If the requested date is today, return time.
-    if (requestedDate.getMonth() === dateNow.getMonth()
-        && requestedDate.getDate() === dateNow.getDate()
-        && requestedDate.getFullYear() === dateNow.getFullYear()) {
-        var hour = requestedDate.getHours();
-        var abbreviation = 'am';
-        if (hour >= 12) {
-            if (hour > 12) hour -= 12;
-            abbreviation = 'pm';
-        }
-        return `${hour}:${requestedDate.getMinutes().toString().padStart(2, '0')} ${abbreviation}`;
-    }
-
-    // If the requested date is the same year, return only month and date.
-    if (requestedDate.getFullYear() === dateNow.getFullYear())
-        return `${requestedDate.getMonth() + 1}/${requestedDate.getDate()}`;
-
-
-    // Else, return month, date, and year.
-    return `${requestedDate.getMonth() + 1}/${requestedDate.getDate()}/${requestedDate.getFullYear()}`;
-};
-
-function ConversationPreview({ conversation, onClick, isSelected }: Props) {
+function ConversationPreview({ conversation, onClick, isSelected }: ConversationPreviewProps) {
     const classes = useStyles();
     return (
         <Card
@@ -76,7 +50,7 @@ function ConversationPreview({ conversation, onClick, isSelected }: Props) {
                             {conversation.user.firstName} {conversation.user.lastName}
                         </Typography>
                         <Typography color='primary'>
-                            {conversation.latestMessage.sender.firstName} ({getDateString(conversation.latestMessage.date)}): {conversation.latestMessage.message}
+                            {conversation.latestMessage.sender.firstName} ({formatDateStringBasedOnCurrentDay(conversation.latestMessage.date)}): {conversation.latestMessage.message}
                         </Typography>
                     </Grid>
                 </Grid>

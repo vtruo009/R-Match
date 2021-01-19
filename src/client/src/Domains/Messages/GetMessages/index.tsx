@@ -10,12 +10,12 @@ import { IUser } from 'Domains/Accounts/api';
 import MessageDialog from 'Domains/Messages/MessageDialog';
 import { IMessage, getMessages, io } from 'Domains/Messages/api';
 
-interface props {
+interface MessagesProps {
     receiver: IUser | undefined;
 }
 
-function Messages({ receiver }: props) {
-    const [messages, setMessages] = React.useState<IMessage[]>([]);
+function Messages({ receiver }: MessagesProps) {
+    var [messages, setMessages] = React.useState<IMessage[]>([]);
 
     const { user } = React.useContext(AuthContext);
 
@@ -40,6 +40,7 @@ function Messages({ receiver }: props) {
             ((message.sender.id === receiver.id && message.receiver.id === user?.userId)
                 || (message.receiver.id === receiver.id && message.sender.id === user?.userId))) {
             sendRequest();
+            // messages.push(message);
         }
     });
 

@@ -19,12 +19,6 @@ interface ISignUpRequest extends Request {
     };
 }
 
-interface IGetUserByEmailRequest extends Request {
-    body: {
-        email: string;
-    };
-}
-
 /******************************************************************************
  *              POST Request - Sign up - /api/user/sign-up
  ******************************************************************************/
@@ -142,7 +136,7 @@ router.get(
 router.get(
     '/get-by-email/:email',
     passport.authenticate('jwt', { session: false }),
-    async (req: IGetUserByEmailRequest, res: Response) => {
+    async (req: Request, res: Response) => {
         const { userId } = req.user as JWTUser;
         const { email } = req.params;
         try {

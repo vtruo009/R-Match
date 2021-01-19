@@ -7,6 +7,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import { AuthContext } from 'Contexts/AuthContext';
 import { IMessage } from 'Domains/Messages/api';
+import { formatDateStringBasedOnCurrentDay } from 'utils/format';
 
 interface Props {
     message: IMessage;
@@ -25,33 +26,6 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-// Convert dateString to a readable formatting.
-const getDateString = (dateString: string): string => {
-    const requestedDate = new Date(dateString);
-    const dateNow = new Date();
-
-    // If the requested date is today, return time.
-    if (requestedDate.getMonth() === dateNow.getMonth()
-        && requestedDate.getDate() === dateNow.getDate()
-        && requestedDate.getFullYear() === dateNow.getFullYear()) {
-        var hour = requestedDate.getHours();
-        var abbreviation = 'am';
-        if (hour >= 12) {
-            if (hour > 12) hour -= 12;
-            abbreviation = 'pm';
-        }
-        return `${hour}:${requestedDate.getMinutes().toString().padStart(2, '0')} ${abbreviation}`;
-    }
-
-    // If the requested date is the same year, return only month and date.
-    if (requestedDate.getFullYear() === dateNow.getFullYear())
-        return `${requestedDate.getMonth() + 1}/${requestedDate.getDate()}`;
-
-
-    // Else, return month, date, and year.
-    return `${requestedDate.getMonth() + 1}/${requestedDate.getDate()}/${requestedDate.getFullYear()}`;
-};
-
 function MessageDialog({ message }: Props) {
     const classes = useStyles();
 
@@ -62,7 +36,7 @@ function MessageDialog({ message }: Props) {
         <Grid item>
             <Grid item>
                 <Typography color='primary'>
-                    {message.sender.firstName} {message.sender.lastName} ({getDateString(message.date)})
+                    {message.sender.firstName} {message.sender.lastName} ({formatDateStringBasedOnCurrentDay(message.date)})
                 </Typography>
             </Grid>
             <Card

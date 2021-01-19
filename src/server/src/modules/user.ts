@@ -5,6 +5,19 @@ import { createFacultyMember } from '@modules/facultyMember';
 import { getRepository } from 'typeorm';
 
 /**
+ * @description Return a boolean value checking if the user with the given id exists.
+ * @param {number} userId - id of the user.
+ * @returns Promise
+ */
+export const userIdExists = async (userId: number) => {
+    const user = await getRepository(User)
+        .createQueryBuilder('user')
+        .where({ id: userId })
+        .getOne();
+    return user !== undefined;
+}
+
+/**
  * @description Finds user by email
  * @param {string} email - user's email address
  * @returns Promise
