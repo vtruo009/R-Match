@@ -30,7 +30,6 @@ function Messages({ receiver }: MessagesProps) {
         if (receiver) sendRequest();
     }, [receiver, sendRequest]);
 
-
     React.useEffect(() => {
         // Update io listener by every receiver update.
         io.removeListener('message_area');
@@ -45,7 +44,7 @@ function Messages({ receiver }: MessagesProps) {
                 setMessages((prevMessages) => [...prevMessages, message]);
             }
         });
-    }, [io, receiver]);
+    }, [receiver, user]);
 
     return (
         <div style={{ margin: 30 }}>

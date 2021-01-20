@@ -33,9 +33,6 @@ function ConversationList({ setReceiver }: ConversationListProps) {
                 setConversationList(response.data.conversationList);
             }
         },
-        onFailure: (error, response) => {
-            console.log(error);
-        },
     });
 
     const handleClickOpen = () => {
