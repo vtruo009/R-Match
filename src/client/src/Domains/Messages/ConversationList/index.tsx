@@ -53,11 +53,13 @@ function ConversationList({ setReceiver }: ConversationListProps) {
         if (selectedReceiver) setReceiver(selectedReceiver);
     }, [selectedReceiver, setReceiver]);
 
-    // Reload conversation list when new message arrives.
-    io.on('chat', (message: IMessage) => {
-        if (message.sender.id === user?.userId || message.receiver.id === user?.userId)
-            sendRequest();
-    });
+    React.useEffect(() => {
+        // Reload conversation list when new message arrives.
+        io.on('update_conversation', (message: IMessage) => {
+            if (message.sender.id === user?.userId || message.receiver.id === user?.userId)
+                sendRequest();
+        });
+    }, [io]);
 
     return (
         <div>

@@ -15,7 +15,7 @@ interface MessagesProps {
 }
 
 function Messages({ receiver }: MessagesProps) {
-    var [messages, setMessages] = React.useState<IMessage[]>([]);
+    const [messages, setMessages] = React.useState<IMessage[]>([]);
 
     const { user } = React.useContext(AuthContext);
 
@@ -30,16 +30,22 @@ function Messages({ receiver }: MessagesProps) {
         if (receiver) sendRequest();
     }, [receiver, sendRequest]);
 
-    // Reload messaging component if new message is created between the
-    // logged-in user and the current receiver.
-    io.on('chat', (message: IMessage) => {
-        if (receiver &&
-            ((message.sender.id === receiver.id && message.receiver.id === user?.userId)
-                || (message.receiver.id === receiver.id && message.sender.id === user?.userId))) {
-            sendRequest();
-            // messages.push(message);
-        }
-    });
+
+    React.useEffect(() => {
+        // Update io listener by every receiver update.
+        io.removeListener('message_area');
+        io.on('message_area', (message: IMessage) => {
+            // Reload messaging component if new message is created between the
+            // logged-in user and the current receiver.
+            if (receiver &&
+                ((message.sender.id === receiver.id
+                    && message.receiver.id === user?.userId)
+                 || (message.receiver.id === receiver.id
+                    && message.sender.id === user?.userId))) {
+                setMessages((prevMessages) => [...prevMessages, message]);
+            }
+        });
+    }, [io, receiver]);
 
     return (
         <div style={{ margin: 30 }}>

@@ -34,8 +34,8 @@ function MessageSendForm({ receiver }: MessageSendFormProps) {
     const request = React.useCallback(() => sendMessage(message, receiver), [message, receiver]);
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
-            io.emit('chat', {
-                message: message,
+            io.emit('new_message', {
+                message: message.message,
                 receiver: receiver,
                 sender: {
                     id: user?.userId,
