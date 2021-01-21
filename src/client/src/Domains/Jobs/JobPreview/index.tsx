@@ -10,10 +10,10 @@ import TutorIcon from '@material-ui/icons/SupervisedUserCircle';
 import VolunteerIcon from '@material-ui/icons/Accessibility';
 import OtherIcon from '@material-ui/icons/AddCircle';
 
-import SalaryDisplayer from 'Domains/Jobs/SalaryDisplayer';
+import Salary from 'Domains/Jobs/Salary';
 import { IJob, jobType } from 'Domains/Jobs/api';
 
-interface Props {
+interface JobPreviewProps {
     job: IJob;
     onClick: (job: IJob) => void;
     isSelected: boolean;
@@ -50,7 +50,7 @@ const getIcon = (type: jobType): JSX.Element => {
     }
 };
 
-function JobPreview({ job, onClick, isSelected }: Props) {
+function JobPreview({ job, onClick, isSelected }: JobPreviewProps) {
     const classes = useStyles();
     return (
         <Card
@@ -91,7 +91,7 @@ function JobPreview({ job, onClick, isSelected }: Props) {
                     {job.minSalary > 0 && (
                         <Grid item>
                             Hourly wage:
-                            <SalaryDisplayer
+                            <Salary
                                 minSalary={job.minSalary}
                                 maxSalary={job.maxSalary}
                             />

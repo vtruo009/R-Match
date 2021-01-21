@@ -70,10 +70,13 @@
             "@entities/*": ["src/entities/*"],
             "@shared/*": ["src/shared/*"],
             "@lib/*": ["src/lib/*"],
-            "@server": ["src/Server"],
+            "@server": ["src/server/*"],
             "@db/*": ["src/db/*"],
-            "@middlewares/*": ["src/middlewares/*"]
+            "@middlewares/*": ["src/middlewares/*"],
+            "@app/*": ["src/app/*"],
+            "@dotenv/*": ["src/dotenv/*"],
+            "@routes/*": ["src/routes/*"]
         }
     },
-    "include": ["src/**/*.ts", "spec/**/*.ts"]
+    "include": ["src/**/*.ts"]
 }

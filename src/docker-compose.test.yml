@@ -1,0 +1,40 @@
+version: '3'
+services:
+  server:
+    build:
+      context: server
+      dockerfile: Dockerfile
+    volumes:
+      - ./server/src:/usr/app/src
+      - ./server/package.json:/usr/app/package.json
+      - ./server/package-lock.json:/usr/app/package-lock.json
+      - ./server/env:/usr/app/env
+    command: npm test
+    restart: always
+    ports:
+      - '5000:5000'
+    depends_on:
+      - databaseTest
+  # client:
+  #     build:
+  #         context: client
+  #         dockerfile: Dockerfile
+  #     command: npm start
+  #     volumes:
+  #         - ./client/src:/usr/app/src
+  #         - ./client/public:/usr/app/public
+  #         - ./client/tsconfig.json:/usr/app/tsconfig.json
+  #     ports:
+  #         - '3000:3000'
+  databaseTest:
+    image: postgres:11
+    container_name: databaseTest
+    restart: always
+    expose:
+      - '5432'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=postgresTest
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres

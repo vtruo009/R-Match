@@ -1,4 +1,5 @@
 import { Sample } from '@entities/sample';
+
 /**
  * @description Saves a new sample in the database
  * @param {string} message sample's message

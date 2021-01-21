@@ -35,8 +35,8 @@ interface jobApplicationRequest extends Request {
 
 router.post(
     '/update-profile',
-    validationMiddleware({ bodySchema: studentProfileSchema }),
     passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ bodySchema: studentProfileSchema }),
     async (req: studentRequest, res: Response) => {
         // Output body of request for visualization purposes
         console.log(req.body.studentProfile);
@@ -106,6 +106,7 @@ router.get(
         const { studentId } = req.params;
         try {
             const student = await getStudentProfile(parseInt(studentId, 10));
+
             return res.status(OK).json({ student }).end();
         } catch (error) {
             logger.err(error);
@@ -123,8 +124,8 @@ router.get(
 
 router.post(
     '/apply-to-job',
-    validationMiddleware({ bodySchema: applyToJobSchema }),
     passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ bodySchema: applyToJobSchema }),
     async (req: jobApplicationRequest, res: Response) => {
         //checks that caller is a student.
         const { role, specificUserId } = req.user as JWTUser;

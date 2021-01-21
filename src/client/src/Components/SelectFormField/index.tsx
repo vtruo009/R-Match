@@ -29,12 +29,10 @@ export const SelectFormField: React.FC<FieldProps & SelectFormFieldProps> = ({
             {label && <InputLabel>{label}</InputLabel>}
             <Select fullWidth {...field} {...props}>
                 {defaultLabel && (
-                    <MenuItem value={undefined}>
-                        {defaultLabel}
-                    </MenuItem>
+                    <MenuItem value={undefined}>{defaultLabel}</MenuItem>
                 )}
-                {options.map((op) => (
-                    <MenuItem key={op.value} value={op.value}>
+                {options.map((op, index) => (
+                    <MenuItem key={index} value={op.value}>
                         {op.label}
                     </MenuItem>
                 ))}

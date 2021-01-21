@@ -11,12 +11,37 @@ interface IJobApplication {
     student: IStudent,
 }
 
-//TODO: DEFINE THIS LATER!
-export async function createFacultyMemberProfile(facultyMemberProfile: IFacultyMemberProfileForm) {
-    return API.post('facultyMemberProfile/create', {
+export async function updateFacultyMemberProfile(
+    facultyMemberProfile: IFacultyMemberProfileForm
+) {
+    const {
+        id,
+        userId,
+        firstName,
+        lastName,
+        middleName,
+        biography,
+        office,
+        title,
+        websiteLink,
+        departmentId,
+    } = facultyMemberProfile;
+
+    return API.post('faculty-member/update-profile', {
         facultyMemberProfile: {
-            ...facultyMemberProfile,
-        }
+            id,
+            user: {
+                id: userId,
+                firstName,
+                lastName,
+                middleName,
+                biography,
+            },
+            departmentId,
+            office,
+            title,
+            websiteLink,
+        },
     });
 }
 

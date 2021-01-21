@@ -28,7 +28,7 @@ export class Student extends BaseEntity {
     department?: Department;
 
     @Column({ nullable: true })
-    sid?: number;
+    sid?: string;
 
     @Column({
         nullable: true,
@@ -43,7 +43,9 @@ export class Student extends BaseEntity {
     @Column({ type: 'bytea', nullable: true })
     transcript: Buffer;
 
-    @OneToOne(() => User)
+    @OneToOne(() => User, {
+        onDelete: 'CASCADE',
+    })
     @JoinColumn()
     user: User;
 

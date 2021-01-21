@@ -2,6 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container';
 import { useHistory } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
@@ -51,7 +52,6 @@ function SignInForm() {
             }
         },
         onFailure: (error, results) => {
-            console.log(error);
             if (results && results.status === 401) {
                 snack('Invalid username or password', 'error');
             } else {
@@ -61,39 +61,37 @@ function SignInForm() {
     });
 
     return (
-        <Paper style={{ padding: 50 }}>
-            <Formik
-                validationSchema={formSchema}
-                initialValues={formInitialValues}
-                onSubmit={(formValues, actions) => {
-                    setSignInInfo(formValues);
-                    sendRequest();
-                    actions.resetForm({
-                        values: { ...formInitialValues },
-                    });
-                }}
-            >
-                {() => (
-                    <Form>
-                        <Grid
-                            container
-                            spacing={3}
-                            direction='column'
-                            justify='center'
-                            alignItems='center'
-                        >
-                            <Grid item container justify='center'>
-                                <Typography variant='h4'>Sign In</Typography>
-                            </Grid>
-                            <Grid item container spacing={5} justify='center'>
-                                <Grid item md={7} xs={12}>
+        <Container maxWidth='sm'>
+            <Paper style={{ padding: 80 }}>
+                <Formik
+                    validationSchema={formSchema}
+                    initialValues={formInitialValues}
+                    onSubmit={(formValues) => {
+                        setSignInInfo(formValues);
+                        sendRequest();
+                    }}
+                >
+                    {() => (
+                        <Form>
+                            <Grid
+                                container
+                                spacing={5}
+                                justify='center'
+                                alignItems='center'
+                            >
+                                <Grid item xs={12}>
+                                    <Typography variant='h4' align='center'>
+                                        Sign In
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
                                     <Field
                                         name='email'
                                         label='Email'
                                         component={TextFormField}
                                     />
                                 </Grid>
-                                <Grid item md={7} xs={12}>
+                                <Grid item xs={12}>
                                     <Field
                                         name='password'
                                         label='Password'
@@ -101,22 +99,27 @@ function SignInForm() {
                                         component={TextFormField}
                                     />
                                 </Grid>
+                                <Grid item xs={12}>
+                                    <SubmitButton
+                                        isLoading={isLoading}
+                                        fullWidth
+                                        label='sign in'
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Typography variant='h6' align='center'>
+                                        <a href='sign-up'>
+                                            Don't have an account yet? Create
+                                            one!
+                                        </a>
+                                    </Typography>
+                                </Grid>
                             </Grid>
-                            <Grid item>
-                                <SubmitButton isLoading={isLoading} />
-                            </Grid>
-                            <Grid item>
-                                <Typography variant='h6'>
-                                    <a href='sign-up'>
-                                        Don't have an account yet? Create one!
-                                    </a>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    </Form>
-                )}
-            </Formik>
-        </Paper>
+                        </Form>
+                    )}
+                </Formik>
+            </Paper>
+        </Container>
     );
 }
 

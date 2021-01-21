@@ -6,14 +6,14 @@ import MUIDialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-interface Props {
+interface DialogProps {
     children: JSX.Element;
     open: boolean;
     onClose?: () => void;
     title: string;
 }
 
-function Dialog({ children, open, onClose, title }: Props) {
+function Dialog({ children, open, onClose, title }: DialogProps) {
     return (
         <MUIDialog open={open} onClose={onClose} maxWidth='md' fullWidth>
             <MUIDialogTitle style={{ padding: 40 }}>

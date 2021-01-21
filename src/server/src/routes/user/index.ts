@@ -9,7 +9,7 @@ import { findUserByEmail, registerUser } from '@modules/user';
 import { User } from '@entities/user';
 import { signToken } from '@lib/jwt';
 import { validationMiddleware } from '@middlewares/validation';
-import { SignUpSchema } from './schemas';
+import { signUpSchema, signInSchema } from './schemas';
 
 const router = Router();
 const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
@@ -25,7 +25,7 @@ interface ISignUpRequest extends Request {
 
 router.post(
     '/sign-up',
-    validationMiddleware({ bodySchema: SignUpSchema }),
+    validationMiddleware({ bodySchema: signUpSchema }),
     async (req: ISignUpRequest, res: Response) => {
         const { email, password, role, firstName, lastName } = req.body.user;
         try {
@@ -55,6 +55,7 @@ router.post(
 
 router.post(
     '/sign-in',
+    validationMiddleware({ bodySchema: signInSchema }),
     passport.authenticate('local', { session: false }),
     (req: Request, res: Response) => {
         if (req.isAuthenticated()) {

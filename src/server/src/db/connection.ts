@@ -1,14 +1,21 @@
-import { createConnection } from 'typeorm';
-import { seedData } from '@db/seed';
+import { createConnection, getConnection, getConnectionOptions } from 'typeorm';
 import logger from '@shared/Logger';
 
 /************************************************************************************
- *                              PostgresQL connection
+ *                              Creates connection
  ***********************************************************************************/
 
-const connectToDb = async () => {
+export const connectToDb = async () => {
     try {
-        await createConnection();
+        const connectionOptions = await getConnectionOptions(
+            process.env.NODE_ENV
+        );
+        const connection = await createConnection({
+            ...connectionOptions,
+            name: 'default',
+        });
+        await connection.synchronize();
+        await connection.runMigrations();
         logger.info('PostgreSQL database connection established successfully');
     } catch (error) {
         logger.err('PostgreSQL database connection was not established');
@@ -17,20 +24,13 @@ const connectToDb = async () => {
 };
 
 /************************************************************************************
- *                              Database initial data entry
+ *                              Closes connection
  ***********************************************************************************/
 
-const seedDb = async () => {
+export const disconnectFromDb = async () => {
     try {
-        await seedData();
-        logger.info('Post start data successfully saved in the database');
+        await getConnection().close();
     } catch (error) {
-        logger.err('Post start data could not be saved in the database');
         logger.err(error);
     }
 };
-
-(async () => {
-    await connectToDb();
-    await seedDb();
-})();

@@ -11,13 +11,8 @@ import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import { DatePickerFormField } from 'Components/DatePickerFormField';
 import SubmitButton from 'Components/SubmitButton';
-import {
-    createJob,
-    targetYears,
-    jobTypes,
-    jobType,
-} from 'Domains/Jobs/api';
-import { departments } from 'sharedData';
+import { createJob, targetYears, jobTypes, jobType } from 'Domains/Jobs/api';
+import AcademicInfo from 'Components/AcademicInfo';
 export interface IJobForm {
     title: string;
     type: jobType[];
@@ -28,7 +23,8 @@ export interface IJobForm {
     hoursPerWeek?: number;
     minSalary?: number;
     maxSalary?: number;
-    departmentId: string;
+    collegeId?: number;
+    departmentId?: number;
     targetYears: string[];
 }
 
@@ -37,12 +33,13 @@ const formInitialValues: IJobForm = {
     type: [],
     description: '',
     startDate: '',
-    endDate: '',
-    expirationDate: '',
+    endDate: undefined,
+    expirationDate: undefined,
     hoursPerWeek: undefined,
     minSalary: undefined,
     maxSalary: undefined,
-    departmentId: '',
+    collegeId: undefined,
+    departmentId: undefined,
     targetYears: [],
 };
 
@@ -83,7 +80,8 @@ const formSchema = yup.object({
             'Maximum salary must be greater or equal to minimum salary'
         )
         .optional(),
-    departmentId: yup.string().required('Department is required'),
+    collegeId: yup.number().required('College is required'),
+    departmentId: yup.number().required('Department is required'),
     targetYears: yup.array().required('At least one targe year is required'),
 });
 
@@ -97,113 +95,106 @@ function JobForm() {
         },
     });
     return (
-        <Paper style={{ padding: 50 }}>
+        <Paper style={{ padding: 80 }}>
             <Formik
                 validationSchema={formSchema}
                 initialValues={formInitialValues}
                 onSubmit={(formValues, actions) => {
                     setJob(formValues);
                     sendRequest();
-                    actions.resetForm({
-                        values: { ...formInitialValues },
-                    });
                 }}
             >
                 {() => (
                     <Form>
-                        <Grid container spacing={3} alignContent='center'>
-                            <Grid item container justify='flex-start'>
+                        <Grid
+                            container
+                            spacing={5}
+                            alignItems='center'
+                            justify='center'
+                        >
+                            <Grid item xs={12}>
                                 <Typography variant='h4'>Post Job</Typography>
                             </Grid>
-                            <Grid item container spacing={5}>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='title'
-                                        label='Title'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='type'
-                                        label='Type'
-                                        options={jobTypes}
-                                        multiple
-                                        component={SelectFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={12} xs={12}>
-                                    <Field
-                                        name='description'
-                                        label='Description'
-                                        multiline
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='startDate'
-                                        label='Start date'
-                                        component={DatePickerFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='endDate'
-                                        label='End date'
-                                        component={DatePickerFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='expirationDate'
-                                        label='Expiration date'
-                                        component={DatePickerFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='hoursPerWeek'
-                                        label='Hours per week'
-                                        type='number'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='minSalary'
-                                        type='number'
-                                        label='Minimum salary ($/hr.)'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='maxSalary'
-                                        type='number'
-                                        label='Maximum salary ($/hr.)'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='departmentId'
-                                        label='Department'
-                                        options={departments}
-                                        component={SelectFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='targetYears'
-                                        label='Target years'
-                                        options={targetYears}
-                                        multiple
-                                        component={SelectFormField}
-                                    />
-                                </Grid>
+                            <Grid item md={12} xs={12}>
+                                <Field
+                                    name='title'
+                                    label='Title'
+                                    component={TextFormField}
+                                />
                             </Grid>
-                            <Grid container item xs={12}>
+                            <Grid item md={12} xs={12}>
+                                <Field
+                                    name='description'
+                                    label='Description'
+                                    multiline
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Grid item md={4} xs={12}>
+                                <Field
+                                    name='startDate'
+                                    label='Start date'
+                                    component={DatePickerFormField}
+                                />
+                            </Grid>
+                            <Grid item md={4} xs={12}>
+                                <Field
+                                    name='endDate'
+                                    label='End date'
+                                    component={DatePickerFormField}
+                                />
+                            </Grid>
+                            <Grid item md={4} xs={12}>
+                                <Field
+                                    name='expirationDate'
+                                    label='Expiration date'
+                                    component={DatePickerFormField}
+                                />
+                            </Grid>
+                            <Grid item md={4} xs={12}>
+                                <Field
+                                    name='type'
+                                    label='Type'
+                                    options={jobTypes}
+                                    multiple
+                                    component={SelectFormField}
+                                />
+                            </Grid>
+                            <Grid item md={4} xs={12}>
+                                <Field
+                                    name='hoursPerWeek'
+                                    label='Hours per week'
+                                    type='number'
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Grid item md={4} xs={12}>
+                                <Field
+                                    name='targetYears'
+                                    label='Target years'
+                                    options={targetYears}
+                                    multiple
+                                    component={SelectFormField}
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='minSalary'
+                                    type='number'
+                                    label='Minimum salary ($/hr.)'
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='maxSalary'
+                                    type='number'
+                                    label='Maximum salary ($/hr.)'
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Field component={AcademicInfo} />
+                            <Grid item xs={12}>
                                 <SubmitButton isLoading={isLoading} />
                             </Grid>
                         </Grid>

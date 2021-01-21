@@ -8,17 +8,18 @@ import * as yup from 'yup';
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
 import { TextFormField } from 'Components/TextFormField';
-import { SelectFormField } from 'Components/SelectFormField';
 import SubmitButton from 'Components/SubmitButton';
-import { createFacultyMemberProfile } from 'Domains/FacultyMember/api';
-
-import { departments } from 'sharedData';
+import AcademicInfo from 'Components/AcademicInfo';
+import { updateFacultyMemberProfile } from 'Domains/FacultyMember/api';
 
 export interface IFacultyMemberProfileForm {
+    id: number;
+    userId: number;
     firstName: string;
     middleName: string;
     lastName: string;
-    departmentId: string;
+    collegeId?: number;
+    departmentId?: number;
     websiteLink: string;
     office: string;
     title: string;
@@ -27,10 +28,14 @@ export interface IFacultyMemberProfileForm {
 }
 
 const formInitialValues: IFacultyMemberProfileForm = {
+    // TODO: Replace with actual values later
+    id: 3,
+    userId: 13,
     firstName: '',
     middleName: '',
     lastName: '',
-    departmentId: '',
+    collegeId: undefined,
+    departmentId: undefined,
     websiteLink: '',
     office: '',
     title: '',
@@ -40,16 +45,14 @@ const formInitialValues: IFacultyMemberProfileForm = {
 
 const formSchema = yup.object({
     firstName: yup.string().required('First name is required'),
+    middleName: yup.string().optional().nullable(),
     lastName: yup.string().required('Last name is required'),
-    departmentId: yup.string().required('Department is required'),
-    websiteLink: yup.string().required('Website link is required'),
-    office: yup.string().required('Office location is required'),
-    title: yup.string().required('Title is required'),
-    email: yup
-        .string()
-        .required('Email is required')
-        .email('Please enter valid email'),
-    biography: yup.string().required('Biography is required'),
+    collegeId: yup.number().optional().nullable(),
+    departmentId: yup.number().optional().nullable(),
+    websiteLink: yup.string().optional().nullable(),
+    office: yup.string().optional().nullable(),
+    title: yup.string().optional().nullable(),
+    biography: yup.string().optional().nullable(),
 });
 
 function FacultyMemberProfileForm() {
@@ -58,104 +61,93 @@ function FacultyMemberProfileForm() {
         setFacultyMemberProfile,
     ] = React.useState<IFacultyMemberProfileForm>(formInitialValues);
     const request = React.useCallback(
-        () => createFacultyMemberProfile(facultyMemberProfile),
+        () => updateFacultyMemberProfile(facultyMemberProfile),
         [facultyMemberProfile]
     );
     const [snack] = useSnack();
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
-            snack('Faculty member profile successfully created!', 'success');
+            snack('Faculty member profile successfully updated!', 'success');
         },
     });
     return (
-        <Paper style={{ padding: 50 }}>
+        <Paper style={{ padding: 80 }}>
             <Formik
                 validationSchema={formSchema}
                 initialValues={formInitialValues}
-                onSubmit={(formValues, actions) => {
+                onSubmit={(formValues) => {
                     setFacultyMemberProfile(formValues);
                     sendRequest();
-                    actions.resetForm({
-                        values: { ...formInitialValues },
-                    });
                 }}
             >
                 {() => (
                     <Form>
-                        <Grid container spacing={3} alignContent='center'>
-                            <Grid item container justify='flex-start'>
+                        <Grid container spacing={5} alignItems='center'>
+                            <Grid item xs={12}>
                                 <Typography variant='h4'>
                                     Faculty Member Profile
                                 </Typography>
                             </Grid>
-                            <Grid item container spacing={5}>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='firstName'
-                                        label='First Name'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='middleName'
-                                        label='Middle Name'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='lastName'
-                                        label='Last Name'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='departmentId'
-                                        label='Department'
-                                        options={departments}
-                                        component={SelectFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='websiteLink'
-                                        label='Website Link'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='office'
-                                        label='Office'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='title'
-                                        label='Title'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={4} xs={12}>
-                                    <Field
-                                        name='email'
-                                        label='Email'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                                <Grid item md={12} xs={12}>
-                                    <Field
-                                        name='biography'
-                                        label='Biography'
-                                        multiline
-                                        component={TextFormField}
-                                    />
-                                </Grid>
+                            <Grid item md={4} xs={12}>
+                                <Field
+                                    name='firstName'
+                                    label='First Name'
+                                    component={TextFormField}
+                                />
                             </Grid>
-                            <Grid container item xs={12}>
+                            <Grid item md={4} xs={12}>
+                                <Field
+                                    name='middleName'
+                                    label='Middle Name'
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Grid item md={4} xs={12}>
+                                <Field
+                                    name='lastName'
+                                    label='Last Name'
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Grid item md={12} xs={12}>
+                                <Field
+                                    name='biography'
+                                    label='Biography'
+                                    multiline
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='websiteLink'
+                                    label='Website Link'
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='office'
+                                    label='Office'
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='title'
+                                    label='Title'
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <Field
+                                    name='email'
+                                    label='Email'
+                                    disabled
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Field component={AcademicInfo} />
+                            <Grid item xs={12}>
                                 <SubmitButton isLoading={isLoading} />
                             </Grid>
                         </Grid>

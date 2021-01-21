@@ -6,10 +6,10 @@ import express, { NextFunction, Request, Response } from 'express';
 import StatusCodes from 'http-status-codes';
 import passport from 'passport';
 import 'express-async-errors';
-import BaseRouter from './routes';
+import BaseRouter from '@routes/index';
 import logger from '@shared/Logger';
 import cors from 'cors';
-import 'src/lib/passportSetup';
+import '@lib/passportSetup';
 const app = express();
 const { BAD_REQUEST } = StatusCodes;
 
@@ -24,7 +24,6 @@ app.use(express.json());
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(passport.initialize());
 
-
 // Show routes called in console during development
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
@@ -33,6 +32,10 @@ if (process.env.NODE_ENV === 'development') {
 // Security
 if (process.env.NODE_ENV === 'production') {
     app.use(helmet());
+}
+
+if (process.env.NODE_ENV === 'test') {
+    app.get('/', (req, res) => res.sendStatus(200));
 }
 
 // Add APIs

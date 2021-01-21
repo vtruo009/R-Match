@@ -1,11 +1,12 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-interface props {
+
+interface SalaryProps {
     minSalary: number;
     maxSalary?: number;
 }
 
-function SalaryDisplayer({ minSalary, maxSalary }: props) {
+function Salary({ minSalary, maxSalary }: SalaryProps) {
     const isMaxSalaryValid = () => {
         if (!maxSalary) {
             return false;
@@ -21,4 +22,4 @@ function SalaryDisplayer({ minSalary, maxSalary }: props) {
     );
 }
 
-export default SalaryDisplayer;
+export default Salary;

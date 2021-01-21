@@ -10,6 +10,7 @@ import { FacultyMember } from './facultyMember';
 import { JobApplication } from './jobApplication';
 import { Department } from './department';
 
+export type status = 'Hiring' | 'Closed';
 @Entity()
 export class Job extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -42,8 +43,11 @@ export class Job extends BaseEntity {
     @Column()
     title: string;
 
-    @Column()
-    status: 'Hiring' | 'Closed';
+    @Column({
+        type: 'enum',
+        enum: ['Hiring', 'Closed'],
+    })
+    status: status;
 
     @Column()
     minSalary: number;
@@ -63,6 +67,8 @@ export class Job extends BaseEntity {
     @ManyToOne(() => FacultyMember, (facultyMember) => facultyMember.jobs)
     facultyMember: FacultyMember;
 
-    @OneToMany(() => JobApplication, (jobApplication) => jobApplication.job)
+    @OneToMany(() => JobApplication, (jobApplication) => jobApplication.job, {
+        onDelete: 'CASCADE',
+    })
     public jobApplications: JobApplication[];
 }
