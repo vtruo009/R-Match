@@ -11,15 +11,15 @@ import React from 'react';
 import * as yup from 'yup';
 
 export interface IMessageSendForm {
-    message: string;
+    content: string;
 }
 
 const formSchema = yup.object({
-    message: yup.string().required('Message cannot be empty.'),
+    content: yup.string().required('Message cannot be empty.'),
 });
 
 const messageInitialValues: IMessageSendForm = {
-    message: ''
+    content: ''
 };
 
 interface MessageSendFormProps {
@@ -35,7 +35,7 @@ function MessageSendForm({ receiver }: MessageSendFormProps) {
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
             io.emit('new_message', {
-                message: message.message,
+                content: message.content,
                 receiver: receiver,
                 sender: {
                     id: user?.userId,
@@ -67,7 +67,7 @@ function MessageSendForm({ receiver }: MessageSendFormProps) {
                             alignItems='center'>
                             <Grid item xs={8}>
                                 <Field
-                                    name='message'
+                                    name='content'
                                     label='Message'
                                     component={TextFormField}
                                 />

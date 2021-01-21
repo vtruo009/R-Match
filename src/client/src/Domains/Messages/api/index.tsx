@@ -5,7 +5,7 @@ import { INewMessageForm } from 'Domains/Messages/NewMessageForm';
 import { IUser } from 'Domains/Accounts/api';
 
 export interface IMessage {
-    message: string;
+    content: string;
     sender: IUser;
     receiver: IUser;
     date: string;
@@ -18,7 +18,7 @@ export interface IConversation {
 
 export async function sendMessage(message: IMessageSendForm, receiver?: IUser) {
     return API.post('message/sendMessage', {
-        message: message.message,
+        message: message.content,
         receiverId: receiver?.id
     });
 }

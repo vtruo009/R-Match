@@ -34,8 +34,8 @@ function Messages({ receiver }: MessagesProps) {
         // Update io listener by every receiver update.
         io.removeListener('message_area');
         io.on('message_area', (message: IMessage) => {
-            // Reload messaging component if new message is created between the
-            // logged-in user and the current receiver.
+            // Append new message to the current message list if the new
+            // message is sent between the logged-in user and the current receiver.
             if (receiver &&
                 ((message.sender.id === receiver.id
                     && message.receiver.id === user?.userId)

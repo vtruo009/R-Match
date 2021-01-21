@@ -54,7 +54,7 @@ function MessageDialog({ message }: Props) {
                         xs={12}
                     >
                         <Typography>
-                            {message.message}
+                            {message.content}
                         </Typography>
                     </Grid>
                 </Grid>

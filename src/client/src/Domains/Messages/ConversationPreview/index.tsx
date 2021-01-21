@@ -50,7 +50,7 @@ function ConversationPreview({ conversation, onClick, isSelected }: Conversation
                             {conversation.user.firstName} {conversation.user.lastName}
                         </Typography>
                         <Typography color='primary'>
-                            {conversation.latestMessage.sender.firstName} ({formatDateStringBasedOnCurrentDay(conversation.latestMessage.date)}): {conversation.latestMessage.message}
+                            {conversation.latestMessage.sender.firstName} ({formatDateStringBasedOnCurrentDay(conversation.latestMessage.date)}): {conversation.latestMessage.content}
                         </Typography>
                     </Grid>
                 </Grid>

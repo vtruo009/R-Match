@@ -838,7 +838,7 @@ Messaging API
         -   Body:
             ```
             {
-                message: string;
+                content: string;
                 receiverId: number;
             }
             ```
@@ -864,7 +864,7 @@ Messaging API
                     {
                         messages: {
                             id: number,
-                            message: string,
+                            content: string,
                             date: string,
                             senderId: number,
                             receiverId: number,
@@ -912,7 +912,7 @@ Messaging API
                         },
                         latestMessage: {
                             id: number,
-                            message: string,
+                            content: string,
                             date: string,
                             senderId: number,
                             receiverId: number,

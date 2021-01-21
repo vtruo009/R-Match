@@ -22,7 +22,7 @@ const {
 
 interface sendMessageRequest extends Request {
     body: {
-        message: string;
+        content: string;
         receiverId: number;
     };
 }
@@ -36,10 +36,10 @@ router.post('/sendMessage',
     passport.authenticate('jwt', { session: false }),
     async (req: sendMessageRequest, res: Response) => {
         const { userId } = req.user as JWTUser;
-        const { receiverId, message } = req.body;
+        const { receiverId, content } = req.body;
         try {
             const { result, errorMessage } =
-                await sendMessage(message, receiverId, /*senderId=*/userId);
+                await sendMessage(content, receiverId, /*senderId=*/userId);
             return result
                 ? res.status(CREATED).end()
                 : res.status(BAD_REQUEST).json({ error: errorMessage }).end();

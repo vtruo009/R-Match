@@ -5,13 +5,13 @@ import { userIdExists } from '@modules/user';
 
 /**
  * @description Send a message to a receiver.
- * @param {string} message - Message text
+ * @param {string} content - Message text
  * @param {number} receiverId - User Id of the receiver
  * @param {number} senderId - User Id of the sender
  * @returns Promise
  */
 export const sendMessage = async (
-    message: Message['message'],
+    content: Message['content'],
     receiverId: Message['receiverId'],
     senderId: Message['senderId']
 ) => {
@@ -36,7 +36,7 @@ export const sendMessage = async (
     }
 
     const messageToInsert = Message.create({
-        message: message,
+        content: content,
         senderId: senderId,
         receiverId: receiverId,
         date: new Date(),

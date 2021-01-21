@@ -13,7 +13,7 @@ export class Message extends BaseEntity {
     id: number;
 
     @Column()
-    message: string;
+    content: string;
 
     @Column()
     public date: Date;
