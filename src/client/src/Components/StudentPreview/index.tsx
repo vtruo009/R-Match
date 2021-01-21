@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { IStudent } from 'Domains/Student/api';
 // import { Container } from '@material-ui/core';
+import Avatar from '@material-ui/core/Avatar';
 
 interface Props {
     student: IStudent;
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
 // function StudentPreview ({ student, onClick, isSelected }: Props) {
 function StudentPreview ({ student }: Props) {
     //const classes = useStyles();
+    // console.log(`student class standing ${student.classStanding}`);
     return (
         <Card
             //className={isSelected ? classes.Selected : classes.NonSelected}
@@ -38,7 +40,7 @@ function StudentPreview ({ student }: Props) {
         >
             <Grid container spacing={4} alignItems='center' justify='center'>
                 <Grid container item md={3} xs={3} justify='center' alignItems='center'>
-                    {/* icon */}
+                    <Avatar style={{ width: 70, height: 70}}/>
                 </Grid>
                 <Grid
                     item
@@ -55,7 +57,12 @@ function StudentPreview ({ student }: Props) {
                     </Grid>
                     <Grid item>
                         <Typography variant='body1'>
-                            Year: {student.classStanding}
+                            Major: {student.department?.name !== null ? student.department?.name : <i>Not provided</i>}
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant='body1'>
+                            Class Standing: {student.classStanding !== null ? student.classStanding : <i>Not provided</i>}
                         </Typography>
                     </Grid>
                 </Grid>

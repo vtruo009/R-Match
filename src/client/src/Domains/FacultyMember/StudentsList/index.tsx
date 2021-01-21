@@ -82,20 +82,21 @@ function StudentsList() {
                                 />
                             </Grid>
                         ))}
+                        {numOfPages > 1 && (
+                            <Grid item >
+                                <Pagination //align to center next
+                                    color='primary'
+                                    shape='rounded'
+                                    page={page}
+                                    count={numOfPages}
+                                    onChange={handlePageChange}
+                                />
+                            </Grid>
+                        )}
                     </Grid>
                 </Grid>
             </Grid>
-            {numOfPages > 1 && (
-                <Grid container justify='center' style={{ marginTop: 50 }}>
-                    <Pagination
-                        color='primary'
-                        shape='rounded'
-                        page={page}
-                        count={numOfPages}
-                        onChange={handlePageChange}
-                    />
-                </Grid>
-            )}
+            
         </div>
 
     );
