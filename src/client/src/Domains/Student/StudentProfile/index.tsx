@@ -145,40 +145,39 @@ function StudentProfile() {
                 <Grid container spacing={2} justify='center' alignItems='center'>
                 <Grid item md={12} xs={12}>
                     <Card variant='outlined' style={{ padding: 30 }}>
+                    <Grid item>
+                            <Typography variant='h5' color='primary'>
+                                Work Experiences
+                            </Typography>
+                        </Grid>
                         <Grid
                             container
-                            direction='column'
-                            //alignItems='center'
-                            //justify='center'
+                            direction='row'
                             spacing={3}
                         >
-                            <Grid item>
-                                <Typography variant="h5">
-                                    Work Experiences
-                                </Typography>
-                            </Grid>
                             <Grid item md={6} xs={12}>
                                 <LabelValue
-                                    label='Work Start Date'
-                                    //values={getCoursesTitles()}
+                                    label='Start Date'
                                 />
                             </Grid>
                             <Grid item md={6} xs={12}>
                                 <LabelValue
-                                    label='Work End Date'
-                                    //values={getCoursesTitles()}
+                                    label='End Date'
                                 />
                             </Grid>
                             <Grid item md={12} xs={12}>
                                 <LabelValue
-                                    label='Work Employer'
-                                    //values={getCoursesTitles()}
+                                    label='Title'
                                 />
                             </Grid>
                             <Grid item md={12} xs={12}>
                                 <LabelValue
-                                    label='Work Description'
-                                    //values={getCoursesTitles()}
+                                    label='Employer'
+                                />
+                            </Grid>
+                            <Grid item md={12} xs={12}>
+                                <LabelValue
+                                    label='Description'
                                 />
                             </Grid>
                         </Grid>
