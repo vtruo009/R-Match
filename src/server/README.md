@@ -301,6 +301,36 @@ User API
             -   error:
                 -   Unauthorized: -> Status code: 401
 
+    -   api/user/get-by-email/:email
+        -   HTTP Method: GET
+        -   Get a user object given an email of the user.
+        -   Cookies:
+            ```
+            {
+                'access_token': jwt,
+            }
+            ```
+        -   Parameters: email address of the user.
+        -   Response:
+            -   success:
+                -   OK -> Status code: 200
+                    ```
+                        {
+                            isAuthenticated: boolean,
+                            user: {
+                                userId: number,
+                                specificUserId: number,
+                                role: 'student' | 'facultyMember',
+                                firstName: string,
+                                lastName: string
+                            }
+                        }
+                    ```
+            -   error:
+                -   Unauthorized -> Status code: 401
+                -   Email does not exist -> Status code: 400
+                -   Email of the logged-in user is requested -> Status code: 400
+
 Faculty Member API
 
 -   Interacts with:
@@ -788,5 +818,121 @@ College API
         -   Response:
             -   success:
                 Status code: 200
+            -   errors:
+                -   Internal server error -> Status code: 500
+
+
+Messaging API
+
+-   Interacts with:
+
+    -   Message and User tables
+
+-   Routes:
+
+    -   api/message/sendMessage
+
+        -   Creates and saves a message record in the message's table.
+        -   Authorization restrictions:
+            -   User must be logged in
+        -   Body:
+            ```
+            {
+                content: string;
+                receiverId: number;
+            }
+            ```
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 201
+            -   errors:
+                -   Internal server error -> Status code: 500
+
+    -   api/message/getMessages/:messengerId
+
+        -   Gets all messages between the logged-in user and the user with the parameter id, sorted from the oldest to the newest.
+        -   Authorization restrictions:
+            -   User must be logged in
+        -   Body: None
+        -   Parameters: id of the messenger.
+        -   Response:
+
+            -   success:
+                Status code: 200
+
+                    {
+                        messages: {
+                            id: number,
+                            content: string,
+                            date: string,
+                            senderId: number,
+                            receiverId: number,
+                            sender: {
+                                id: number,
+                                email: string,
+                                biography?: string,
+                                firstName: string,
+                                lastName: string,
+                                middleName?: string
+                            },
+                            receiver: {
+                                id: number,
+                                email: string,
+                                biography?: string,
+                                firstName: string,
+                                lastName: string,
+                                middleName?: string
+                            }
+                        }[]
+                    }
+
+            -   errors:
+                -   Internal server error -> Status code: 500
+
+    -   api/message/getConversationList
+
+        -   Get an array of Users who have communicated with the user with the given id and the latest message between each user and the user with the given id.
+        -   Authorization restrictions:
+            -   User must be logged in
+        -   Body: None
+        -   Parameters: None.
+        -   Response:
+            -   success:
+                Status code: 200
+
+                    conversationList: {
+                        user: {
+                            id: number,
+                            email: string,
+                            biography?: string,
+                            firstName: string,
+                            lastName: string,
+                            middleName?: string
+                        },
+                        latestMessage: {
+                            id: number,
+                            content: string,
+                            date: string,
+                            senderId: number,
+                            receiverId: number,
+                            sender: {
+                                id: number,
+                                email: string,
+                                biography?: string,
+                                firstName: string,
+                                lastName: string,
+                                middleName?: string
+                            },
+                            receiver: {
+                                id: number,
+                                email: string,
+                                biography?: string,
+                                firstName: string,
+                                lastName: string,
+                                middleName?: string
+                            }
+                        }
+                    }[]
             -   errors:
                 -   Internal server error -> Status code: 500
