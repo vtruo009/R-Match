@@ -56,7 +56,7 @@ function ConversationList({ setReceiver }: ConversationListProps) {
             if (message.sender.id === user?.userId || message.receiver.id === user?.userId)
                 sendRequest();
         });
-    }, [io]);
+    }, [io, user, sendRequest]);
 
     return (
         <div>

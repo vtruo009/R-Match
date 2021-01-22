@@ -18,7 +18,7 @@ export interface IConversation {
 
 export async function sendMessage(message: IMessageSendForm, receiver?: IUser) {
     return API.post('message/sendMessage', {
-        message: message.content,
+        content: message.content,
         receiverId: receiver?.id
     });
 }
