@@ -20,7 +20,7 @@ const formInitialValues: INewMessageForm = {
 };
 
 const formSchema = yup.object({
-    email: yup.string().required().email('Please enter valid emai.')
+    email: yup.string().required().email('Please enter valid email.'),
 });
 
 interface Props {
@@ -29,7 +29,9 @@ interface Props {
 }
 
 function NewMessageForm({ setReceiver, closeForm }: Props) {
-    const [email, setEmail] = React.useState<INewMessageForm>(formInitialValues);
+    const [email, setEmail] = React.useState<INewMessageForm>(
+        formInitialValues
+    );
     const [snack] = useSnack();
 
     const request = React.useCallback(() => createMessage(email), [email]);
@@ -46,7 +48,7 @@ function NewMessageForm({ setReceiver, closeForm }: Props) {
             } else {
                 snack('Something went wrong. Try again later!', 'error');
             }
-        }
+        },
     });
 
     return (
@@ -66,7 +68,9 @@ function NewMessageForm({ setReceiver, closeForm }: Props) {
                     <Form>
                         <Grid container spacing={3} alignContent='center'>
                             <Grid item container justify='flex-start'>
-                                <Typography variant='h4'>Enter Email</Typography>
+                                <Typography variant='h4'>
+                                    Enter Email
+                                </Typography>
                             </Grid>
                             <Grid item container spacing={5}>
                                 <Grid item md={6} xs={12}>
@@ -78,7 +82,10 @@ function NewMessageForm({ setReceiver, closeForm }: Props) {
                                 </Grid>
                             </Grid>
                             <Grid container item xs={12}>
-                                <SubmitButton type='submit' isLoading={isLoading}/>
+                                <SubmitButton
+                                    type='submit'
+                                    isLoading={isLoading}
+                                />
                             </Grid>
                         </Grid>
                     </Form>
