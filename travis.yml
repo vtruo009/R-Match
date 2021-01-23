@@ -4,4 +4,4 @@ node_js:
   - '12'
 
 script:
-  - cd client && npm run build
+  - cd src/client && npm run build
