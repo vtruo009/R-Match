@@ -133,6 +133,7 @@ export const getJobs = (
         ])
         .leftJoin('job.facultyMember', 'facultyMember')
         .leftJoin('facultyMember.user', 'user')
+        .leftJoinAndSelect('job.department', 'department')
         .where('LOWER(job.title) LIKE :title', {
             title: `%${title.toLowerCase()}%`,
         })
@@ -173,7 +174,7 @@ export const updateJob = async (job: Job) => {
         endDate,
         type,
         title,
-        status,
+        // status,
         minSalary,
         maxSalary,
         departmentId,
@@ -214,7 +215,7 @@ export const updateJob = async (job: Job) => {
         endDate: endDateAsDate,
         type,
         title,
-        status,
+        // status,
         minSalary,
         maxSalary,
         departmentId,

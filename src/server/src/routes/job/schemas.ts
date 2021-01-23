@@ -34,7 +34,8 @@ export const jobCreateSchema = Joi.object({
 export const jobUpdateSchema = Joi.object({
     job: baseJob.keys({
         id: Joi.number().required(),
-        status: Joi.string().valid('Hiring', 'Closed').required(),
+        // TODO: Remove from here. Add it in a different api
+        // status: Joi.string().valid('Hiring', 'Closed').required(),
     }),
 });
 

@@ -4,13 +4,12 @@ import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import JobDashboardContext from '../Contexts/JobDashBoard';
 import { formatDateString } from 'utils/format';
+import JobDashboardContext from '../Contexts/JobDashBoard';
+import DeleteButton from 'Components/DeleteButton';
 import { IJob, deleteJob } from 'Domains/Jobs/api';
 import Salary from 'Domains/Jobs/Salary';
-
 import JobUpdateForm from 'Domains/Jobs/JobUpdateForm';
-import DeleteButton from 'Components/DeleteButton';
 
 interface JobSummaryProps {
     job: IJob;
@@ -30,15 +29,14 @@ function JobSummary({ job, hasPermission }: JobSummaryProps) {
         const { title, postedOn } = job;
         return `Job title: ${title}, Posted on: ${formatDateString(postedOn)}`;
     };
-
     const { removeJob } = React.useContext(JobDashboardContext);
-
     const deleteRequest = React.useCallback(() => deleteJob(job.id), [job.id]);
     return (
         <Card
             variant='outlined'
             style={{
                 padding: 40,
+                borderRadius: 15,
                 position: 'sticky',
                 top: '100px',
             }}
@@ -53,7 +51,23 @@ function JobSummary({ job, hasPermission }: JobSummaryProps) {
                     <Grid item>
                         {hasPermission ? (
                             <Grid container>
-                                <JobUpdateForm job={job} />
+                                <JobUpdateForm
+                                    initialValues={{
+                                        id: job.id,
+                                        title: job.title,
+                                        description: job.description,
+                                        hoursPerWeek: job.hoursPerWeek,
+                                        minSalary: job.minSalary,
+                                        maxSalary: job.maxSalary,
+                                        targetYears: job.targetYears,
+                                        type: job.type,
+                                        startDate: job.startDate,
+                                        endDate: job.endDate,
+                                        expirationDate: job.expirationDate,
+                                        collegeId: job.department.college.id,
+                                        departmentId: job.department.id,
+                                    }}
+                                />
                                 <DeleteButton
                                     itemName={getJobDescriptionForDelete()}
                                     onDeleteRequest={deleteRequest}

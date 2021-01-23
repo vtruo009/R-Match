@@ -31,7 +31,9 @@ function JobDashboard() {
     return isLoading ? (
         <Loader center />
     ) : (
-        <div>
+        <JobDashboardContext.Provider
+            value={{ removeJob, addJob: () => sendRequest() }}
+        >
             <Grid container spacing={3} alignItems='center'>
                 <Grid item>
                     <Typography variant='h3' color='primary'>
@@ -44,17 +46,11 @@ function JobDashboard() {
                     </Badge>
                 </Grid>
                 <Grid item>
-                    <JobCreateForm onSuccess={sendRequest} />
+                    <JobCreateForm />
                 </Grid>
             </Grid>
-            {jobsPosted.length > 0 ? (
-                <JobDashboardContext.Provider value={{ removeJob }}>
-                    <JobResults jobs={jobsPosted} />
-                </JobDashboardContext.Provider>
-            ) : (
-                <> </>
-            )}
-        </div>
+            {jobsPosted.length > 0 && <JobResults jobs={jobsPosted} />}
+        </JobDashboardContext.Provider>
     );
 }
 

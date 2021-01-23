@@ -2,6 +2,7 @@ import API from 'api';
 import { IJobCreateFormValues } from 'Domains/Jobs/JobCreateForm';
 import { IJobUpdateFormValues } from 'Domains/Jobs/JobUpdateForm';
 import { IDepartment } from 'Components/AcademicInfo/api';
+
 export type jobType =
     | 'grader'
     | 'assistant'
@@ -105,18 +106,40 @@ export async function getJobs(
 }
 
 export async function createJob(job: IJobCreateFormValues) {
-    // TODO: Fix
-    delete job.collegeId;
+    console.log(job);
     return API.post('job/create', {
-        job,
+        job: {
+            title: job.title,
+            description: job.description,
+            startDate: job.startDate,
+            endDate: job.endDate,
+            expirationDate: job.expirationDate,
+            type: job.type,
+            hoursPerWeek: job.hoursPerWeek,
+            targetYears: job.targetYears,
+            minSalary: job.minSalary,
+            maxSalary: job.maxSalary,
+            departmentId: job.departmentId,
+        },
     });
 }
 
-// TODO: Make sure job gets an id and an status
 export async function updateJob(job: IJobUpdateFormValues) {
-    // delete job.collegeId;
     return API.post('job/update', {
-        job,
+        job: {
+            id: job.id,
+            title: job.title,
+            description: job.description,
+            startDate: job.startDate,
+            endDate: job.endDate,
+            expirationDate: job.expirationDate,
+            type: job.type,
+            hoursPerWeek: job.hoursPerWeek,
+            targetYears: job.targetYears,
+            minSalary: job.minSalary,
+            maxSalary: job.maxSalary,
+            departmentId: job.departmentId,
+        },
     });
 }
 

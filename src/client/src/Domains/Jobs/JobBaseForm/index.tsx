@@ -1,20 +1,15 @@
 import React from 'react';
-import { AxiosResponse } from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 
-import useApi from 'hooks/useApi';
-import useSnack from 'hooks/useSnack';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import { DatePickerFormField } from 'Components/DatePickerFormField';
 import SubmitButton from 'Components/SubmitButton';
 import CancelButton from 'Components/CancelButton';
-import { targetYears, jobTypes } from 'Domains/Jobs/api';
+import { targetYears, jobType, jobTypes } from 'Domains/Jobs/api';
 import AcademicInfo from 'Components/AcademicInfo';
-import { IJobCreateFormValues } from 'Domains/Jobs/JobCreateForm';
-import { IJobUpdateFormValues } from 'Domains/Jobs/JobUpdateForm';
 
 // TODO FIGURE OUT WHY START DATE CAN'T BE TODAY
 const today = new Date();
@@ -57,48 +52,39 @@ const formSchema = yup.object({
     targetYears: yup.array().required('At least one targe year is required'),
 });
 
-interface formValuesTypes<T> {
-    requestFunction: (job: T) => Promise<AxiosResponse<any>>;
-    jobInitialValues: T;
+export interface IJobBaseFormValues {
+    title: string;
+    description: string;
+    startDate: string;
+    endDate?: string;
+    expirationDate?: string;
+    type: jobType[];
+    hoursPerWeek?: number;
+    targetYears: string[];
+    minSalary?: number;
+    maxSalary?: number;
+    collegeId?: number;
+    departmentId?: number;
 }
-
-// TODO: Fix, not best practice
-type JobFormValues = any;
-
-interface JobFormProps {
-    onSuccess: () => void;
+interface JobBaseFormProps {
+    onSubmit: (job: IJobBaseFormValues) => void;
     onCancel: () => void;
-    formValues: formValuesTypes<JobFormValues>;
-    successMessage: string;
+    jobInitialValues: IJobBaseFormValues;
+    isLoading: boolean;
 }
 
-function JobForm({
-    onSuccess,
+function JobBaseForm({
+    onSubmit,
     onCancel,
-    formValues: { requestFunction, jobInitialValues },
-    successMessage,
-}: JobFormProps) {
-    const [jobFormValues, setJob] = React.useState<JobFormValues>(
-        jobInitialValues
-    );
-    const request = React.useCallback(() => requestFunction(jobFormValues), [
-        jobFormValues,
-        requestFunction,
-    ]);
-    const [snack] = useSnack();
-    const [sendRequest, isLoading] = useApi(request, {
-        onSuccess: () => {
-            onSuccess();
-            snack(successMessage, 'success');
-        },
-    });
+    jobInitialValues,
+    isLoading,
+}: JobBaseFormProps) {
     return (
         <Formik
             validationSchema={formSchema}
             initialValues={jobInitialValues}
             onSubmit={(formValues) => {
-                setJob(formValues);
-                sendRequest();
+                onSubmit(formValues);
             }}
         >
             {() => (
@@ -201,4 +187,4 @@ function JobForm({
     );
 }
 
-export default JobForm;
+export default JobBaseForm;
