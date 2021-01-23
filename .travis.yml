@@ -3,8 +3,5 @@ language: node_js
 node_js:
   - '12'
 
-env:
-  - CLIENT_DIR=./src/client
-
 script:
-  - cd CLIENT_DIR && npm install && npm run build
+  - cd src/client && npm install && npm run build
