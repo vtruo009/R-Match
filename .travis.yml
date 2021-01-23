@@ -1,8 +1,0 @@
-language: node_js
-
-node_js:
-  - '12'
-
-script:
-  - cd ./src/client && npm install
-  - cd ./src/client && npm run build
