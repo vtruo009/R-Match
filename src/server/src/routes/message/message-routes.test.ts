@@ -15,15 +15,8 @@ const mockMessage1 = {
 const mockMessage2 = {
     content: faker.lorem.paragraph(),
     date: new Date(),
-    senderId: 1,
-    receiverId: 2
-};
-
-const mockMessage3 = {
-    content: faker.lorem.paragraph(),
-    date: new Date(),
-    senderId: 1,
-    receiverId: 3
+    senderId: 2,
+    receiverId: 1
 };
 
 let token: string;
@@ -46,8 +39,6 @@ beforeAll(async () => {
     await message1.save();
     const message2 = Message.create({ ...mockMessage2 });
     await message2.save();
-    //const message3 = Message.create({ ...mockMessage3 });
-    //await message3.save();
 });
 
 afterAll(async () => {
@@ -62,21 +53,11 @@ describe('sendMessage', () => {
         expect(status).toBe(404);
     });
 
-    it('should fail since the message object does not exist.`', async () => {
+    it('should fail since the request is empty.`', async () => {
         const { status } = await request(app)
             .post(endpoint)
             .set('Cookie', token)
             .send({});
-        expect(status).toBe(422);
-    });
-
-    it('should fail since empty message object is sent', async () => {
-        const { status } = await request(app)
-            .post(endpoint)
-            .set('Cookie', token)
-            .send({
-                sample: {},
-            });
         expect(status).toBe(422);
     });
 
@@ -124,6 +105,17 @@ describe('sendMessage', () => {
         expect(status).toBe(400);
     });
 
+    it('should fail since receiverId does not exist.', async () => {
+        const { status } = await request(app)
+            .post(endpoint)
+            .set('Cookie', token)
+            .send({
+                content: faker.random.word(),
+                receiverId: 10
+            });
+        expect(status).toBe(400);
+    });
+
     it('should create new message.', async () => {
         const { status } = await request(app)
             .post(endpoint)
@@ -143,13 +135,18 @@ describe('getMessages', () => {
         expect(status).toBe(401);
     });
 
+    it('should fail since the required parameter is missing.', async () => {
+        const response = await request(app).get(endpoint).set('Cookie', token);
+        expect(response.status).toBe(404);
+    });
+
     it('should get all messages between two users.', async () => {
         const response = await request(app).get(`${endpoint}/2`).set('Cookie', token);
         const messages = response.body.messages;
         expect(response.status).toBe(200);
 
         expect(messages).toBeInstanceOf(Array);
-        expect(messages.length).toBe(2); // Should not contain the third message.
+        expect(messages.length).toBe(2);
         const messageAtIndex0 = messages[0];
         const messageAtIndex1 = messages[1];
 
@@ -162,5 +159,29 @@ describe('getMessages', () => {
         expect(messageAtIndex1.senderId).toBe(mockMessage2.senderId);
         expect(messageAtIndex1.receiverId).toBe(mockMessage2.receiverId);
         expect(messageAtIndex1.date).toBe(mockMessage2.date.toISOString());
+    });
+});
+
+describe('getConversationList', () => {
+    const endpoint = '/api/message/getConversationList';
+    it('should fail since authorization token is not sent', async () => {
+        const { status } = await request(app).get(endpoint);
+        expect(status).toBe(401);
+    });
+
+    it('should get all conversation list of the logged-in user.', async () => {
+        const response = await request(app).get(endpoint).set('Cookie', token);
+        const conversationList = response.body.conversationList;
+        expect(response.status).toBe(200);
+
+        expect(conversationList).toBeInstanceOf(Array);
+        expect(conversationList.length).toBe(1);
+
+        const conversation = conversationList[0];
+        expect(conversation.user.id).toBe(2);
+        expect(conversation.latestMessage.content).toBe(mockMessage2.content);
+        expect(conversation.latestMessage.senderId).toBe(mockMessage2.senderId);
+        expect(conversation.latestMessage.receiverId).toBe(mockMessage2.receiverId);
+        expect(conversation.latestMessage.date).toBe(mockMessage2.date.toISOString());
     });
 });
