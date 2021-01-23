@@ -35,6 +35,11 @@ export const sendMessage = async (
         return sendMessageResult;
     }
 
+    if (senderId == receiverId) {
+        sendMessageResult.errorMessage = "Sender should be different from receiver.";
+        return sendMessageResult;
+    }
+
     const messageToInsert = Message.create({
         content: content,
         senderId: senderId,
