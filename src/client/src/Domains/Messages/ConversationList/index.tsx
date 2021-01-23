@@ -8,7 +8,12 @@ import useApi from 'hooks/useApi';
 import { AuthContext } from 'Contexts/AuthContext';
 import Loader from 'Components/Loader';
 import { IUser } from 'Domains/Accounts/api';
-import { IConversation, IMessage, getConversationList, io } from 'Domains/Messages/api';
+import {
+    IConversation,
+    IMessage,
+    getConversationList,
+    io,
+} from 'Domains/Messages/api';
 import NewMessageForm from 'Domains/Messages/NewMessageForm';
 import ConversationPreview from 'Domains/Messages/ConversationPreview';
 
@@ -19,7 +24,9 @@ interface ConversationListProps {
 function ConversationList({ setReceiver }: ConversationListProps) {
     const [openNewMessageForm, setOpenNewMessageForm] = React.useState(false);
     const [selectedReceiver, setSelectedReceiver] = React.useState<IUser>();
-    const [conversationList, setConversationList] = React.useState<IConversation[]>([]);
+    const [conversationList, setConversationList] = React.useState<
+        IConversation[]
+    >([]);
 
     const { user } = React.useContext(AuthContext);
 
@@ -53,10 +60,13 @@ function ConversationList({ setReceiver }: ConversationListProps) {
     React.useEffect(() => {
         // Reload conversation list when new message arrives.
         io.on('update_conversation', (message: IMessage) => {
-            if (message.sender.id === user?.userId || message.receiver.id === user?.userId)
+            if (
+                message.sender.id === user?.userId ||
+                message.receiver.id === user?.userId
+            )
                 sendRequest();
         });
-    }, [io, user, sendRequest]);
+    }, [user, sendRequest]);
 
     return (
         <div>
@@ -64,30 +74,38 @@ function ConversationList({ setReceiver }: ConversationListProps) {
                 {isLoading ? (
                     <Loader />
                 ) : (
-                        <Grid item spacing={3} direction='column'>
-                            <Button
-                                onClick={handleClickOpen}
-                                color='primary'
-                                variant='contained'
-                                fullWidth={true}>
-                                New Message
-                            </Button>
-                            {/* Render all ongoing conversations. */}
-                            {conversationList.map((conversation, key) => (
-                                <Grid item key={key}>
-                                    <ConversationPreview
-                                        conversation={conversation}
-                                        onClick={setSelectedReceiver}
-                                        isSelected={selectedReceiver !== undefined &&
-                                            conversation.user.id === selectedReceiver.id}
-                                    />
-                                </Grid>
-                            ))}
-                        </Grid>
-                    )
-                }
+                    <Grid item spacing={3} direction='column'>
+                        <Button
+                            onClick={handleClickOpen}
+                            color='primary'
+                            variant='contained'
+                            fullWidth={true}
+                        >
+                            New Message
+                        </Button>
+                        {/* Render all ongoing conversations. */}
+                        {conversationList.map((conversation, key) => (
+                            <Grid item key={key}>
+                                <ConversationPreview
+                                    conversation={conversation}
+                                    onClick={setSelectedReceiver}
+                                    isSelected={
+                                        selectedReceiver !== undefined &&
+                                        conversation.user.id ===
+                                            selectedReceiver.id
+                                    }
+                                />
+                            </Grid>
+                        ))}
+                    </Grid>
+                )}
             </div>
-            <Dialog open={openNewMessageForm} onClose={handleClose} maxWidth='md' fullWidth>
+            <Dialog
+                open={openNewMessageForm}
+                onClose={handleClose}
+                maxWidth='md'
+                fullWidth
+            >
                 <NewMessageForm
                     setReceiver={setSelectedReceiver}
                     closeForm={handleClose}

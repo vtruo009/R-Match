@@ -1,4 +1,4 @@
-import API, { serverPath }  from 'api';
+import API, { serverPath } from 'api';
 import * as socketio_client from 'socket.io-client';
 import { IMessageSendForm } from 'Domains/Messages/MessageSendForm';
 import { INewMessageForm } from 'Domains/Messages/NewMessageForm';
@@ -19,20 +19,26 @@ export interface IConversation {
 export async function sendMessage(message: IMessageSendForm, receiver?: IUser) {
     return API.post('message/sendMessage', {
         content: message.content,
-        receiverId: receiver?.id
+        receiverId: receiver?.id,
     });
 }
 
 export async function getMessages(messenger?: IUser) {
-    return API.get<{ messages: IMessage[] }>(`message/getMessages/${messenger?.id}`);
+    return API.get<{ messages: IMessage[] }>(
+        `message/getMessages/${messenger?.id}`
+    );
 }
 
 export async function getConversationList() {
-    return API.get<{ conversationList: IConversation[] }>('message/getConversationList');
+    return API.get<{ conversationList: IConversation[] }>(
+        'message/getConversationList'
+    );
 }
 
 export async function createMessage(newMessageForm: INewMessageForm) {
-    return API.get < { user: IUser, error: string } >(`user/get-by-email/${newMessageForm.email}`);
+    return API.get<{ user: IUser; error: string }>(
+        `user/get-by-email/${newMessageForm.email}`
+    );
 }
 
 export const io: SocketIOClient.Socket = socketio_client.connect(serverPath);

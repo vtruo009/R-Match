@@ -36,15 +36,25 @@ function MessageDialog({ message }: Props) {
         <Grid item>
             <Grid item>
                 <Typography color='primary'>
-                    {message.sender.firstName} {message.sender.lastName} ({formatDateStringBasedOnCurrentDay(message.date)})
+                    {message.sender.firstName} {message.sender.lastName} (
+                    {formatDateStringBasedOnCurrentDay(message.date)})
                 </Typography>
             </Grid>
             <Card
-                className={message.sender.id === userId ? classes.SentByUser : classes.SentByReceiver}
+                className={
+                    message.sender.id === userId
+                        ? classes.SentByUser
+                        : classes.SentByReceiver
+                }
                 variant='outlined'
                 style={{ padding: 10 }}
             >
-                <Grid container spacing={4} alignItems='center' justify='center'>
+                <Grid
+                    container
+                    spacing={4}
+                    alignItems='center'
+                    justify='center'
+                >
                     <Grid
                         item
                         container
@@ -53,9 +63,7 @@ function MessageDialog({ message }: Props) {
                         md={9}
                         xs={12}
                     >
-                        <Typography>
-                            {message.content}
-                        </Typography>
+                        <Typography>{message.content}</Typography>
                     </Grid>
                 </Grid>
             </Card>

@@ -17,18 +17,12 @@ function MessageRoot() {
             <div>
                 <Grid container spacing={3}>
                     <Grid item md={6} xs={12}>
-                        <ConversationList
-                            setReceiver={setReceiver}
-                        />
+                        <ConversationList setReceiver={setReceiver} />
                     </Grid>
                     <Grid item md={6} xs={12}>
                         <Paper style={{ padding: 10 }}>
-                            <Messages
-                                receiver={receiver}
-                            />
-                            <MessageSendForm
-                                receiver={receiver}
-                            />
+                            <Messages receiver={receiver} />
+                            <MessageSendForm receiver={receiver} />
                         </Paper>
                     </Grid>
                 </Grid>

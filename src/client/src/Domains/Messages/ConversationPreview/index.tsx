@@ -27,7 +27,11 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-function ConversationPreview({ conversation, onClick, isSelected }: ConversationPreviewProps) {
+function ConversationPreview({
+    conversation,
+    onClick,
+    isSelected,
+}: ConversationPreviewProps) {
     const classes = useStyles();
     return (
         <Card
@@ -47,10 +51,15 @@ function ConversationPreview({ conversation, onClick, isSelected }: Conversation
                 >
                     <Grid item>
                         <Typography variant='h6' color='primary'>
-                            {conversation.user.firstName} {conversation.user.lastName}
+                            {conversation.user.firstName}{' '}
+                            {conversation.user.lastName}
                         </Typography>
                         <Typography color='primary'>
-                            {conversation.latestMessage.sender.firstName} ({formatDateStringBasedOnCurrentDay(conversation.latestMessage.date)}): {conversation.latestMessage.content}
+                            {conversation.latestMessage.sender.firstName} (
+                            {formatDateStringBasedOnCurrentDay(
+                                conversation.latestMessage.date
+                            )}
+                            ): {conversation.latestMessage.content}
                         </Typography>
                     </Grid>
                 </Grid>

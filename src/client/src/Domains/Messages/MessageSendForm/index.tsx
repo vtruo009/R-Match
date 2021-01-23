@@ -19,7 +19,7 @@ const formSchema = yup.object({
 });
 
 const messageInitialValues: IMessageSendForm = {
-    content: ''
+    content: '',
 };
 
 interface MessageSendFormProps {
@@ -27,11 +27,16 @@ interface MessageSendFormProps {
 }
 
 function MessageSendForm({ receiver }: MessageSendFormProps) {
-    const [message, setMessage] = React.useState<IMessageSendForm>(messageInitialValues);
+    const [message, setMessage] = React.useState<IMessageSendForm>(
+        messageInitialValues
+    );
 
     const { user } = React.useContext(AuthContext);
 
-    const request = React.useCallback(() => sendMessage(message, receiver), [message, receiver]);
+    const request = React.useCallback(() => sendMessage(message, receiver), [
+        message,
+        receiver,
+    ]);
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
             io.emit('new_message', {
@@ -40,53 +45,62 @@ function MessageSendForm({ receiver }: MessageSendFormProps) {
                 sender: {
                     id: user?.userId,
                     firstName: user?.firstName,
-                    lastName: user?.lastName
-                }
+                    lastName: user?.lastName,
+                },
             });
-        }
+        },
     });
 
     return (
         <div>
-            {(receiver === undefined) ? (
+            {receiver === undefined ? (
                 <div></div>
             ) : (
-                    <Paper style={{ padding: 30 }}>
-                        <Formik
-                            validationSchema={formSchema}
-                            initialValues={messageInitialValues}
-                            onSubmit={(formValues, actions) => {
-                                setMessage(formValues);
-                                sendRequest();
-                                actions.resetForm({
-                                    values: { ...messageInitialValues },
-                                });
-                            }}
-                        >
-                            {() => (
-                                <Form>
-                                    <Grid item container spacing={5}
-                                        direction='row'
-                                        justify='space-evenly'
-                                        alignItems='center'>
-                                        <Grid item xs={8}>
-                                            <Field
-                                                name='content'
-                                                label='Message'
-                                                component={TextFormField}
-                                            />
-                                        </Grid>
-                                        <Grid item md={3} xs={2}>
-                                            <SubmitButton fullWidth={true} type='submit' isLoading={isLoading} disabled={receiver === undefined}>
-                                                Send
-                                            </SubmitButton>
-                                        </Grid>
+                <Paper style={{ padding: 30 }}>
+                    <Formik
+                        validationSchema={formSchema}
+                        initialValues={messageInitialValues}
+                        onSubmit={(formValues, actions) => {
+                            setMessage(formValues);
+                            sendRequest();
+                            actions.resetForm({
+                                values: { ...messageInitialValues },
+                            });
+                        }}
+                    >
+                        {() => (
+                            <Form>
+                                <Grid
+                                    item
+                                    container
+                                    spacing={5}
+                                    direction='row'
+                                    justify='space-evenly'
+                                    alignItems='center'
+                                >
+                                    <Grid item xs={8}>
+                                        <Field
+                                            name='content'
+                                            label='Message'
+                                            component={TextFormField}
+                                        />
                                     </Grid>
-                                </Form>
-                            )}
-                        </Formik>
-                    </Paper>
-                )}
+                                    <Grid item md={3} xs={2}>
+                                        <SubmitButton
+                                            fullWidth={true}
+                                            type='submit'
+                                            isLoading={isLoading}
+                                            disabled={receiver === undefined}
+                                        >
+                                            Send
+                                        </SubmitButton>
+                                    </Grid>
+                                </Grid>
+                            </Form>
+                        )}
+                    </Formik>
+                </Paper>
+            )}
         </div>
     );
 }

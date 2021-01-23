@@ -23,7 +23,7 @@ function Messages({ receiver }: MessagesProps) {
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: (response) => {
             setMessages(response.data.messages);
-        }
+        },
     });
 
     React.useEffect(() => {
@@ -36,11 +36,13 @@ function Messages({ receiver }: MessagesProps) {
         io.on('message_area', (message: IMessage) => {
             // Append new message to the current message list if the new
             // message is sent between the logged-in user and the current receiver.
-            if (receiver &&
-                ((message.sender.id === receiver.id
-                    && message.receiver.id === user?.userId)
-                 || (message.receiver.id === receiver.id
-                    && message.sender.id === user?.userId))) {
+            if (
+                receiver &&
+                ((message.sender.id === receiver.id &&
+                    message.receiver.id === user?.userId) ||
+                    (message.receiver.id === receiver.id &&
+                        message.sender.id === user?.userId))
+            ) {
                 setMessages((prevMessages) => [...prevMessages, message]);
             }
         });
@@ -48,35 +50,32 @@ function Messages({ receiver }: MessagesProps) {
 
     return (
         <div style={{ margin: 30 }}>
-            {(receiver === undefined) ? (
+            {receiver === undefined ? (
                 <div></div>
             ) : (
+                <div>
                     <div>
+                        <Typography variant='h6' color='primary'>
+                            Message with {receiver.firstName}{' '}
+                            {receiver.lastName}
+                        </Typography>
 
-                        <div>
-                            <Typography variant='h6' color='primary'>
-                            Message with {receiver.firstName} {receiver.lastName}
-                            </Typography>
-
-                            {isLoading ? (
-                                <Loader />
-                            ) : (
-                                    <Grid>
-                                        {/* Render all messages. */}
-                                        {messages.map((message, index) => (
-                                            <Grid item key={index}>
-                                                <MessageDialog
-                                                    message={message}
-                                                />
-                                            </Grid>
-                                        ))}
+                        {isLoading ? (
+                            <Loader />
+                        ) : (
+                            <Grid>
+                                {/* Render all messages. */}
+                                {messages.map((message, index) => (
+                                    <Grid item key={index}>
+                                        <MessageDialog message={message} />
                                     </Grid>
-                            )}
-                        </div>
+                                ))}
+                            </Grid>
+                        )}
                     </div>
-            )
-        }   
-        </div >
+                </div>
+            )}
+        </div>
     );
 }
 
