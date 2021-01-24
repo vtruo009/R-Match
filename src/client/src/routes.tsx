@@ -4,6 +4,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PersonIcon from '@material-ui/icons/Person';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import MailIcon from '@material-ui/icons/Mail';
 
 import Home from 'Pages/Home';
 import SearchJobs from 'Pages/SearchJobs';
@@ -12,6 +13,7 @@ import JobStudentDashboard from 'Pages/JobStudentDashboard';
 import Profile from 'Pages/Profile';
 import SignIn from 'Pages/SignIn';
 import SignUp from 'Pages/SignUp';
+import Message from 'Pages/Message';
 
 export interface IRoute {
     path: string;
@@ -53,6 +55,12 @@ export const authenticatedRoutes = [
         name: 'Profile',
         component: Profile,
         icon: <PersonIcon />,
+    },
+    {
+        path: '/message',
+        name: 'Message',
+        component: Message,
+        icon: <MailIcon />,
     },
 ];
 

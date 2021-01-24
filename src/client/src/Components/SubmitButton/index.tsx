@@ -9,6 +9,7 @@ interface SubmitButtonProps {
 
 function SubmitButton({
     isLoading,
+    disabled = false,
     size = 'large',
     label = 'Submit',
     color = 'primary',
@@ -18,7 +19,7 @@ function SubmitButton({
         <MUIButton
             {...passThroughProps}
             type='submit'
-            disabled={isLoading}
+            disabled={isLoading || disabled}
             variant='contained'
             color={color}
             size={size}
