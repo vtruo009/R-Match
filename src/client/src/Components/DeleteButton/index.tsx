@@ -2,12 +2,12 @@ import React from 'react';
 import { AxiosResponse } from 'axios';
 import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import TrashCanIcon from '@material-ui/icons/Delete';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
+import Button from 'Components/Button';
 import Dialog from 'Components/Dialog';
 import CancelButton from 'Components/CancelButton';
 
@@ -60,7 +60,6 @@ function DeleteButton({
                         <Button
                             disabled={isLoading}
                             color='secondary'
-                            variant='contained'
                             onClick={sendDeleteRequest}
                         >
                             Confirm

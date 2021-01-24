@@ -2,11 +2,11 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 
 import { formatDateString, formatSalary } from 'utils/format';
 import JobDashboardContext from '../Contexts/JobDashBoard';
 import DeleteButton from 'Components/DeleteButton';
+import Button from 'Components/Button';
 import { IJob, deleteJob } from 'Domains/Jobs/api';
 import JobUpdateForm from 'Domains/Jobs/JobUpdateForm';
 
@@ -81,11 +81,10 @@ function JobSummary({ job, hasPermission }: JobSummaryProps) {
                                     onDeleteRequest={deleteRequest}
                                     onSuccess={() => removeJob(job.id)}
                                 />
+                                <Button>Close</Button>
                             </Grid>
                         ) : (
-                            <Button variant='contained' color='primary'>
-                                Apply
-                            </Button>
+                            <Button>Apply</Button>
                         )}
                     </Grid>
                 </Grid>
