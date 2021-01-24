@@ -293,7 +293,7 @@ router.post(
             const { result, message } = await applyToJob(specificUserId, jobId);
             return result
                 ? res.status(OK).end()
-                : res.status(BAD_REQUEST).json({ error: message });
+                : res.status(BAD_REQUEST).json({ message });
         } catch (error) {
             logger.err(error);
             return res

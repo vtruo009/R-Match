@@ -59,6 +59,14 @@ function JobActions({ job, hasPermission }: JobActionsProps) {
             removeJob(job.id);
             snack('Application successfully submitted', 'success');
         },
+        onFailure: (error, response) => {
+            console.log(error);
+            if (response) {
+                snack(`${response.data.message}`, 'error');
+            } else {
+                snack('Something went wrong. Try again later!', 'error');
+            }
+        },
     });
 
     return hasPermission ? (

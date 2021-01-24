@@ -182,7 +182,7 @@ export async function openJob(jobId: number) {
 }
 
 export async function applyToJob(jobId: number) {
-    return API.post('/job/apply-to-job', {
+    return API.post<{ message: string }>('/job/apply-to-job', {
         jobId,
     });
 }

@@ -31,8 +31,6 @@ router.post(
     passport.authenticate('jwt', { session: false }),
     validationMiddleware({ bodySchema: studentProfileSchema }),
     async (req: studentRequest, res: Response) => {
-        // Output body of request for visualization purposes
-        console.log(req.body.studentProfile);
         const { specificUserId, role } = req.user as JWTUser;
         if (role !== 'student') {
             return res
