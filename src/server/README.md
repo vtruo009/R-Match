@@ -145,6 +145,42 @@ Job API
                 -   Unauthorized user -> Status code: 401
                 -   Internal server error -> Status code: 500
 
+    -   api/job/close
+        -   Closes an existing job object from the database.
+        -   Body: 
+            ```
+            {
+                jobId: number
+            }
+            ```
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a faculty member
+        -   Response:
+            -   success:
+                Status code: 200
+            -   errors:
+                -   Unauthorized user -> Status code: 401
+                -   Internal server error -> Status code: 500
+
+    -   api/job/activate/:id
+        -   Activates an existing job object from the database.
+        -   Body:
+            ```
+            {
+                jobId: number
+            }
+            ```
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a faculty member
+        -   Response:
+            -   success:
+                Status code: 200
+            -   errors:
+                -   Unauthorized user -> Status code: 401
+                -   Internal server error -> Status code: 500
+
 User API
 
 -   Interacts with:

@@ -2,14 +2,15 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 
-import { formatDateString } from 'utils/format';
+import { formatDateString, formatSalary } from 'utils/format';
 import { IJob } from 'Domains/Jobs/api';
-import Salary from 'Domains/Jobs/Salary';
+
+import JobActions from 'Domains/Jobs/JobActions';
 
 interface JobSummaryProps {
     job: IJob;
+    hasPermission: boolean;
 }
 interface SubTitleProps {
     title: string;
@@ -20,12 +21,13 @@ const SubTitle = ({ title }: SubTitleProps) => (
     </Typography>
 );
 
-function JobSummary({ job }: JobSummaryProps) {
+function JobSummary({ job, hasPermission }: JobSummaryProps) {
     return (
         <Card
             variant='outlined'
             style={{
                 padding: 40,
+                borderRadius: 15,
                 position: 'sticky',
                 top: '100px',
             }}
@@ -38,23 +40,18 @@ function JobSummary({ job }: JobSummaryProps) {
                         </Typography>
                     </Grid>
                     <Grid item>
-                        <Button variant='contained' color='primary'>
-                            Apply
-                        </Button>
+                        <JobActions hasPermission={hasPermission} job={job} />
                     </Grid>
                 </Grid>
                 <Grid container item spacing={3}>
                     <Grid item container direction='column' spacing={2} md={4}>
                         <Grid item>
                             <SubTitle title={'Salary'} />
-                            {job.minSalary > 0 ? (
-                                <Salary
-                                    minSalary={job.minSalary}
-                                    maxSalary={job.maxSalary}
-                                />
-                            ) : (
-                                <Typography> None </Typography>
-                            )}
+                            <Typography>
+                                {job.minSalary > 0
+                                    ? formatSalary(job.minSalary, job.maxSalary)
+                                    : 'None'}
+                            </Typography>
                         </Grid>
                         <Grid item>
                             <SubTitle title={'Hours per week'} />
@@ -65,6 +62,20 @@ function JobSummary({ job }: JobSummaryProps) {
                             <Typography>
                                 {job.targetYears.join(', ')}
                             </Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid item container direction='column' spacing={2} md={4}>
+                        <Grid item>
+                            <SubTitle title={'Job type(s)'} />
+                            <Typography>{job.type.join(', ')}</Typography>
+                        </Grid>
+                        <Grid item>
+                            <SubTitle title={'Department'} />
+                            <Typography>{job.department.name}</Typography>
+                        </Grid>
+                        <Grid item>
+                            <SubTitle title={'Status'} />
+                            <Typography>{job.status}</Typography>
                         </Grid>
                     </Grid>
                     <Grid item container direction='column' spacing={2} md={4}>
@@ -90,16 +101,6 @@ function JobSummary({ job }: JobSummaryProps) {
                                 </Typography>
                             </Grid>
                         )}
-                    </Grid>
-                    <Grid item container direction='column' spacing={2} md={4}>
-                        <Grid item>
-                            <SubTitle title={'Job type(s)'} />
-                            <Typography>{job.type.join(', ')}</Typography>
-                        </Grid>
-                        <Grid item>
-                            <SubTitle title={'Department'} />
-                            <Typography>{job.departmentId}</Typography>
-                        </Grid>
                     </Grid>
                 </Grid>
                 <Grid container direction='column' item>

@@ -18,7 +18,3 @@ export const studentProfileSchema = Joi.object({
         resume: Joi.any().optional().allow(null),
     }).required(),
 });
-
-export const applyToJobSchema = Joi.object({
-    jobId: Joi.number().required(),
-});

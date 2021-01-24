@@ -25,9 +25,9 @@ export interface ICourse {
 }
 
 export function getCollegesAndDepartments() {
-    return API.get<{ colleges: ICollege[] }>('college/read');
+    return API.get<{ colleges: ICollege[] }>('/college/read');
 }
 
 export function getCourses(departmentId: number) {
-    return API.get<{ courses: ICourse[] }>(`course/read/${departmentId}`);
+    return API.get<{ courses: ICourse[] }>(`/course/read/${departmentId}`);
 }

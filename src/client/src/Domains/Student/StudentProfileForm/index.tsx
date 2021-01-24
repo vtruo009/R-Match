@@ -1,6 +1,5 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import { SimpleFileUpload } from 'formik-material-ui';
@@ -92,113 +91,111 @@ function StudentProfileForm({
             onSuccess: () => {
                 onClose();
                 onSuccess();
-                snack('Student profile successfully updated!', 'success');
+                snack('Profile successfully updated!', 'success');
             },
         }
     );
     return (
-        <Paper style={{ padding: 50 }}>
-            <Formik
-                validationSchema={formSchema}
-                initialValues={studentProfileInformation}
-                onSubmit={(formValues) => {
-                    setStudentProfile(formValues);
-                    sendUpdateProfileRequest();
-                }}
-            >
-                {() => (
-                    <Form>
-                        <Grid
-                            container
-                            spacing={4}
-                            justify='center'
-                            alignItems='center'
-                        >
-                            <Grid item md={6} xs={12}>
-                                <Field
-                                    name='firstName'
-                                    label='First Name'
-                                    component={TextFormField}
-                                />
-                            </Grid>
-                            <Grid item md={6} xs={12}>
-                                <Field
-                                    name='middleName'
-                                    label='Middle Name'
-                                    component={TextFormField}
-                                />
-                            </Grid>
-                            <Grid item md={6} xs={12}>
-                                <Field
-                                    name='lastName'
-                                    label='Last Name'
-                                    component={TextFormField}
-                                />
-                            </Grid>
-                            <Grid item md={6} xs={12}>
-                                <Field
-                                    name='email'
-                                    label='Email'
-                                    disabled
-                                    component={TextFormField}
-                                />
-                            </Grid>
-                            <Grid item md={6} xs={12}>
-                                <Field
-                                    name='classStanding'
-                                    label='Class Standing'
-                                    options={classStandingValues}
-                                    component={SelectFormField}
-                                    defaultLabel='Select your class standing'
-                                />
-                            </Grid>
-                            <Grid item md={6} xs={12}>
-                                <Field
-                                    name='sid'
-                                    label='SID'
-                                    component={TextFormField}
-                                />
-                            </Grid>
-                            {/* TODO: Make sure PDF Files are not greater than some number of bytes */}
-                            <Grid item md={6} xs={12}>
-                                <Field
-                                    name='transcript'
-                                    label='Transcript'
-                                    type='file'
-                                    component={SimpleFileUpload}
-                                />
-                            </Grid>
-                            <Grid item md={6} xs={12}>
-                                <Field
-                                    name='resume'
-                                    label='Resume'
-                                    type='file'
-                                    component={SimpleFileUpload}
-                                />
-                            </Grid>
-                            <Grid item md={12} xs={12}>
-                                <Field
-                                    name='biography'
-                                    label='Biography'
-                                    multiline
-                                    component={TextFormField}
-                                />
-                            </Grid>
-                            <Field component={AcademicInfo} showCourses />
-                            <Grid item md={6} xs={12}>
-                                <SubmitButton
-                                    fullWidth
-                                    isLoading={isUpdatingProfileLoading}
-                                />
-                            </Grid>
-                            <Grid item md={6} xs={12}>
-                                <CancelButton onClick={onClose} fullWidth />
-                            </Grid>
+        <Formik
+            validationSchema={formSchema}
+            initialValues={studentProfileInformation}
+            onSubmit={(formValues) => {
+                setStudentProfile(formValues);
+                sendUpdateProfileRequest();
+            }}
+        >
+            {() => (
+                <Form>
+                    <Grid
+                        container
+                        spacing={4}
+                        justify='center'
+                        alignItems='center'
+                    >
+                        <Grid item md={6} xs={12}>
+                            <Field
+                                name='firstName'
+                                label='First Name'
+                                component={TextFormField}
+                            />
                         </Grid>
-                    </Form>
-                )}
-            </Formik>
-        </Paper>
+                        <Grid item md={6} xs={12}>
+                            <Field
+                                name='middleName'
+                                label='Middle Name'
+                                component={TextFormField}
+                            />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                            <Field
+                                name='lastName'
+                                label='Last Name'
+                                component={TextFormField}
+                            />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                            <Field
+                                name='email'
+                                label='Email'
+                                disabled
+                                component={TextFormField}
+                            />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                            <Field
+                                name='classStanding'
+                                label='Class Standing'
+                                options={classStandingValues}
+                                component={SelectFormField}
+                                defaultLabel='Select your class standing'
+                            />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                            <Field
+                                name='sid'
+                                label='SID'
+                                component={TextFormField}
+                            />
+                        </Grid>
+                        {/* TODO: Make sure PDF Files are not greater than some number of bytes */}
+                        <Grid item md={6} xs={12}>
+                            <Field
+                                name='transcript'
+                                label='Transcript'
+                                type='file'
+                                component={SimpleFileUpload}
+                            />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                            <Field
+                                name='resume'
+                                label='Resume'
+                                type='file'
+                                component={SimpleFileUpload}
+                            />
+                        </Grid>
+                        <Grid item md={12} xs={12}>
+                            <Field
+                                name='biography'
+                                label='Biography'
+                                multiline
+                                component={TextFormField}
+                            />
+                        </Grid>
+                        <Field component={AcademicInfo} showCourses />
+                        <Grid item md={6} xs={12}>
+                            <SubmitButton
+                                fullWidth
+                                isLoading={isUpdatingProfileLoading}
+                            />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                            <CancelButton onClick={onClose} fullWidth />
+                        </Grid>
+                    </Grid>
+                </Form>
+            )}
+        </Formik>
     );
 }
 

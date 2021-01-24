@@ -8,15 +8,16 @@ import GraderIcon from '@material-ui/icons/Assignment';
 import ResearchIcon from '@material-ui/icons/FindInPage';
 import TutorIcon from '@material-ui/icons/SupervisedUserCircle';
 import VolunteerIcon from '@material-ui/icons/Accessibility';
-import OtherIcon from '@material-ui/icons/AddCircle';
+import OtherIcon from '@material-ui/icons/Help';
 
-import Salary from 'Domains/Jobs/Salary';
 import { IJob, jobType } from 'Domains/Jobs/api';
+import { formatDateString, formatSalary } from 'utils/format';
 
 interface JobPreviewProps {
     job: IJob;
-    onClick: (job: IJob) => void;
+    onClick: () => void;
     isSelected: boolean;
+    hasPermission: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -50,14 +51,27 @@ const getIcon = (type: jobType): JSX.Element => {
     }
 };
 
-function JobPreview({ job, onClick, isSelected }: JobPreviewProps) {
+function JobPreview({
+    job,
+    onClick,
+    isSelected,
+    hasPermission,
+}: JobPreviewProps) {
     const classes = useStyles();
+
+    const getJobPosterName = () => {
+        const { title, user } = job.facultyMember;
+        const { firstName, lastName } = user;
+        const _title = title ? title : '';
+        return `${_title} ${firstName} ${lastName}`;
+    };
+
     return (
         <Card
             className={isSelected ? classes.Selected : classes.NonSelected}
             variant='outlined'
-            style={{ padding: 30 }}
-            onClick={() => onClick(job)}
+            style={{ padding: 30, borderRadius: 15 }}
+            onClick={onClick}
         >
             <Grid container spacing={4} alignItems='center' justify='center'>
                 <Grid
@@ -90,19 +104,17 @@ function JobPreview({ job, onClick, isSelected }: JobPreviewProps) {
                     </Grid>
                     {job.minSalary > 0 && (
                         <Grid item>
-                            Hourly wage:
-                            <Salary
-                                minSalary={job.minSalary}
-                                maxSalary={job.maxSalary}
-                            />
+                            <Typography>
+                                Hourly wage:{' '}
+                                {formatSalary(job.minSalary, job.maxSalary)}
+                            </Typography>
                         </Grid>
                     )}
                     <Grid item>
                         <Typography variant='body1'>
-                            Posted by:{' '}
-                            {job.facultyMember.title && job.facultyMember.title}{' '}
-                            {job.facultyMember.user.firstName}{' '}
-                            {job.facultyMember.user.lastName}
+                            {hasPermission
+                                ? `Posted on: ${formatDateString(job.postedOn)}`
+                                : `Posted by: ${getJobPosterName()}`}
                         </Typography>
                     </Grid>
                 </Grid>
