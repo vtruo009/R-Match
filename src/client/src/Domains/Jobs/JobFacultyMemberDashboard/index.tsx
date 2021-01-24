@@ -13,8 +13,11 @@ function JobFacultyMemberDashBoard() {
     const [sendRequest, isLoading] = useApi(getPostedJobsRequest, {
         onSuccess: (response) => {
             const jobs = response.data.jobs;
-            setJobs(jobs);
-            if (jobs.length === 0) snack('No jobs were found', 'warning');
+            if (jobs.length === 0) {
+                snack('No jobs were found', 'warning');
+            } else {
+                setJobs(jobs);
+            }
         },
     });
     React.useEffect(() => sendRequest(), [sendRequest]);
