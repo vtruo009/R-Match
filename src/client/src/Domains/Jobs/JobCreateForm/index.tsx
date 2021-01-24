@@ -1,7 +1,7 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 
+import Button from 'Components/Button';
 import JobsContext from '../Contexts/JobsContext';
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
@@ -49,9 +49,13 @@ function JobCreateForm() {
 
     return (
         <div>
-            <IconButton color='primary' onClick={openDialog}>
-                <AddIcon />
-            </IconButton>
+            <Button
+                variant='outlined'
+                startIcon={<AddIcon />}
+                onClick={openDialog}
+            >
+                Add
+            </Button>
             <Dialog {...DialogProps} title='Post Job'>
                 <JobBaseForm
                     onSubmit={(jobBaseValues) => {
