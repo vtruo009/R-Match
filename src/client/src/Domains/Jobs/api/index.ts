@@ -106,7 +106,6 @@ export async function getJobs(
 }
 
 export async function createJob(job: IJobCreateFormValues) {
-    console.log(job);
     return API.post('job/create', {
         job: {
             title: job.title,
@@ -131,8 +130,9 @@ export async function updateJob(job: IJobUpdateFormValues) {
             title: job.title,
             description: job.description,
             startDate: job.startDate,
-            endDate: job.endDate,
-            expirationDate: job.expirationDate,
+            endDate: job.endDate === '' ? undefined : job.endDate,
+            expirationDate:
+                job.expirationDate === '' ? undefined : job.expirationDate,
             type: job.type,
             hoursPerWeek: job.hoursPerWeek,
             targetYears: job.targetYears,

@@ -8,11 +8,10 @@ import GraderIcon from '@material-ui/icons/Assignment';
 import ResearchIcon from '@material-ui/icons/FindInPage';
 import TutorIcon from '@material-ui/icons/SupervisedUserCircle';
 import VolunteerIcon from '@material-ui/icons/Accessibility';
-import OtherIcon from '@material-ui/icons/AddCircle';
+import OtherIcon from '@material-ui/icons/Help';
 
-import Salary from 'Domains/Jobs/Salary';
 import { IJob, jobType } from 'Domains/Jobs/api';
-import { formatDateString } from 'utils/format';
+import { formatDateString, formatSalary } from 'utils/format';
 
 interface JobPreviewProps {
     job: IJob;
@@ -105,11 +104,10 @@ function JobPreview({
                     </Grid>
                     {job.minSalary > 0 && (
                         <Grid item>
-                            Hourly wage:
-                            <Salary
-                                minSalary={job.minSalary}
-                                maxSalary={job.maxSalary}
-                            />
+                            <Typography>
+                                Hourly wage:{' '}
+                                {formatSalary(job.minSalary, job.maxSalary)}
+                            </Typography>
                         </Grid>
                     )}
                     <Grid item>

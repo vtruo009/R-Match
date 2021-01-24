@@ -3,43 +3,44 @@ import React from 'react';
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
 import useDialog from 'hooks/useDialog';
+import JobDashboardContext from '../Contexts/JobDashBoard';
 import JobBaseForm, { IJobBaseFormValues } from 'Domains/Jobs/JobBaseForm';
 import EditButton from 'Components/EditButton';
-import { updateJob } from '../api';
+import { updateJob as updateJobRequest } from '../api';
 
 export interface IJobUpdateFormValues extends IJobBaseFormValues {
     id: number;
 }
 
 interface JobUpdateFormProps {
-    initialValues: IJobUpdateFormValues;
+    jobInitialValues: IJobUpdateFormValues;
 }
 
 // TODO: Check date issue and update the current updated job in the page
-//       Also update the delete dialog to accept a more descriptive message 
+//       Also update the delete dialog to accept a more descriptive message
 //       explaining that if a job is deleted all the job applications will also be deleted.
- 
-function JobUpdateForm({ initialValues }: JobUpdateFormProps) {
+function JobUpdateForm({ jobInitialValues }: JobUpdateFormProps) {
     const [
-        jobInitialValues,
+        jobToUpdate,
         setJobInitialValues,
-    ] = React.useState<IJobUpdateFormValues>(initialValues);
+    ] = React.useState<IJobUpdateFormValues>(jobInitialValues);
     const [, openDialog, closeDialog, DialogProps, Dialog] = useDialog();
+    const { updateJob } = React.useContext(JobDashboardContext);
     const [snack] = useSnack();
-    const request = React.useCallback(() => updateJob(jobInitialValues), [
-        jobInitialValues,
+    const request = React.useCallback(() => updateJobRequest(jobToUpdate), [
+        jobToUpdate,
     ]);
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
             closeDialog();
-            // TODO: This function currently sends a request to get all the jobs from sever again.
-            //      find a better way of adding a job without sending a request to update the current list of jobs
-            // addJob();
+            updateJob(jobToUpdate);
             snack('Job successfully updated', 'success');
         },
     });
 
-    React.useEffect(() => setJobInitialValues(initialValues), [initialValues]);
+    React.useEffect(() => setJobInitialValues(jobInitialValues), [
+        jobInitialValues,
+    ]);
 
     return (
         <>
@@ -54,7 +55,7 @@ function JobUpdateForm({ initialValues }: JobUpdateFormProps) {
                         sendRequest();
                     }}
                     onCancel={closeDialog}
-                    jobInitialValues={jobInitialValues}
+                    jobInitialValues={jobToUpdate}
                     isLoading={isLoading}
                 />
             </Dialog>

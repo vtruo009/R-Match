@@ -8,7 +8,12 @@ import { SelectFormField } from 'Components/SelectFormField';
 import { DatePickerFormField } from 'Components/DatePickerFormField';
 import SubmitButton from 'Components/SubmitButton';
 import CancelButton from 'Components/CancelButton';
-import { targetYears, jobType, jobTypes } from 'Domains/Jobs/api';
+import {
+    targetYears,
+    jobType,
+    jobTypes,
+    targetYearsType,
+} from 'Domains/Jobs/api';
 import AcademicInfo from 'Components/AcademicInfo';
 
 // TODO FIGURE OUT WHY START DATE CAN'T BE TODAY
@@ -60,7 +65,7 @@ export interface IJobBaseFormValues {
     expirationDate?: string;
     type: jobType[];
     hoursPerWeek?: number;
-    targetYears: string[];
+    targetYears: targetYearsType[];
     minSalary?: number;
     maxSalary?: number;
     collegeId?: number;

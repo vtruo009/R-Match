@@ -4,11 +4,10 @@ import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import { formatDateString } from 'utils/format';
+import { formatDateString, formatSalary } from 'utils/format';
 import JobDashboardContext from '../Contexts/JobDashBoard';
 import DeleteButton from 'Components/DeleteButton';
 import { IJob, deleteJob } from 'Domains/Jobs/api';
-import Salary from 'Domains/Jobs/Salary';
 import JobUpdateForm from 'Domains/Jobs/JobUpdateForm';
 
 interface JobSummaryProps {
@@ -52,7 +51,7 @@ function JobSummary({ job, hasPermission }: JobSummaryProps) {
                         {hasPermission ? (
                             <Grid container>
                                 <JobUpdateForm
-                                    initialValues={{
+                                    jobInitialValues={{
                                         id: job.id,
                                         title: job.title,
                                         description: job.description,
@@ -61,9 +60,18 @@ function JobSummary({ job, hasPermission }: JobSummaryProps) {
                                         maxSalary: job.maxSalary,
                                         targetYears: job.targetYears,
                                         type: job.type,
-                                        startDate: job.startDate,
-                                        endDate: job.endDate,
-                                        expirationDate: job.expirationDate,
+                                        startDate: formatDateString(
+                                            job.startDate,
+                                            'yyyy-MM-dd'
+                                        ),
+                                        endDate: formatDateString(
+                                            job.endDate,
+                                            'yyyy-MM-dd'
+                                        ),
+                                        expirationDate: formatDateString(
+                                            job.expirationDate,
+                                            'yyyy-MM-dd'
+                                        ),
                                         collegeId: job.department.college.id,
                                         departmentId: job.department.id,
                                     }}
@@ -85,14 +93,11 @@ function JobSummary({ job, hasPermission }: JobSummaryProps) {
                     <Grid item container direction='column' spacing={2} md={4}>
                         <Grid item>
                             <SubTitle title={'Salary'} />
-                            {job.minSalary > 0 ? (
-                                <Salary
-                                    minSalary={job.minSalary}
-                                    maxSalary={job.maxSalary}
-                                />
-                            ) : (
-                                <Typography> None </Typography>
-                            )}
+                            <Typography>
+                                {job.minSalary > 0
+                                    ? formatSalary(job.minSalary, job.maxSalary)
+                                    : 'None'}
+                            </Typography>
                         </Grid>
                         <Grid item>
                             <SubTitle title={'Hours per week'} />
