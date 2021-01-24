@@ -4,11 +4,9 @@ import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 
 import { formatDateString, formatSalary } from 'utils/format';
-import JobDashboardContext from '../Contexts/JobDashBoard';
-import DeleteButton from 'Components/DeleteButton';
-import Button from 'Components/Button';
-import { IJob, deleteJob } from 'Domains/Jobs/api';
-import JobUpdateForm from 'Domains/Jobs/JobUpdateForm';
+import { IJob } from 'Domains/Jobs/api';
+
+import JobActions from 'Domains/Jobs/JobActions';
 
 interface JobSummaryProps {
     job: IJob;
@@ -24,12 +22,6 @@ const SubTitle = ({ title }: SubTitleProps) => (
 );
 
 function JobSummary({ job, hasPermission }: JobSummaryProps) {
-    const getJobDescriptionForDelete = () => {
-        const { title, postedOn } = job;
-        return `Job title: ${title}, Posted on: ${formatDateString(postedOn)}`;
-    };
-    const { removeJob } = React.useContext(JobDashboardContext);
-    const deleteRequest = React.useCallback(() => deleteJob(job.id), [job.id]);
     return (
         <Card
             variant='outlined'
@@ -48,44 +40,7 @@ function JobSummary({ job, hasPermission }: JobSummaryProps) {
                         </Typography>
                     </Grid>
                     <Grid item>
-                        {hasPermission ? (
-                            <Grid container>
-                                <JobUpdateForm
-                                    jobInitialValues={{
-                                        id: job.id,
-                                        title: job.title,
-                                        description: job.description,
-                                        hoursPerWeek: job.hoursPerWeek,
-                                        minSalary: job.minSalary,
-                                        maxSalary: job.maxSalary,
-                                        targetYears: job.targetYears,
-                                        type: job.type,
-                                        startDate: formatDateString(
-                                            job.startDate,
-                                            'yyyy-MM-dd'
-                                        ),
-                                        endDate: formatDateString(
-                                            job.endDate,
-                                            'yyyy-MM-dd'
-                                        ),
-                                        expirationDate: formatDateString(
-                                            job.expirationDate,
-                                            'yyyy-MM-dd'
-                                        ),
-                                        collegeId: job.department.college.id,
-                                        departmentId: job.department.id,
-                                    }}
-                                />
-                                <DeleteButton
-                                    itemName={getJobDescriptionForDelete()}
-                                    onDeleteRequest={deleteRequest}
-                                    onSuccess={() => removeJob(job.id)}
-                                />
-                                <Button>Close</Button>
-                            </Grid>
-                        ) : (
-                            <Button>Apply</Button>
-                        )}
+                        <JobActions hasPermission={hasPermission} job={job} />
                     </Grid>
                 </Grid>
                 <Grid container item spacing={3}>
@@ -111,6 +66,20 @@ function JobSummary({ job, hasPermission }: JobSummaryProps) {
                     </Grid>
                     <Grid item container direction='column' spacing={2} md={4}>
                         <Grid item>
+                            <SubTitle title={'Job type(s)'} />
+                            <Typography>{job.type.join(', ')}</Typography>
+                        </Grid>
+                        <Grid item>
+                            <SubTitle title={'Department'} />
+                            <Typography>{job.department.name}</Typography>
+                        </Grid>
+                        <Grid item>
+                            <SubTitle title={'Status'} />
+                            <Typography>{job.status}</Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid item container direction='column' spacing={2} md={4}>
+                        <Grid item>
                             <SubTitle title={'Start date'} />
                             <Typography>
                                 {formatDateString(job.startDate)}
@@ -132,16 +101,6 @@ function JobSummary({ job, hasPermission }: JobSummaryProps) {
                                 </Typography>
                             </Grid>
                         )}
-                    </Grid>
-                    <Grid item container direction='column' spacing={2} md={4}>
-                        <Grid item>
-                            <SubTitle title={'Job type(s)'} />
-                            <Typography>{job.type.join(', ')}</Typography>
-                        </Grid>
-                        <Grid item>
-                            <SubTitle title={'Department'} />
-                            <Typography>{job.department.name}</Typography>
-                        </Grid>
                     </Grid>
                 </Grid>
                 <Grid container direction='column' item>

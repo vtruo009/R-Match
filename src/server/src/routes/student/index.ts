@@ -7,12 +7,11 @@ import { errors } from '@shared/errors';
 import {
     updateStudent,
     getStudentProfile,
-    applyToJob,
     getJobApplications,
 } from '@modules/student';
 import { JWTUser } from '@entities/user';
 import { validationMiddleware } from '@middlewares/validation';
-import { studentProfileSchema, applyToJobSchema } from './schemas';
+import { studentProfileSchema } from './schemas';
 
 const router = Router();
 const { BAD_REQUEST, OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED } = StatusCodes;
@@ -20,12 +19,6 @@ const { BAD_REQUEST, OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED } = StatusCodes;
 interface studentRequest extends Request {
     body: {
         studentProfile: Student;
-    };
-}
-
-interface jobApplicationRequest extends Request {
-    body: {
-        jobId: number;
     };
 }
 
@@ -119,38 +112,6 @@ router.get(
 );
 
 /******************************************************************************
- *          POST Request - Apply Job - /api/student/apply-job
- ******************************************************************************/
-
-router.post(
-    '/apply-to-job',
-    passport.authenticate('jwt', { session: false }),
-    validationMiddleware({ bodySchema: applyToJobSchema }),
-    async (req: jobApplicationRequest, res: Response) => {
-        //checks that caller is a student.
-        const { role, specificUserId } = req.user as JWTUser;
-        if (role !== 'student') {
-            return res
-                .status(UNAUTHORIZED)
-                .json({ error: 'User is not a student' });
-        }
-        const { jobId } = req.body;
-        try {
-            const { result, message } = await applyToJob(specificUserId, jobId);
-            return result
-                ? res.status(OK).end()
-                : res.status(BAD_REQUEST).json({ error: message });
-        } catch (error) {
-            logger.err(error);
-            return res
-                .status(INTERNAL_SERVER_ERROR)
-                .json(errors.internalServerError)
-                .end();
-        }
-    }
-);
-
-/******************************************************************************
  *          GET Request - Read - "GET /api/student/get-applied-job"
  ******************************************************************************/
 
@@ -167,9 +128,9 @@ router.get(
         }
 
         try {
-            const jobs = await getJobApplications(specificUserId);
-            return jobs
-                ? res.status(OK).json({ jobs }).end()
+            const jobApplications = await getJobApplications(specificUserId);
+            return jobApplications
+                ? res.status(OK).json({ jobApplications }).end()
                 : res
                       .status(BAD_REQUEST)
                       .json({ error: 'Student does not exist' });

@@ -15,7 +15,7 @@ import { formatDateString, formatSalary } from 'utils/format';
 
 interface JobPreviewProps {
     job: IJob;
-    onClick: (job: IJob) => void;
+    onClick: () => void;
     isSelected: boolean;
     hasPermission: boolean;
 }
@@ -71,7 +71,7 @@ function JobPreview({
             className={isSelected ? classes.Selected : classes.NonSelected}
             variant='outlined'
             style={{ padding: 30, borderRadius: 15 }}
-            onClick={() => onClick(job)}
+            onClick={onClick}
         >
             <Grid container spacing={4} alignItems='center' justify='center'>
                 <Grid

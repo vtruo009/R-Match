@@ -7,7 +7,8 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 
 import Home from 'Pages/Home';
 import SearchJobs from 'Pages/SearchJobs';
-import JobDashboard from 'Pages/JobDashboard';
+import JobFacultyMemberDashboard from 'Pages/JobFacultyMemberDashboard';
+import JobStudentDashboard from 'Pages/JobStudentDashboard';
 import Profile from 'Pages/Profile';
 import SignIn from 'Pages/SignIn';
 import SignUp from 'Pages/SignUp';
@@ -63,6 +64,12 @@ export const studentRoutes = [
         component: SearchJobs,
         icon: <SearchIcon />,
     },
+    {
+        path: '/job-dashboard',
+        name: 'Dashboard',
+        component: JobStudentDashboard,
+        icon: <DashboardIcon />,
+    },
 ];
 
 // Add routes specific to faculty members
@@ -70,7 +77,7 @@ export const facultyMemberRoutes = [
     {
         path: '/job-dashboard',
         name: 'Dashboard',
-        component: JobDashboard,
+        component: JobFacultyMemberDashboard,
         icon: <DashboardIcon />,
     },
 ];

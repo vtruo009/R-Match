@@ -12,13 +12,13 @@ import Dialog from 'Components/Dialog';
 import CancelButton from 'Components/CancelButton';
 
 interface DeleteWarningProps {
-    itemName: string;
+    message: string;
     onDeleteRequest: () => Promise<AxiosResponse<unknown>>;
     onSuccess: () => void;
 }
 
 function DeleteButton({
-    itemName,
+    message,
     onDeleteRequest,
     onSuccess,
 }: DeleteWarningProps) {
@@ -40,17 +40,14 @@ function DeleteButton({
                 open={open}
                 onClose={() => setOpen(false)}
                 title={
-                    <Typography variant='h4' color='secondary'>
+                    <Typography variant='h3' color='secondary'>
                         Warning:
                     </Typography>
                 }
             >
                 <div>
-                    <Typography variant='h5'>
-                        Please confirm the deletion of the following item
-                    </Typography>
                     <Typography variant='h6'>
-                        <b> {itemName}</b>
+                        <b>{message}</b>
                     </Typography>
                     <DialogActions>
                         <CancelButton

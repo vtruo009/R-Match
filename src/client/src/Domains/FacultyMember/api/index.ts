@@ -17,7 +17,7 @@ export async function updateFacultyMemberProfile(
         departmentId,
     } = facultyMemberProfile;
 
-    return API.post('faculty-member/update-profile', {
+    return API.post('/faculty-member/update-profile', {
         facultyMemberProfile: {
             id,
             user: {

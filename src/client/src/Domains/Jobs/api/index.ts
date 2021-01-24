@@ -13,6 +13,8 @@ export type jobType =
 
 export type targetYearsType = 'Freshman' | 'Sophmore' | 'Junior' | 'Senior';
 
+export type statusType = 'Hiring' | 'Closed';
+
 export const jobTypes = [
     {
         label: 'Grader',
@@ -70,7 +72,7 @@ export interface IJob {
     postedOn: string;
     type: jobType[];
     title: string;
-    status: 'Hiring' | 'Closed';
+    status: statusType;
     minSalary: number;
     maxSalary?: number;
     department: IDepartment;
@@ -82,6 +84,14 @@ export interface IJob {
             lastName: string;
         };
     };
+}
+
+export interface IJobApplication {
+    date: string;
+    id: number;
+    job: IJob;
+    jobId: number;
+    studentId: number;
 }
 
 export async function getJobs(
@@ -102,11 +112,13 @@ export async function getJobs(
         page,
         numOfItems,
     };
-    return API.get<{ jobs: IJob[]; jobsCount: number }>('job/read', { params });
+    return API.get<{ jobs: IJob[]; jobsCount: number }>('/job/read', {
+        params,
+    });
 }
 
 export async function createJob(job: IJobCreateFormValues) {
-    return API.post('job/create', {
+    return API.post('/job/create', {
         job: {
             title: job.title,
             description: job.description,
@@ -124,7 +136,7 @@ export async function createJob(job: IJobCreateFormValues) {
 }
 
 export async function updateJob(job: IJobUpdateFormValues) {
-    return API.post('job/update', {
+    return API.post('/job/update', {
         job: {
             id: job.id,
             title: job.title,
@@ -144,9 +156,33 @@ export async function updateJob(job: IJobUpdateFormValues) {
 }
 
 export async function deleteJob(jobId: number) {
-    return API.delete(`job/delete/${jobId}`);
+    return API.delete(`/job/delete/${jobId}`);
 }
 
 export async function getPostedJobs() {
-    return API.get<{ jobs: IJob[] }>('faculty-member/get-posted-jobs');
+    return API.get<{ jobs: IJob[] }>('/faculty-member/get-posted-jobs');
+}
+
+export async function getAppliedJobs() {
+    return API.get<{ jobApplications: IJobApplication[] }>(
+        '/student/get-applied-jobs'
+    );
+}
+
+export async function closeJob(jobId: number) {
+    return API.post('/job/close', {
+        jobId,
+    });
+}
+
+export async function openJob(jobId: number) {
+    return API.post('/job/open', {
+        jobId,
+    });
+}
+
+export async function applyToJob(jobId: number) {
+    return API.post('/job/apply-to-job', {
+        jobId,
+    });
 }

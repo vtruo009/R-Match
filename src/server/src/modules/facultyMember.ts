@@ -121,7 +121,7 @@ export const getPostedJobs = async (facultyMemberId: number) => {
  */
 export const getApplicants = async (facultyMemberId: number, jobId: number) => {
     const getApplicantsResult: {
-        result: JobApplication[] | undefined;
+        result?: JobApplication[];
         message: string;
     } = {
         result: undefined,

@@ -2,7 +2,7 @@ import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 
-import JobDashBoardContext from '../Contexts/JobDashBoard';
+import JobsContext from '../Contexts/JobsContext';
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
 import useDialog from 'hooks/useDialog';
@@ -31,7 +31,7 @@ function JobCreateForm() {
         jobInitialValues,
         setJobInitialValues,
     ] = React.useState<IJobCreateFormValues>(jobCreateFormInitialValues);
-    const { addJob } = React.useContext(JobDashBoardContext);
+    const { addJob } = React.useContext(JobsContext);
     const [, openDialog, closeDialog, DialogProps, Dialog] = useDialog();
     const [snack] = useSnack();
     const request = React.useCallback(() => createJob(jobInitialValues), [

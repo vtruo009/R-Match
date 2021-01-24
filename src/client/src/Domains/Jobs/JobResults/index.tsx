@@ -18,6 +18,7 @@ function JobResults({ jobs }: JobResultsProps) {
         user?.role === 'facultyMember' &&
         job.facultyMember.id === user.specificUserId;
 
+    // TODO: When a job is deleted or updated there is a reselection of the first item => Make it so the reselection only happens after a refetch of the jobs
     // Resets job selected to first job after new jobs are fetched
     React.useEffect(() => {
         setJobSelected(jobs[0]);
@@ -30,7 +31,7 @@ function JobResults({ jobs }: JobResultsProps) {
                     <Grid item key={index}>
                         <JobPreview
                             job={job}
-                            onClick={setJobSelected}
+                            onClick={() => setJobSelected(job)}
                             isSelected={job.id === jobSelected.id}
                             hasPermission={hasPermission(job)}
                         />

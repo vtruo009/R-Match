@@ -6,32 +6,34 @@ import JobIcon from '@material-ui/icons/WorkOutline';
 
 import JobResults from 'Domains/Jobs/JobResults';
 import JobCreateForm from 'Domains/Jobs/JobCreateForm';
-import Loader from 'Components/Loader';
-import useApi from 'hooks/useApi';
-import { getPostedJobs, IJob } from '../api/index';
-import JobDashboardContext from '../Contexts/JobDashBoard';
+import { IJob, statusType } from '../api/index';
+import JobsContext from '../Contexts/JobsContext';
 import { IJobUpdateFormValues } from '../JobUpdateForm';
+import { AuthContext } from 'Contexts/AuthContext';
 
-function JobDashboard() {
-    const [jobsPosted, setJobsPosted] = React.useState<IJob[]>([]);
-    const request = React.useCallback(() => getPostedJobs(), []);
-    const [sendRequest, isLoading] = useApi(request, {
-        onSuccess: (response) => {
-            setJobsPosted(response.data.jobs);
-        },
-    });
-    React.useEffect(() => sendRequest(), [sendRequest]);
+interface JobDashboardProps {
+    jobs: IJob[];
+    setJobs: (job: IJob[]) => void;
+    title: string;
+    reSendRequest: () => void;
+}
+
+function JobDashboard({
+    jobs,
+    setJobs,
+    title,
+    reSendRequest,
+}: JobDashboardProps) {
+    const { user } = React.useContext(AuthContext);
 
     const removeJob = (jobToRemoveId: number) => {
-        const jobsFiltered = jobsPosted.filter(
-            (job) => job.id !== jobToRemoveId
-        );
-        setJobsPosted(jobsFiltered);
+        const jobsFiltered = jobs.filter((job) => job.id !== jobToRemoveId);
+        setJobs(jobsFiltered);
     };
 
     const updateJob = (updatedJob: IJobUpdateFormValues) => {
-        const jobsToUpdate = [...jobsPosted];
-        const indexOfJobToUpdate = jobsPosted.findIndex(
+        const jobsToUpdate = [...jobs];
+        const indexOfJobToUpdate = jobs.findIndex(
             (job) => job.id === updatedJob.id
         );
 
@@ -55,32 +57,46 @@ function JobDashboard() {
             department: jobToUpdate.department,
             facultyMember: jobToUpdate.facultyMember,
         };
-        setJobsPosted(jobsToUpdate);
+        setJobs(jobsToUpdate);
     };
 
-    return isLoading ? (
-        <Loader center />
-    ) : (
-        <JobDashboardContext.Provider
-            value={{ removeJob, addJob: () => sendRequest(), updateJob }}
+    const updateJobStatus = (jobId: number, newStatus: statusType) => {
+        const jobsToUpdate = [...jobs];
+        const indexOfJobToUpdate = jobs.findIndex((job) => job.id === jobId);
+        if (indexOfJobToUpdate === -1) return;
+        jobsToUpdate[indexOfJobToUpdate].status = newStatus;
+        setJobs(jobsToUpdate);
+    };
+
+    return (
+        <JobsContext.Provider
+            value={{
+                removeJob,
+                addJob: () => reSendRequest(),
+                updateJob,
+                updateJobStatus,
+                showApply: false,
+            }}
         >
             <Grid container spacing={3} alignItems='center'>
                 <Grid item>
                     <Typography variant='h3' color='primary'>
-                        Jobs Posted
+                        {title}
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <Badge badgeContent={jobsPosted.length} color='primary'>
+                    <Badge badgeContent={jobs.length} color='primary'>
                         <JobIcon />
                     </Badge>
                 </Grid>
-                <Grid item>
-                    <JobCreateForm />
-                </Grid>
+                {user?.role === 'facultyMember' && (
+                    <Grid item>
+                        <JobCreateForm />
+                    </Grid>
+                )}
             </Grid>
-            {jobsPosted.length > 0 && <JobResults jobs={jobsPosted} />}
-        </JobDashboardContext.Provider>
+            {jobs.length > 0 && <JobResults jobs={jobs} />}
+        </JobsContext.Provider>
     );
 }
 

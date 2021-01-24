@@ -3,7 +3,7 @@ import React from 'react';
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
 import useDialog from 'hooks/useDialog';
-import JobDashboardContext from '../Contexts/JobDashBoard';
+import JobsContext from '../Contexts/JobsContext';
 import JobBaseForm, { IJobBaseFormValues } from 'Domains/Jobs/JobBaseForm';
 import EditButton from 'Components/EditButton';
 import { updateJob as updateJobRequest } from '../api';
@@ -16,16 +16,13 @@ interface JobUpdateFormProps {
     jobInitialValues: IJobUpdateFormValues;
 }
 
-// TODO: Check date issue and update the current updated job in the page
-//       Also update the delete dialog to accept a more descriptive message
-//       explaining that if a job is deleted all the job applications will also be deleted.
 function JobUpdateForm({ jobInitialValues }: JobUpdateFormProps) {
     const [
         jobToUpdate,
         setJobInitialValues,
     ] = React.useState<IJobUpdateFormValues>(jobInitialValues);
     const [, openDialog, closeDialog, DialogProps, Dialog] = useDialog();
-    const { updateJob } = React.useContext(JobDashboardContext);
+    const { updateJob } = React.useContext(JobsContext);
     const [snack] = useSnack();
     const request = React.useCallback(() => updateJobRequest(jobToUpdate), [
         jobToUpdate,

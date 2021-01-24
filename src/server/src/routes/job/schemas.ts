@@ -34,8 +34,6 @@ export const jobCreateSchema = Joi.object({
 export const jobUpdateSchema = Joi.object({
     job: baseJob.keys({
         id: Joi.number().required(),
-        // TODO: Remove from here. Add it in a different api
-        // status: Joi.string().valid('Hiring', 'Closed').required(),
     }),
 });
 
@@ -60,4 +58,8 @@ export const jobReadSchema = Joi.object({
     hoursPerWeek: Joi.string().allow('').optional(),
     page: Joi.string().required(),
     numOfItems: Joi.string().required(),
+});
+
+export const jobIdSchema = Joi.object({
+    jobId: Joi.number().required(),
 });
