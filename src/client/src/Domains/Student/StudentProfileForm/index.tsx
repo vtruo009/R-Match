@@ -91,7 +91,7 @@ function StudentProfileForm({
             onSuccess: () => {
                 onClose();
                 onSuccess();
-                snack('Student profile successfully updated!', 'success');
+                snack('Profile successfully updated!', 'success');
             },
         }
     );
