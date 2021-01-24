@@ -22,6 +22,7 @@ export const classStandingValues = [
 ];
 
 export type classStandingTypes = 'Freshman' | 'Sophomore' | 'Junior' | 'Senior';
+
 export interface IStudent {
     id: number;
     user: IUser;
@@ -30,12 +31,22 @@ export interface IStudent {
     classStanding?: classStandingTypes;
     courses: ICourse[];
     resume?: Buffer;
-    transcript?: Buffer;
+    transcript?: Buffer; 
     workStartDate: string; 
     workEndDate?: string; 
+    workTitle: string; 
     workEmployer: string; 
     workDescription: string; 
 }
+
+/*export interface IWorkExperiences {
+    workStartDate:string; 
+    workEndDate?:string; 
+    workTitle:string; 
+    workEmployer:string; 
+    workDescription: string;
+}
+*/
 
 export async function updateStudentProfile(
     studentProfile: IStudentProfileForm
@@ -57,7 +68,7 @@ export async function updateStudentProfile(
                 biography: studentProfile.biography,
             },
             resume: studentProfile.resume,
-            transcript: studentProfile.transcript,
+            transcript: studentProfile.transcript,  
             workStartDate: studentProfile.workStartDate,
             workEndDate: studentProfile.workEndDate,
             workEmployer: studentProfile.workEmployer,

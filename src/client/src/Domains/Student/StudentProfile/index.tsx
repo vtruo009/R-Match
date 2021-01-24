@@ -12,11 +12,18 @@ import LabelValue from 'Components/LabelValue';
 import LabelValues from 'Components/LabelValues';
 import Loader from 'Components/Loader';
 import StudentProfileForm from 'Domains/Student/StudentProfileForm';
-import { getStudentProfile, IStudent } from 'Domains/Student/api';
+import StudentWorkExperiencesPreview from 'Domains/Student/StudentWorkExperiencesPreview';
+import { getStudentProfile, IStudent} from 'Domains/Student/api';
 import { AuthContext } from 'Contexts/AuthContext';
 
+/*interface StudentsProps {
+    students: IStudent[];
+}
+*/
+
 function StudentProfile() {
-    const [studentProfile, setStudentProfile] = React.useState<IStudent>();
+    const [ studentProfile, setStudentProfile] = React.useState<IStudent>();
+    const [ students ] = React.useState<IStudent[]>([]); 
     const [open, setOpen] = React.useState(false);
     const { user } = React.useContext(AuthContext);
 
@@ -155,31 +162,16 @@ function StudentProfile() {
                             direction='row'
                             spacing={3}
                         >
-                            <Grid item md={6} xs={12}>
-                                <LabelValue
-                                    label='Start Date'
-                                />
-                            </Grid>
-                            <Grid item md={6} xs={12}>
-                                <LabelValue
-                                    label='End Date'
-                                />
-                            </Grid>
-                            <Grid item md={12} xs={12}>
-                                <LabelValue
-                                    label='Title'
-                                />
-                            </Grid>
-                            <Grid item md={12} xs={12}>
-                                <LabelValue
-                                    label='Employer'
-                                />
-                            </Grid>
-                            <Grid item md={12} xs={12}>
-                                <LabelValue
-                                    label='Description'
-                                />
-                            </Grid>
+                        <Grid container item direction='row' spacing={6} xs={12}></Grid>
+                        {students.map((student, index) => (
+                            <Grid item key={index}>
+                            <StudentWorkExperiencesPreview
+                                student={student}
+                                //onClick={setJobSelected}
+                                //isSelected={job.id === jobSelected.id}
+                            />
+                        </Grid>
+                    ))}
                         </Grid>
                     </Card>
                 </Grid>
