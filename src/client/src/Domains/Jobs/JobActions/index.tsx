@@ -29,7 +29,7 @@ function JobActions({ job, hasPermission }: JobActionsProps) {
         const { title, postedOn } = job;
         return `Please confirm the deletion of the job "${title}", posted on: ${formatDateString(
             postedOn
-        )}. All applications attached to this job will also be deleted`;
+        )}. All applications attached to this job will also be deleted.`;
     };
     const [snack] = useSnack();
     const { removeJob, updateJobStatus, showApply } = React.useContext(
@@ -50,7 +50,7 @@ function JobActions({ job, hasPermission }: JobActionsProps) {
     const [sendOpenRequest, isOpenRequestLoading] = useApi(openRequest, {
         onSuccess: () => {
             updateJobStatus(job.id, 'Hiring');
-            snack('Job successfully open', 'success');
+            snack('Job successfully opened', 'success');
         },
     });
 
