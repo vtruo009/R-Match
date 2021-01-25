@@ -1,5 +1,23 @@
 import API from 'api';
+import { IUser } from 'Domains/Accounts/api';
+import { ICourse, IDepartment } from 'Components/AcademicInfo/api';
 import { IFacultyMemberProfileForm } from 'Domains/FacultyMember/FacultyMemberProfileForm';
+
+export interface IFacultyMember {
+    id: number;
+    user: IUser;
+    department?: IDepartment;
+    courses: ICourse[];
+    websiteLink?: string;
+    office?: string;
+    title?: string;
+}
+
+export async function getFacultyMemberProfile(facultyMemberId: number) {
+    return API.get<{ facultyMember: IFacultyMember }>(
+        `/faculty-member/get-profile/${facultyMemberId}`
+    );
+}
 
 export async function updateFacultyMemberProfile(
     facultyMemberProfile: IFacultyMemberProfileForm

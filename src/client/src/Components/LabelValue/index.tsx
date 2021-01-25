@@ -10,7 +10,7 @@ interface LabelValueProps {
 }
 function LabelValue({ label, value, isParagraph = false }: LabelValueProps) {
     return (
-        <Card colorBorder>
+        <Card>
             <Grid item container direction='column'>
                 <Grid item>
                     <Typography variant='h6' color='primary'>

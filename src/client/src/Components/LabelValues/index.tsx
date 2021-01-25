@@ -19,7 +19,7 @@ function LabelValues({ label, values }: LabelValuesProps) {
     const labelCounter = () => (values ? `(${values.length})` : '(0)');
     const [expanded, setExpanded] = React.useState(false);
     return (
-        <Card colorBorder>
+        <Card>
             <Accordion
                 style={{ boxShadow: 'none' }}
                 expanded={expanded}
