@@ -1,8 +1,8 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
+import Card from 'Components/Card';
 interface LabelValueProps {
     label: string;
     value?: string | number;
@@ -10,7 +10,7 @@ interface LabelValueProps {
 }
 function LabelValue({ label, value, isParagraph = false }: LabelValueProps) {
     return (
-        <Card style={{ padding: 25 }} variant='outlined'>
+        <Card colorBorder>
             <Grid item container direction='column'>
                 <Grid item>
                     <Typography variant='h6' color='primary'>

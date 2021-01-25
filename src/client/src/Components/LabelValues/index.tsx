@@ -1,5 +1,4 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -10,6 +9,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import Card from 'Components/Card';
 interface LabelValuesProps {
     label: string;
     values?: string[];
@@ -19,8 +19,9 @@ function LabelValues({ label, values }: LabelValuesProps) {
     const labelCounter = () => (values ? `(${values.length})` : '(0)');
     const [expanded, setExpanded] = React.useState(false);
     return (
-        <Card style={{ padding: 25 }} variant='outlined'>
+        <Card colorBorder>
             <Accordion
+                style={{ boxShadow: 'none' }}
                 expanded={expanded}
                 onChange={() => setExpanded(!expanded)}
             >
