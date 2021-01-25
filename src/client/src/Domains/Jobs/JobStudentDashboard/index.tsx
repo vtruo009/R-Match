@@ -6,14 +6,14 @@ import Loader from 'Components/Loader';
 import { getAppliedJobs, IJob } from '../api/index';
 import JobDashboard from 'Domains/Jobs/JobDashboard';
 
-function JobStudentDashBaord() {
+function JobStudentDashBoard() {
     const [jobs, setJobs] = React.useState<IJob[]>([]);
     const [snack] = useSnack();
     const getPostedJobsRequest = React.useCallback(() => getAppliedJobs(), []);
     const [sendRequest, isLoading] = useApi(getPostedJobsRequest, {
         onSuccess: (response) => {
             const jobApps = response.data.jobApplications;
-            if (jobs.length === 0) {
+            if (jobApps.length === 0) {
                 snack('No job applications were found', 'warning');
             } else {
                 const jobs = jobApps.map((jobApp) => jobApp.job);
@@ -34,4 +34,4 @@ function JobStudentDashBaord() {
     );
 }
 
-export default JobStudentDashBaord;
+export default JobStudentDashBoard;

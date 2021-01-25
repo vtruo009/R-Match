@@ -1,10 +1,10 @@
 import React from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 
+import Card from 'Components/Card';
 import SubmitButton from 'Components/SubmitButton';
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
@@ -98,7 +98,7 @@ function JobSearchForm({ setJobs, children }: JobSearchFormProps) {
 
     return (
         <div>
-            <Paper style={{ padding: 40 }}>
+            <Card style={{ borderRadius: 25, padding: 40 }}>
                 <Formik
                     validationSchema={formSchema}
                     initialValues={formInitialValues}
@@ -171,7 +171,7 @@ function JobSearchForm({ setJobs, children }: JobSearchFormProps) {
                         </Form>
                     )}
                 </Formik>
-            </Paper>
+            </Card>
             {children}
             {numOfPages > 1 && (
                 <Grid container justify='center' style={{ marginTop: 50 }}>

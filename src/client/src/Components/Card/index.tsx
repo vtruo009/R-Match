@@ -18,7 +18,7 @@ function Card({ colorBorder = false, ...passThroughProps }: CardProps) {
     return (
         <MUICard
             className={colorBorder ? classes.colorBorder : ''}
-            style={{ padding: 25, borderRadius: 15 }}
+            style={{ padding: 25, borderRadius: 25 }}
             variant='outlined'
             {...passThroughProps}
         />

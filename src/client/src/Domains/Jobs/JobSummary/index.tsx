@@ -24,7 +24,7 @@ function JobSummary({ job, hasPermission }: JobSummaryProps) {
         <Card
             style={{
                 padding: 40,
-                borderRadius: 15,
+                borderRadius: 25,
                 position: 'sticky',
                 top: '100px',
             }}

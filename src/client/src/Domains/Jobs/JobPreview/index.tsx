@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
+// import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -10,6 +10,7 @@ import TutorIcon from '@material-ui/icons/SupervisedUserCircle';
 import VolunteerIcon from '@material-ui/icons/Accessibility';
 import OtherIcon from '@material-ui/icons/Help';
 
+import Card from 'Components/Card';
 import { IJob, jobType } from 'Domains/Jobs/api';
 import { formatDateString, formatSalary } from 'utils/format';
 
@@ -69,8 +70,6 @@ function JobPreview({
     return (
         <Card
             className={isSelected ? classes.Selected : classes.NonSelected}
-            variant='outlined'
-            style={{ padding: 30, borderRadius: 15 }}
             onClick={onClick}
         >
             <Grid container spacing={4} alignItems='center' justify='center'>

@@ -11,18 +11,20 @@ interface JobResultsProps {
 }
 
 function JobResults({ jobs }: JobResultsProps) {
-    const [jobSelected, setJobSelected] = React.useState<IJob>(jobs[0]);
     const { user } = React.useContext(AuthContext);
+    const [jobSelectedIndex, setJobSelectedIndex] = React.useState(0);
 
     const hasPermission = (job: IJob) =>
         user?.role === 'facultyMember' &&
         job.facultyMember.id === user.specificUserId;
 
-    // TODO: When a job is deleted or updated there is a reselection of the first item => Make it so the reselection only happens after a refetch of the jobs
-    // Resets job selected to first job after new jobs are fetched
-    React.useEffect(() => {
-        setJobSelected(jobs[0]);
-    }, [jobs]);
+    const accessJob = React.useCallback(
+        () =>
+            jobSelectedIndex < 0 || jobSelectedIndex >= jobs.length
+                ? jobs[0]
+                : jobs[jobSelectedIndex],
+        [jobs, jobSelectedIndex]
+    );
 
     return (
         <Grid container spacing={5} style={{ marginTop: 20 }}>
@@ -31,8 +33,8 @@ function JobResults({ jobs }: JobResultsProps) {
                     <Grid item key={index}>
                         <JobPreview
                             job={job}
-                            onClick={() => setJobSelected(job)}
-                            isSelected={job.id === jobSelected.id}
+                            onClick={() => setJobSelectedIndex(index)}
+                            isSelected={job.id === accessJob().id}
                             hasPermission={hasPermission(job)}
                         />
                     </Grid>
@@ -40,8 +42,8 @@ function JobResults({ jobs }: JobResultsProps) {
             </Grid>
             <Grid item xs={7}>
                 <JobSummary
-                    job={jobSelected}
-                    hasPermission={hasPermission(jobSelected)}
+                    job={accessJob()}
+                    hasPermission={hasPermission(accessJob())}
                 />
             </Grid>
         </Grid>
