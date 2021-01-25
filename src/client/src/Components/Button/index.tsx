@@ -6,7 +6,7 @@ function Button({
     variant = 'contained',
     ...passThroughProps
 }: ButtonProps) {
-    return <MUIButton {...passThroughProps} variant={variant} color={color} />;
+    return <MUIButton variant={variant} color={color} {...passThroughProps} />;
 }
 
 export default Button;

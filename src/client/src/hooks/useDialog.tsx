@@ -28,7 +28,7 @@ function Dialog({ children, open, onClose, title }: DialogProps) {
                     </Grid>
                     <Grid item>
                         {onClose ? (
-                            <IconButton color='secondary' onClick={onClose}>
+                            <IconButton onClick={onClose}>
                                 <CloseIcon />
                             </IconButton>
                         ) : null}
