@@ -53,7 +53,7 @@ describe('sendMessage', () => {
         expect(status).toBe(404);
     });
 
-    it('should fail since the request is empty.`', async () => {
+    it('should fail since the request is empty.', async () => {
         const { status } = await request(app)
             .post(endpoint)
             .set('Cookie', token)
