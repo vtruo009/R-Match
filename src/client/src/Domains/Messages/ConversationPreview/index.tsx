@@ -37,28 +37,21 @@ function ConversationPreview({
             className={isSelected ? classes.Selected : classes.NonSelected}
             onClick={() => onClick(conversation.user)}
         >
-            <Grid container spacing={4} alignItems='center' justify='center'>
-                <Grid
-                    item
-                    container
-                    direction='column'
-                    spacing={1}
-                    md={9}
-                    xs={12}
-                >
-                    <Grid item>
-                        <Typography variant='h6' color='primary'>
-                            {conversation.user.firstName}{' '}
-                            {conversation.user.lastName}
-                        </Typography>
-                        <Typography color='primary'>
-                            {conversation.latestMessage.sender.firstName} (
-                            {formatDateStringBasedOnCurrentDay(
-                                conversation.latestMessage.date
-                            )}
-                            ): {conversation.latestMessage.content}
-                        </Typography>
-                    </Grid>
+            <Grid container spacing={2} alignItems='center' justify='center'>
+                <Grid item xs={12}>
+                    <Typography variant='h6' color='primary'>
+                        {conversation.user.firstName}{' '}
+                        {conversation.user.lastName}
+                    </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography color='primary'>
+                        {conversation.latestMessage.sender.firstName} (
+                        {formatDateStringBasedOnCurrentDay(
+                            conversation.latestMessage.date
+                        )}
+                        ): {conversation.latestMessage.content}
+                    </Typography>
                 </Grid>
             </Grid>
         </Card>
