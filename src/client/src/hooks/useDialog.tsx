@@ -17,25 +17,29 @@ interface DialogProps {
 function Dialog({ children, open, onClose, title }: DialogProps) {
     return (
         <MUIDialog open={open} onClose={onClose} maxWidth='md' fullWidth>
-            <MUIDialogTitle>
-                <Grid container justify='space-between' alignItems='center'>
-                    <Grid item>
-                        {typeof title === 'string' ? (
-                            <Typography variant='h4'>{title}</Typography>
-                        ) : (
-                            title
-                        )}
+            <div style={{ padding: 15 }}>
+                <MUIDialogTitle>
+                    <Grid container justify='space-between' alignItems='center'>
+                        <Grid item>
+                            {typeof title === 'string' ? (
+                                <Typography variant='h4'>{title}</Typography>
+                            ) : (
+                                title
+                            )}
+                        </Grid>
+                        <Grid item>
+                            {onClose ? (
+                                <IconButton onClick={onClose}>
+                                    <CloseIcon />
+                                </IconButton>
+                            ) : null}
+                        </Grid>
                     </Grid>
-                    <Grid item>
-                        {onClose ? (
-                            <IconButton onClick={onClose}>
-                                <CloseIcon />
-                            </IconButton>
-                        ) : null}
-                    </Grid>
-                </Grid>
-            </MUIDialogTitle>
-            <DialogContent>{children}</DialogContent>
+                </MUIDialogTitle>
+                <DialogContent style={{ overflow: 'hidden' }}>
+                    {children}
+                </DialogContent>
+            </div>
         </MUIDialog>
     );
 }
