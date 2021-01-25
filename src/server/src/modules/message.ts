@@ -24,7 +24,7 @@ export const sendMessage = async (
     };
 
     // Check if receiver exists.
-    if (!userIdExists(receiverId)) {
+    if (!(await userIdExists(receiverId))) {
         sendMessageResult.errorMessage = "Receiver does not exist.";
         return sendMessageResult;
     }
@@ -32,6 +32,11 @@ export const sendMessage = async (
     // Check if sender exists.
     if (!userIdExists(senderId)) {
         sendMessageResult.errorMessage = "Sender does not exist.";
+        return sendMessageResult;
+    }
+
+    if (senderId == receiverId) {
+        sendMessageResult.errorMessage = "Sender should be different from receiver.";
         return sendMessageResult;
     }
 
