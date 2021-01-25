@@ -74,7 +74,7 @@ function ConversationList({ setReceiver }: ConversationListProps) {
                 {isLoading ? (
                     <Loader />
                 ) : (
-                    <Grid container item spacing={3} direction='column'>
+                    <Grid container item spacing={1} direction='column'>
                         <Grid item>
                             <Button
                                 onClick={handleClickOpen}
