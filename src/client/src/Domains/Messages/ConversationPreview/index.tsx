@@ -1,10 +1,9 @@
 import React from 'react';
-
-import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
+import Card from 'Components/Card';
 import { formatDateStringBasedOnCurrentDay } from 'utils/format';
 import { IUser } from 'Domains/Accounts/api';
 import { IConversation } from 'Domains/Messages/api';
@@ -36,8 +35,6 @@ function ConversationPreview({
     return (
         <Card
             className={isSelected ? classes.Selected : classes.NonSelected}
-            variant='outlined'
-            style={{ padding: 30 }}
             onClick={() => onClick(conversation.user)}
         >
             <Grid container spacing={4} alignItems='center' justify='center'>

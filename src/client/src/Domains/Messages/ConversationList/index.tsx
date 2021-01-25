@@ -70,19 +70,21 @@ function ConversationList({ setReceiver }: ConversationListProps) {
 
     return (
         <div>
-            <div>
+            <Grid container justify='center'>
                 {isLoading ? (
                     <Loader />
                 ) : (
-                    <Grid item spacing={3} direction='column'>
-                        <Button
-                            onClick={handleClickOpen}
-                            color='primary'
-                            variant='contained'
-                            fullWidth={true}
-                        >
-                            New Message
-                        </Button>
+                    <Grid container item spacing={3} direction='column'>
+                        <Grid item>
+                            <Button
+                                onClick={handleClickOpen}
+                                color='primary'
+                                variant='contained'
+                                fullWidth={true}
+                            >
+                                New Message
+                            </Button>
+                        </Grid>
                         {/* Render all ongoing conversations. */}
                         {conversationList.map((conversation, key) => (
                             <Grid item key={key}>
@@ -99,7 +101,7 @@ function ConversationList({ setReceiver }: ConversationListProps) {
                         ))}
                     </Grid>
                 )}
-            </div>
+            </Grid>
             <Dialog
                 open={openNewMessageForm}
                 onClose={handleClose}

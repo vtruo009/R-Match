@@ -23,16 +23,14 @@ const messageInitialValues: IMessageSendForm = {
 };
 
 interface MessageSendFormProps {
-    receiver: IUser | undefined;
+    receiver?: IUser;
 }
 
 function MessageSendForm({ receiver }: MessageSendFormProps) {
     const [message, setMessage] = React.useState<IMessageSendForm>(
         messageInitialValues
     );
-
     const { user } = React.useContext(AuthContext);
-
     const request = React.useCallback(() => sendMessage(message, receiver), [
         message,
         receiver,
@@ -51,57 +49,51 @@ function MessageSendForm({ receiver }: MessageSendFormProps) {
         },
     });
 
-    return (
-        <div>
-            {receiver === undefined ? (
-                <div></div>
-            ) : (
-                <Paper style={{ padding: 30 }}>
-                    <Formik
-                        validationSchema={formSchema}
-                        initialValues={messageInitialValues}
-                        onSubmit={(formValues, actions) => {
-                            setMessage(formValues);
-                            sendRequest();
-                            actions.resetForm({
-                                values: { ...messageInitialValues },
-                            });
-                        }}
-                    >
-                        {() => (
-                            <Form>
-                                <Grid
-                                    item
-                                    container
-                                    spacing={5}
-                                    direction='row'
-                                    justify='space-evenly'
-                                    alignItems='center'
+    return receiver ? (
+        <Paper style={{ padding: 30 }}>
+            <Formik
+                validationSchema={formSchema}
+                initialValues={messageInitialValues}
+                onSubmit={(formValues, actions) => {
+                    setMessage(formValues);
+                    sendRequest();
+                    actions.resetForm({
+                        values: { ...messageInitialValues },
+                    });
+                }}
+            >
+                {() => (
+                    <Form>
+                        <Grid
+                            container
+                            spacing={5}
+                            direction='row'
+                            justify='space-evenly'
+                            alignItems='center'
+                        >
+                            <Grid item md={8} xs={12}>
+                                <Field
+                                    name='content'
+                                    label='Message'
+                                    component={TextFormField}
+                                />
+                            </Grid>
+                            <Grid item md={4} xs={12}>
+                                <SubmitButton
+                                    fullWidth
+                                    isLoading={isLoading}
+                                    disabled={!receiver}
                                 >
-                                    <Grid item xs={8}>
-                                        <Field
-                                            name='content'
-                                            label='Message'
-                                            component={TextFormField}
-                                        />
-                                    </Grid>
-                                    <Grid item md={3} xs={2}>
-                                        <SubmitButton
-                                            fullWidth={true}
-                                            type='submit'
-                                            isLoading={isLoading}
-                                            disabled={receiver === undefined}
-                                        >
-                                            Send
-                                        </SubmitButton>
-                                    </Grid>
-                                </Grid>
-                            </Form>
-                        )}
-                    </Formik>
-                </Paper>
-            )}
-        </div>
+                                    Send
+                                </SubmitButton>
+                            </Grid>
+                        </Grid>
+                    </Form>
+                )}
+            </Formik>
+        </Paper>
+    ) : (
+        <> </>
     );
 }
 

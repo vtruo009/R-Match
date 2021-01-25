@@ -14,19 +14,17 @@ function MessageRoot() {
 
     return (
         <div style={{ padding: 20, margin: 30 }}>
-            <div>
-                <Grid container spacing={3}>
-                    <Grid item md={6} xs={12}>
-                        <ConversationList setReceiver={setReceiver} />
-                    </Grid>
-                    <Grid item md={6} xs={12}>
-                        <Paper style={{ padding: 10 }}>
-                            <Messages receiver={receiver} />
-                            <MessageSendForm receiver={receiver} />
-                        </Paper>
-                    </Grid>
+            <Grid container spacing={3}>
+                <Grid item md={6} xs={12}>
+                    <ConversationList setReceiver={setReceiver} />
                 </Grid>
-            </div>
+                <Grid item md={6} xs={12}>
+                    <Paper style={{ padding: 10 }}>
+                        <Messages receiver={receiver} />
+                        <MessageSendForm receiver={receiver} />
+                    </Paper>
+                </Grid>
+            </Grid>
         </div>
     );
 }

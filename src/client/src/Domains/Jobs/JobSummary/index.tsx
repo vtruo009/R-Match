@@ -1,13 +1,11 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 
 import { formatDateString, formatSalary } from 'utils/format';
+import Card from 'Components/Card';
 import { IJob } from 'Domains/Jobs/api';
-
 import JobActions from 'Domains/Jobs/JobActions';
-
 interface JobSummaryProps {
     job: IJob;
     hasPermission: boolean;
@@ -24,7 +22,6 @@ const SubTitle = ({ title }: SubTitleProps) => (
 function JobSummary({ job, hasPermission }: JobSummaryProps) {
     return (
         <Card
-            variant='outlined'
             style={{
                 padding: 40,
                 borderRadius: 15,

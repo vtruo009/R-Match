@@ -1,15 +1,14 @@
 import React from 'react';
-
-import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
+import Card from 'Components/Card';
 import { AuthContext } from 'Contexts/AuthContext';
 import { IMessage } from 'Domains/Messages/api';
 import { formatDateStringBasedOnCurrentDay } from 'utils/format';
 
-interface Props {
+interface MessageDialogProps {
     message: IMessage;
 }
 
@@ -26,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-function MessageDialog({ message }: Props) {
+function MessageDialog({ message }: MessageDialogProps) {
     const classes = useStyles();
 
     const { user } = React.useContext(AuthContext);
@@ -46,8 +45,7 @@ function MessageDialog({ message }: Props) {
                         ? classes.SentByUser
                         : classes.SentByReceiver
                 }
-                variant='outlined'
-                style={{ padding: 10 }}
+                style={{ padding: 10, borderRadius: 15 }}
             >
                 <Grid
                     container

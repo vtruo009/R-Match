@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
@@ -11,14 +10,11 @@ import MessageDialog from 'Domains/Messages/MessageDialog';
 import { IMessage, getMessages, io } from 'Domains/Messages/api';
 
 interface MessagesProps {
-    receiver: IUser | undefined;
+    receiver?: IUser;
 }
-
 function Messages({ receiver }: MessagesProps) {
     const [messages, setMessages] = React.useState<IMessage[]>([]);
-
     const { user } = React.useContext(AuthContext);
-
     const request = React.useCallback(() => getMessages(receiver), [receiver]);
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: (response) => {
@@ -48,34 +44,29 @@ function Messages({ receiver }: MessagesProps) {
         });
     }, [receiver, user]);
 
-    return (
+    return receiver ? (
         <div style={{ margin: 30 }}>
-            {receiver === undefined ? (
-                <div></div>
-            ) : (
-                <div>
-                    <div>
-                        <Typography variant='h6' color='primary'>
-                            Message with {receiver.firstName}{' '}
-                            {receiver.lastName}
-                        </Typography>
-
-                        {isLoading ? (
-                            <Loader />
-                        ) : (
-                            <Grid>
-                                {/* Render all messages. */}
-                                {messages.map((message, index) => (
-                                    <Grid item key={index}>
-                                        <MessageDialog message={message} />
-                                    </Grid>
-                                ))}
-                            </Grid>
-                        )}
-                    </div>
-                </div>
-            )}
+            <Grid container justify='center'>
+                <Grid item xs={12}>
+                    <Typography variant='h6' color='primary'>
+                        Message with {receiver.firstName} {receiver.lastName}
+                    </Typography>
+                </Grid>
+                {isLoading ? (
+                    <Grid item xs={12}>
+                        <Loader />
+                    </Grid>
+                ) : (
+                    messages.map((message, index) => (
+                        <Grid item key={index} xs={12}>
+                            <MessageDialog message={message} />
+                        </Grid>
+                    ))
+                )}
+            </Grid>
         </div>
+    ) : (
+        <></>
     );
 }
 

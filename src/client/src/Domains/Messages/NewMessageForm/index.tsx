@@ -23,12 +23,12 @@ const formSchema = yup.object({
     email: yup.string().required().email('Please enter valid email.'),
 });
 
-interface Props {
+interface NewMessageFormProps {
     setReceiver: (user: IUser) => void;
     closeForm: () => void;
 }
 
-function NewMessageForm({ setReceiver, closeForm }: Props) {
+function NewMessageForm({ setReceiver, closeForm }: NewMessageFormProps) {
     const [email, setEmail] = React.useState<INewMessageForm>(
         formInitialValues
     );
