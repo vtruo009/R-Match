@@ -28,7 +28,7 @@ function JobResults({ jobs }: JobResultsProps) {
 
     return (
         <Grid container spacing={5} style={{ marginTop: 20 }}>
-            <Grid container item direction='column' spacing={3} xs={5}>
+            <Grid container item direction='column' spacing={3} xs={12} md={5}>
                 {jobs.map((job, index) => (
                     <Grid item key={index}>
                         <JobPreview
@@ -40,7 +40,7 @@ function JobResults({ jobs }: JobResultsProps) {
                     </Grid>
                 ))}
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={12} md={7}>
                 <JobSummary
                     job={accessJob()}
                     hasPermission={hasPermission(accessJob())}

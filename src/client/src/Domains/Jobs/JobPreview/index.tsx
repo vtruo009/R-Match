@@ -72,44 +72,30 @@ function JobPreview({
             className={isSelected ? classes.Selected : classes.NonSelected}
             onClick={onClick}
         >
-            <Grid container spacing={4} alignItems='center' justify='center'>
-                <Grid
-                    container
-                    item
-                    md={3}
-                    xs={12}
-                    justify='center'
-                    alignItems='center'
-                >
+            <Grid container spacing={2} alignItems='center' justify='center'>
+                <Grid container item md={3} xs={12} justify='center'>
                     {getIcon(job.type[0])}
                 </Grid>
-                <Grid
-                    item
-                    container
-                    direction='column'
-                    spacing={1}
-                    md={9}
-                    xs={12}
-                >
-                    <Grid item>
+                <Grid item container spacing={1} md={9} xs={12}>
+                    <Grid item xs={12}>
                         <Typography variant='h6' color='primary'>
                             {job.title}
                         </Typography>
                     </Grid>
-                    <Grid item>
+                    <Grid item xs={12}>
                         <Typography variant='body1'>
                             Hours per week: {job.hoursPerWeek}
                         </Typography>
                     </Grid>
                     {job.minSalary > 0 && (
-                        <Grid item>
+                        <Grid item xs={12}>
                             <Typography>
                                 Hourly wage:{' '}
                                 {formatSalary(job.minSalary, job.maxSalary)}
                             </Typography>
                         </Grid>
                     )}
-                    <Grid item>
+                    <Grid item xs={12}>
                         <Typography variant='body1'>
                             {hasPermission
                                 ? `Posted on: ${formatDateString(job.postedOn)}`
