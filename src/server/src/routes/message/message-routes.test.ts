@@ -35,10 +35,12 @@ beforeAll(async () => {
     mockMessage2.date.setMonth(3);
 
     // Inserts mock message to the database
-    const message1 = Message.create({ ...mockMessage1 });
+    const message1 = Message.create(mockMessage1);
     await message1.save();
-    const message2 = Message.create({ ...mockMessage2 });
+    const message2 = Message.create(mockMessage2);
     await message2.save();
+
+    jest.setTimeout(30000);
 });
 
 afterAll(async () => {

@@ -4,6 +4,7 @@ import app from '.';
 
 beforeAll(async () => {
     await connectToDb();
+    jest.setTimeout(30000);
 });
 
 describe('App', function () {

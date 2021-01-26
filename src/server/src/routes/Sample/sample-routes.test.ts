@@ -23,6 +23,8 @@ beforeAll(async () => {
     // Inserts mock sample to the database
     const sample = Sample.create({ ...mockSample });
     await sample.save();
+
+    jest.setTimeout(30000);
 });
 
 afterAll(async () => {
