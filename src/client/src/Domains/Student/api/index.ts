@@ -61,3 +61,16 @@ export async function updateStudentProfile(
 export async function getStudentProfile(studentId: number) {
     return API.get<{ student: IStudent }>(`/student/get-profile/${studentId}`);
 }
+
+export async function getStudents(
+    firstName: string,
+    lastName: string,
+    page: number,
+    numOfItems: number,
+    classStanding?: classStandingTypes,
+    departmentId?: number
+) {
+    return API.get<{ students: IStudent[]; studentsCount: number }>(
+        '/student/read'
+    );
+}

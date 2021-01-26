@@ -8,6 +8,7 @@ import MailIcon from '@material-ui/icons/Mail';
 
 import Home from 'Pages/Home';
 import SearchJobs from 'Pages/SearchJobs';
+import SearchStudents from 'Pages/SearchStudents';
 import JobFacultyMemberDashboard from 'Pages/JobFacultyMemberDashboard';
 import JobStudentDashboard from 'Pages/JobStudentDashboard';
 import Profile from 'Pages/Profile';
@@ -82,6 +83,12 @@ export const studentRoutes = [
 
 // Add routes specific to faculty members
 export const facultyMemberRoutes = [
+    {
+        path: '/search-students',
+        name: 'Search students',
+        component: SearchStudents,
+        icon: <SearchIcon />,
+    },
     {
         path: '/job-dashboard',
         name: 'Dashboard',
