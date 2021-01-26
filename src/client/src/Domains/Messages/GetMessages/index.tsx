@@ -21,6 +21,7 @@ function Messages({ receiver }: MessagesProps) {
             setMessages(response.data.messages);
         },
     });
+    const chatArea = document.querySelector('#chatArea');
 
     React.useEffect(() => {
         if (receiver) sendRequest();
@@ -46,11 +47,10 @@ function Messages({ receiver }: MessagesProps) {
 
     // Scroll to the bottom of the chat area for every messages update.
     React.useEffect(() => {
-        var messageBody = document.querySelector('#chatArea');
-        if (messageBody) {
-            messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+        if (chatArea) {
+            chatArea.scrollTop = chatArea.scrollHeight - chatArea.clientHeight;
         }
-    }, [messages]);
+    }, [messages, chatArea]);
 
     return receiver ? (
         <div style={{ margin: 30 }}>
