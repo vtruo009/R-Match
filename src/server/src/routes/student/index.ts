@@ -2,16 +2,17 @@ import StatusCodes from 'http-status-codes';
 import passport from 'passport';
 import logger from '@shared/Logger';
 import { Request, Response, Router } from 'express';
-import { Student } from '@entities/student';
+import { Student, classStandings } from '@entities/student';
 import { errors } from '@shared/errors';
 import {
     updateStudent,
     getStudentProfile,
     getJobApplications,
+    searchStudents
 } from '@modules/student';
 import { JWTUser } from '@entities/user';
 import { validationMiddleware } from '@middlewares/validation';
-import { studentProfileSchema } from './schemas';
+import { studentProfileSchema, studentSearchSchema } from './schemas';
 
 const router = Router();
 const { BAD_REQUEST, OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED } = StatusCodes;
@@ -132,6 +133,61 @@ router.get(
                 : res
                       .status(BAD_REQUEST)
                       .json({ error: 'Student does not exist' });
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
+ *            GET Request - Search Student - /api/student/search"
+ ******************************************************************************/
+
+interface StudentSearchRequest extends Request {
+    query: {
+        firstName?: string;
+        lastName?: string;
+        email?: string;
+        sid?: string;
+        departmentIds?: string[];
+        classStandings?: classStandings[];
+    };
+}
+
+router.get(
+    '/search',
+    passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ querySchema: studentSearchSchema }),
+    async (req: StudentSearchRequest, res: Response) => {
+        const { departmentIds } = req.query;
+        let { firstName, lastName, email, sid, classStandings } = req.query;
+        if (!firstName) firstName = "";
+        if (!lastName) lastName = "";
+        if (!email) email = "";
+        if (!sid) sid = "";
+        var departmentIdInts = [];
+        if (!departmentIds) departmentIdInts = [-1];
+        else {
+            for (const id of departmentIds) {
+                departmentIdInts.push(parseInt(id));
+            }
+        }
+        if (!classStandings) classStandings = ['Freshman', 'Sophomore', 'Junior', 'Senior'];
+        try {
+            const students = await searchStudents(
+                firstName,
+                lastName,
+                email,
+                sid,
+                departmentIdInts,
+                classStandings
+            );
+
+            return res.status(OK).json({ students: students }).end();
         } catch (error) {
             logger.err(error);
             return res

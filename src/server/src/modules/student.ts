@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
 import { User } from '@entities/user';
-import { Student } from '@entities/student';
+import { Student, classStandings } from '@entities/student';
 import { Course } from '@entities/course';
 import { Department } from '@entities/department';
 import { JobApplication } from '@entities/jobApplication';
@@ -127,4 +127,58 @@ export const getJobApplications = async (studentId: number) => {
             'user.email',
         ])
         .getMany();
+};
+
+export const searchStudents = async (
+    firstName: string,
+    lastName: string,
+    email: string,
+    sid: string,
+    departmentIds: number[],
+    classStandings: classStandings[]
+) => {
+    return await getRepository(Student)
+        .createQueryBuilder('student')
+        .leftJoin('student.user', 'user')
+        .addSelect([
+            'user.id',
+            'user.firstName',
+            'user.lastName',
+            'user.middleName',
+            'user.biography',
+            'user.email',
+        ])
+        .leftJoinAndSelect('student.department', 'department')
+        .leftJoinAndSelect('department.college', 'college')
+        .leftJoinAndSelect('student.courses', 'courses')
+        .where('LOWER(user.firstName) LIKE :firstName', {
+            firstName: `%${firstName.toLowerCase()}%`,
+        })
+        .andWhere('LOWER(user.lastName) LIKE :lastName', {
+            lastName: `%${lastName.toLowerCase()}%`,
+        })
+        .andWhere('user.email LIKE :email', {
+            email: `%${email}%`,
+        })
+        .andWhere('((NOT :sidExists) OR (:sidExists AND sid LIKE :sid))', {
+            sidExists: sid == "" ? false : true,
+            sid
+        })
+        .andWhere('((NOT :departmentIdsPopulated) OR (department.id IN (:...departmentIds)))', {
+            departmentIdsPopulated: departmentIds[0] != -1,
+            departmentIds
+        })
+        .andWhere('(student.classStanding IN (:...classStandings))', {
+            classStandings
+        })
+        .getMany();
+            /*
+            .where('LOWER(job.title) LIKE :title', {
+                title: `%${title.toLowerCase()}%`,
+            })
+            .orWhere('job.type IN (:...types)', { types })
+            .orWhere('job.type LIKE :type', { type: `%${modType}%` })
+            .orWhere('job.startDate >= :startDate', { startDate: modStart })
+            .orWhere('job.minSalary >= :minSalary', { minSalary })
+            .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })*/
 };
