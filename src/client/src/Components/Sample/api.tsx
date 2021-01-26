@@ -7,5 +7,5 @@ export interface ISample {
 }
 
 export async function getSamples() {
-    return API.get<{ samples: ISample[] }>('sample/read');
+    return API.get<{ samples: ISample[] }>('/sample/read');
 }

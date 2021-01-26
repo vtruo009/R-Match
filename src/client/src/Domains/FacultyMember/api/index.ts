@@ -2,6 +2,7 @@ import API from 'api';
 import { IFacultyMemberProfileForm } from 'Domains/FacultyMember/FacultyMemberProfileForm'
 import { IDepartment, ICourse } from 'Components/AcademicInfo/api';
 import { IStudent } from 'Domains/Student/api';
+import { IUser } from 'Domains/Accounts/api';
 
 interface IJobApplication {
     id: number,
@@ -9,6 +10,22 @@ interface IJobApplication {
     jobId: number,
     studentId: number,
     student: IStudent,
+}
+
+export interface IFacultyMember {
+    id: number;
+    user: IUser;
+    department?: IDepartment;
+    courses: ICourse[];
+    websiteLink?: string;
+    office?: string;
+    title?: string;
+}
+
+export async function getFacultyMemberProfile(facultyMemberId: number) {
+    return API.get<{ facultyMember: IFacultyMember }>(
+        `/faculty-member/get-profile/${facultyMemberId}`
+    );
 }
 
 export async function updateFacultyMemberProfile(
@@ -27,7 +44,7 @@ export async function updateFacultyMemberProfile(
         departmentId,
     } = facultyMemberProfile;
 
-    return API.post('faculty-member/update-profile', {
+    return API.post('/faculty-member/update-profile', {
         facultyMemberProfile: {
             id,
             user: {

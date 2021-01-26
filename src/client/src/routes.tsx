@@ -1,18 +1,21 @@
-import Home from 'Pages/Home';
-import SearchJobs from 'Pages/SearchJobs';
-import CreateJob from 'Pages/CreateJob';
-import Profile from 'Pages/Profile';
-import SignIn from 'Pages/SignIn';
-import SignUp from 'Pages/SignUp';
-import Dashboard from './Pages/Dashboard';
 
 import React from 'react';
 import HomeIcon from '@material-ui/icons/Home';
-import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PersonIcon from '@material-ui/icons/Person';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import MailIcon from '@material-ui/icons/Mail';
+
+import Home from 'Pages/Home';
+import SearchJobs from 'Pages/SearchJobs';
+import JobFacultyMemberDashboard from 'Pages/JobFacultyMemberDashboard';
+import JobStudentDashboard from 'Pages/JobStudentDashboard';
+import Profile from 'Pages/Profile';
+import SignIn from 'Pages/SignIn';
+import SignUp from 'Pages/SignUp';
+import Dashboard from './Pages/Dashboard';
+import Message from 'Pages/Message';
 
 export interface IRoute {
     path: string;
@@ -55,6 +58,12 @@ export const authenticatedRoutes = [
         component: Profile,
         icon: <PersonIcon />,
     },
+    {
+        path: '/message',
+        name: 'Message',
+        component: Message,
+        icon: <MailIcon />,
+    },
 ];
 
 // Add routes specific to students
@@ -65,15 +74,21 @@ export const studentRoutes = [
         component: SearchJobs,
         icon: <SearchIcon />,
     },
+    {
+        path: '/job-dashboard',
+        name: 'Dashboard',
+        component: JobStudentDashboard,
+        icon: <DashboardIcon />,
+    },
 ];
 
 // Add routes specific to faculty members
 export const facultyMemberRoutes = [
     {
-        path: '/create-job',
-        name: 'Create Job',
-        component: CreateJob,
-        icon: <AddIcon />,
+        path: '/job-dashboard',
+        name: 'Dashboard',
+        component: JobFacultyMemberDashboard,
+        icon: <DashboardIcon />,
     },
     {
         path: '/prof-dashboard',

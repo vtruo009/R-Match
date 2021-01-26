@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import Container from '@material-ui/core/Container';
 import { Switch, Route } from 'react-router-dom';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import {
     studentRoutes,
@@ -25,6 +26,20 @@ const Routes = ({ routes }: { routes: IRoute[] }) => {
     );
 };
 
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#043ca4',
+        },
+        secondary: {
+            main: '#fbbb14',
+        },
+        warning: {
+            main: '#d32f2f',
+        },
+    },
+});
+
 export default function App() {
     const { isAuthenticated, user } = useContext(AuthContext);
 
@@ -41,24 +56,29 @@ export default function App() {
 
     return (
         <div className='App'>
-            <NavBar />
-            <Container style={{ marginTop: 50, marginBottom: 50 }}>
-                <Switch>
-                    {generalRoutes.map((route) => (
-                        <Route exact path={route.path} key={route.path}>
-                            <route.component />
-                        </Route>
-                    ))}
-                    {/* Render routes based on user authentication*/}
-                    {isAuthenticated ? (
-                        <Routes
-                            routes={[...authenticatedRoutes, ...userRoutes()]}
-                        />
-                    ) : (
-                        <Routes routes={unauthenticatedRoutes} />
-                    )}
-                </Switch>
-            </Container>
+            <MuiThemeProvider theme={theme}>
+                <NavBar />
+                <Container style={{ marginTop: 60, marginBottom: 60 }}>
+                    <Switch>
+                        {generalRoutes.map((route) => (
+                            <Route exact path={route.path} key={route.path}>
+                                <route.component />
+                            </Route>
+                        ))}
+                        {/* Render routes based on user authentication*/}
+                        {isAuthenticated ? (
+                            <Routes
+                                routes={[
+                                    ...authenticatedRoutes,
+                                    ...userRoutes(),
+                                ]}
+                            />
+                        ) : (
+                            <Routes routes={unauthenticatedRoutes} />
+                        )}
+                    </Switch>
+                </Container>
+            </MuiThemeProvider>
         </div>
     );
 }
