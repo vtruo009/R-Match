@@ -8,7 +8,7 @@ import { Student, classStandings } from '@entities/student';
 const mockStudent1 = {
     departmentId: 1,
     sid: "100000",
-    classStanding: "senior",
+    classStanding: "Senior",
     user: {
         userId: 1,
         email: "studentOne@gmail.com",
