@@ -22,7 +22,6 @@ function SignInForm() {
     });
     return (
         <Button
-            variant='outlined'
             style={{ color: '#ffff' }}
             onClick={sendRequest}
             startIcon={<SignOutIcon />}
