@@ -3,6 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
+import ProfileImage from 'Components/ProfileImage';
 import Card from 'Components/Card';
 import LabelValue from 'Components/LabelValue';
 import EditButton from 'Components/EditButton';
@@ -53,10 +54,11 @@ function BaseProfile({
                             </Grid>
                         )}
                         <Grid item>
-                            <Avatar
+                            {/* <Avatar
                                 alt={getUserName()}
                                 style={{ width: 170, height: 170 }}
-                            />
+                            /> */}
+                            <ProfileImage />
                         </Grid>
                         <Grid item>
                             <Typography variant='h4'>

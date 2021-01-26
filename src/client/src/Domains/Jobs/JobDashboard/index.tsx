@@ -85,7 +85,7 @@ function JobDashboard({
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <Badge badgeContent={jobs.length} color='primary'>
+                    <Badge badgeContent={jobs.length} color='primary' showZero>
                         <JobIcon />
                     </Badge>
                 </Grid>
