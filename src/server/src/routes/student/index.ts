@@ -144,7 +144,7 @@ router.get(
 );
 
 /******************************************************************************
- *            GET Request - Search Student - /api/student/search"
+ *            GET Request - Search - /api/student/search"
  ******************************************************************************/
 
 interface StudentSearchRequest extends Request {
@@ -155,6 +155,8 @@ interface StudentSearchRequest extends Request {
         sid?: string;
         departmentIds?: string[];
         classStandings?: classStandings[];
+        page: string;
+        numOfItems: string;
     };
 }
 
@@ -163,8 +165,9 @@ router.get(
     passport.authenticate('jwt', { session: false }),
     validationMiddleware({ querySchema: studentSearchSchema }),
     async (req: StudentSearchRequest, res: Response) => {
-        const { departmentIds } = req.query;
+        const { departmentIds, page, numOfItems } = req.query;
         let { firstName, lastName, email, sid, classStandings } = req.query;
+
         if (!firstName) firstName = "";
         if (!lastName) lastName = "";
         if (!email) email = "";
@@ -177,17 +180,19 @@ router.get(
             }
         }
         if (!classStandings) classStandings = ['Freshman', 'Sophomore', 'Junior', 'Senior'];
+
         try {
-            const students = await searchStudents(
+            const [students, studentsCount] = await searchStudents(
                 firstName,
                 lastName,
                 email,
                 sid,
                 departmentIdInts,
-                classStandings
+                classStandings,
+                parseInt(page),
+                parseInt(numOfItems)
             );
-
-            return res.status(OK).json({ students: students }).end();
+            return res.status(OK).json({ students, studentsCount }).end();
         } catch (error) {
             logger.err(error);
             return res

@@ -135,7 +135,9 @@ export const searchStudents = async (
     email: string,
     sid: string,
     departmentIds: number[],
-    classStandings: classStandings[]
+    classStandings: classStandings[],
+    page: number,
+    numOfItems: number
 ) => {
     return await getRepository(Student)
         .createQueryBuilder('student')
@@ -162,23 +164,16 @@ export const searchStudents = async (
         })
         .andWhere('((NOT :sidExists) OR (:sidExists AND sid LIKE :sid))', {
             sidExists: sid == "" ? false : true,
-            sid
+            sid: `%${sid}%`,
         })
-        .andWhere('((NOT :departmentIdsPopulated) OR (department.id IN (:...departmentIds)))', {
+        .andWhere('(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))', {
             departmentIdsPopulated: departmentIds[0] != -1,
             departmentIds
         })
-        .andWhere('(student.classStanding IN (:...classStandings))', {
+        .andWhere('(student.classStanding IS NULL OR student.classStanding IN (:...classStandings))', {
             classStandings
         })
-        .getMany();
-            /*
-            .where('LOWER(job.title) LIKE :title', {
-                title: `%${title.toLowerCase()}%`,
-            })
-            .orWhere('job.type IN (:...types)', { types })
-            .orWhere('job.type LIKE :type', { type: `%${modType}%` })
-            .orWhere('job.startDate >= :startDate', { startDate: modStart })
-            .orWhere('job.minSalary >= :minSalary', { minSalary })
-            .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })*/
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount()
 };
