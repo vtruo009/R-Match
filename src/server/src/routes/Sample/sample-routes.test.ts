@@ -12,7 +12,7 @@ const mockSample = {
 
 let token: string;
 
-beforeAll(async () => {
+beforeAll(async (done) => {
     // Creates connection with the database
     await connectToDb();
     await createStudentTestUser();
@@ -23,10 +23,12 @@ beforeAll(async () => {
     // Inserts mock sample to the database
     const sample = Sample.create({ ...mockSample });
     await sample.save();
+    done();
 });
 
-afterAll(async () => {
+afterAll(async (done) => {
     await disconnectFromDb();
+    done();
 });
 
 describe('get', () => {
