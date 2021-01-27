@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
 import { User } from '@entities/user';
-import { Student } from '@entities/student';
+import { Student, classStandings } from '@entities/student';
 import { Course } from '@entities/course';
 import { Department } from '@entities/department';
 import { JobApplication } from '@entities/jobApplication';
@@ -99,7 +99,6 @@ export const getStudentProfile = (id: number) => {
         .getOne();
 };
 
-
 /**
  * @description Gets all job applications submitted by the student
  * @param {number} studentId - id of student
@@ -127,4 +126,53 @@ export const getJobApplications = async (studentId: number) => {
             'user.email',
         ])
         .getMany();
+};
+
+export const searchStudents = async (
+    firstName: string,
+    lastName: string,
+    email: string,
+    sid: string,
+    departmentIds: number[],
+    classStandings: classStandings[],
+    page: number,
+    numOfItems: number
+) => {
+    return await getRepository(Student)
+        .createQueryBuilder('student')
+        .leftJoin('student.user', 'user')
+        .addSelect([
+            'user.id',
+            'user.firstName',
+            'user.lastName',
+            'user.middleName',
+            'user.biography',
+            'user.email',
+        ])
+        .leftJoinAndSelect('student.department', 'department')
+        .leftJoinAndSelect('department.college', 'college')
+        .leftJoinAndSelect('student.courses', 'courses')
+        .where('LOWER(user.firstName) LIKE :firstName', {
+            firstName: `%${firstName.toLowerCase()}%`,
+        })
+        .andWhere('LOWER(user.lastName) LIKE :lastName', {
+            lastName: `%${lastName.toLowerCase()}%`,
+        })
+        .andWhere('user.email LIKE :email', {
+            email: `%${email}%`,
+        })
+        .andWhere('((NOT :sidExists) OR (:sidExists AND sid LIKE :sid))', {
+            sidExists: sid == "" ? false : true,
+            sid: `%${sid}%`,
+        })
+        .andWhere('(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))', {
+            departmentIdsPopulated: departmentIds[0] != -1,
+            departmentIds
+        })
+        .andWhere('(student.classStanding IS NULL OR student.classStanding IN (:...classStandings))', {
+            classStandings
+        })
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount()
 };
