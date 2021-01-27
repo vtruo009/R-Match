@@ -63,13 +63,25 @@ export async function getStudentProfile(studentId: number) {
 }
 
 export async function getStudents(
-    firstName: string,
-    lastName: string,
     page: number,
     numOfItems: number,
-    classStanding?: classStandingTypes,
-    departmentId?: number
+    firstName?: string,
+    lastName?: string,
+    classStandings?: classStandingTypes[],
+    departmentId?: number,
+    email?: string,
+    sid?: string
 ) {
+    console.log(
+        page,
+        numOfItems,
+        firstName,
+        lastName,
+        classStandings,
+        departmentId,
+        email,
+        sid
+    );
     return API.get<{ students: IStudent[]; studentsCount: number }>(
         '/student/read'
     );

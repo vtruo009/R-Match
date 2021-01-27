@@ -25,27 +25,37 @@ interface StudentSearchFormProps {
 }
 
 interface IStudentSearchForm {
-    firstName: string;
-    lastName: string;
-    classStanding?: classStandingTypes;
+    firstName?: string;
+    lastName?: string;
+    classStandings?: classStandingTypes[];
     collegeId?: number;
     departmentId?: number;
+    email?: string;
+    sid?: string;
 }
 
 const formInitialValues: IStudentSearchForm = {
     firstName: '',
     lastName: '',
-    classStanding: undefined,
+    classStandings: [],
     collegeId: undefined,
     departmentId: undefined,
+    email: '',
+    sid: '',
 };
 
 const formSchema = yup.object({
-    firstName: yup.string().required('First name is required'),
-    lastName: yup.string().required('Last name is required'),
-    classStanding: yup.string().optional(),
+    firstName: yup.string().optional(),
+    lastName: yup.string().optional(),
+    classStandings: yup.array(yup.string()).optional(),
     collegeId: yup.number().optional(),
     departmentId: yup.number().optional(),
+    email: yup.string().optional().email('Please enter valid email.'),
+    sid: yup
+        .string()
+        .matches(/^\d+$/, 'SID must only contain digits')
+        .length(9, 'SID must contain 9 digits')
+        .optional(),
 });
 
 const numOfItems = 5;
@@ -60,12 +70,14 @@ function StudentSearchForm({ setStudents, children }: StudentSearchFormProps) {
     const request = React.useCallback(
         () =>
             getStudents(
-                formState.firstName,
-                formState.lastName,
                 page,
                 numOfItems,
-                formState.classStanding,
-                formState.departmentId
+                formState.firstName,
+                formState.lastName,
+                formState.classStandings,
+                formState.departmentId,
+                formState.email,
+                formState.sid
             ),
         [formState, page]
     );
@@ -129,14 +141,29 @@ function StudentSearchForm({ setStudents, children }: StudentSearchFormProps) {
                                 </Grid>
                                 <Grid item md={4} xs={12}>
                                     <Field
-                                        name='classStanding'
+                                        name='classStandings'
                                         label='Class standing'
+                                        multiple
                                         options={classStandingValues}
                                         component={SelectFormField}
                                     />
                                 </Grid>
+                                <Grid item md={6} xs={12}>
+                                    <Field
+                                        name='email'
+                                        label='Email'
+                                        component={TextFormField}
+                                    />
+                                </Grid>
+                                <Grid item md={6} xs={12}>
+                                    <Field
+                                        name='sid'
+                                        label='SID'
+                                        component={TextFormField}
+                                    />
+                                </Grid>
                                 <Field component={AcademicInfo} />
-                                <Grid container item xs={12} justify='flex-end'>
+                                <Grid item xs={12}>
                                     <SubmitButton
                                         isLoading={isLoading}
                                         startIcon={<SearchIcon />}
