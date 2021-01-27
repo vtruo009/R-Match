@@ -733,7 +733,8 @@ Student API
         -   Filter student records based on query and return them.
         -   Body: None
         -   Parameters:
-            - {
+            ```
+            {
                 firstName?: string;
                 lastName?: string;
                 email?: string;
@@ -743,6 +744,7 @@ Student API
                 page: string;
                 numOfItems: string;
             };
+            ```
         -   Authorization restrictions:
             -   User must be logged in
         -   Response:

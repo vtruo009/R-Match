@@ -173,6 +173,8 @@ router.get(
         if (!email) email = "";
         if (!sid) sid = "";
         var departmentIdInts = [];
+        // Pass -1 when the input is empty because it causes a sql parse error
+        // when we pass in an empty array.
         if (!departmentIds) departmentIdInts = [-1];
         else {
             for (const id of departmentIds) {
