@@ -16,11 +16,6 @@ import StudentWorkExperiencesPreview from 'Domains/Student/StudentWorkExperience
 import { getStudentProfile, IStudent} from 'Domains/Student/api';
 import { AuthContext } from 'Contexts/AuthContext';
 
-/*interface StudentsProps {
-    students: IStudent[];
-}
-*/
-
 function StudentProfile() {
     const [ studentProfile, setStudentProfile] = React.useState<IStudent>();
     const [ students ] = React.useState<IStudent[]>([]); 
@@ -202,6 +197,7 @@ function StudentProfile() {
                         transcript: studentProfile.transcript,
                         workStartDate: studentProfile.workStartDate,
                         workEndDate: studentProfile.workEndDate,
+                        workTitle: studentProfile.workTitle, 
                         workEmployer: studentProfile.workEmployer,
                         workDescription: studentProfile.workDescription,
                     }}

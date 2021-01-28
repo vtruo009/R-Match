@@ -32,7 +32,8 @@ export interface IStudentProfileForm {
     resume?: Buffer;
     transcript?: Buffer;
     workStartDate: string; 
-    workEndDate?: string; 
+    workEndDate?: string;
+    workTitle: string;  
     workEmployer: string; 
     workDescription: string; 
 }
@@ -87,6 +88,7 @@ const formSchema = yup.object({
         .min(yup.ref('startDate'), 'End date must be later than start date')
         .optional()
         .nullable(),
+    workTitle: yup.string().required('Work title is required'),
     workEmployer: yup.string().required('Employer name is required'),
     workDescription: yup.string().required('Work description is required'),
 });
@@ -216,6 +218,13 @@ function StudentProfileForm({
                                     name='workEndDate'
                                     label='Work Experience End Date'
                                     component={DatePickerFormField}
+                                />
+                            </Grid>
+                            <Grid item md={12} xs={12}>
+                                <Field
+                                    name='workTitle'
+                                    label='Work Experience Title'
+                                    component={TextFormField}
                                 />
                             </Grid>
                             <Grid item md={12} xs={12}>
