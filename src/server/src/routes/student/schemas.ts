@@ -24,12 +24,14 @@ export const studentSearchSchema = Joi.object({
     lastName: Joi.string().allow('').optional(),
     email: Joi.string().allow('').optional(),
     sid: Joi.string().allow('').optional(),
-    departmentIds: Joi.array()
-        .items(Joi.number())
-        .optional(),
-    classStandings: Joi.array()
+    departmentIds: Joi.array().allow('').items(Joi.number()).required(),
+    //    .items(Joi.number())
+    //    .required(),
+    classStandings: Joi.array().allow('')
         .items(Joi.string().valid('Freshman', 'Sophmore', 'Junior', 'Senior'))
-        .optional(),
+        .required(),
+    //    .items(Joi.string().valid('Freshman', 'Sophmore', 'Junior', 'Senior'))
+    //    .required(),
     page: Joi.string().required(),
     numOfItems: Joi.string().required(),
 });

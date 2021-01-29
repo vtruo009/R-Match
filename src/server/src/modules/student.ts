@@ -129,12 +129,12 @@ export const getJobApplications = async (studentId: number) => {
 };
 
 export const searchStudents = async (
-    firstName: string,
-    lastName: string,
-    email: string,
-    sid: string,
-    departmentIds: number[],
-    classStandings: classStandings[],
+    firstName: User['firstName'],
+    lastName: User['lastName'],
+    email: User['email'],
+    sid: Student['sid'],
+    departmentIds: Student['departmentId'][],
+    classStandings: Student['classStanding'][],
     page: number,
     numOfItems: number
 ) => {
@@ -162,11 +162,11 @@ export const searchStudents = async (
             email: `%${email}%`,
         })
         .andWhere('((NOT :sidExists) OR (:sidExists AND sid LIKE :sid))', {
-            sidExists: sid == "" ? false : true,
+            sidExists: sid !== "",
             sid: `%${sid}%`,
         })
         .andWhere('(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))', {
-            departmentIdsPopulated: departmentIds[0] != -1,
+            departmentIdsPopulated: departmentIds[0] !== -1,
             departmentIds
         })
         .andWhere('(student.classStanding IS NULL OR student.classStanding IN (:...classStandings))', {

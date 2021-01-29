@@ -16,6 +16,8 @@ import { Department } from './department';
 import { JobApplication } from './jobApplication';
 
 export type classStandings = 'Freshman' | 'Sophomore' | 'Junior' | 'Senior';
+export const classStandingValues = ['Freshman', 'Sophomore', 'Junior', 'Senior'] as classStandings[];
+
 @Entity()
 export class Student extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -33,8 +35,9 @@ export class Student extends BaseEntity {
     @Column({
         nullable: true,
         type: 'enum',
-        enum: ['Freshman', 'Sophomore', 'Junior', 'Senior'],
+        enum: classStandingValues
     })
+
     classStanding?: classStandings;
 
     @Column({ type: 'bytea', nullable: true })

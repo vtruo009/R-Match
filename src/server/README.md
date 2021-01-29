@@ -730,7 +730,7 @@ Student API
 
     -   api/student/search
     
-        -   Filter student records based on query and return them.
+        -   Filters student records based on queries and returns them.
         -   Body: None
         -   Parameters:
             ```
@@ -776,7 +776,7 @@ Student API
                             id: number,
                             title: string
                         }[]
-                    } []
+                    } [],
                     studentsCount: number
                 }
                 ```

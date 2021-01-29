@@ -2,7 +2,7 @@ import StatusCodes from 'http-status-codes';
 import passport from 'passport';
 import logger from '@shared/Logger';
 import { Request, Response, Router } from 'express';
-import { Student, classStandings  } from '@entities/student';
+import { Student, classStandings, classStandingValues  } from '@entities/student';
 import { errors } from '@shared/errors';
 import {
     updateStudent,
@@ -153,8 +153,8 @@ interface StudentSearchRequest extends Request {
         lastName?: string;
         email?: string;
         sid?: string;
-        departmentIds?: string[];
-        classStandings?: classStandings[];
+        departmentIds: string[];
+        classStandings: classStandings[];
         page: string;
         numOfItems: string;
     };
@@ -172,16 +172,15 @@ router.get(
         if (!lastName) lastName = "";
         if (!email) email = "";
         if (!sid) sid = "";
-        var departmentIdInts = [];
-        // Pass -1 when the input is empty because it causes a sql parse error
+
+        // Pass -1 when the input is empty or null because it causes a sql parse error
         // when we pass in an empty array.
-        if (!departmentIds) departmentIdInts = [-1];
-        else {
-            for (const id of departmentIds) {
-                departmentIdInts.push(parseInt(id));
-            }
-        }
-        if (!classStandings) classStandings = ['Freshman', 'Sophomore', 'Junior', 'Senior'];
+        const departmentIdInts = (departmentIds && departmentIds.length > 0) ?
+            departmentIds.map((id) => parseInt(id, 10)) :
+            [-1];
+
+        if (classStandings.length === 0)
+            classStandings = classStandingValues;
 
         try {
             const [students, studentsCount] = await searchStudents(
