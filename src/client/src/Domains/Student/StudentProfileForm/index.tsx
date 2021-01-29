@@ -31,10 +31,10 @@ export interface IStudentProfileForm {
     courseIds?: number[];
     resume?: Buffer;
     transcript?: Buffer;
-    workStartDate: string; 
-    workEndDate?: string; 
-    workEmployer: string; 
-    workDescription: string; 
+    // workStartDate: string;
+    // workEndDate?: string;
+    // workEmployer: string;
+    // workDescription: string;
 }
 
 interface StudentProfileFormProps {
@@ -78,17 +78,17 @@ const formSchema = yup.object({
         })
         .optional()
         .nullable(),
-    workStartDate: yup
-        .date()
-        .min(today, `Start date must be later than today`)
-        .required('Start date is required'),
-    workEndDate: yup
-        .date()
-        .min(yup.ref('startDate'), 'End date must be later than start date')
-        .optional()
-        .nullable(),
-    workEmployer: yup.string().required('Employer name is required'),
-    workDescription: yup.string().required('Work description is required'),
+    // workStartDate: yup
+    //     .date()
+    //     .min(today, `Start date must be later than today`)
+    //     .required('Start date is required'),
+    // workEndDate: yup
+    //     .date()
+    //     .min(yup.ref('startDate'), 'End date must be later than start date')
+    //     .optional()
+    //     .nullable(),
+    // workEmployer: yup.string().required('Employer name is required'),
+    // workDescription: yup.string().required('Work description is required'),
 });
 
 function StudentProfileForm({
@@ -125,7 +125,7 @@ function StudentProfileForm({
                     sendUpdateProfileRequest();
                 }}
             >
-                {({setFieldValue}) => (
+                {({ setFieldValue }) => (
                     <Form>
                         <Grid
                             container
@@ -204,7 +204,7 @@ function StudentProfileForm({
                                 />
                             </Grid>
                             <Field component={AcademicInfo} showCourses />
-                            <Grid item md={6} xs={12}>
+                            {/* <Grid item md={6} xs={12}>
                                 <Field
                                     name='workStartDate'
                                     label='Work Experience Start Date'
@@ -232,7 +232,7 @@ function StudentProfileForm({
                                     multiline
                                     component={TextFormField}
                                 />
-                            </Grid>
+                            </Grid> */}
                             <Grid item md={6} xs={12}>
                                 <SubmitButton
                                     fullWidth

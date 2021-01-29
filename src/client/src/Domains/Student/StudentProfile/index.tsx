@@ -13,7 +13,7 @@ import LabelValues from 'Components/LabelValues';
 import Loader from 'Components/Loader';
 import StudentProfileForm from 'Domains/Student/StudentProfileForm';
 import StudentWorkExperiencesPreview from 'Domains/Student/StudentWorkExperiencesPreview';
-import { getStudentProfile, IStudent} from 'Domains/Student/api';
+import { getStudentProfile, IStudent } from 'Domains/Student/api';
 import { AuthContext } from 'Contexts/AuthContext';
 
 /*interface StudentsProps {
@@ -21,9 +21,32 @@ import { AuthContext } from 'Contexts/AuthContext';
 }
 */
 
+const workExperiencesDummy = [
+    {
+        startDate: '2021-01-29T03:31:04.627Z',
+        endDate: '2021-01-29T03:31:04.627Z',
+        title: 'Intern',
+        employer: 'Google',
+        description: 'Some description',
+    },
+    {
+        startDate: '2021-01-29T03:31:04.627Z',
+        endDate: '2021-01-29T03:31:04.627Z',
+        title: 'Intern',
+        employer: 'Google',
+        description: 'Some description',
+    },
+    {
+        startDate: '2021-01-29T03:31:04.627Z',
+        endDate: '2021-01-29T03:31:04.627Z',
+        title: 'Intern',
+        employer: 'Google',
+        description: 'Some description',
+    },
+];
+
 function StudentProfile() {
-    const [ studentProfile, setStudentProfile] = React.useState<IStudent>();
-    const [ students ] = React.useState<IStudent[]>([]); 
+    const [studentProfile, setStudentProfile] = React.useState<IStudent>();
     const [open, setOpen] = React.useState(false);
     const { user } = React.useContext(AuthContext);
 
@@ -149,33 +172,50 @@ function StudentProfile() {
                         values={getCoursesTitles()}
                     />
                 </Grid>
-                <Grid container spacing={2} justify='center' alignItems='center'>
-                <Grid item md={12} xs={12}>
-                    <Card variant='outlined' style={{ padding: 30 }}>
-                    <Grid item>
-                            <Typography variant='h5' color='primary'>
-                                Work Experiences
-                            </Typography>
-                        </Grid>
-                        <Grid
-                            container
-                            direction='row'
-                            spacing={3}
-                        >
-                        <Grid container item direction='row' spacing={6} xs={12}></Grid>
-                        {students.map((student, index) => (
-                            <Grid item key={index}>
-                            <StudentWorkExperiencesPreview
-                                student={student}
-                                //onClick={setJobSelected}
-                                //isSelected={job.id === jobSelected.id}
-                            />
-                        </Grid>
-                    ))}
-                        </Grid>
-                    </Card>
+                <Grid
+                    container
+                    spacing={2}
+                    justify='center'
+                    alignItems='center'
+                >
+                    <Grid item md={12} xs={12}>
+                        <Card variant='outlined' style={{ padding: 30 }}>
+                            <Grid item>
+                                <Typography variant='h5' color='primary'>
+                                    Work Experiences
+                                </Typography>
+                            </Grid>
+                            <Grid container direction='row' spacing={3}>
+                                <Grid
+                                    container
+                                    item
+                                    direction='row'
+                                    spacing={6}
+                                    xs={12}
+                                ></Grid>
+                                {workExperiencesDummy.map(
+                                    (workExperience, index) => (
+                                        <Grid item key={index}>
+                                            <StudentWorkExperiencesPreview
+                                                startDate={
+                                                    workExperience.startDate
+                                                }
+                                                endDate={workExperience.endDate}
+                                                title={workExperience.title}
+                                                employer={
+                                                    workExperience.employer
+                                                }
+                                                description={
+                                                    workExperience.description
+                                                }
+                                            />
+                                        </Grid>
+                                    )
+                                )}
+                            </Grid>
+                        </Card>
+                    </Grid>
                 </Grid>
-                </Grid> 
             </Grid>
             <Dialog
                 open={open}
@@ -200,10 +240,10 @@ function StudentProfile() {
                         courseIds: getCoursesIds(),
                         resume: studentProfile.resume,
                         transcript: studentProfile.transcript,
-                        workStartDate: studentProfile.workStartDate,
-                        workEndDate: studentProfile.workEndDate,
-                        workEmployer: studentProfile.workEmployer,
-                        workDescription: studentProfile.workDescription,
+                        // workStartDate: studentProfile.workStartDate,
+                        // workEndDate: studentProfile.workEndDate,
+                        // workEmployer: studentProfile.workEmployer,
+                        // workDescription: studentProfile.workDescription,
                     }}
                 />
             </Dialog>

@@ -2,22 +2,35 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { IStudent } from 'Domains/Student/api';
 import Avatar from '@material-ui/core/Avatar';
 
-interface Props {
-    student: IStudent;
+interface WorkExperienceProps {
+    startDate: string;
+    endDate?: string;
+    title: string;
+    employer: string;
+    description: string;
 }
 
-function StudentWorkExperiencesPreview ({ student }: Props) {
+function StudentWorkExperiencesPreview({
+    startDate,
+    endDate,
+    title,
+    employer,
+    description,
+}: WorkExperienceProps) {
     return (
-        <Card
-            variant='outlined'
-            style={{ padding: 30 }}
-        >
+        <Card variant='outlined' style={{ padding: 30 }}>
             <Grid container spacing={4} alignItems='center' justify='center'>
-                <Grid container item md={3} xs={3} justify='center' alignItems='center'>
-                    <Avatar style={{ width: 70, height: 70}}/>
+                <Grid
+                    container
+                    item
+                    md={3}
+                    xs={3}
+                    justify='center'
+                    alignItems='center'
+                >
+                    <Avatar style={{ width: 70, height: 70 }} />
                 </Grid>
                 <Grid
                     item
@@ -29,34 +42,31 @@ function StudentWorkExperiencesPreview ({ student }: Props) {
                 >
                     <Grid item>
                         <Typography variant='body1'>
-                            Start Date: {student.workStartDate}
+                            Start Date: {startDate}
                         </Typography>
                     </Grid>
                     <Grid item>
                         <Typography variant='body1'>
-                            End Date: {student.workEndDate !== null ? student.workEndDate : <i> Not provided</i>}
+                            End Date: {endDate ? endDate : <i> Not provided</i>}
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant='body1'>Title: {title}</Typography>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant='body1'>
+                            Employer: {employer}
                         </Typography>
                     </Grid>
                     <Grid item>
                         <Typography variant='body1'>
-                            Title: {student.workTitle}
-                        </Typography>
-                    </Grid>
-                    <Grid item>
-                        <Typography variant='body1'>
-                           Employer: {student.workEmployer}
-                        </Typography>
-                    </Grid>
-                    <Grid item>
-                        <Typography variant='body1'>
-                           Description: {student.workDescription}
+                            Description: {description}
                         </Typography>
                     </Grid>
                 </Grid>
-
             </Grid>
         </Card>
     );
 }
 
-export default StudentWorkExperiencesPreview; 
+export default StudentWorkExperiencesPreview;
