@@ -135,7 +135,7 @@ router.get(
                 hoursPerWeek = '10000';
             }
             if (!startDate) {
-                startDate = '01/01/3000';
+                startDate = '01/01/2000';
             }
 
             const [jobs, jobsCount] = await getJobs(

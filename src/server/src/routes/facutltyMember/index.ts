@@ -8,7 +8,7 @@ import {
     getFacultyMemberProfile,
     updateFacultyMember,
     getPostedJobs,
-    getApplicants
+    getJobApplications
 } from '@modules/facultyMember';
 import { validationMiddleware } from '@middlewares/validation';
 import { facultyMemberProfileSchema } from './schemas';
@@ -136,12 +136,19 @@ router.get(
 /******************************************************************************
  * GET Request - Read - "GET /api/faculty-member/get-applicants/:jobId"
  ******************************************************************************/
-
+interface GetJobAppicationsRequest extends Request {
+    query: {
+        page: string;
+        numOfItems: string;
+    }
+}
 router.get(
-    '/get-applicants/:jobId',
+    '/get-job-applications/:jobId',
     passport.authenticate('jwt', { session: false }),
-    async (req: Request, res: Response) => {
+    // async (req: Request, res: Response) => {
+    async (req: GetJobAppicationsRequest, res: Response) => {
         const { specificUserId, role } = req.user as JWTUser;
+        const { page, numOfItems } = req.query;
         if (role !== 'facultyMember') {
             return res
                 .status(UNAUTHORIZED)
@@ -149,14 +156,17 @@ router.get(
         }
 
         const { jobId } = req.params;
-
+        console.log("***** Job " + jobId);
         try {
-            const { result, message } = await getApplicants(
+            // console.log(`*************PAGE IS ${page} and ${typeof page}`);
+            const { result, message, count } = await getJobApplications(
                 specificUserId,
-                parseInt(jobId, 10)
+                parseInt(jobId, 10),
+                parseInt(page),
+                parseInt(numOfItems)
             );
             return result
-                ? res.status(OK).json({ result }).end()
+                ? res.status(OK).json({ jobApplications: result, jobApplicationsCount: count }).end()
                 : res.status(BAD_REQUEST).json({ error: message });
         } catch (error) {
             logger.err(error);

@@ -4,6 +4,7 @@ import { Department } from '@entities/department';
 import { Job } from '@entities/job';
 import { getRepository } from 'typeorm';
 import { JobApplication } from '../entities/jobApplication';
+import { number } from 'joi';
 
 /**
  * @description Creates a faculty member using an existing user record from the database
@@ -119,13 +120,20 @@ export const getPostedJobs = async (facultyMemberId: number) => {
  * @param {number} jobId - Id of the job
  * @returns Promise
  */
-export const getApplicants = async (facultyMemberId: number, jobId: number) => {
+export const getJobApplications = async (
+    facultyMemberId: number,
+    jobId: number,
+    page: number,
+    numOfItems: number
+    ) => {
     const getApplicantsResult: {
         result?: JobApplication[];
         message: string;
+        count: number;
     } = {
         result: undefined,
         message: '',
+        count: 0
     };
 
     // Check if a faculty member with the given id exists.
@@ -165,10 +173,14 @@ export const getApplicants = async (facultyMemberId: number, jobId: number) => {
         .leftJoinAndSelect('student.department', 'department')
         .leftJoinAndSelect('department.college', 'college')
         .leftJoinAndSelect('student.courses', 'courses')
-        .getMany();
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount();
 
     getApplicantsResult.message = 'Successfully obtained applicants.';
-    getApplicantsResult.result = applications;
+    getApplicantsResult.result = applications[0];
+    getApplicantsResult.count = applications[1];
 
+    console.log(applications);
     return getApplicantsResult;
 };

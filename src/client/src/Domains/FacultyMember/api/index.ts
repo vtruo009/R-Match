@@ -1,7 +1,16 @@
 import API from 'api';
+import { IFacultyMemberProfileForm } from 'Domains/FacultyMember/FacultyMemberProfileForm'
+import { IDepartment, ICourse } from 'Components/AcademicInfo/api';
+import { IStudent } from 'Domains/Student/api';
 import { IUser } from 'Domains/Accounts/api';
-import { ICourse, IDepartment } from 'Components/AcademicInfo/api';
-import { IFacultyMemberProfileForm } from 'Domains/FacultyMember/FacultyMemberProfileForm';
+
+interface IJobApplication {
+    id: number,
+    date: string,
+    jobId: number,
+    studentId: number,
+    student: IStudent,
+}
 
 export interface IFacultyMember {
     id: number;
@@ -52,3 +61,19 @@ export async function updateFacultyMemberProfile(
         },
     });
 }
+
+export async function getStudentsApplied(
+    jobId: number,
+    page: number,
+    numOfItems: number
+) {
+    const params = {
+        page,
+        numOfItems,
+    };
+    //return API.get<{ /* students: IStudentsApplied[] -> name of array: TYPE[] */}>('/get-applicants/1') // to add job id; when put # can just put 1
+    return API.get<{ jobApplications: IJobApplication[], jobApplicationsCount: number }>(`faculty-member/get-job-applications/${jobId}`, { params });
+}
+
+export default IJobApplication;
+//here can declare interface for students appliead; has to match whatever mari gives back -> export then import it in Studentlist compo
