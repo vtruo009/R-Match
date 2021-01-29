@@ -25,13 +25,9 @@ export const studentSearchSchema = Joi.object({
     email: Joi.string().allow('').optional(),
     sid: Joi.string().allow('').optional(),
     departmentIds: Joi.array().allow('').items(Joi.number()).required(),
-    //    .items(Joi.number())
-    //    .required(),
     classStandings: Joi.array().allow('')
         .items(Joi.string().valid('Freshman', 'Sophmore', 'Junior', 'Senior'))
         .required(),
-    //    .items(Joi.string().valid('Freshman', 'Sophmore', 'Junior', 'Senior'))
-    //    .required(),
     page: Joi.string().required(),
     numOfItems: Joi.string().required(),
 });
