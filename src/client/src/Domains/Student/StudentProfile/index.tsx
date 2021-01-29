@@ -1,6 +1,8 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
+import Card from 'Components/Card';
 import useDialog from 'hooks/useDialog';
 import useApi from 'hooks/useApi';
 import BaseProfile from 'Components/BaseProfile';
@@ -111,7 +113,7 @@ function StudentProfile() {
                     alignItems='center'
                 >
                     <Grid item md={12} xs={12}>
-                        <Card variant='outlined' style={{ padding: 30 }}>
+                        <Card style={{ padding: 30 }}>
                             <Grid item>
                                 <Typography variant='h5' color='primary'>
                                     Work Experiences
