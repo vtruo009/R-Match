@@ -1,5 +1,7 @@
 import API from 'api';
-import { IJobForm } from 'Domains/Jobs/JobForm';
+import { IJobCreateFormValues } from 'Domains/Jobs/JobCreateForm';
+import { IJobUpdateFormValues } from 'Domains/Jobs/JobUpdateForm';
+import { IDepartment } from 'Components/AcademicInfo/api';
 
 export type jobType =
     | 'grader'
@@ -10,6 +12,8 @@ export type jobType =
     | 'other';
 
 export type targetYearsType = 'Freshman' | 'Sophmore' | 'Junior' | 'Senior';
+
+export type statusType = 'Hiring' | 'Closed';
 
 export const jobTypes = [
     {
@@ -68,10 +72,10 @@ export interface IJob {
     postedOn: string;
     type: jobType[];
     title: string;
-    status: 'Hiring' | 'Closed';
+    status: statusType;
     minSalary: number;
     maxSalary?: number;
-    departmentId: string;
+    department: IDepartment;
     facultyMember: {
         id: number;
         title?: string;
@@ -80,6 +84,14 @@ export interface IJob {
             lastName: string;
         };
     };
+}
+
+export interface IJobApplication {
+    date: string;
+    id: number;
+    job: IJob;
+    jobId: number;
+    studentId: number;
 }
 
 export async function getJobs(
@@ -100,12 +112,77 @@ export async function getJobs(
         page,
         numOfItems,
     };
-    return API.get<{ jobs: IJob[]; jobsCount: number }>('job/read', { params });
+    return API.get<{ jobs: IJob[]; jobsCount: number }>('/job/read', {
+        params,
+    });
 }
 
-export async function createJob(job: IJobForm) {
-    delete job.collegeId;
-    return API.post('job/create', {
-        job,
+export async function createJob(job: IJobCreateFormValues) {
+    return API.post('/job/create', {
+        job: {
+            title: job.title,
+            description: job.description,
+            startDate: job.startDate,
+            endDate: job.endDate,
+            expirationDate: job.expirationDate,
+            type: job.type,
+            hoursPerWeek: job.hoursPerWeek,
+            targetYears: job.targetYears,
+            minSalary: job.minSalary,
+            maxSalary: job.maxSalary,
+            departmentId: job.departmentId,
+        },
+    });
+}
+
+export async function updateJob(job: IJobUpdateFormValues) {
+    return API.post('/job/update', {
+        job: {
+            id: job.id,
+            title: job.title,
+            description: job.description,
+            startDate: job.startDate,
+            endDate: job.endDate === '' ? undefined : job.endDate,
+            expirationDate:
+                job.expirationDate === '' ? undefined : job.expirationDate,
+            type: job.type,
+            hoursPerWeek: job.hoursPerWeek,
+            targetYears: job.targetYears,
+            minSalary: job.minSalary,
+            maxSalary: job.maxSalary,
+            departmentId: job.departmentId,
+        },
+    });
+}
+
+export async function deleteJob(jobId: number) {
+    return API.delete(`/job/delete/${jobId}`);
+}
+
+export async function getPostedJobs() {
+    return API.get<{ jobs: IJob[] }>('/faculty-member/get-posted-jobs');
+}
+
+export async function getAppliedJobs() {
+    return API.get<{ jobApplications: IJobApplication[] }>(
+        '/student/get-applied-jobs'
+    );
+}
+
+export async function closeJob(jobId: number) {
+    return API.post('/job/close', {
+        jobId,
+    });
+}
+
+export async function openJob(jobId: number) {
+    return API.post('/job/open', {
+        jobId,
+    });
+}
+
+export async function applyToJob(jobId: number) {
+    return API.post<{ message: string }>('/job/apply-to-job', {
+        jobId,
     });
 }

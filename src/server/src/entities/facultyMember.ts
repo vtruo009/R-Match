@@ -35,7 +35,9 @@ export class FacultyMember extends BaseEntity {
     @Column()
     userId: number;
 
-    @OneToOne(() => User)
+    @OneToOne(() => User, {
+        onDelete: 'CASCADE',
+    })
     @JoinColumn()
     user: User;
 

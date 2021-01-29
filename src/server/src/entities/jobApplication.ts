@@ -1,9 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, BaseEntity} from 'typeorm';
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    ManyToOne,
+    BaseEntity,
+} from 'typeorm';
 import { Student } from '../entities/student';
 import { Job } from '../entities/job';
 
 @Entity()
-export class JobApplication extends BaseEntity{
+export class JobApplication extends BaseEntity {
     @PrimaryGeneratedColumn()
     public id: number;
 

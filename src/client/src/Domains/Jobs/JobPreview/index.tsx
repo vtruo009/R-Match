@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
+// import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -8,15 +8,17 @@ import GraderIcon from '@material-ui/icons/Assignment';
 import ResearchIcon from '@material-ui/icons/FindInPage';
 import TutorIcon from '@material-ui/icons/SupervisedUserCircle';
 import VolunteerIcon from '@material-ui/icons/Accessibility';
-import OtherIcon from '@material-ui/icons/AddCircle';
+import OtherIcon from '@material-ui/icons/Help';
 
-import Salary from 'Domains/Jobs/Salary';
+import Card from 'Components/Card';
 import { IJob, jobType } from 'Domains/Jobs/api';
+import { formatDateString, formatSalary } from 'utils/format';
 
 interface JobPreviewProps {
     job: IJob;
-    onClick: (job: IJob) => void;
+    onClick: () => void;
     isSelected: boolean;
+    hasPermission: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -50,59 +52,54 @@ const getIcon = (type: jobType): JSX.Element => {
     }
 };
 
-function JobPreview({ job, onClick, isSelected }: JobPreviewProps) {
+function JobPreview({
+    job,
+    onClick,
+    isSelected,
+    hasPermission,
+}: JobPreviewProps) {
     const classes = useStyles();
+
+    const getJobPosterName = () => {
+        const { title, user } = job.facultyMember;
+        const { firstName, lastName } = user;
+        const _title = title ? title : '';
+        return `${_title} ${firstName} ${lastName}`;
+    };
+
     return (
         <Card
             className={isSelected ? classes.Selected : classes.NonSelected}
-            variant='outlined'
-            style={{ padding: 30 }}
-            onClick={() => onClick(job)}
+            onClick={onClick}
         >
-            <Grid container spacing={4} alignItems='center' justify='center'>
-                <Grid
-                    container
-                    item
-                    md={3}
-                    xs={12}
-                    justify='center'
-                    alignItems='center'
-                >
+            <Grid container spacing={2} alignItems='center' justify='center'>
+                <Grid container item md={3} xs={12} justify='center'>
                     {getIcon(job.type[0])}
                 </Grid>
-                <Grid
-                    item
-                    container
-                    direction='column'
-                    spacing={1}
-                    md={9}
-                    xs={12}
-                >
-                    <Grid item>
+                <Grid item container spacing={1} md={9} xs={12}>
+                    <Grid item xs={12}>
                         <Typography variant='h6' color='primary'>
                             {job.title}
                         </Typography>
                     </Grid>
-                    <Grid item>
+                    <Grid item xs={12}>
                         <Typography variant='body1'>
                             Hours per week: {job.hoursPerWeek}
                         </Typography>
                     </Grid>
                     {job.minSalary > 0 && (
-                        <Grid item>
-                            Hourly wage:
-                            <Salary
-                                minSalary={job.minSalary}
-                                maxSalary={job.maxSalary}
-                            />
+                        <Grid item xs={12}>
+                            <Typography>
+                                Hourly wage:{' '}
+                                {formatSalary(job.minSalary, job.maxSalary)}
+                            </Typography>
                         </Grid>
                     )}
-                    <Grid item>
+                    <Grid item xs={12}>
                         <Typography variant='body1'>
-                            Posted by:{' '}
-                            {job.facultyMember.title && job.facultyMember.title}{' '}
-                            {job.facultyMember.user.firstName}{' '}
-                            {job.facultyMember.user.lastName}
+                            {hasPermission
+                                ? `Posted on: ${formatDateString(job.postedOn)}`
+                                : `Posted by: ${getJobPosterName()}`}
                         </Typography>
                     </Grid>
                 </Grid>

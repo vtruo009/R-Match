@@ -2,6 +2,21 @@ import bcrypt from 'bcrypt';
 import { User } from '@entities/user';
 import { createStudent } from '@modules/student';
 import { createFacultyMember } from '@modules/facultyMember';
+import { getRepository } from 'typeorm';
+
+/**
+ * @description Return a boolean value checking if the user with the given id exists.
+ * @param {number} userId - id of the user.
+ * @returns Promise
+ */
+export const userIdExists = async (userId: number) => {
+    const user = await getRepository(User)
+        .createQueryBuilder('user')
+        .where({ id: userId })
+        .getOne();
+    return user !== undefined;
+}
+
 /**
  * @description Finds user by email
  * @param {string} email - user's email address
@@ -17,7 +32,7 @@ export const findUserByEmail = (email: string) => {
  * @param {string} password - User's password
  * @param {string} firstName - User's first name
  * @param {string} lastName - User's last name
- * @param {'student' | 'facultyMember'} role - user's role, either 'student' or 'facultyMember'
+ * @param {role} role - user's role, either 'student' or 'facultyMember'
  * @returns Promise
  */
 export const createUser = (
@@ -43,7 +58,7 @@ export const createUser = (
  * @param {string} password - User's password (not encrypted)
  * @param {string} firstName - User's first name
  * @param {string} lastName - User's last name
- * @param {'student' | 'facultyMember'} role - User's role, either 'student' or 'facultyMember'
+ * @param {role} role - User's role, either 'student' or 'facultyMember'
  * @returns Promise
  */
 export const registerUser = async (
@@ -72,4 +87,51 @@ export const registerUser = async (
         default:
             return undefined;
     }
+};
+
+/**
+ * @description Returns an user object corresponding to email in order to send a message.
+ * @param {number} userId - id of the logged-in user.
+ * @param {string} email - email address.
+ * @returns Promise
+ */
+export const getUserByEmail = async (userId: number, email: string) => {
+    const getUserByEmailResult: {
+        result: User | undefined;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
+
+    // Check if the user with the email exists.
+    const user = await getRepository(User)
+        .createQueryBuilder('user')
+        .where({ email: email })
+        .select([
+            'user.id',
+            'user.firstName',
+            'user.lastName',
+            'user.middleName',
+            'user.biography',
+            'user.email',
+        ])
+        .getOne();
+
+    if (!user) {
+        getUserByEmailResult.message =
+            'A user with the email does not exist.';
+        return getUserByEmailResult;
+    }
+
+    if (user.id == userId) {
+        getUserByEmailResult.message =
+            'You cannot send message to yourself.';
+        return getUserByEmailResult;
+    }
+
+    getUserByEmailResult.message = 'Successful';
+    getUserByEmailResult.result = user;
+
+    return getUserByEmailResult;
 };
