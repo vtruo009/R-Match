@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
 import { User } from '@entities/user';
-import { Student, classStandings } from '@entities/student';
+import { Student } from '@entities/student';
 import { Course } from '@entities/course';
 import { Department } from '@entities/department';
 import { JobApplication } from '@entities/jobApplication';

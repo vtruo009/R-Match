@@ -739,8 +739,8 @@ Student API
                 lastName?: string;
                 email?: string;
                 sid?: string;
-                departmentIds?: string[];
-                classStandings?: 'freshman' | 'sophomore' | 'junior' | 'senior'[];
+                departmentIds: string[];
+                classStandings: 'freshman' | 'sophomore' | 'junior' | 'senior'[];
                 page: string;
                 numOfItems: string;
             };
