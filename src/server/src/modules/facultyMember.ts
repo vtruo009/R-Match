@@ -181,5 +181,6 @@ export const getJobApplications = async (
     getApplicantsResult.result = applications[0];
     getApplicantsResult.count = applications[1];
 
+    console.log(applications);
     return getApplicantsResult;
 };

@@ -6,6 +6,7 @@ import { formatDateString, formatSalary } from 'utils/format';
 import Card from 'Components/Card';
 import { IJob } from 'Domains/Jobs/api';
 import JobActions from 'Domains/Jobs/JobActions';
+import StudentsList from 'Domains/FacultyMember/StudentsList';
 interface JobSummaryProps {
     job: IJob;
     hasPermission: boolean;
@@ -21,7 +22,8 @@ const SubTitle = ({ title }: SubTitleProps) => (
 
 function JobSummary({ job, hasPermission }: JobSummaryProps) {
     return (
-        <Card
+        <div>
+            <Card
             style={{
                 padding: 40,
                 borderRadius: 25,
@@ -114,6 +116,14 @@ function JobSummary({ job, hasPermission }: JobSummaryProps) {
                 </Grid>
             </Grid>
         </Card>
+        {hasPermission &&
+            <StudentsList
+                jobId={job.id}
+            />
+        }
+    </div>
+        
+
     );
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
+import Card from 'Components/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -34,7 +34,6 @@ function StudentPreview ({ student }: Props) {
     return (
         <Card
             //className={isSelected ? classes.Selected : classes.NonSelected}
-            variant='outlined'
             style={{ padding: 30 }}
             //onClick={() => onClick(student)}
         >

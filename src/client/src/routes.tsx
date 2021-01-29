@@ -14,7 +14,6 @@ import JobStudentDashboard from 'Pages/JobStudentDashboard';
 import Profile from 'Pages/Profile';
 import SignIn from 'Pages/SignIn';
 import SignUp from 'Pages/SignUp';
-import Dashboard from './Pages/Dashboard';
 import Message from 'Pages/Message';
 
 export interface IRoute {
@@ -90,10 +89,4 @@ export const facultyMemberRoutes = [
         component: JobFacultyMemberDashboard,
         icon: <DashboardIcon />,
     },
-    {
-        path: '/prof-dashboard',
-        name: 'Dashboard',
-        component: Dashboard,
-        icon: <DashboardIcon />,
-    }
 ];

@@ -13,9 +13,12 @@ import { Pagination} from '@material-ui/lab';
 //     students: IStudent[];
 //     setStudent: (students: IStudent[]) => void;
 // }
+interface StudentsListProps {
+    jobId: number;
+}
 
 const numOfItems = 2;
-function StudentsList() {
+function StudentsList({ jobId } : StudentsListProps ) {
     const [page, setPage] = React.useState(1);
     const [numOfPages, setNumOfPages] = React.useState(0);
     const [students, setStudents] = React.useState<IStudent[]>([]);
@@ -23,10 +26,11 @@ function StudentsList() {
     const request = React.useCallback(
         () =>
             getStudentsApplied(
+                jobId,
                 page,
                 numOfItems
             ),
-        [page]
+        [jobId, page, numOfItems]
     );
 
     const [sendRequest, isLoading] = useApi(request, {
@@ -39,6 +43,7 @@ function StudentsList() {
             // console.log(`*************THE COUNT IS ${jobApplicationsCount}`);
 
             if (students.length === 0) {
+                setStudents([]);
                 snack('No students were found', 'warning');
             } else {
                 setNumOfPages(Math.ceil(jobApplicationsCount / numOfItems));
@@ -65,12 +70,11 @@ function StudentsList() {
 
     React.useEffect(() => {
         sendRequest();
-    }, []);
+    }, [jobId]);
 
     return (
         <div>
             <Grid container spacing={3} style={{ marginTop: 20 }}>
-                {/* {<h1>Professor's Dashboard</h1>} */}
                 <Grid item xs={5}>
                     <Grid container spacing={3} direction='column'>
                         {students.map((student, key) => (

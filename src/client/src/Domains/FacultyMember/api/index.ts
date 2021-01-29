@@ -63,6 +63,7 @@ export async function updateFacultyMemberProfile(
 }
 
 export async function getStudentsApplied(
+    jobId: number,
     page: number,
     numOfItems: number
 ) {
@@ -71,7 +72,7 @@ export async function getStudentsApplied(
         numOfItems,
     };
     //return API.get<{ /* students: IStudentsApplied[] -> name of array: TYPE[] */}>('/get-applicants/1') // to add job id; when put # can just put 1
-    return API.get<{ jobApplications: IJobApplication[], jobApplicationsCount: number }>('faculty-member/get-job-applications/1', { params });
+    return API.get<{ jobApplications: IJobApplication[], jobApplicationsCount: number }>(`faculty-member/get-job-applications/${jobId}`, { params });
 }
 
 export default IJobApplication;

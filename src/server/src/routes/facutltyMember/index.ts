@@ -156,7 +156,7 @@ router.get(
         }
 
         const { jobId } = req.params;
-
+        console.log("***** Job " + jobId);
         try {
             // console.log(`*************PAGE IS ${page} and ${typeof page}`);
             const { result, message, count } = await getJobApplications(
