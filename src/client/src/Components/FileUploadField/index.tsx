@@ -56,7 +56,7 @@ export const SimpleFileUpload = ({
         {...inputProps}
       />
       {error && <FormHelperText error>{error}</FormHelperText>}
-      <button type = "reset" onClick={() => setFieldValue(field.name, null)}>Delete</button>
+      {/*<button type = "reset" onClick={() => setFieldValue(field.name, null)}>Delete</button> */}
     </FormControl>
   );
 };
