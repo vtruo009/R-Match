@@ -2,8 +2,7 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
-
+import { formatDateString } from 'utils/format';
 interface WorkExperienceProps {
     startDate: string;
     endDate?: string;
@@ -30,37 +29,39 @@ function StudentWorkExperiencesPreview({
                     justify='center'
                     alignItems='center'
                 >
-                    <Avatar style={{ width: 70, height: 70 }} />
                 </Grid>
                 <Grid
                     item
                     container
-                    direction='column'
+                    direction='row'
                     spacing={1}
                     md={9}
                     xs={12}
                 >
-                    <Grid item>
-                        <Typography variant='body1'>
-                            Start Date: {startDate}
+                    <Grid item xs={12}>
+                        <Typography variant='h6' color='primary'>
+                            Title: {title}
                         </Typography>
                     </Grid>
-                    <Grid item>
-                        <Typography variant='body1'>
-                            End Date: {endDate ? endDate : <i> Not provided</i>}
-                        </Typography>
-                    </Grid>
-                    <Grid item>
-                        <Typography variant='body1'>Title: {title}</Typography>
-                    </Grid>
-                    <Grid item>
-                        <Typography variant='body1'>
+                    <Grid item xs={12}>
+                        <Typography variant='body1' >
                             Employer: {employer}
                         </Typography>
                     </Grid>
-                    <Grid item>
-                        <Typography variant='body1'>
+                    <Grid item xs={12}>
+                        <Typography variant='body1' >
                             Description: {description}
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant='body1' >
+                            Start Date: {formatDateString(startDate)}
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant='body1' >
+                            End Date: {formatDateString(endDate)}
+                            {/*End Date: { endDate ? endDate : <i> Not provided</i>}*/}
                         </Typography>
                     </Grid>
                 </Grid>

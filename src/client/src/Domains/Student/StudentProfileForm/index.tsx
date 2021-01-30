@@ -43,7 +43,7 @@ interface StudentProfileFormProps {
 }
 
 // TODO FIGURE OUT WHY START DATE CAN'T BE TODAY
-const today = new Date();
+//const today = new Date();
 
 const formSchema = yup.object({
     firstName: yup.string().required('First name is required'),
