@@ -9,16 +9,18 @@ import LabelValues from 'Components/LabelValues';
 import Loader from 'Components/Loader';
 import StudentProfileForm from 'Domains/Student/StudentProfileForm';
 import { getStudentProfile, IStudent } from 'Domains/Student/api';
-import { AuthContext } from 'Contexts/AuthContext';
 
-function StudentProfile() {
+interface StudentProfileProps {
+    studentId: number;
+}
+
+function StudentProfile({ studentId }: StudentProfileProps) {
     const [studentProfile, setStudentProfile] = React.useState<IStudent>();
-    const { user } = React.useContext(AuthContext);
     const [, openDialog, closeDialog, DialogProps, Dialog] = useDialog();
 
     const getProfileRequest = React.useCallback(
-        () => getStudentProfile(user?.specificUserId as number),
-        [user?.specificUserId]
+        () => getStudentProfile(studentId),
+        [studentId]
     );
 
     const [sendGetProfileRequest, isGettingProfileLoading] = useApi(
