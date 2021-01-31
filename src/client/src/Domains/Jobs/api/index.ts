@@ -94,6 +94,15 @@ export interface IJobApplication {
     studentId: number;
 }
 
+// TODO: Tow job application interfaces, change their names or make on that is reusable for both use cases
+// interface IJobApplication {
+//     id: number;
+//     date: string;
+//     jobId: number;
+//     studentId: number;
+//     student: IStudent;
+// }
+
 export async function getJobs(
     title: string,
     types: string[],
@@ -185,4 +194,20 @@ export async function applyToJob(jobId: number) {
     return API.post<{ message: string }>('/job/apply-to-job', {
         jobId,
     });
+}
+
+export async function getJobApplicants(
+    jobId: number,
+    page: number,
+    numOfItems: number
+) {
+    const params = {
+        page,
+        numOfItems,
+    };
+    return API.get<{
+        jobApplications: IJobApplication[];
+        jobApplicationsCount: number;
+        // Move this api to job module in the backend
+    }>(`faculty-member/get-job-applications/${jobId}`, { params });
 }
