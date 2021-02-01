@@ -15,9 +15,7 @@
             "package.json"
         ],
         "ext": "ts",
-        "ignore": [
-            "src/public"
-        ],
+        "ignore": [],
         "exec": "ts-node -r tsconfig-paths/register ./src"
     },
     "_moduleAliases": {
@@ -25,9 +23,9 @@
         "@routes": "dist/routes",
         "@entities": "dist/entities",
         "@shared": "dist/shared",
-        "@server": "dist/Server",
+        "@server": "dist/server",
         "@lib": "dist/lib",
-        "@db": "dis/db",
+        "@db": "dist/db",
         "@middlewares": "dist/middlewares",
         "@app": "dist/app",
         "@dotenv": "dist/dotenv"
