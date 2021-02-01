@@ -2,10 +2,11 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
-import { SimpleFileUpload } from 'formik-material-ui';
+import { SimpleFileUpload } from 'Components/FileUploadField';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
+// import { DatePickerFormField } from 'Components/DatePickerFormField';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import SubmitButton from 'Components/SubmitButton';
@@ -29,6 +30,10 @@ export interface IStudentProfileForm {
     courseIds?: number[];
     resume?: Buffer;
     transcript?: Buffer;
+    // workStartDate: string;
+    // workEndDate?: string;
+    // workEmployer: string;
+    // workDescription: string;
 }
 
 interface StudentProfileFormProps {
@@ -36,6 +41,9 @@ interface StudentProfileFormProps {
     onClose: () => void;
     onSuccess: () => void;
 }
+
+// TODO FIGURE OUT WHY START DATE CAN'T BE TODAY
+//const today = new Date();
 
 const formSchema = yup.object({
     firstName: yup.string().required('First name is required'),
@@ -69,6 +77,17 @@ const formSchema = yup.object({
         })
         .optional()
         .nullable(),
+    // workStartDate: yup
+    //     .date()
+    //     .min(today, `Start date must be later than today`)
+    //     .required('Start date is required'),
+    // workEndDate: yup
+    //     .date()
+    //     .min(yup.ref('startDate'), 'End date must be later than start date')
+    //     .optional()
+    //     .nullable(),
+    // workEmployer: yup.string().required('Employer name is required'),
+    // workDescription: yup.string().required('Work description is required'),
 });
 
 function StudentProfileForm({
