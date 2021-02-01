@@ -4,7 +4,7 @@
     "scripts": {
         "build": "ts-node build.ts && tsc --build tsconfig.prod.json",
         "lint": "eslint . --ext .ts",
-        "start:prod": "node -r module-alias/register ./dist --env=production",
+        "start:prod": "NODE_ENV=production node -r module-alias/register ./dist",
         "start": "NODE_ENV=development nodemon",
         "test": "jest --watchAll --runInBand --verbose",
         "migration": "ts-node -r tsconfig-paths/register node_modules/.bin/typeorm migration:generate -n migrationName -d src/migration -c development"
