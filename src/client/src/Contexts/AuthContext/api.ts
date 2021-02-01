@@ -10,6 +10,6 @@ export interface IAuthUser {
 
 export async function isAuthenticatedRequest() {
     return API.get<{ user: IAuthUser; isAuthenticated: boolean }>(
-        'user/authenticated'
+        '/user/authenticated'
     );
 }

@@ -1,13 +1,9 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import EditIcon from '@material-ui/icons/Edit';
-import IconButton from '@material-ui/core/IconButton';
-import Card from '@material-ui/core/Card';
 
-import Dialog from 'Components/Dialog';
+import useDialog from 'hooks/useDialog';
 import useApi from 'hooks/useApi';
+import BaseProfile from 'Components/BaseProfile';
 import LabelValue from 'Components/LabelValue';
 import LabelValues from 'Components/LabelValues';
 import Loader from 'Components/Loader';
@@ -17,8 +13,8 @@ import { AuthContext } from 'Contexts/AuthContext';
 
 function StudentProfile() {
     const [studentProfile, setStudentProfile] = React.useState<IStudent>();
-    const [open, setOpen] = React.useState(false);
     const { user } = React.useContext(AuthContext);
+    const [, openDialog, closeDialog, DialogProps, Dialog] = useDialog();
 
     const getProfileRequest = React.useCallback(
         () => getStudentProfile(user?.specificUserId as number),
@@ -34,9 +30,6 @@ function StudentProfile() {
         }
     );
 
-    const isUserProfileOwner = () =>
-        user?.specificUserId === studentProfile?.id;
-
     const getCoursesTitles = () => {
         return studentProfile?.courses.map(
             (course) => `${course.shortTitle} - ${course.fullTitle}`
@@ -45,12 +38,6 @@ function StudentProfile() {
 
     const getCoursesIds = () => {
         return studentProfile?.courses.map((course) => course.id);
-    };
-
-    const getStudentName = () => {
-        const middleName = studentProfile?.user.middleName;
-        const middleInitial = middleName ? middleName.charAt(0) + '.' : '';
-        return `${studentProfile?.user.firstName} ${middleInitial} ${studentProfile?.user.lastName}`;
     };
 
     React.useEffect(() => {
@@ -62,80 +49,25 @@ function StudentProfile() {
     ) : studentProfile ? (
         <div>
             <Grid container spacing={2} justify='center' alignItems='center'>
-                <Grid item md={12} xs={12}>
-                    <Card variant='outlined' style={{ padding: 30 }}>
-                        <Grid
-                            container
-                            direction='column'
-                            alignItems='center'
-                            justify='center'
-                            spacing={3}
-                        >
-                            {isUserProfileOwner() && (
-                                <Grid container item justify='flex-end'>
-                                    <IconButton
-                                        color='primary'
-                                        onClick={() => setOpen(true)}
-                                    >
-                                        <EditIcon />
-                                    </IconButton>
-                                </Grid>
-                            )}
-                            <Grid item>
-                                <Avatar
-                                    alt={getStudentName()}
-                                    style={{ width: 170, height: 170 }}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <Typography variant='h4'>
-                                    {getStudentName()}
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    </Card>
-                </Grid>
-                <Grid item md={4} xs={12}>
+                <BaseProfile
+                    id={studentProfile.id}
+                    firstName={studentProfile.user.firstName}
+                    middleName={studentProfile.user.middleName}
+                    email={studentProfile.user.email}
+                    lastName={studentProfile.user.lastName}
+                    biography={studentProfile.user.biography}
+                    department={studentProfile.department}
+                    onEdit={openDialog}
+                />
+                <Grid item md={6} xs={12}>
                     <LabelValue
                         label='Class Standing'
                         value={studentProfile.classStanding}
                     />
                 </Grid>
-                <Grid item md={4} xs={12}>
-                    <LabelValue
-                        label='College'
-                        value={studentProfile.department?.college.name}
-                    />
+                <Grid item md={6} xs={12}>
+                    <LabelValue label='SID' value={studentProfile.sid} />
                 </Grid>
-                <Grid item md={4} xs={12}>
-                    <LabelValue
-                        label='Department'
-                        value={studentProfile.department?.name}
-                    />
-                </Grid>
-                <Grid item md={12} xs={12}>
-                    <LabelValue
-                        label='About'
-                        value={studentProfile.user.biography}
-                        isParagraph
-                    />
-                </Grid>
-                {isUserProfileOwner() && (
-                    <Grid item container spacing={2}>
-                        <Grid item md={6} xs={12}>
-                            <LabelValue
-                                label='SID'
-                                value={studentProfile.sid}
-                            />
-                        </Grid>
-                        <Grid item md={6} xs={12}>
-                            <LabelValue
-                                label='Email'
-                                value={studentProfile.user.email}
-                            />
-                        </Grid>
-                    </Grid>
-                )}
                 <Grid item md={12} xs={12}>
                     <LabelValues
                         label='Courses Taken'
@@ -143,13 +75,9 @@ function StudentProfile() {
                     />
                 </Grid>
             </Grid>
-            <Dialog
-                open={open}
-                onClose={() => setOpen(false)}
-                title='Edit Profile'
-            >
+            <Dialog {...DialogProps} title='Edit Profile'>
                 <StudentProfileForm
-                    onClose={() => setOpen(false)}
+                    onClose={closeDialog}
                     onSuccess={sendGetProfileRequest}
                     studentProfileInformation={{
                         id: studentProfile.id,

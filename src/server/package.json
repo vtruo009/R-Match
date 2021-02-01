@@ -4,9 +4,9 @@
     "scripts": {
         "build": "ts-node build.ts && tsc --build tsconfig.prod.json",
         "lint": "eslint . --ext .ts",
-        "start:prod": "node -r module-alias/register ./dist --env=production",
-        "start": "nodemon",
-        "test": "jest --watchAll --runInBand",
+        "start:prod": "NODE_ENV=production node -r module-alias/register ./dist",
+        "start": "NODE_ENV=development nodemon",
+        "test": "jest --watchAll --runInBand --verbose",
         "migration": "ts-node -r tsconfig-paths/register node_modules/.bin/typeorm migration:generate -n migrationName -d src/migration -c development"
     },
     "nodemonConfig": {
@@ -15,9 +15,7 @@
             "package.json"
         ],
         "ext": "ts",
-        "ignore": [
-            "src/public"
-        ],
+        "ignore": [],
         "exec": "ts-node -r tsconfig-paths/register ./src"
     },
     "_moduleAliases": {
@@ -25,9 +23,9 @@
         "@routes": "dist/routes",
         "@entities": "dist/entities",
         "@shared": "dist/shared",
-        "@server": "dist/Server",
+        "@server": "dist/server",
         "@lib": "dist/lib",
-        "@db": "dis/db",
+        "@db": "dist/db",
         "@middlewares": "dist/middlewares",
         "@app": "dist/app",
         "@dotenv": "dist/dotenv"
@@ -93,6 +91,7 @@
         "passport-local": "^1.0.0",
         "pg": "^8.4.2",
         "reflect-metadata": "^0.1.13",
+        "socket.io": "^3.0.5",
         "typeorm": "^0.2.28"
     },
     "devDependencies": {

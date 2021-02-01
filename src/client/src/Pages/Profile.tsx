@@ -2,14 +2,14 @@ import React from 'react';
 
 import { AuthContext } from 'Contexts/AuthContext';
 import StudentProfile from 'Domains/Student/StudentProfile';
-import FacultyMemberProfileForm from 'Domains/FacultyMember/FacultyMemberProfileForm';
+import FacultyMemberProfile from 'Domains/FacultyMember/FacultyMemberProfile';
 
 function Profile() {
     const { user } = React.useContext(AuthContext);
     return user?.role === 'student' ? (
         <StudentProfile />
     ) : (
-        <FacultyMemberProfileForm />
+        <FacultyMemberProfile />
     );
 }
 

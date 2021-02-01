@@ -56,8 +56,8 @@ export async function updateStudentProfile(
             transcript: studentProfile.transcript,
         },
     };
-    return API.post('student/update-profile', body);
+    return API.post('/student/update-profile', body);
 }
 export async function getStudentProfile(studentId: number) {
-    return API.get<{ student: IStudent }>(`student/get-profile/${studentId}`);
+    return API.get<{ student: IStudent }>(`/student/get-profile/${studentId}`);
 }

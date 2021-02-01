@@ -2,7 +2,6 @@ import { getRepository } from 'typeorm';
 import { User } from '@entities/user';
 import { Student } from '@entities/student';
 import { Course } from '@entities/course';
-import { Job } from '@entities/job';
 import { Department } from '@entities/department';
 import { JobApplication } from '@entities/jobApplication';
 
@@ -100,57 +99,6 @@ export const getStudentProfile = (id: number) => {
         .getOne();
 };
 
-/**
- * @description Saves a student's job application in the database.
- * @param {number} studentId - Id of student that submits the application
- * @param {number} jobId - Id of job that students apply to
- * @returns Promise
- */
-export const applyToJob = async (studentId: number, jobId: number) => {
-    const applicationResult: {
-        result: JobApplication | undefined;
-        message: string;
-    } = {
-        result: undefined,
-        message: '',
-    };
-
-    // Check if student exists.
-    const student = await Student.findOne(studentId);
-    if (!student) {
-        applicationResult.message = 'Student does not exist';
-        return applicationResult;
-    }
-
-    // Check if job exists.
-    const job = await Job.findOne(jobId);
-    if (!job) {
-        applicationResult.message = 'Requested job does not exist';
-        return applicationResult;
-    }
-
-    // Check if student already applied for the job.
-    const application = await JobApplication.findOne({
-        where: { jobId, studentId },
-    });
-
-    if (application) {
-        applicationResult.message =
-            'Student has already applied for the position';
-        return applicationResult;
-    }
-
-    // Creates a new job application object and saves it
-    const jobApplication = await JobApplication.create({
-        studentId,
-        jobId,
-        date: new Date(),
-    }).save();
-
-    applicationResult.message = 'Job application successfully submitted';
-    applicationResult.result = jobApplication;
-    return applicationResult;
-};
 
 /**
  * @description Gets all job applications submitted by the student

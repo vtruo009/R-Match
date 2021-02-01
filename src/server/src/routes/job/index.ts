@@ -3,11 +3,24 @@ import passport from 'passport';
 import { Request, Response, Router } from 'express';
 import { Job } from '@entities/job';
 import { errors } from '@shared/errors';
-import { createJob, updateJob, deleteJob, getJobs } from '@modules/job';
+import {
+    createJob,
+    updateJob,
+    deleteJob,
+    getJobs,
+    closeJob,
+    openJob,
+    applyToJob,
+} from '@modules/job';
 import { JWTUser } from '@entities/user';
 import logger from '@shared/Logger';
 import { validationMiddleware } from '@middlewares/validation';
-import { jobCreateSchema, jobUpdateSchema, jobReadSchema } from './schemas';
+import {
+    jobCreateSchema,
+    jobUpdateSchema,
+    jobReadSchema,
+    jobIdSchema,
+} from './schemas';
 
 const router = Router();
 const {
@@ -24,6 +37,11 @@ interface jobRequest extends Request {
     };
 }
 
+interface jobIdRequest extends Request {
+    body: {
+        jobId: number;
+    };
+}
 /******************************************************************************
  *            POST Request - Create - /api/job/create
  ******************************************************************************/
@@ -100,6 +118,7 @@ interface JobReadRequest extends Request {
     };
 }
 
+// TODO: Filter out jobs that haven applied by a student
 router.get(
     '/read',
     passport.authenticate('jwt', { session: false }),
@@ -175,7 +194,7 @@ router.post(
  *              DELETE Request - Delete - /api/job/delete/:id
  ******************************************************************************/
 
-// TODO: Needs to delete joh applications related to the job as well
+// TODO: Needs to delete joh applications related to the job as well. Can't delete jobs if it has applications
 router.delete(
     '/delete/:id',
     passport.authenticate('jwt', { session: false }),
@@ -191,6 +210,90 @@ router.delete(
         try {
             await deleteJob(parseInt(id, 10));
             return res.status(OK).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+router.post(
+    '/close',
+    passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ bodySchema: jobIdSchema }),
+    async (req: jobIdRequest, res: Response) => {
+        const { role, specificUserId } = req.user as JWTUser;
+        if (role !== 'facultyMember') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a faculty member' })
+                .end();
+        }
+        const { jobId } = req.body;
+        try {
+            await closeJob(jobId, specificUserId);
+            return res.status(OK).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+router.post(
+    '/open',
+    passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ bodySchema: jobIdSchema }),
+    async (req: jobIdRequest, res: Response) => {
+        const { role, specificUserId } = req.user as JWTUser;
+        if (role !== 'facultyMember') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a faculty member' })
+                .end();
+        }
+        const { jobId } = req.body;
+        try {
+            await openJob(jobId, specificUserId);
+            return res.status(OK).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
+ *          POST Request - Apply Job - /api/job/apply-job
+ ******************************************************************************/
+
+router.post(
+    '/apply-to-job',
+    passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ bodySchema: jobIdSchema }),
+    async (req: jobIdRequest, res: Response) => {
+        //checks that caller is a student.
+        const { role, specificUserId } = req.user as JWTUser;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' });
+        }
+        const { jobId } = req.body;
+        try {
+            const { result, message } = await applyToJob(specificUserId, jobId);
+            return result
+                ? res.status(OK).end()
+                : res.status(BAD_REQUEST).json({ message });
         } catch (error) {
             logger.err(error);
             return res

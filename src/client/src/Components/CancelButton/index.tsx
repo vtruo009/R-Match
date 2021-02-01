@@ -10,12 +10,7 @@ function CancelButton({
     ...passThroughProps
 }: CancelButtonProps & ButtonProps) {
     return (
-        <Button
-            {...passThroughProps}
-            color='secondary'
-            variant='contained'
-            onClick={onClick}
-        >
+        <Button {...passThroughProps} variant='contained' onClick={onClick}>
             Cancel
         </Button>
     );

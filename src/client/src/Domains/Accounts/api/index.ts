@@ -25,17 +25,20 @@ export interface IUser {
 }
 
 export async function signUp(signUpData: ISignUpForm) {
-    return API.post<{ error: string }>('user/sign-up', {
+    return API.post<{ error: string }>('/user/sign-up', {
         user: { ...signUpData },
     });
 }
 
 export async function signIn(signInData: ISignInForm) {
-    return API.post<{ user: IAuthUser; isAuthenticated: boolean }>('user/sign-in', {
-        ...signInData,
-    });
+    return API.post<{ user: IAuthUser; isAuthenticated: boolean }>(
+        '/user/sign-in',
+        {
+            ...signInData,
+        }
+    );
 }
 
 export async function signOut() {
-    return API.get<{ user: IAuthUser }>('user/sign-out');
+    return API.get<{ user: IAuthUser }>('/user/sign-out');
 }

@@ -2,6 +2,17 @@ import { Job } from '@entities/job';
 import { FacultyMember } from '@entities/facultyMember';
 import { findDepartment } from '@modules/department';
 import { getRepository, UpdateResult } from 'typeorm';
+import { JobApplication } from '@entities/jobApplication';
+import { Student } from '@entities/student';
+
+/**
+ * @description Finds a job by id
+ * @param {number} id - Id of job to find
+ * @returns Promise
+ */
+export const findJob = (id: Job['id']) => {
+    return Job.findOne(id);
+};
 
 /**
  * @description Saves a new job. Assigns relationships with department and facultyMember tables
@@ -33,7 +44,7 @@ export const createJob = async (
     departmentId: Job['departmentId'],
     facultyMemberId: Job['facultyMemberId']
 ) => {
-    const insertResult: { result: Job | undefined; message: string } = {
+    const insertResult: { result?: Job; message: string } = {
         result: undefined,
         message: '',
     };
@@ -121,29 +132,35 @@ export const getJobs = (
         let year = modStart.getFullYear();
         modStart = month + '/' + date + '/' + year;
     }
-    return getRepository(Job)
-        .createQueryBuilder('job')
-        .select([
-            'job',
-            'job.facultyMember',
-            'facultyMember.id',
-            'facultyMember.title',
-            'user.firstName',
-            'user.lastName',
-        ])
-        .leftJoin('job.facultyMember', 'facultyMember')
-        .leftJoin('facultyMember.user', 'user')
-        .where('LOWER(job.title) LIKE :title', {
-            title: `%${title.toLowerCase()}%`,
-        })
-        .orWhere('job.type IN (:...types)', { types })
-        .orWhere('job.type LIKE :type', { type: `%${modType}%` })
-        .orWhere('job.startDate >= :startDate', { startDate: modStart })
-        .orWhere('job.minSalary >= :minSalary', { minSalary })
-        .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
-        .skip((page - 1) * numOfItems)
-        .take(numOfItems)
-        .getManyAndCount();
+    return (
+        getRepository(Job)
+            .createQueryBuilder('job')
+            .select([
+                'job',
+                'job.facultyMember',
+                'facultyMember.id',
+                'facultyMember.title',
+                'user.firstName',
+                'user.lastName',
+            ])
+            .leftJoin('job.facultyMember', 'facultyMember')
+            .leftJoin('facultyMember.user', 'user')
+            .leftJoinAndSelect('job.department', 'department')
+            .where('LOWER(job.title) LIKE :title', {
+                title: `%${title.toLowerCase()}%`,
+            })
+            .orWhere('job.type IN (:...types)', { types })
+            .orWhere('job.type LIKE :type', { type: `%${modType}%` })
+            .orWhere('job.startDate >= :startDate', { startDate: modStart })
+            .orWhere('job.minSalary >= :minSalary', { minSalary })
+            .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
+            // .andWhere('job.status LIKE :jobStatus', {
+            //     jobStatus: 'Hiring',
+            // })
+            .skip((page - 1) * numOfItems)
+            .take(numOfItems)
+            .getManyAndCount()
+    );
 };
 
 /**
@@ -173,7 +190,6 @@ export const updateJob = async (job: Job) => {
         endDate,
         type,
         title,
-        status,
         minSalary,
         maxSalary,
         departmentId,
@@ -181,7 +197,7 @@ export const updateJob = async (job: Job) => {
     } = job;
 
     const updateResult: {
-        result: UpdateResult | undefined;
+        result?: UpdateResult;
         message: string;
     } = {
         result: undefined,
@@ -214,12 +230,10 @@ export const updateJob = async (job: Job) => {
         endDate: endDateAsDate,
         type,
         title,
-        status,
         minSalary,
         maxSalary,
         departmentId,
     });
-
     updateResult.result = updatedJob;
     updateResult.message = 'Job successfully updated';
     return updateResult;
@@ -230,6 +244,129 @@ export const updateJob = async (job: Job) => {
  * @param {number} id - Id of job to delete
  * @returns Promise
  */
-export const deleteJob = (id: number) => {
-    return getRepository(Job).delete(id);
+export const deleteJob = (id: Job['id']) => {
+    return Job.delete(id);
+};
+
+/**
+ * @description Closes an existing job from the database
+ * @param {number} id - Id of job to close
+ * @param {number} facultyMemberId - Id of faculty member that requested to close the job
+ * @returns Promise
+ */
+export const closeJob = async (
+    id: Job['id'],
+    facultyMemberId: Job['facultyMemberId']
+) => {
+    const closeJobResult: {
+        result?: UpdateResult;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
+
+    const jobToClose = await findJob(id);
+
+    if (!jobToClose) {
+        closeJobResult.message = 'Job does not exist';
+        return closeJobResult;
+    }
+
+    if (jobToClose.facultyMemberId !== facultyMemberId) {
+        closeJobResult.message = 'Faculty member is not owner of the job';
+        return closeJobResult;
+    }
+
+    const closedJob = await Job.update(id, { status: 'Closed' });
+    closeJobResult.result = closedJob;
+    closeJobResult.message = 'Job successfully closed';
+    return closeJobResult;
+};
+
+/**
+ * @description Activates an existing job from the database
+ * @param {number} id - Id of job to activate
+ * @param {number} facultyMemberId - Id of faculty member that requested to activate the job
+ * @returns Promise
+ */
+export const openJob = async (
+    id: Job['id'],
+    facultyMemberId: Job['facultyMemberId']
+) => {
+    const activateJobResult: {
+        result?: UpdateResult;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
+
+    const jobToActivate = await findJob(id);
+
+    if (!jobToActivate) {
+        activateJobResult.message = 'Job does not exist';
+        return activateJobResult;
+    }
+
+    if (jobToActivate.facultyMemberId !== facultyMemberId) {
+        activateJobResult.message = 'Faculty member is not owner of the job';
+        return activateJobResult;
+    }
+
+    const activatedJob = await Job.update(id, { status: 'Hiring' });
+    activateJobResult.result = activatedJob;
+    activateJobResult.message = 'Job successfully activated';
+    return activateJobResult;
+};
+
+/**
+ * @description Saves a student's job application in the database.
+ * @param {number} studentId - Id of student that submits the application
+ * @param {number} jobId - Id of job that students apply to
+ * @returns Promise
+ */
+export const applyToJob = async (studentId: number, jobId: number) => {
+    const applicationResult: {
+        result?: JobApplication;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
+
+    // Check if student exists.
+    const student = await Student.findOne(studentId);
+    if (!student) {
+        applicationResult.message = 'Student does not exist';
+        return applicationResult;
+    }
+
+    // Check if job exists.
+    const job = await Job.findOne(jobId);
+    if (!job) {
+        applicationResult.message = 'Requested job does not exist';
+        return applicationResult;
+    }
+
+    // Check if student already applied for the job.
+    const application = await JobApplication.findOne({
+        where: { jobId, studentId },
+    });
+
+    if (application) {
+        applicationResult.message = 'You have already applied for the position';
+        return applicationResult;
+    }
+
+    // Creates a new job application object and saves it
+    const jobApplication = await JobApplication.create({
+        studentId,
+        jobId,
+        date: new Date(),
+    }).save();
+
+    applicationResult.message = 'Job application successfully submitted';
+    applicationResult.result = jobApplication;
+    return applicationResult;
 };
