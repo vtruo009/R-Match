@@ -1,7 +1,9 @@
 import API from 'api';
+
+import { IDepartment } from 'Components/AcademicInfo/api';
 import { IJobCreateFormValues } from 'Domains/Jobs/JobCreateForm';
 import { IJobUpdateFormValues } from 'Domains/Jobs/JobUpdateForm';
-import { IDepartment } from 'Components/AcademicInfo/api';
+import { IStudentPreview } from 'Domains/Student/api';
 
 export type jobType =
     | 'grader'
@@ -87,21 +89,21 @@ export interface IJob {
 }
 
 export interface IJobApplication {
-    date: string;
     id: number;
+    date: string;
     job: IJob;
     jobId: number;
     studentId: number;
 }
 
 // TODO: Tow job application interfaces, change their names or make on that is reusable for both use cases
-// interface IJobApplication {
-//     id: number;
-//     date: string;
-//     jobId: number;
-//     studentId: number;
-//     student: IStudent;
-// }
+interface IJobApplicants {
+    id: number;
+    date: string;
+    jobId: number;
+    studentId: number;
+    student: IStudentPreview;
+}
 
 export async function getJobs(
     title: string,
@@ -206,8 +208,7 @@ export async function getJobApplicants(
         numOfItems,
     };
     return API.get<{
-        jobApplications: IJobApplication[];
-        jobApplicationsCount: number;
-        // Move this api to job module in the backend
-    }>(`faculty-member/get-job-applications/${jobId}`, { params });
+        jobApplicants: IJobApplicants[];
+        jobApplicantsCount: number;
+    }>(`job/get-job-applicants/${jobId}`, { params });
 }
