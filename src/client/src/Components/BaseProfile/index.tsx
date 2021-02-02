@@ -31,7 +31,8 @@ function BaseProfile({
     onEdit,
 }: BaseProfileProps) {
     const { user } = React.useContext(AuthContext);
-    const isUserProfileOwner = () => user?.specificUserId === id;
+    const isUserProfileOwner = () =>
+        user?.role === 'student' && user?.specificUserId === id;
     const getUserName = () => {
         const middleInitial = middleName ? middleName.charAt(0) + '.' : '';
         return `${firstName} ${middleInitial} ${lastName}`;
