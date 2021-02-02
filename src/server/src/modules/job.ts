@@ -370,3 +370,64 @@ export const applyToJob = async (studentId: number, jobId: number) => {
     applicationResult.result = jobApplication;
     return applicationResult;
 };
+
+/**
+ * @description Get a list of students who applied to a job.
+ * @param {number} facultyMemberId - Id of faculty member
+ * @param {number} jobId - Id of the job
+ * @returns Promise
+ */
+export const getJobApplications = async (
+    facultyMemberId: number,
+    jobId: number,
+    page: number,
+    numOfItems: number
+) => {
+    const getApplicantsResult: {
+        result?: JobApplication[];
+        message: string;
+        count: number;
+    } = {
+        result: undefined,
+        message: '',
+        count: 0,
+    };
+
+    // Check if a faculty member with the given id exists.
+    const facultyMember = await FacultyMember.findOne(facultyMemberId);
+    if (!facultyMember) {
+        getApplicantsResult.message = 'The faculty member does not exist.';
+        return getApplicantsResult;
+    }
+
+    // Check if a job with the given id exists.
+    const job = await Job.findOne(jobId);
+    if (!job) {
+        getApplicantsResult.message = 'The requested job does not exist.';
+        return getApplicantsResult;
+    }
+
+    // Check if the job is posted by the faculty member.
+    if (job.facultyMemberId != facultyMemberId) {
+        getApplicantsResult.message = 'The user does not have permission.';
+        return getApplicantsResult;
+    }
+
+    // Returns all students applied to the position.
+    const applicants = await getRepository(JobApplication)
+        .createQueryBuilder('jobApplication')
+        .where({ jobId })
+        .leftJoin('jobApplication.student', 'student')
+        .addSelect(['student.id', 'student.classStanding'])
+        .leftJoin('student.user', 'user')
+        .addSelect(['user.firstName', 'user.lastName'])
+        .leftJoinAndSelect('student.department', 'department')
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount();
+
+    getApplicantsResult.message = 'Successfully obtained applicants.';
+    getApplicantsResult.result = applicants[0];
+    getApplicantsResult.count = applicants[1];
+    return getApplicantsResult;
+};

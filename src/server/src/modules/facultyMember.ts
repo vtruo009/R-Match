@@ -3,8 +3,6 @@ import { User } from '@entities/user';
 import { Department } from '@entities/department';
 import { Job } from '@entities/job';
 import { getRepository } from 'typeorm';
-import { JobApplication } from '../entities/jobApplication';
-import { number } from 'joi';
 
 /**
  * @description Creates a faculty member using an existing user record from the database
@@ -112,75 +110,4 @@ export const getPostedJobs = async (facultyMemberId: number) => {
         .leftJoinAndSelect('job.department', 'department')
         .leftJoinAndSelect('department.college', 'college')
         .getMany();
-};
-
-/**
- * @description Get a list of students who applied to a job.
- * @param {number} facultyMemberId - Id of faculty member
- * @param {number} jobId - Id of the job
- * @returns Promise
- */
-export const getJobApplications = async (
-    facultyMemberId: number,
-    jobId: number,
-    page: number,
-    numOfItems: number
-    ) => {
-    const getApplicantsResult: {
-        result?: JobApplication[];
-        message: string;
-        count: number;
-    } = {
-        result: undefined,
-        message: '',
-        count: 0
-    };
-
-    // Check if a faculty member with the given id exists.
-    const facultyMember = await FacultyMember.findOne(facultyMemberId);
-    if (!facultyMember) {
-        getApplicantsResult.message = 'The faculty member does not exist.';
-        return getApplicantsResult;
-    }
-
-    // Check if a job with the given id exists.
-    const job = await Job.findOne(jobId);
-    if (!job) {
-        getApplicantsResult.message = 'The requested job does not exist.';
-        return getApplicantsResult;
-    }
-
-    // Check if the job is posted by the faculty member.
-    if (job.facultyMemberId != facultyMemberId) {
-        getApplicantsResult.message = 'The user does not have permission.';
-        return getApplicantsResult;
-    }
-
-    // Returns all students applied to the position.
-    const applications = await getRepository(JobApplication)
-        .createQueryBuilder('jobApplication')
-        .where({ jobId })
-        .leftJoinAndSelect('jobApplication.student', 'student')
-        .leftJoin('student.user', 'user')
-        .addSelect([
-            'user.id',
-            'user.firstName',
-            'user.lastName',
-            'user.middleName',
-            'user.biography',
-            'user.email',
-        ])
-        .leftJoinAndSelect('student.department', 'department')
-        .leftJoinAndSelect('department.college', 'college')
-        .leftJoinAndSelect('student.courses', 'courses')
-        .skip((page - 1) * numOfItems)
-        .take(numOfItems)
-        .getManyAndCount();
-
-    getApplicantsResult.message = 'Successfully obtained applicants.';
-    getApplicantsResult.result = applications[0];
-    getApplicantsResult.count = applications[1];
-
-    console.log(applications);
-    return getApplicantsResult;
 };

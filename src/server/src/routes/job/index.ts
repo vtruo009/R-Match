@@ -1,6 +1,7 @@
 import StatusCodes from 'http-status-codes';
 import passport from 'passport';
 import { Request, Response, Router } from 'express';
+
 import { Job } from '@entities/job';
 import { errors } from '@shared/errors';
 import {
@@ -15,6 +16,7 @@ import {
 import { JWTUser } from '@entities/user';
 import logger from '@shared/Logger';
 import { validationMiddleware } from '@middlewares/validation';
+import { getJobApplications } from '@modules/job';
 import {
     jobCreateSchema,
     jobUpdateSchema,
@@ -304,6 +306,52 @@ router.post(
     }
 );
 
+/******************************************************************************
+ * GET Request - Read - "GET /api/job/get-applicants/:jobId"
+ ******************************************************************************/
+interface GetJobApplicationsRequest extends Request {
+    query: {
+        page: string;
+        numOfItems: string;
+    };
+}
+router.get(
+    '/get-job-applicants/:jobId',
+    passport.authenticate('jwt', { session: false }),
+    async (req: GetJobApplicationsRequest, res: Response) => {
+        const { specificUserId, role } = req.user as JWTUser;
+        const { page, numOfItems } = req.query;
+        if (role !== 'facultyMember') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a faculty member' });
+        }
+        const { jobId } = req.params;
+        try {
+            const { result, message, count } = await getJobApplications(
+                specificUserId,
+                parseInt(jobId, 10),
+                parseInt(page),
+                parseInt(numOfItems)
+            );
+            return result
+                ? res
+                      .status(OK)
+                      .json({
+                          jobApplicants: result,
+                          jobApplicantsCount: count,
+                      })
+                      .end()
+                : res.status(BAD_REQUEST).json({ error: message });
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
 /******************************************************************************
  *                                     Export
  ******************************************************************************/
