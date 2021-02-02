@@ -25,7 +25,7 @@ interface IStudentSearchForm {
     lastName?: string;
     classStandings?: classStandingTypes[];
     collegeId?: number;
-    departmentId?: number;
+    departmentId?: number[];
     email?: string;
     sid?: string;
 }
@@ -35,7 +35,7 @@ const formInitialValues: IStudentSearchForm = {
     lastName: '',
     classStandings: [],
     collegeId: undefined,
-    departmentId: undefined,
+    departmentId: [],
     email: '',
     sid: '',
 };
@@ -45,7 +45,7 @@ const formSchema = yup.object({
     lastName: yup.string().optional(),
     classStandings: yup.array(yup.string()).optional(),
     collegeId: yup.number().optional(),
-    departmentId: yup.number().optional(),
+    departmentId: yup.array(yup.number()).optional(),
     email: yup.string().optional().email('Please enter valid email.'),
     sid: yup
         .string()
@@ -162,7 +162,10 @@ function StudentSearchForm() {
                                         component={TextFormField}
                                     />
                                 </Grid>
-                                <Field component={AcademicInfo} />
+                                <Field
+                                    component={AcademicInfo}
+                                    // multipleDepartments
+                                />
                                 <Grid item xs={12}>
                                     <SubmitButton
                                         isLoading={isLoading}

@@ -100,7 +100,7 @@ export async function getStudents(
     firstName?: string,
     lastName?: string,
     classStandings?: classStandingTypes[],
-    departmentId?: number,
+    departmentId?: number[],
     email?: string,
     sid?: string
 ) {

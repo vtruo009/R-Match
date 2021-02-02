@@ -9,6 +9,7 @@ import useApi from 'hooks/useApi';
 
 interface AcademicInfoProps extends FieldProps {
     showCourses?: boolean;
+    multipleDepartments?: boolean;
 }
 
 interface IBaseSelectValues {
@@ -30,6 +31,7 @@ const coursesDefaultValues = [
 
 function AcademicInfo({
     showCourses,
+    multipleDepartments,
     form: {
         setFieldValue,
         values: { collegeId, departmentId },
@@ -134,6 +136,7 @@ function AcademicInfo({
                             name='departmentId'
                             label='Department'
                             options={departments}
+                            // multiple={multipleDepartments}
                             component={SelectFormField}
                         />
                     </Grid>
