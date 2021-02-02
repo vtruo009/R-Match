@@ -18,20 +18,26 @@ import { AuthContext } from 'Contexts/AuthContext';
 const NavItems = ({ routes }: { routes: IRoute[] }) => {
     return (
         <>
-            {routes.map((route, key) => (
-                <NavLink
-                    key={key}
-                    style={{
-                        marginRight: 20,
-                        textDecoration: 'none',
-                    }}
-                    to={route.path}
-                >
-                    <Button style={{ color: '#ffff' }} startIcon={route.icon}>
-                        {route.name}
-                    </Button>
-                </NavLink>
-            ))}
+            {routes.map(
+                (route, key) =>
+                    !route.hide && (
+                        <NavLink
+                            key={key}
+                            style={{
+                                marginRight: 20,
+                                textDecoration: 'none',
+                            }}
+                            to={route.path}
+                        >
+                            <Button
+                                style={{ color: '#ffff' }}
+                                startIcon={route.icon}
+                            >
+                                {route.name}
+                            </Button>
+                        </NavLink>
+                    )
+            )}
         </>
     );
 };
