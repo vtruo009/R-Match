@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import CloseIcon from '@material-ui/icons/Close';
 import OpenIcon from '@material-ui/icons/Replay';
 import ApplyIcon from '@material-ui/icons/ArrowUpward';
+import { Link } from 'react-router-dom';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
@@ -70,7 +71,7 @@ function JobActions({ job, hasPermission }: JobActionsProps) {
     });
 
     return hasPermission ? (
-        <Grid container>
+        <Grid container alignItems='center' spacing={2}>
             {job.status === 'Hiring' ? (
                 <Button
                     onClick={sendCloseRequest}
@@ -119,6 +120,9 @@ function JobActions({ job, hasPermission }: JobActionsProps) {
                 onDeleteRequest={deleteRequest}
                 onSuccess={() => removeJob(job.id)}
             />
+            <Link to={`/job-applicants/${job.id}`} target='_blank'>
+                See Applicants
+            </Link>
         </Grid>
     ) : showApply ? (
         <Button
