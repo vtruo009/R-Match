@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IStudent } from 'Domains/Student/api';
+import { IStudentPreview } from 'Domains/Student/api';
 import StudentsList from 'Domains/Student/StudentsList';
 
 interface ApplicantsListProps {
@@ -8,10 +8,10 @@ interface ApplicantsListProps {
 }
 
 function ApplicantsList({ jobId }: ApplicantsListProps) {
-    const [applicants, setApplicants] = React.useState<IStudent[]>([]);
+    const [applicants, setApplicants] = React.useState<IStudentPreview[]>([]);
 
     return applicants.length > 0 ? (
-        <StudentsList students={applicants}></StudentsList>
+        <StudentsList studentPreviews={applicants}></StudentsList>
     ) : (
         <> </>
     );

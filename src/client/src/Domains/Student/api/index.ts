@@ -1,7 +1,11 @@
 import API from 'api';
 import { IStudentProfileForm } from 'Domains/Student/StudentProfileForm';
 import { IUser } from 'Domains/Accounts/api';
-import { ICourse, IDepartment } from 'Components/AcademicInfo/api';
+import {
+    ICourse,
+    IDepartment,
+    _IDepartment,
+} from 'Components/AcademicInfo/api';
 export const classStandingValues = [
     {
         label: 'Freshman',
@@ -32,13 +36,22 @@ export interface IStudent {
     courses: ICourse[];
     resume?: Buffer;
     transcript?: Buffer;
-    workStartDate: string;
-    workEndDate?: string;
-    workTitle: string;
-    workEmployer: string;
-    workDescription: string;
+    // workStartDate: string;
+    // workEndDate?: string;
+    // workTitle: string;
+    // workEmployer: string;
+    // workDescription: string;
 }
 
+export interface IStudentPreview {
+    id: number;
+    user: {
+        firstName: string;
+        lastName: string;
+    };
+    department?: _IDepartment;
+    classStanding?: classStandingTypes;
+}
 /*export interface IWorkExperiences {
     workStartDate:string; 
     workEndDate?:string; 
@@ -91,17 +104,20 @@ export async function getStudents(
     email?: string,
     sid?: string
 ) {
-    console.log(
+    const params = {
         page,
         numOfItems,
         firstName,
         lastName,
         classStandings,
-        departmentId,
+        // TODO: FIX MAKE DEPARTMENT IDS BE ARRAY
+        departmentIds: [],
         email,
-        sid
-    );
-    return API.get<{ students: IStudent[]; studentsCount: number }>(
-        '/student/read'
-    );
+        sid,
+    };
+
+    return API.get<{
+        studentPreviews: IStudentPreview[];
+        studentsCount: number;
+    }>('/student/search', { params });
 }

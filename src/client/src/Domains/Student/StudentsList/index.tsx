@@ -4,27 +4,27 @@ import Grid from '@material-ui/core/Grid';
 import useDialog from 'hooks/useDialog';
 import StudentPreview from 'Domains/Student/StudentPreview';
 import StudentProfile from 'Domains/Student/StudentProfile';
-import { IStudent } from 'Domains/Student/api';
+import { IStudentPreview } from 'Domains/Student/api';
 
 interface StudentsResultProps {
-    students: IStudent[];
+    studentPreviews: IStudentPreview[];
 }
 
-function StudentsList({ students }: StudentsResultProps) {
+function StudentsList({ studentPreviews }: StudentsResultProps) {
     const [, openDialog, , DialogProps, Dialog] = useDialog();
     const [studentIdSelected, setStudentIdSelected] = React.useState(0);
     return (
         <div>
             <Grid container spacing={3} justify='center'>
-                {students.map((student, key) => (
+                {studentPreviews.map((studentPreview, key) => (
                     <Grid item key={key} xs={12}>
                         <StudentPreview
-                            student={student}
+                            studentPreview={studentPreview}
                             onClick={() => {
-                                setStudentIdSelected(student.id);
+                                setStudentIdSelected(studentPreview.id);
                                 openDialog();
                             }}
-                            isSelected={studentIdSelected === student.id}
+                            isSelected={studentIdSelected === studentPreview.id}
                         />
                     </Grid>
                 ))}

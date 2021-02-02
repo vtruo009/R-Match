@@ -2,31 +2,26 @@ import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 
 import CardPreview from 'Components/CardPreview';
-import { IStudent } from 'Domains/Student/api';
+import { IStudentPreview } from 'Domains/Student/api';
 
 interface Props {
-    student: IStudent;
+    studentPreview: IStudentPreview;
     onClick: () => void;
     isSelected: boolean;
 }
 
-function StudentPreview({ student, onClick, isSelected }: Props) {
+function StudentPreview({ studentPreview, onClick, isSelected }: Props) {
     const prepareValues = () => {
-        const departmentName = student.department?.name;
-        const classStanding = student.classStanding;
-        const values: { [key: string]: string | number | JSX.Element } = {
+        const departmentName = studentPreview.department?.name;
+        const classStanding = studentPreview.classStanding;
+        return {
             Major: departmentName ? departmentName : 'Not provided',
-            'Class Standing': classStanding ? (
-                classStanding
-            ) : (
-                <i>Not provided</i>
-            ),
+            'Class Standing': classStanding ? classStanding : 'Not provided',
         };
-        return values;
     };
 
     const getStudentName = () => {
-        const { firstName, lastName } = student.user;
+        const { firstName, lastName } = studentPreview.user;
         return `${firstName} ${lastName}`;
     };
 
