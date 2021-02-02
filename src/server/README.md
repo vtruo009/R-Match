@@ -132,6 +132,7 @@ Job API
                 -   Internal server error -> Status code: 500
 
     -   api/job/delete/:id
+
         -   Deletes an existing job object from the database.
         -   Body: None
         -   Authorization restrictions:
@@ -146,8 +147,9 @@ Job API
                 -   Internal server error -> Status code: 500
 
     -   api/job/close
+
         -   Closes an existing job object from the database.
-        -   Body: 
+        -   Body:
             ```
             {
                 jobId: number
@@ -310,6 +312,7 @@ User API
                 -   Unauthorized: -> Status code: 401
 
     -   api/user/authenticated
+
         -   HTTP Method: GET
         -   Verifies whether or not an user is authenticated.
         -   Cookies:
@@ -729,7 +732,7 @@ Student API
                 -   Internal server error -> Status code: 500
 
     -   api/student/search
-    
+
         -   Filters student records based on queries and returns them.
         -   Body: None
         -   Parameters:
@@ -739,8 +742,8 @@ Student API
                 lastName?: string;
                 email?: string;
                 sid?: string;
-                departmentIds: string[];
-                classStandings: 'freshman' | 'sophomore' | 'junior' | 'senior'[];
+                departmentIds?: string[];
+                classStandings?: 'freshman' | 'sophomore' | 'junior' | 'senior'[];
                 page: string;
                 numOfItems: string;
             };
@@ -752,30 +755,17 @@ Student API
                 Status code: 200
                 ```
                 {
-                    students: {
+                    studentPreviews: {
                         id: number,
-                        sid?: string,
                         classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior',
                         user: {
-                            id: number,
-                            email: : string,
-                            biography?: string,
                             firstName: string,
                             lastName: string,
-                            middleName?: string
                         },
                         department?: {
                             id: number,
                             name: string,
-                            college: {
-                                id: number,
-                                name: string
-                            }
                         },
-                        courses: {
-                            id: number,
-                            title: string
-                        }[]
                     } [],
                     studentsCount: number
                 }
@@ -915,7 +905,6 @@ College API
             -   errors:
                 -   Internal server error -> Status code: 500
 
-
 Messaging API
 
 -   Interacts with:
@@ -992,6 +981,7 @@ Messaging API
         -   Body: None
         -   Parameters: None.
         -   Response:
+
             -   success:
                 Status code: 200
 
@@ -1028,5 +1018,6 @@ Messaging API
                             }
                         }
                     }[]
+
             -   errors:
                 -   Internal server error -> Status code: 500
