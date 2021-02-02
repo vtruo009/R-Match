@@ -140,18 +140,10 @@ export const searchStudents = async (
 ) => {
     return await getRepository(Student)
         .createQueryBuilder('student')
+        .select(['student.id', 'student.classStanding'])
         .leftJoin('student.user', 'user')
-        .addSelect([
-            'user.id',
-            'user.firstName',
-            'user.lastName',
-            'user.middleName',
-            'user.biography',
-            'user.email',
-        ])
+        .addSelect(['user.firstName', 'user.lastName'])
         .leftJoinAndSelect('student.department', 'department')
-        .leftJoinAndSelect('department.college', 'college')
-        .leftJoinAndSelect('student.courses', 'courses')
         .where('LOWER(user.firstName) LIKE :firstName', {
             firstName: `%${firstName.toLowerCase()}%`,
         })
@@ -162,17 +154,23 @@ export const searchStudents = async (
             email: `%${email}%`,
         })
         .andWhere('((NOT :sidExists) OR (:sidExists AND sid LIKE :sid))', {
-            sidExists: sid !== "",
+            sidExists: sid !== '',
             sid: `%${sid}%`,
         })
-        .andWhere('(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))', {
-            departmentIdsPopulated: departmentIds[0] !== -1,
-            departmentIds
-        })
-        .andWhere('(student.classStanding IS NULL OR student.classStanding IN (:...classStandings))', {
-            classStandings
-        })
+        .andWhere(
+            '(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))',
+            {
+                departmentIdsPopulated: departmentIds[0] !== -1,
+                departmentIds,
+            }
+        )
+        .andWhere(
+            '(student.classStanding IS NULL OR student.classStanding IN (:...classStandings))',
+            {
+                classStandings,
+            }
+        )
         .skip((page - 1) * numOfItems)
         .take(numOfItems)
-        .getManyAndCount()
+        .getManyAndCount();
 };
