@@ -74,32 +74,35 @@ function ConversationList({ setReceiver }: ConversationListProps) {
                 {isLoading ? (
                     <Loader />
                 ) : (
-                    <Grid container item spacing={2} direction='column'>
-                        <Grid item>
-                            <Button
-                                onClick={handleClickOpen}
-                                color='primary'
-                                variant='contained'
-                                fullWidth={true}
-                            >
-                                New Message
-                            </Button>
-                        </Grid>
-                        {/* Render all ongoing conversations. */}
-                        {conversationList.map((conversation, key) => (
-                            <Grid item key={key}>
-                                <ConversationPreview
-                                    conversation={conversation}
-                                    onClick={setSelectedReceiver}
-                                    isSelected={
-                                        selectedReceiver !== undefined &&
-                                        conversation.user.id ===
-                                            selectedReceiver.id
-                                    }
-                                />
+                        <Grid container item spacing={2} direction='column'>
+                            <Grid item>
+                                <Button
+                                    onClick={handleClickOpen}
+                                    color='primary'
+                                    variant='contained'
+                                    fullWidth={true}
+                                >
+                                    New Message
+                                </Button>
                             </Grid>
-                        ))}
-                    </Grid>
+
+                            <Grid style={{ overflow: 'auto', height: '400px', width: '100%' }}>
+                                {/* Render all ongoing conversations. */}
+                                {conversationList.map((conversation, key) => (
+                                    <Grid item key={key}>
+                                        <ConversationPreview
+                                            conversation={conversation}
+                                            onClick={setSelectedReceiver}
+                                            isSelected={
+                                                selectedReceiver !== undefined &&
+                                                conversation.user.id ===
+                                                    selectedReceiver.id
+                                            }
+                                        />
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Grid>
                 )}
             </Grid>
             <Dialog

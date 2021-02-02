@@ -728,6 +728,64 @@ Student API
                 -   Unauthorized user -> Status code: 401
                 -   Internal server error -> Status code: 500
 
+    -   api/student/search
+    
+        -   Filters student records based on queries and returns them.
+        -   Body: None
+        -   Parameters:
+            ```
+            {
+                firstName?: string;
+                lastName?: string;
+                email?: string;
+                sid?: string;
+                departmentIds: string[];
+                classStandings: 'freshman' | 'sophomore' | 'junior' | 'senior'[];
+                page: string;
+                numOfItems: string;
+            };
+            ```
+        -   Authorization restrictions:
+            -   User must be logged in
+        -   Response:
+            -   success:
+                Status code: 200
+                ```
+                {
+                    students: {
+                        id: number,
+                        sid?: string,
+                        classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior',
+                        user: {
+                            id: number,
+                            email: : string,
+                            biography?: string,
+                            firstName: string,
+                            lastName: string,
+                            middleName?: string
+                        },
+                        department?: {
+                            id: number,
+                            name: string,
+                            college: {
+                                id: number,
+                                name: string
+                            }
+                        },
+                        courses: {
+                            id: number,
+                            title: string
+                        }[]
+                    } [],
+                    studentsCount: number
+                }
+                ```
+            -   error:
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
+
 Department API
 
 -   Interacts with:
