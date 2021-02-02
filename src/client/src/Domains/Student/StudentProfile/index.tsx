@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { AuthContext } from 'Contexts/AuthContext';
 
 import Card from 'Components/Card';
 import useDialog from 'hooks/useDialog';
@@ -49,6 +50,7 @@ interface StudentProfileProps {
 function StudentProfile({ studentId }: StudentProfileProps) {
     const [studentProfile, setStudentProfile] = React.useState<IStudent>();
     const [, openDialog, closeDialog, DialogProps, Dialog] = useDialog();
+    const { user } = React.useContext(AuthContext);
 
     const getProfileRequest = React.useCallback(
         () => getStudentProfile(studentId),
@@ -74,6 +76,9 @@ function StudentProfile({ studentId }: StudentProfileProps) {
         return studentProfile?.courses.map((course) => course.id);
     };
 
+    const isUserProfileOwner =
+        user?.role === 'student' && user?.specificUserId === studentId;
+
     React.useEffect(() => {
         sendGetProfileRequest();
     }, [sendGetProfileRequest]);
@@ -84,7 +89,6 @@ function StudentProfile({ studentId }: StudentProfileProps) {
         <div>
             <Grid container spacing={2} justify='center' alignItems='center'>
                 <BaseProfile
-                    id={studentProfile.id}
                     firstName={studentProfile.user.firstName}
                     middleName={studentProfile.user.middleName}
                     email={studentProfile.user.email}
@@ -92,6 +96,7 @@ function StudentProfile({ studentId }: StudentProfileProps) {
                     biography={studentProfile.user.biography}
                     department={studentProfile.department}
                     onEdit={openDialog}
+                    hasPermission={isUserProfileOwner}
                 />
                 <Grid item md={6} xs={12}>
                     <LabelValue

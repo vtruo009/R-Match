@@ -7,10 +7,8 @@ import Card from 'Components/Card';
 import LabelValue from 'Components/LabelValue';
 import EditButton from 'Components/EditButton';
 import { IDepartment } from 'Components/AcademicInfo/api';
-import { AuthContext } from 'Contexts/AuthContext';
 
 interface BaseProfileProps {
-    id?: number;
     firstName: string;
     middleName?: string;
     lastName: string;
@@ -18,10 +16,10 @@ interface BaseProfileProps {
     email: string;
     department?: IDepartment;
     onEdit: () => void;
+    hasPermission: boolean;
 }
 
 function BaseProfile({
-    id,
     firstName,
     middleName,
     lastName,
@@ -29,10 +27,8 @@ function BaseProfile({
     email,
     department,
     onEdit,
+    hasPermission,
 }: BaseProfileProps) {
-    const { user } = React.useContext(AuthContext);
-    const isUserProfileOwner = () =>
-        user?.role === 'student' && user?.specificUserId === id;
     const getUserName = () => {
         const middleInitial = middleName ? middleName.charAt(0) + '.' : '';
         return `${firstName} ${middleInitial} ${lastName}`;
@@ -48,7 +44,7 @@ function BaseProfile({
                         justify='center'
                         spacing={3}
                     >
-                        {isUserProfileOwner() && (
+                        {hasPermission && (
                             <Grid container item justify='flex-end'>
                                 <EditButton onClick={onEdit} />
                             </Grid>
