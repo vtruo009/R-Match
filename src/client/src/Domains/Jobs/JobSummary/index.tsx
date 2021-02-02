@@ -32,7 +32,7 @@ function JobSummary({ job, hasPermission }: JobSummaryProps) {
             >
                 <Grid container spacing={3}>
                     <Grid container item justify='space-between'>
-                        <Grid item>
+                        <Grid item xs={6}>
                             <Typography variant='h5' color='primary'>
                                 {job.title}
                             </Typography>
