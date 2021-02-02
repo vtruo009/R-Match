@@ -10,6 +10,7 @@ import { User } from '@entities/user';
 import { signToken } from '@lib/jwt';
 import { validationMiddleware } from '@middlewares/validation';
 import { signUpSchema, signInSchema } from './schemas';
+import { clientPath } from '@app/index';
 
 const router = Router();
 const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
@@ -68,9 +69,13 @@ router.post(
             } = req.user as JWTUser;
 
             const token = signToken(userId);
+
+            const isCookieSecure = process.env.NODE_ENV === 'production';
             res.cookie('access_token', token, {
-                httpOnly: true,
+                httpOnly: isCookieSecure,
+                secure: isCookieSecure,
                 sameSite: true,
+                // domain: clientPath,
             });
 
             return res
