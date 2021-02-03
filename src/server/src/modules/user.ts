@@ -90,48 +90,21 @@ export const registerUser = async (
 };
 
 /**
- * @description Returns an user object corresponding to email in order to send a message.
- * @param {number} userId - id of the logged-in user.
- * @param {string} email - email address.
+ * @description Make password field of the user object null.
+ * @param {User} user - user object
  * @returns Promise
  */
-export const getUserByEmail = async (userId: number, email: string) => {
-    const getUserByEmailResult: {
-        result: User | undefined;
-        message: string;
-    } = {
-        result: undefined,
-        message: '',
-    };
+export const hidePassword = async (user: User) => {
+    const { firstName, lastName, id, middleName, biography, email } = user;
 
-    const receiver = await findUserByEmail(email)
-
-    // Check if the user with the email exists.
-    if (!receiver) {
-        getUserByEmailResult.message =
-            'A user with the email does not exist.';
-        return getUserByEmailResult;
-    }
-
-    if (receiver.id == userId) {
-        getUserByEmailResult.message =
-            'You cannot send message to yourself.';
-        return getUserByEmailResult;
-    }
-
-    getUserByEmailResult.message = 'Successful';
-
-    const getUserByIdResult = await getUserById(receiver.id)
-
-    if (!getUserByIdResult.result) {
-        getUserByEmailResult.message =
-            getUserByIdResult.message;
-        return getUserByEmailResult;
-    }
-
-    getUserByEmailResult.result = getUserByIdResult.result
-
-    return getUserByEmailResult;
+    return User.create({
+        firstName,
+        lastName,
+        id,
+        middleName,
+        biography,
+        email
+    });
 };
 
 /**
@@ -141,7 +114,7 @@ export const getUserByEmail = async (userId: number, email: string) => {
  */
 export const getUserById = async (userId: number) => {
     const getUserByIdResult: {
-        result: User | undefined;
+        result?: User;
         message: string;
     } = {
         result: undefined,

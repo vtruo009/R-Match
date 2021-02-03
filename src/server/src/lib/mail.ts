@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import logger from '@shared/Logger';
 
 const rRatchEmailAddress = 'rmatch.jmsv@gmail.com'
 
@@ -26,7 +27,7 @@ export const sendEmail = async (
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
-        if (error) return console.log(error);
-        console.log('Message sent: ' + info.response);
+        if (error) return logger.err(error)
+        logger.info('Message sent: ' + info.response);
     });
 };

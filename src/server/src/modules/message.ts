@@ -1,8 +1,8 @@
 import { Message } from '@entities/message';
 import { User } from '@entities/user';
 import { getRepository } from 'typeorm';
-import { userIdExists, getUserById } from '@modules/user';
-import { sendEmail } from '@modules/mail';
+import { userIdExists, findUserByEmail, hidePassword, getUserById } from '@modules/user';
+import { sendEmail } from '@lib/mail';
 
 /**
  * @description Send a message to a receiver.
@@ -24,7 +24,7 @@ export const sendMessage = async (
         errorMessage: '',
     };
 
-    if (senderId == receiverId) {
+    if (senderId === receiverId) {
         sendMessageResult.errorMessage = "Sender should be different from receiver.";
         return sendMessageResult;
     }
@@ -208,4 +208,42 @@ export const getConversationList = async (userId: number) => {
             conversation2.latestMessage.date.getTime() - conversation1.latestMessage.date.getTime());
 
     return getConversationListResult;
+};
+
+/**
+ * @description Returns an user object with the the email to initiate a messag.
+ * @param {number} userId - id of the logged-in user.
+ * @param {string} email - email address.
+ * @returns Promise
+ */
+export const getUserByEmail = async (userId: number, email: string) => {
+    const getUserByEmailResult: {
+        result: User | undefined;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
+
+    const receiver = await findUserByEmail(email);
+
+    // Check if the user with the email exists.
+    if (!receiver) {
+        getUserByEmailResult.message =
+            'A user with the email does not exist.';
+        return getUserByEmailResult;
+    }
+
+    if (receiver.id === userId) {
+        getUserByEmailResult.message =
+            'You cannot send message to yourself.';
+        return getUserByEmailResult;
+    }
+
+    const getUserByIdResult = await hidePassword(receiver);
+
+    getUserByEmailResult.message = 'Successful';
+    getUserByEmailResult.result = getUserByIdResult;
+
+    return getUserByEmailResult;
 };
