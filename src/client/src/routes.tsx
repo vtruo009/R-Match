@@ -5,6 +5,7 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PersonIcon from '@material-ui/icons/Person';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import MailIcon from '@material-ui/icons/Mail';
+import DocumentsIcon from '@material-ui/icons/Description';
 
 import Home from 'Pages/Home';
 import SearchJobs from 'Pages/SearchJobs';
@@ -14,6 +15,7 @@ import Profile from 'Pages/Profile';
 import SignIn from 'Pages/SignIn';
 import SignUp from 'Pages/SignUp';
 import Message from 'Pages/Message';
+import Documents from 'Pages/Documents';
 
 export interface IRoute {
     path: string;
@@ -77,6 +79,12 @@ export const studentRoutes = [
         name: 'Dashboard',
         component: JobStudentDashboard,
         icon: <DashboardIcon />,
+    },
+    {
+        path: '/documents',
+        name: 'Documents',
+        component: Documents,
+        icon: <DocumentsIcon />,
     },
 ];
 
