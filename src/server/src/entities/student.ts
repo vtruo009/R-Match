@@ -16,7 +16,12 @@ import { Department } from './department';
 import { JobApplication } from './jobApplication';
 
 export type classStandings = 'Freshman' | 'Sophomore' | 'Junior' | 'Senior';
-export const classStandingValues = ['Freshman', 'Sophomore', 'Junior', 'Senior'] as classStandings[];
+export const classStandingValues = [
+    'Freshman',
+    'Sophomore',
+    'Junior',
+    'Senior',
+] as classStandings[];
 
 @Entity()
 export class Student extends BaseEntity {
@@ -32,12 +37,14 @@ export class Student extends BaseEntity {
     @Column({ nullable: true })
     sid?: string;
 
+    @Column('decimal', { nullable: true, precision: 3, scale: 2 })
+    gpa?: number;
+
     @Column({
         nullable: true,
         type: 'enum',
-        enum: classStandingValues
+        enum: classStandingValues,
     })
-
     classStanding?: classStandings;
 
     @Column({ type: 'bytea', nullable: true })

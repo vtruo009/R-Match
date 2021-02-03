@@ -91,14 +91,17 @@ function StudentProfile() {
                     department={studentProfile.department}
                     onEdit={openDialog}
                 />
-                <Grid item md={6} xs={12}>
+                <Grid item md={4} xs={12}>
                     <LabelValue
                         label='Class Standing'
                         value={studentProfile.classStanding}
                     />
                 </Grid>
-                <Grid item md={6} xs={12}>
+                <Grid item md={4} xs={12}>
                     <LabelValue label='SID' value={studentProfile.sid} />
+                </Grid>
+                <Grid item md={4} xs={12}>
+                    <LabelValue label='GPA' value={studentProfile.gpa} />
                 </Grid>
                 <Grid item md={12} xs={12}>
                     <LabelValues
@@ -164,12 +167,13 @@ function StudentProfile() {
                         collegeId: studentProfile.department?.college.id,
                         departmentId: studentProfile.department?.id,
                         sid: studentProfile.sid,
+                        gpa: studentProfile.gpa?.toString(),
                         classStanding: studentProfile.classStanding,
                         email: studentProfile.user.email,
                         biography: studentProfile.user.biography,
                         courseIds: getCoursesIds(),
-                        resume: studentProfile.resume,
-                        transcript: studentProfile.transcript,
+                        // resume: studentProfile.resume,
+                        // transcript: studentProfile.transcript,
                         // workStartDate: studentProfile.workStartDate,
                         // workEndDate: studentProfile.workEndDate,
                         // workEmployer: studentProfile.workEmployer,

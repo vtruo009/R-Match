@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
-import { SimpleFileUpload } from 'Components/FileUploadField';
+// import { SimpleFileUpload } from 'Components/FileUploadField';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
@@ -24,12 +24,13 @@ export interface IStudentProfileForm {
     collegeId?: number;
     departmentId?: number;
     sid?: string;
+    gpa?: string;
     classStanding?: classStandingTypes;
     email: string;
     biography?: string;
     courseIds?: number[];
-    resume?: Buffer;
-    transcript?: Buffer;
+    // resume?: Buffer;
+    // transcript?: Buffer;
     // workStartDate: string;
     // workEndDate?: string;
     // workEmployer: string;
@@ -57,26 +58,34 @@ const formSchema = yup.object({
         .length(9, 'SID must contain 9 digits')
         .optional()
         .nullable(),
+    gpa: yup
+        .string()
+        .matches(
+            /^[0]|[0-3]\.(\d?\d?)|[4].[0]$/,
+            'GPA must be in the range 0.00 - 4.00'
+        )
+        .optional()
+        .nullable(),
     classStanding: yup.string().nullable(),
     biography: yup.string().optional().nullable(),
-    resume: yup
-        .mixed()
-        .test('fileFormat', 'PDF only', (value) => {
-            return (
-                !value || (value && ['application/pdf'].includes(value.type))
-            );
-        })
-        .optional()
-        .nullable(),
-    transcript: yup
-        .mixed()
-        .test('fileFormat', 'PDF only', (value) => {
-            return (
-                !value || (value && ['application/pdf'].includes(value.type))
-            );
-        })
-        .optional()
-        .nullable(),
+    // resume: yup
+    //     .mixed()
+    //     .test('fileFormat', 'PDF only', (value) => {
+    //         return (
+    //             !value || (value && ['application/pdf'].includes(value.type))
+    //         );
+    //     })
+    //     .optional()
+    //     .nullable(),
+    // transcript: yup
+    //     .mixed()
+    //     .test('fileFormat', 'PDF only', (value) => {
+    //         return (
+    //             !value || (value && ['application/pdf'].includes(value.type))
+    //         );
+    //     })
+    //     .optional()
+    //     .nullable(),
     // workStartDate: yup
     //     .date()
     //     .min(today, `Start date must be later than today`)
@@ -160,7 +169,7 @@ function StudentProfileForm({
                                 component={TextFormField}
                             />
                         </Grid>
-                        <Grid item md={6} xs={12}>
+                        <Grid item md={4} xs={12}>
                             <Field
                                 name='classStanding'
                                 label='Class Standing'
@@ -169,15 +178,22 @@ function StudentProfileForm({
                                 defaultLabel='Select your class standing'
                             />
                         </Grid>
-                        <Grid item md={6} xs={12}>
+                        <Grid item md={4} xs={12}>
                             <Field
                                 name='sid'
                                 label='SID'
                                 component={TextFormField}
                             />
                         </Grid>
+                        <Grid item md={4} xs={12}>
+                            <Field
+                                name='gpa'
+                                label='GPA'
+                                component={TextFormField}
+                            />
+                        </Grid>
                         {/* TODO: Make sure PDF Files are not greater than some number of bytes */}
-                        <Grid item md={6} xs={12}>
+                        {/* <Grid item md={6} xs={12}>
                             <Field
                                 name='transcript'
                                 label='Transcript'
@@ -192,7 +208,7 @@ function StudentProfileForm({
                                 type='file'
                                 component={SimpleFileUpload}
                             />
-                        </Grid>
+                        </Grid> */}
                         <Grid item md={12} xs={12}>
                             <Field
                                 name='biography'

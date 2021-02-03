@@ -579,6 +579,7 @@ Student API
                     },
                     departmentId?: number,
                     sid?: number,
+                    gpa?: number,
                     classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior',
                     courses?: {
                         id: number
@@ -615,6 +616,7 @@ Student API
                     student: {
                         id: number,
                         sid?: number,
+                        gpa?: number,
                         classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior',
                         user: {
                             id: number,
@@ -730,7 +732,7 @@ Student API
 
     -   api/student/search
     
-        -   Filters student records based on queries and returns them.
+        -   Filters student records based on queries and returns them. Result is a list of student previews
         -   Body: None
         -   Parameters:
             ```
@@ -754,28 +756,15 @@ Student API
                 {
                     students: {
                         id: number,
-                        sid?: string,
                         classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior',
                         user: {
-                            id: number,
-                            email: : string,
-                            biography?: string,
                             firstName: string,
                             lastName: string,
-                            middleName?: string
                         },
                         department?: {
                             id: number,
                             name: string,
-                            college: {
-                                id: number,
-                                name: string
-                            }
                         },
-                        courses: {
-                            id: number,
-                            title: string
-                        }[]
                     } [],
                     studentsCount: number
                 }
