@@ -37,7 +37,7 @@ export class Student extends BaseEntity {
     @Column({ nullable: true })
     sid?: string;
 
-    @Column('decimal', { nullable: true })
+    @Column('decimal', { nullable: true, precision: 3, scale: 2 })
     gpa?: number;
 
     @Column({
