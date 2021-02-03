@@ -24,7 +24,7 @@ export interface IStudentProfileForm {
     collegeId?: number;
     departmentId?: number;
     sid?: string;
-    gpa?: number;
+    gpa?: string;
     classStanding?: classStandingTypes;
     email: string;
     biography?: string;
@@ -58,7 +58,14 @@ const formSchema = yup.object({
         .length(9, 'SID must contain 9 digits')
         .optional()
         .nullable(),
-    gpa: yup.number().min(0.0).max(4.0).optional().nullable(),
+    gpa: yup
+        .string()
+        .matches(
+            /^[0]|[0-3]\.(\d?\d?)|[4].[0]$/,
+            'GPA must be in the range 0.00 - 4.00'
+        )
+        .optional()
+        .nullable(),
     classStanding: yup.string().nullable(),
     biography: yup.string().optional().nullable(),
     // resume: yup
@@ -182,7 +189,6 @@ function StudentProfileForm({
                             <Field
                                 name='gpa'
                                 label='GPA'
-                                type='number'
                                 component={TextFormField}
                             />
                         </Grid>

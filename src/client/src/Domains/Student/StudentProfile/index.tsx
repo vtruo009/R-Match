@@ -167,7 +167,7 @@ function StudentProfile() {
                         collegeId: studentProfile.department?.college.id,
                         departmentId: studentProfile.department?.id,
                         sid: studentProfile.sid,
-                        gpa: studentProfile.gpa,
+                        gpa: studentProfile.gpa?.toString(),
                         classStanding: studentProfile.classStanding,
                         email: studentProfile.user.email,
                         biography: studentProfile.user.biography,

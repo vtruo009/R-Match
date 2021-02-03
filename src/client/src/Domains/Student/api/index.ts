@@ -61,7 +61,9 @@ export async function updateStudentProfile(
             courses: studentProfile.courseIds?.map((courseId) => ({
                 id: courseId,
             })),
-            gpa: studentProfile.gpa,
+            gpa: studentProfile.gpa
+                ? parseFloat(studentProfile.gpa)
+                : undefined,
             user: {
                 id: studentProfile.userId,
                 firstName: studentProfile.firstName,
