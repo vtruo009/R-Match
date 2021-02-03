@@ -6,12 +6,10 @@ if (process.env.NODE_ENV === 'test') {
     result = dotenv.config({
         path: `./env/test.env`,
     });
-} else if (process.env.NODE_ENV === 'development') {
+} else {
     result = dotenv.config({
         path: `./env/development.env`,
     });
-} else {
-    result = {};
 }
 
 if (result.error) {

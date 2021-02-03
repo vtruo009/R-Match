@@ -1,13 +1,5 @@
 [
     {
-        "name": "production",
-        "type": "postgres",
-        "synchronize": true,
-        "entities": ["dist/entities/*.js"],
-        "migrations": ["dist/migration/*.js"],
-        "logging": true
-    },
-    {
         "name": "development",
         "type": "postgres",
         "host": "database",

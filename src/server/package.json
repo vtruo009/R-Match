@@ -4,9 +4,9 @@
     "scripts": {
         "build": "ts-node build.ts && tsc --build tsconfig.prod.json",
         "lint": "eslint . --ext .ts",
-        "start:prod": "NODE_ENV=production node -r module-alias/register ./dist",
-        "start": "NODE_ENV=development nodemon",
-        "test": "jest --watchAll --runInBand --verbose",
+        "start:prod": "node -r module-alias/register ./dist --env=production",
+        "start": "nodemon",
+        "test": "jest --watchAll --runInBand",
         "migration": "ts-node -r tsconfig-paths/register node_modules/.bin/typeorm migration:generate -n migrationName -d src/migration -c development"
     },
     "nodemonConfig": {
@@ -15,7 +15,9 @@
             "package.json"
         ],
         "ext": "ts",
-        "ignore": [],
+        "ignore": [
+            "src/public"
+        ],
         "exec": "ts-node -r tsconfig-paths/register ./src"
     },
     "_moduleAliases": {
@@ -23,9 +25,9 @@
         "@routes": "dist/routes",
         "@entities": "dist/entities",
         "@shared": "dist/shared",
-        "@server": "dist/server",
+        "@server": "dist/Server",
         "@lib": "dist/lib",
-        "@db": "dist/db",
+        "@db": "dis/db",
         "@middlewares": "dist/middlewares",
         "@app": "dist/app",
         "@dotenv": "dist/dotenv"

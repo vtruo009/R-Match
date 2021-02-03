@@ -17,10 +17,7 @@ const { BAD_REQUEST } = StatusCodes;
  *                              Set basic express settings
  ***********************************************************************************/
 
-export const clientPath =
-    process.env.NODE_ENV === 'production'
-        ? 'https://sharp-mirzakhani-bf0bd4.netlify.app'
-        : 'http://localhost:3000';
+export const clientPath = 'http://localhost:3000';
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
