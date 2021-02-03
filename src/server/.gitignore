@@ -1,5 +1,6 @@
 node_modules/
 package-lock.json
+dist/
 
 # Mari's VS code folder.
 .vs/
