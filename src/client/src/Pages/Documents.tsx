@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
-import { Button, Container } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 export interface DocumentProps {
     name: JSX.Element | string,
