@@ -1,7 +1,8 @@
 import { Message } from '@entities/message';
 import { User } from '@entities/user';
 import { getRepository } from 'typeorm';
-import { userIdExists } from '@modules/user';
+import { userIdExists, getUserById } from '@modules/user';
+import { sendEmail } from '@modules/mail';
 
 /**
  * @description Send a message to a receiver.
@@ -23,23 +24,37 @@ export const sendMessage = async (
         errorMessage: '',
     };
 
-    // Check if receiver exists.
-    if (!(await userIdExists(receiverId))) {
-        sendMessageResult.errorMessage = "Receiver does not exist.";
-        return sendMessageResult;
-    }
-
-    // Check if sender exists.
-    if (!userIdExists(senderId)) {
-        sendMessageResult.errorMessage = "Sender does not exist.";
-        return sendMessageResult;
-    }
-
     if (senderId == receiverId) {
         sendMessageResult.errorMessage = "Sender should be different from receiver.";
         return sendMessageResult;
     }
 
+    // Get sender user object
+    const getSenderByIdResult = await getUserById(senderId);
+    if (!getSenderByIdResult.result) {
+        sendMessageResult.errorMessage =
+            `Error while obtaining sender profile: ${getSenderByIdResult.message}`;
+        return sendMessageResult;
+    }
+    const sender = getSenderByIdResult.result;
+
+    // Get receiver user object
+    const getReceiverIdResult = await getUserById(receiverId);
+    if (!getReceiverIdResult.result) {
+        sendMessageResult.errorMessage =
+            `Error while obtaining receiver profile: ${getReceiverIdResult.message}`;
+        return sendMessageResult;
+    }
+    const receiver = getReceiverIdResult.result;
+
+    // Send email.
+    sendEmail(
+        receiver.email,
+        `${sender.firstName} ${sender.lastName} just messaged you`,
+        `You have new message from ${sender.firstName} ${sender.lastName}.\n    ${sender.firstName}: ${content}`,
+    )
+
+    // Insert Message object.
     const messageToInsert = Message.create({
         content: content,
         senderId: senderId,

@@ -104,10 +104,54 @@ export const getUserByEmail = async (userId: number, email: string) => {
         message: '',
     };
 
+    const receiver = await findUserByEmail(email)
+
+    // Check if the user with the email exists.
+    if (!receiver) {
+        getUserByEmailResult.message =
+            'A user with the email does not exist.';
+        return getUserByEmailResult;
+    }
+
+    if (receiver.id == userId) {
+        getUserByEmailResult.message =
+            'You cannot send message to yourself.';
+        return getUserByEmailResult;
+    }
+
+    getUserByEmailResult.message = 'Successful';
+
+    const getUserByIdResult = await getUserById(receiver.id)
+
+    if (!getUserByIdResult.result) {
+        getUserByEmailResult.message =
+            getUserByIdResult.message;
+        return getUserByEmailResult;
+    }
+
+    getUserByEmailResult.result = getUserByIdResult.result
+
+    return getUserByEmailResult;
+};
+
+/**
+ * @description Returns an user object corresponding to the input userId.
+ * @param {number} userId - id of the requested user.
+ * @returns Promise
+ */
+export const getUserById = async (userId: number) => {
+    const getUserByIdResult: {
+        result: User | undefined;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
+
     // Check if the user with the email exists.
     const user = await getRepository(User)
         .createQueryBuilder('user')
-        .where({ email: email })
+        .where({ id: userId })
         .select([
             'user.id',
             'user.firstName',
@@ -119,19 +163,14 @@ export const getUserByEmail = async (userId: number, email: string) => {
         .getOne();
 
     if (!user) {
-        getUserByEmailResult.message =
-            'A user with the email does not exist.';
-        return getUserByEmailResult;
+        getUserByIdResult.message =
+            'A user with the id does not exist.';
+        return getUserByIdResult;
     }
 
-    if (user.id == userId) {
-        getUserByEmailResult.message =
-            'You cannot send message to yourself.';
-        return getUserByEmailResult;
-    }
+    getUserByIdResult.message = 'Successful';
+    getUserByIdResult.result = user;
 
-    getUserByEmailResult.message = 'Successful';
-    getUserByEmailResult.result = user;
-
-    return getUserByEmailResult;
+    return getUserByIdResult;
 };
+
