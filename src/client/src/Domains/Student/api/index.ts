@@ -28,6 +28,7 @@ export interface IStudent {
     user: IUser;
     department?: IDepartment;
     sid?: string;
+    gpa?: number;
     classStanding?: classStandingTypes;
     courses: ICourse[];
     resume?: Buffer;
@@ -60,6 +61,7 @@ export async function updateStudentProfile(
             courses: studentProfile.courseIds?.map((courseId) => ({
                 id: courseId,
             })),
+            gpa: studentProfile.gpa,
             user: {
                 id: studentProfile.userId,
                 firstName: studentProfile.firstName,
@@ -67,8 +69,8 @@ export async function updateStudentProfile(
                 middleName: studentProfile.middleName,
                 biography: studentProfile.biography,
             },
-            resume: studentProfile.resume,
-            transcript: studentProfile.transcript,
+            // resume: studentProfile.resume,
+            // transcript: studentProfile.transcript,
             // workStartDate: studentProfile.workStartDate,
             // workEndDate: studentProfile.workEndDate,
             // workEmployer: studentProfile.workEmployer,

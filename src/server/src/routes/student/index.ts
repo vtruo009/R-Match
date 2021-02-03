@@ -2,17 +2,21 @@ import StatusCodes from 'http-status-codes';
 import passport from 'passport';
 import logger from '@shared/Logger';
 import { Request, Response, Router } from 'express';
-import { Student, classStandings, classStandingValues  } from '@entities/student';
+import {
+    Student,
+    classStandings,
+    classStandingValues,
+} from '@entities/student';
 import { errors } from '@shared/errors';
 import {
     updateStudent,
     getStudentProfile,
     getJobApplications,
-    searchStudents
+    searchStudents,
 } from '@modules/student';
 import { JWTUser } from '@entities/user';
 import { validationMiddleware } from '@middlewares/validation';
-import { studentProfileSchema, studentSearchSchema  } from './schemas';
+import { studentProfileSchema, studentSearchSchema } from './schemas';
 
 const router = Router();
 const { BAD_REQUEST, OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED } = StatusCodes;
@@ -48,6 +52,7 @@ router.post(
             id,
             resume,
             transcript,
+            gpa,
         } = req.body.studentProfile;
 
         if (specificUserId !== id) {
@@ -62,6 +67,7 @@ router.post(
                 user,
                 departmentId,
                 sid,
+                gpa,
                 classStanding,
                 courses,
                 transcript,
@@ -168,19 +174,19 @@ router.get(
         const { departmentIds, page, numOfItems } = req.query;
         let { firstName, lastName, email, sid, classStandings } = req.query;
 
-        if (!firstName) firstName = "";
-        if (!lastName) lastName = "";
-        if (!email) email = "";
-        if (!sid) sid = "";
+        if (!firstName) firstName = '';
+        if (!lastName) lastName = '';
+        if (!email) email = '';
+        if (!sid) sid = '';
 
         // Pass -1 when the input is empty or null because it causes a sql parse error
         // when we pass in an empty array.
-        const departmentIdInts = (departmentIds && departmentIds.length > 0) ?
-            departmentIds.map((id) => parseInt(id, 10)) :
-            [-1];
+        const departmentIdInts =
+            departmentIds && departmentIds.length > 0
+                ? departmentIds.map((id) => parseInt(id, 10))
+                : [-1];
 
-        if (classStandings.length === 0)
-            classStandings = classStandingValues;
+        if (classStandings.length === 0) classStandings = classStandingValues;
 
         try {
             const [students, studentsCount] = await searchStudents(
