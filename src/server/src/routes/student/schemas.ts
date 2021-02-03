@@ -18,3 +18,16 @@ export const studentProfileSchema = Joi.object({
         resume: Joi.any().optional().allow(null),
     }).required(),
 });
+
+export const studentSearchSchema = Joi.object({
+    firstName: Joi.string().allow('').optional(),
+    lastName: Joi.string().allow('').optional(),
+    email: Joi.string().allow('').optional(),
+    sid: Joi.string().allow('').optional(),
+    departmentIds: Joi.array().allow('').items(Joi.number()).required(),
+    classStandings: Joi.array().allow('')
+        .items(Joi.string().valid('Freshman', 'Sophmore', 'Junior', 'Senior'))
+        .required(),
+    page: Joi.string().required(),
+    numOfItems: Joi.string().required(),
+});
