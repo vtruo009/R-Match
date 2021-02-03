@@ -11,6 +11,7 @@ import {
     BaseEntity,
 } from 'typeorm';
 import { User } from './user';
+import {WorkExperience} from './workExperience'
 import { Course } from './course';
 import { Department } from './department';
 import { JobApplication } from './jobApplication';
@@ -51,6 +52,12 @@ export class Student extends BaseEntity {
 
     @Column()
     userId: number;
+
+    @JoinColumn()
+    workExperience: WorkExperience; 
+
+    @Column()
+    workExperienceId: number;
 
     @ManyToMany(() => Course, (course) => course.students)
     @JoinTable()
