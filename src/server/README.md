@@ -1001,28 +1001,24 @@ Messaging API
             -   errors:
                 -   Internal server error -> Status code: 500
 
-    -   api/message/get-by-email/:email
+    -   api/message/get-user-by-email/:email
         -   HTTP Method: GET
         -   Get a user object given an email of the user.
-        -   Cookies:
-            ```
-            {
-                'access_token': jwt,
-            }
-            ```
+        -   Authorization restrictions:
+            -   User must be logged in
         -   Parameters: email address of the user.
         -   Response:
             -   success:
                 -   OK -> Status code: 200
                     ```
                         {
-                            isAuthenticated: boolean,
                             user: {
-                                userId: number,
-                                specificUserId: number,
-                                role: 'student' | 'facultyMember',
+                                id: number,
+                                email: string,
+                                biography?: string,
                                 firstName: string,
-                                lastName: string
+                                lastName: string,
+                                middleName?: string
                             }
                         }
                     ```

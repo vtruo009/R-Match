@@ -211,7 +211,7 @@ export const getConversationList = async (userId: number) => {
 };
 
 /**
- * @description Returns an user object with the the email to initiate a messag.
+ * @description Returns a user object with the email to initiate a message.
  * @param {number} userId - id of the logged-in user.
  * @param {string} email - email address.
  * @returns Promise

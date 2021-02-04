@@ -90,7 +90,7 @@ export const registerUser = async (
 };
 
 /**
- * @description Make password field of the user object null.
+ * @description Makes password field of the user object null.
  * @param {User} user - user object
  * @returns Promise
  */

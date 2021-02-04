@@ -102,11 +102,11 @@ router.get('/getConversationList',
 );
 
 /******************************************************************************
- *       GET Request - Get By Email - /api/message/get-by-email/:email
+ *       GET Request - Get user By Email - /api/message/get-user-by-email/:email
  ******************************************************************************/
 
 router.get(
-    '/get-by-email/:email',
+    '/get-user-by-email/:email',
     passport.authenticate('jwt', { session: false }),
     async (req: Request, res: Response) => {
         const { userId } = req.user as JWTUser;
