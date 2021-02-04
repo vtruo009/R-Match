@@ -23,6 +23,7 @@ export const createStudent = (user: User) => {
  * @param {User} user - User object to update
  * @param {number} departmentId - New id of the department that the student belongs to
  * @param {number} sid - New student's sid
+ * @param {number} gpa - New student's gpa
  * @param {'Freshman' | 'Sophomore' | 'Junior' | 'Senior'} classStanding - Student's class standing
  * @param {Course[]} courses - New courses of the student
  * @returns Promise
@@ -32,6 +33,7 @@ export const updateStudent = async (
     user: Student['user'],
     departmentId: Student['departmentId'],
     sid: Student['sid'],
+    gpa: Student['gpa'],
     classStanding: Student['classStanding'],
     courses: Student['courses'],
     transcript: Student['transcript'],
@@ -69,6 +71,7 @@ export const updateStudent = async (
 
     return Student.update(id, {
         sid,
+        gpa,
         classStanding,
         resume,
         transcript,

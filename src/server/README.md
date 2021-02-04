@@ -569,7 +569,12 @@ Student API
                     },
                     departmentId?: number,
                     sid?: number,
+<<<<<<< HEAD
                     classStanding?: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior',
+=======
+                    gpa?: number,
+                    classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior',
+>>>>>>> dev
                     courses?: {
                         id: number
                     }[]
@@ -605,7 +610,12 @@ Student API
                     student: {
                         id: number,
                         sid?: number,
+<<<<<<< HEAD
                         classStanding?: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior',
+=======
+                        gpa?: number,
+                        classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior',
+>>>>>>> dev
                         user: {
                             id: number,
                             email: : string,
@@ -719,8 +729,13 @@ Student API
                 -   Internal server error -> Status code: 500
 
     -   api/student/search
+<<<<<<< HEAD
 
         -   Filters student records based on queries and returns them.
+=======
+    
+        -   Filters student records based on queries and returns them. Result is a list of student previews
+>>>>>>> dev
         -   Body: None
         -   Parameters:
             ```
@@ -744,7 +759,11 @@ Student API
                 {
                     studentPreviews: {
                         id: number,
+<<<<<<< HEAD
                         classStanding?: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior',
+=======
+                        classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior',
+>>>>>>> dev
                         user: {
                             firstName: string,
                             lastName: string,

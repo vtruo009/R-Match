@@ -7,6 +7,7 @@ export const studentProfileSchema = Joi.object({
         id: Joi.number().required(),
         departmentId: Joi.number().optional(),
         sid: Joi.string().optional().allow(null).allow(''),
+        gpa: Joi.number().min(0).max(4).optional().allow(null).allow(''),
         classStanding: Joi.string()
             .valid('Freshman', 'Sophomore', 'Junior', 'Senior')
             .optional()
@@ -24,11 +25,11 @@ export const studentSearchSchema = Joi.object({
     lastName: Joi.string().allow('').optional(),
     email: Joi.string().allow('').optional(),
     sid: Joi.string().allow('').optional(),
-    departmentIds: Joi.array().allow('').items(Joi.number()).optional(),
+    departmentIds: Joi.array().allow('').items(Joi.number()).required(),
     classStandings: Joi.array()
         .allow('')
-        .items(Joi.string().valid('Freshman', 'Sophomore', 'Junior', 'Senior'))
-        .optional(),
+        .items(Joi.string().valid('Freshman', 'Sophmore', 'Junior', 'Senior'))
+        .required(),
     page: Joi.string().required(),
     numOfItems: Joi.string().required(),
 });

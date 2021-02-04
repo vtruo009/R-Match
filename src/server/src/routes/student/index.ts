@@ -52,6 +52,7 @@ router.post(
             id,
             resume,
             transcript,
+            gpa,
         } = req.body.studentProfile;
 
         if (specificUserId !== id) {
@@ -66,6 +67,7 @@ router.post(
                 user,
                 departmentId,
                 sid,
+                gpa,
                 classStanding,
                 courses,
                 transcript,
