@@ -337,36 +337,6 @@ User API
             -   error:
                 -   Unauthorized: -> Status code: 401
 
-    -   api/user/get-by-email/:email
-        -   HTTP Method: GET
-        -   Get a user object given an email of the user.
-        -   Cookies:
-            ```
-            {
-                'access_token': jwt,
-            }
-            ```
-        -   Parameters: email address of the user.
-        -   Response:
-            -   success:
-                -   OK -> Status code: 200
-                    ```
-                        {
-                            isAuthenticated: boolean,
-                            user: {
-                                userId: number,
-                                specificUserId: number,
-                                role: 'student' | 'facultyMember',
-                                firstName: string,
-                                lastName: string
-                            }
-                        }
-                    ```
-            -   error:
-                -   Unauthorized -> Status code: 401
-                -   Email does not exist -> Status code: 400
-                -   Email of the logged-in user is requested -> Status code: 400
-
 Faculty Member API
 
 -   Interacts with:
@@ -1019,3 +989,29 @@ Messaging API
                     }[]
             -   errors:
                 -   Internal server error -> Status code: 500
+
+    -   api/message/get-user-by-email/:email
+        -   HTTP Method: GET
+        -   Get a user object given an email of the user.
+        -   Authorization restrictions:
+            -   User must be logged in
+        -   Parameters: email address of the user.
+        -   Response:
+            -   success:
+                -   OK -> Status code: 200
+                    ```
+                        {
+                            user: {
+                                id: number,
+                                email: string,
+                                biography?: string,
+                                firstName: string,
+                                lastName: string,
+                                middleName?: string
+                            }
+                        }
+                    ```
+            -   error:
+                -   Unauthorized -> Status code: 401
+                -   Email does not exist -> Status code: 400
+                -   Email of the logged-in user is requested -> Status code: 400
