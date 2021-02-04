@@ -53,14 +53,8 @@ export class Student extends BaseEntity {
     @Column()
     userId: number;
 
-    @OneToOne(() => WorkExperience, {
-        onDelete: 'CASCADE',
-    })
-    @JoinColumn()
-    workExperience: WorkExperience; 
-
-    @Column()
-    workExperienceId: number;
+    @OneToMany(() => WorkExperience, (workExperience) => workExperience.student)
+    public workExperiences: WorkExperience[]
 
     @ManyToMany(() => Course, (course) => course.students)
     @JoinTable()
