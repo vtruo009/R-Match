@@ -11,7 +11,10 @@ import {
     getApplicants
 } from '@modules/facultyMember';
 import { validationMiddleware } from '@middlewares/validation';
-import { facultyMemberProfileSchema } from './schemas';
+import {
+    facultyMemberProfileSchema,
+    getPostedJobsSchema
+} from './schemas';
 import { JWTUser } from '@entities/user';
 
 const router = Router();
@@ -108,11 +111,18 @@ router.get(
 /******************************************************************************
  * GET Request - Read - "GET /api/faculty-member/get-posted-jobs"
  ******************************************************************************/
+interface GetPostedJobsRequest extends Request {
+    query: {
+        page: string;
+        numOfItems: string;
+    };
+}
 
 router.get(
     '/get-posted-jobs',
     passport.authenticate('jwt', { session: false }),
-    async (req: Request, res: Response) => {
+    validationMiddleware({ querySchema: getPostedJobsSchema }),
+    async (req: GetPostedJobsRequest, res: Response) => {
         const { specificUserId, role } = req.user as JWTUser;
         if (role !== 'facultyMember') {
             return res
@@ -120,9 +130,14 @@ router.get(
                 .json({ error: 'User is not a faculty member' });
         }
 
+        const { page, numOfItems } = req.query;
+
         try {
-            const jobs = await getPostedJobs(specificUserId);
-            return res.status(OK).json({ jobs }).end();
+            const [jobs, jobsCount] = await getPostedJobs(
+                specificUserId,
+                parseInt(page),
+                parseInt(numOfItems));
+            return res.status(OK).json({ jobs, jobsCount }).end();
         } catch (error) {
             logger.err(error);
             return res
