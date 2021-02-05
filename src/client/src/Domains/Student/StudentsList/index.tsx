@@ -16,8 +16,8 @@ function StudentsList({ studentPreviews }: StudentsResultProps) {
     return (
         <div>
             <Grid container spacing={3} justify='center'>
-                {studentPreviews.map((studentPreview, key) => (
-                    <Grid item key={key} xs={12}>
+                {studentPreviews.map((studentPreview, index) => (
+                    <Grid item key={index} xs={12}>
                         <StudentPreview
                             studentPreview={studentPreview}
                             onClick={() => {

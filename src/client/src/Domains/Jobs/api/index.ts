@@ -3,7 +3,7 @@ import API from 'api';
 import { IDepartment } from 'Components/AcademicInfo/api';
 import { IJobCreateFormValues } from 'Domains/Jobs/JobCreateForm';
 import { IJobUpdateFormValues } from 'Domains/Jobs/JobUpdateForm';
-import { IStudentPreview } from 'Domains/Student/api';
+import { IStudentPreview, classStandingTypes } from 'Domains/Student/api';
 
 export type jobType =
     | 'grader'
@@ -201,12 +201,17 @@ export async function applyToJob(jobId: number) {
 export async function getJobApplicants(
     jobId: number,
     page: number,
-    numOfItems: number
+    numOfItems: number,
+    classStandings?: classStandingTypes[],
+    gpa?: string
 ) {
     const params = {
         page,
         numOfItems,
+        classStandings,
+        gpa,
     };
+    console.log(params);
     return API.get<{
         jobApplicants: IJobApplicants[];
         jobApplicantsCount: number;
