@@ -427,6 +427,13 @@ Faculty Member API
 
         -   Returns a list of job posted by the logged-in faculty member from the database.
         -   Body: None
+        -   Parameters:
+            ```
+            {
+                page: string;
+                numOfItems: string;
+            };
+            ```
         -   Authorization restrictions:
             -   User must be logged in
             -   User must be a faculty member
