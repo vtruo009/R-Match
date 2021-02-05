@@ -88,7 +88,12 @@ export const getFacultyMemberProfile = (id: number) => {
  * @param {number} facultyMemberId - Id of faculty member
  * @returns Promise
  */
-export const getPostedJobs = async (facultyMemberId: number) => {
+export const getPostedJobs = async (
+    facultyMemberId: number,
+    page: number,
+    numOfItems: number
+) => {
+    
     // Check if a faculty member with the given id exists.
     const facultyMember = await FacultyMember.findOne(facultyMemberId);
     if (!facultyMember) return undefined;
@@ -109,5 +114,7 @@ export const getPostedJobs = async (facultyMemberId: number) => {
         .where({ facultyMemberId: facultyMemberId })
         .leftJoinAndSelect('job.department', 'department')
         .leftJoinAndSelect('department.college', 'college')
-        .getMany();
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount();
 };
