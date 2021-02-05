@@ -14,5 +14,5 @@ export const facultyMemberProfileSchema = Joi.object({
 
 export const getPostedJobsSchema = Joi.object({
     page: Joi.string().required(),
-    numOfItems: Joi.string().required(),
+    numOfItems: Joi.string().required()
 });

@@ -133,11 +133,23 @@ router.get(
         const { page, numOfItems } = req.query;
 
         try {
-            const [jobs, jobsCount] = await getPostedJobs(
+            const getPostedJobsResult = await getPostedJobs(
                 specificUserId,
                 parseInt(page),
-                parseInt(numOfItems));
-            return res.status(OK).json({ jobs, jobsCount }).end();
+                parseInt(numOfItems)
+            );
+            if (getPostedJobsResult) {
+                const [jobs, jobsCount] = getPostedJobsResult;
+                return res.status(OK).json({ jobs, jobsCount }).end();
+            } else {
+                return res
+                    .status(BAD_REQUEST)
+                    .json({
+                        error:
+                            "Faculty member's id  provided does not belong to any record",
+                    })
+                    .end();
+            }
         } catch (error) {
             logger.err(error);
             return res
