@@ -1,7 +1,6 @@
 import React from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import Grid from '@material-ui/core/Grid';
-import { Pagination } from '@material-ui/lab';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 
@@ -9,6 +8,7 @@ import Card from 'Components/Card';
 import SubmitButton from 'Components/SubmitButton';
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
+import usePagination from 'hooks/usePagination';
 import { TextFormField } from 'Components/TextFormField';
 import {
     IStudentPreview,
@@ -53,9 +53,7 @@ const formSchema = yup.object({
         .length(9, 'SID must contain 9 digits')
         .optional(),
 });
-
 const numOfItems = 5;
-
 function StudentSearchForm() {
     const [formState, setFormState] = React.useState<IStudentSearchForm>(
         formInitialValues
@@ -63,8 +61,15 @@ function StudentSearchForm() {
     const [studentPreviews, setStudentPreviews] = React.useState<
         IStudentPreview[]
     >([]);
-    const [page, setPage] = React.useState(1);
-    const [numOfPages, setNumOfPages] = React.useState(0);
+
+    const [
+        page,
+        setPage,
+        ,
+        setNumOfPages,
+        PaginationProps,
+        Pagination,
+    ] = usePagination();
     const [snack] = useSnack();
     const request = React.useCallback(
         () =>
@@ -83,31 +88,18 @@ function StudentSearchForm() {
 
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: (response) => {
-            const studentPreviews = response.data.studentPreviews;
-            console.log(studentPreviews);
-            const count = response.data.studentsCount;
+            const { studentPreviews, studentsCount } = response.data;
             if (studentPreviews.length === 0) {
                 snack('No students were found', 'warning');
             } else {
-                setNumOfPages(Math.ceil(count / numOfItems));
+                setNumOfPages(Math.ceil(studentsCount / numOfItems));
                 setStudentPreviews(studentPreviews);
             }
         },
     });
 
-    const handlePageChange = (
-        event: React.ChangeEvent<unknown>,
-        value: number
-    ) => {
-        setPage(value);
-        sendRequest();
-        window.scrollTo(0, 0);
-    };
-
     const handleSearchAgain = () => {
-        if (page > 0) {
-            setPage(1);
-        }
+        if (page > 0) setPage(1);
         sendRequest();
     };
 
@@ -185,17 +177,7 @@ function StudentSearchForm() {
                     ></StudentsList>
                 )}
             </div>
-            {numOfPages > 1 && (
-                <Grid container justify='center' style={{ marginTop: 50 }}>
-                    <Pagination
-                        color='primary'
-                        shape='rounded'
-                        page={page}
-                        count={numOfPages}
-                        onChange={handlePageChange}
-                    />
-                </Grid>
-            )}
+            <Pagination {...PaginationProps} onPageChange={sendRequest} />
         </div>
     );
 }
