@@ -5,7 +5,7 @@ import {
     ManyToOne,
     BaseEntity,
 } from 'typeorm';
-import { Student } from '../entities/student';
+import { Student } from './student';
 
 @Entity()
 export class Document extends BaseEntity {
@@ -24,6 +24,6 @@ export class Document extends BaseEntity {
     @Column({ type: 'bytea', nullable: false })
     document: Buffer;
 
-    @ManyToOne(() => Student, (student) => (student.documents))
+    @ManyToOne(() => Student, (student) => (student.document))
     public student: Student;
 }

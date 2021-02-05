@@ -14,6 +14,7 @@ import { User } from './user';
 import { Course } from './course';
 import { Department } from './department';
 import { JobApplication } from './jobApplication';
+import { Document } from './document'
 
 export type classStandings = 'Freshman' | 'Sophomore' | 'Junior' | 'Senior';
 @Entity()
@@ -58,4 +59,7 @@ export class Student extends BaseEntity {
 
     @OneToMany(() => JobApplication, (jobApplication) => jobApplication.student)
     public jobApplications: JobApplication[];
+
+    @OneToMany(() => Document, (document) => document.student)
+    public document: Document[];
 }
