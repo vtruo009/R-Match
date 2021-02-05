@@ -24,6 +24,6 @@ export class Document extends BaseEntity {
     @Column({ type: 'bytea', nullable: false })
     document: Buffer;
 
-    @ManyToOne(() => Student, (student) => (student.document))
+    @ManyToOne(() => Student, (student) => (student.documents))
     public student: Student;
 }

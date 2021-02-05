@@ -60,6 +60,6 @@ export class Student extends BaseEntity {
     @OneToMany(() => JobApplication, (jobApplication) => jobApplication.student)
     public jobApplications: JobApplication[];
 
-    @OneToMany(() => Document, (document) => document.student)
-    public document: Document[];
+    @OneToMany(() => Document, (documents) => documents.student)
+    public documents: Document[];
 }
