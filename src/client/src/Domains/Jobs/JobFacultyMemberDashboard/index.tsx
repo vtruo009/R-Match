@@ -9,7 +9,8 @@ import Loader from 'Components/Loader';
 function JobFacultyMemberDashBoard() {
     const [jobs, setJobs] = React.useState<IJob[]>([]);
     const [snack] = useSnack();
-    const getPostedJobsRequest = React.useCallback(() => getPostedJobs(), []);
+    // TODO: Update the parameters of getPostedJobs in the line below.
+    const getPostedJobsRequest = React.useCallback(() => getPostedJobs(1, 100), []);
     const [sendRequest, isLoading] = useApi(getPostedJobsRequest, {
         onSuccess: (response) => {
             const jobs = response.data.jobs;
