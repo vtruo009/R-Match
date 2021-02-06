@@ -11,7 +11,6 @@ const numOfItems = 5;
 function JobFacultyMemberDashBoard() {
     const [jobs, setJobs] = React.useState<IJob[]>([]);
     const [snack] = useSnack();
-    // TODO: Update the parameters of getPostedJobs in the line below.
     const [
         page,
         ,
