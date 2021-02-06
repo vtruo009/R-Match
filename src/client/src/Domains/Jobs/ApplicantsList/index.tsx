@@ -20,17 +20,17 @@ interface ApplicantsListProps {
 
 interface IApplicantSearchForm {
     classStandings?: classStandingTypes[];
-    gpa?: string;
+    minimumGpa?: string;
 }
 
 const formInitialValues: IApplicantSearchForm = {
     classStandings: [],
-    gpa: '',
+    minimumGpa: '',
 };
 
 const formSchema = yup.object({
     classStandings: yup.array(yup.string()).optional(),
-    gpa: yup
+    minimumGpa: yup
         .string()
         .matches(
             /^[0]|[0-3]\.(\d?\d?)|[4].[0]$/,
@@ -61,7 +61,7 @@ function ApplicantsList({ jobId }: ApplicantsListProps) {
                 page,
                 numOfItems,
                 formState.classStandings,
-                formState.gpa
+                formState.minimumGpa
             ),
         [jobId, page, formState]
     );
@@ -117,8 +117,8 @@ function ApplicantsList({ jobId }: ApplicantsListProps) {
                                 </Grid>
                                 <Grid item md={3} xs={12}>
                                     <Field
-                                        name='gpa'
-                                        label='GPA'
+                                        name='minimumGpa'
+                                        label='Minimum GPA'
                                         component={TextFormField}
                                     />
                                 </Grid>

@@ -170,15 +170,15 @@ export async function deleteJob(jobId: number) {
     return API.delete(`/job/delete/${jobId}`);
 }
 
-export async function getPostedJobs(
-    page: number,
-    numOfItems: number
-) {
+export async function getPostedJobs(page: number, numOfItems: number) {
     const params = {
-        page, numOfItems
+        page,
+        numOfItems,
     };
-    return API.get<{ jobs: IJob[]; jobsCount: number }>
-        ('/faculty-member/get-posted-jobs', { params });
+    return API.get<{ jobs: IJob[]; jobsCount: number }>(
+        '/faculty-member/get-posted-jobs',
+        { params }
+    );
 }
 
 export async function getAppliedJobs() {
@@ -210,13 +210,13 @@ export async function getJobApplicants(
     page: number,
     numOfItems: number,
     classStandings?: classStandingTypes[],
-    gpa?: string
+    minimumGpa?: string
 ) {
     const params = {
         page,
         numOfItems,
         classStandings,
-        gpa,
+        minimumGpa,
     };
     console.log(params);
     return API.get<{
