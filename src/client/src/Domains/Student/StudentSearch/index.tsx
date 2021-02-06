@@ -156,7 +156,7 @@ function StudentSearchForm() {
                                 </Grid>
                                 <Field
                                     component={AcademicInfo}
-                                    // multipleDepartments
+                                    multipleDepartments
                                 />
                                 <Grid item xs={12}>
                                     <SubmitButton

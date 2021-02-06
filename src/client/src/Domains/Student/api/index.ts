@@ -104,7 +104,7 @@ export async function getStudents(
     firstName?: string,
     lastName?: string,
     classStandings?: classStandingTypes[],
-    departmentId?: number[],
+    departmentIds?: number[],
     email?: string,
     sid?: string
 ) {
@@ -114,8 +114,7 @@ export async function getStudents(
         firstName,
         lastName,
         classStandings,
-        // TODO: FIX MAKE DEPARTMENT IDS BE ARRAY
-        departmentIds: [],
+        departmentIds,
         email,
         sid,
     };
