@@ -1,5 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import SearchIcon from '@material-ui/icons/Search';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 
@@ -129,7 +130,8 @@ function ApplicantsList({ jobId }: ApplicantsListProps) {
                                 <Grid item md={4} xs={12}>
                                     <SubmitButton
                                         isLoading={isLoading}
-                                        label='Filter'
+                                        label='Search'
+                                        startIcon={<SearchIcon />}
                                     />
                                 </Grid>
                             </Grid>
