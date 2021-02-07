@@ -5,17 +5,18 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import Card from 'Components/Card';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
+const useStyles = makeStyles((theme: Theme) => {
+    const selectedColor = '#efefef';
+    return createStyles({
         NonSelected: {
-            '&:hover': { backgroundColor: '#efefef' },
+            '&:hover': { backgroundColor: selectedColor },
         },
         Selected: {
-            backgroundColor: '#efefef',
+            backgroundColor: selectedColor,
             borderColor: theme.palette.primary.main,
         },
-    })
-);
+    });
+});
 
 interface CardPreviewProps {
     visual: JSX.Element;

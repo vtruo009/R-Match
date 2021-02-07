@@ -6,11 +6,11 @@ import StudentPreview from 'Domains/Student/StudentPreview';
 import StudentProfile from 'Domains/Student/StudentProfile';
 import { IStudentPreview } from 'Domains/Student/api';
 
-interface StudentsResultProps {
+interface StudentsListProps {
     studentPreviews: IStudentPreview[];
 }
 
-function StudentsList({ studentPreviews }: StudentsResultProps) {
+function StudentsList({ studentPreviews }: StudentsListProps) {
     const [, openDialog, , DialogProps, Dialog] = useDialog();
     const [studentIdSelected, setStudentIdSelected] = React.useState(0);
     return (

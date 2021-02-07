@@ -11,14 +11,12 @@ const numOfItems = 5;
 function JobFacultyMemberDashBoard() {
     const [jobs, setJobs] = React.useState<IJob[]>([]);
     const [snack] = useSnack();
-    const [
+    const {
         page,
-        ,
-        ,
         setNumOfPages,
         PaginationProps,
         Pagination,
-    ] = usePagination();
+    } = usePagination();
     const getPostedJobsRequest = React.useCallback(
         () => getPostedJobs(page, numOfItems),
         [page]

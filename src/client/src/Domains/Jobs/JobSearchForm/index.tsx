@@ -50,14 +50,13 @@ function JobSearchForm({ setJobs, children }: JobSearchFormProps) {
     const [formState, setFormState] = React.useState<JobSearchFormType>(
         formInitialValues
     );
-    const [
+    const {
         page,
         setPage,
-        ,
         setNumOfPages,
         PaginationProps,
         Pagination,
-    ] = usePagination();
+    } = usePagination();
     const [snack] = useSnack();
     const request = React.useCallback(
         () =>
@@ -93,7 +92,7 @@ function JobSearchForm({ setJobs, children }: JobSearchFormProps) {
 
     return (
         <div>
-            <Card style={{ borderRadius: 25, padding: 40 }}>
+            <Card>
                 <Formik
                     validationSchema={formSchema}
                     initialValues={formInitialValues}
@@ -103,7 +102,7 @@ function JobSearchForm({ setJobs, children }: JobSearchFormProps) {
                     }}
                 >
                     {() => (
-                        <Form>
+                        <Form style={{ padding: 10 }}>
                             <Grid
                                 container
                                 spacing={4}

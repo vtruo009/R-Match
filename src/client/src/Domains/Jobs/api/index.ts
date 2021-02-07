@@ -219,7 +219,6 @@ export async function getJobApplicants(
         minimumGpa,
         departmentIds,
     };
-    console.log(params);
     return API.get<{
         jobApplicants: IJobApplicants[];
         jobApplicantsCount: number;

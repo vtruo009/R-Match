@@ -79,7 +79,6 @@ function JobActions({ job, hasPermission }: JobActionsProps) {
                     size='small'
                     variant='outlined'
                     startIcon={<CloseIcon />}
-                    color='secondary'
                 >
                     Close
                 </Button>
@@ -90,7 +89,6 @@ function JobActions({ job, hasPermission }: JobActionsProps) {
                     size='small'
                     variant='outlined'
                     startIcon={<OpenIcon />}
-                    color='secondary'
                 >
                     Open
                 </Button>

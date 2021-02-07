@@ -1,8 +1,8 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { AuthContext } from 'Contexts/AuthContext';
 
+import { AuthContext } from 'Contexts/AuthContext';
 import Card from 'Components/Card';
 import useDialog from 'hooks/useDialog';
 import useApi from 'hooks/useApi';
@@ -14,10 +14,6 @@ import StudentProfileForm from 'Domains/Student/StudentProfileForm';
 import StudentWorkExperiencesPreview from 'Domains/Student/StudentWorkExperiencesPreview';
 import { getStudentProfile, IStudent } from 'Domains/Student/api';
 
-/*interface StudentsProps {
-    students: IStudent[];
-}
-*/
 
 const workExperiencesDummy = [
     {

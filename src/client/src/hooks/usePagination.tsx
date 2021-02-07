@@ -27,7 +27,6 @@ function Pagination({
         newPage: number
     ) => {
         if (scrollToTopAfterChange) window.scrollTo(0, 0);
-
         setPage(newPage);
         onPageChange();
     };
@@ -48,14 +47,14 @@ function Pagination({
     );
 }
 
-type usePaginationReturn = [
-    page: number,
-    setPage: (num: number) => void,
-    numOfPages: number,
-    setNumOfPages: (num: number) => void,
-    PaginationProps: PaginationProps,
-    Pagination: any
-];
+type usePaginationReturn = {
+    page: number;
+    setPage: (num: number) => void;
+    numOfPages: number;
+    setNumOfPages: (num: number) => void;
+    PaginationProps: PaginationProps;
+    Pagination: any;
+};
 
 export default function usePagination(): usePaginationReturn {
     const [page, setPage] = React.useState(1);
@@ -67,15 +66,15 @@ export default function usePagination(): usePaginationReturn {
         setNumOfPages,
         setPage,
         onPageChange: () => {},
-        scrollToTopAfterChange: true
+        scrollToTopAfterChange: true,
     };
 
-    return [
+    return {
         page,
         setPage,
         numOfPages,
         setNumOfPages,
         PaginationProps,
         Pagination,
-    ];
+    };
 }

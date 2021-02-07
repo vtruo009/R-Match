@@ -50,14 +50,13 @@ function ApplicantsList({ jobId }: ApplicantsListProps) {
     const [formState, setFormState] = React.useState<IApplicantSearchForm>(
         formInitialValues
     );
-    const [
+    const {
         page,
         setPage,
-        ,
         setNumOfPages,
         PaginationProps,
         Pagination,
-    ] = usePagination();
+    } = usePagination();
     const [applicants, setApplicants] = React.useState<IStudentPreview[]>([]);
     const request = React.useCallback(
         () =>
@@ -95,7 +94,7 @@ function ApplicantsList({ jobId }: ApplicantsListProps) {
 
     return (
         <div>
-            <Card style={{ borderRadius: 25, padding: 40 }}>
+            <Card>
                 <Formik
                     validationSchema={formSchema}
                     initialValues={formInitialValues}
@@ -105,12 +104,12 @@ function ApplicantsList({ jobId }: ApplicantsListProps) {
                     }}
                 >
                     {() => (
-                        <Form>
+                        <Form style={{ padding: 10 }}>
                             <Grid container spacing={4} alignItems='center'>
                                 <Grid item md={6} xs={12}>
                                     <Field
                                         name='classStandings'
-                                        label='Class standing'
+                                        label='Class standings'
                                         multiple
                                         options={classStandingValues}
                                         component={SelectFormField}

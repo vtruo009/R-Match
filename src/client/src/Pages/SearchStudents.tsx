@@ -1,8 +1,8 @@
 import React from 'react';
-import SearchStudentRoot from 'Domains/Student/StudentSearch';
+import SearchStudentComponent from 'Domains/Student/StudentSearch';
 
 function SearchStudent() {
-    return <SearchStudentRoot />;
+    return <SearchStudentComponent />;
 }
 
 export default SearchStudent;

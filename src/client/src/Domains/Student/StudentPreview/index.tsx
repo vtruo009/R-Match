@@ -12,10 +12,9 @@ interface Props {
 
 function StudentPreview({ studentPreview, onClick, isSelected }: Props) {
     const prepareValues = () => {
-        const departmentName = studentPreview.department?.name;
-        const classStanding = studentPreview.classStanding;
+        const { classStanding, department } = studentPreview;
         return {
-            Major: departmentName ? departmentName : 'Not provided',
+            Major: department?.name ? department?.name : 'Not provided',
             'Class Standing': classStanding ? classStanding : 'Not provided',
         };
     };

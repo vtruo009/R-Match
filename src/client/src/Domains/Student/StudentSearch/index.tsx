@@ -4,11 +4,11 @@ import Grid from '@material-ui/core/Grid';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 
-import Card from 'Components/Card';
-import SubmitButton from 'Components/SubmitButton';
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
 import usePagination from 'hooks/usePagination';
+import Card from 'Components/Card';
+import SubmitButton from 'Components/SubmitButton';
 import { TextFormField } from 'Components/TextFormField';
 import {
     IStudentPreview,
@@ -24,7 +24,6 @@ interface IStudentSearchForm {
     firstName?: string;
     lastName?: string;
     classStandings?: classStandingTypes[];
-    collegeId?: number;
     departmentId?: number[];
     email?: string;
     sid?: string;
@@ -34,7 +33,6 @@ const formInitialValues: IStudentSearchForm = {
     firstName: '',
     lastName: '',
     classStandings: [],
-    collegeId: undefined,
     departmentId: [],
     email: '',
     sid: '',
@@ -44,7 +42,6 @@ const formSchema = yup.object({
     firstName: yup.string().optional(),
     lastName: yup.string().optional(),
     classStandings: yup.array(yup.string()).optional(),
-    collegeId: yup.number().optional(),
     departmentId: yup.array(yup.number()).optional(),
     email: yup.string().optional().email('Please enter valid email.'),
     sid: yup
@@ -61,15 +58,13 @@ function StudentSearchForm() {
     const [studentPreviews, setStudentPreviews] = React.useState<
         IStudentPreview[]
     >([]);
-
-    const [
+    const {
         page,
         setPage,
-        ,
         setNumOfPages,
         PaginationProps,
         Pagination,
-    ] = usePagination();
+    } = usePagination();
     const [snack] = useSnack();
     const request = React.useCallback(
         () =>
@@ -85,7 +80,6 @@ function StudentSearchForm() {
             ),
         [formState, page]
     );
-
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: (response) => {
             const { studentPreviews, studentsCount } = response.data;
@@ -97,7 +91,6 @@ function StudentSearchForm() {
             }
         },
     });
-
     const handleSearchAgain = () => {
         if (page > 0) setPage(1);
         sendRequest();
@@ -105,7 +98,7 @@ function StudentSearchForm() {
 
     return (
         <div>
-            <Card style={{ borderRadius: 25, padding: 40 }}>
+            <Card>
                 <Formik
                     validationSchema={formSchema}
                     initialValues={formInitialValues}
@@ -115,7 +108,7 @@ function StudentSearchForm() {
                     }}
                 >
                     {() => (
-                        <Form>
+                        <Form style={{ padding: 10 }}>
                             <Grid container spacing={4}>
                                 <Grid item md={4} xs={12}>
                                     <Field
@@ -134,7 +127,7 @@ function StudentSearchForm() {
                                 <Grid item md={4} xs={12}>
                                     <Field
                                         name='classStandings'
-                                        label='Class standing'
+                                        label='Class standings'
                                         multiple
                                         options={classStandingValues}
                                         component={SelectFormField}

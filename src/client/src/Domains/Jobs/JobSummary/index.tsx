@@ -22,15 +22,8 @@ const SubTitle = ({ title }: SubTitleProps) => (
 function JobSummary({ job, hasPermission }: JobSummaryProps) {
     return (
         <div>
-            <Card
-                style={{
-                    padding: 40,
-                    borderRadius: 25,
-                    position: 'sticky',
-                    top: '100px',
-                }}
-            >
-                <Grid container spacing={3}>
+            <Card>
+                <Grid container spacing={3} style={{ padding: 20 }}>
                     <Grid container item justify='space-between'>
                         <Grid item xs={6}>
                             <Typography variant='h5' color='primary'>

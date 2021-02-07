@@ -1,6 +1,6 @@
 import API from 'api';
-import { IFacultyMemberProfileForm } from 'Domains/FacultyMember/FacultyMemberProfileForm';
 import { IDepartment, ICourse } from 'Components/AcademicInfo/api';
+import { IFacultyMemberProfileForm } from 'Domains/FacultyMember/FacultyMemberProfileForm';
 import { IUser } from 'Domains/Accounts/api';
 
 export interface IFacultyMember {

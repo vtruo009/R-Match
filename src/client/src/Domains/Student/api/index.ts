@@ -1,11 +1,12 @@
 import API from 'api';
-import { IStudentProfileForm } from 'Domains/Student/StudentProfileForm';
-import { IUser } from 'Domains/Accounts/api';
 import {
     ICourse,
     IDepartment,
     _IDepartment,
 } from 'Components/AcademicInfo/api';
+import { IStudentProfileForm } from 'Domains/Student/StudentProfileForm';
+import { IUser } from 'Domains/Accounts/api';
+
 export const classStandingValues = [
     {
         label: 'Freshman',
