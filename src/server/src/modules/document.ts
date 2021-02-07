@@ -1,6 +1,6 @@
 import { Document } from '@entities/document';
 import { Student } from '@entities/student';
-import { getRepository, UpdateResult } from 'typeorm';
+import { getRepository } from 'typeorm';
 
 /* find a student by id? */
 /**

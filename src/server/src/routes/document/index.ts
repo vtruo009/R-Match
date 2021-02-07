@@ -10,7 +10,6 @@ import {
 import { JWTUser } from '@entities/user';
 import logger from '@shared/Logger';
 import passport from 'passport';
-import { ReplOptions } from 'repl';
 
 const router = Router();
 const {
