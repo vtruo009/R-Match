@@ -12,75 +12,70 @@ export const findWorkExperience = (id: WorkExperience['id']) => {
 };
 
 /**
- * @description Saves a new work experience. Assigns relationships with student table.
+ * @description Saves a new work experience. Assigns relationships with student table
+ * @param {string} description - Description of the work experience
+ * @param {string} employer - Employer of the work experience
  * @param {Date} startDate - Start date of the work experience
  * @param {Date} endDate - End date of the work experience
  * @param {string} title - Title of the work experience
- * @param {string} employer - Name of the employer for the work experience
- * @param {string} description - Description for the work experience
- * @param {number} studentId - ID of the student that added the workk experience
+ * @param {number} studentId - Id of the student that posted the work experience
  * @returns Promise
  */
-
-export const addWorkExperience = async (
+export const createWorkExperience = async (
+    description: WorkExperience['description'],
+    employer: WorkExperience['employer'],
     startDate: WorkExperience['startDate'],
     endDate: WorkExperience['endDate'],
     title: WorkExperience['title'],
-    employer: WorkExperience['employer'],
-    description: WorkExperience['description'],
-    studentId: WorkExperience['studentId'],
-    ) => {
-        const insertResult: { result?: WorkExperience; message: string } = {
-            result: undefined,
-            message: '',
-        };
-        
-        const startDateAsDate = new Date(startDate);
+    studentId: WorkExperience['studentId']
+) => {
+    const insertResult: { result?: WorkExperience; message: string } = {
+        result: undefined,
+        message: '',
+    };
 
-        let endDateAsDate;
-        if (endDate) {
-            endDateAsDate = new Date(endDate);
-        }
+    const startDateAsDate = new Date(startDate);
 
-        const today = new Date(); 
-        const studentRepository = getRepository(Student);
+    let endDateAsDate;
+    if (endDate) {
+        endDateAsDate = new Date(endDate);
+    }
 
-        const studentToUpdate = await studentRepository.findOne({
-            where: { id: studentId },
-        });
-        if (!studentToUpdate) {
-            insertResult.message = 
-        'Student that posted the work experience does not exist';
-            return insertResult; 
-            }
-            
-        const workExperiencetoInsert = await WorkExperience.create({
-            startDate: startDateAsDate,
-            endDate: endDateAsDate,
-            title,
-            employer,
-            description,
-            studentId,
-       }).save();
+    const today = new Date();
+    const studentRepository = getRepository(Student);
 
-       insertResult.result
-       insertResult.message = 'Work experience sucessfully inserted'
-        };
+    const studentToUpdate = await studentRepository.findOne({
+        where: { id: studentId },
+    });
+    if (!studentToUpdate) {
+        insertResult.message =
+            'Faculty member that posted the job does not exist';
+        return insertResult;
+    }
+
+    const workExperienceToInsert = await WorkExperience.create({
+        description,
+        startDate: startDateAsDate,
+        employer,
+        title,
+        endDate: endDateAsDate,
+        studentId,
+    }).save();
+
+    insertResult.result = workExperienceToInsert;
+    insertResult.message = 'Work experience successfully inserted';
+    return insertResult;
+};
 
 export const getWorkExperiences = (
     title: string,
-    types: string[],
     startDate: string,
-    minSalary: number,
-    hoursPerWeek: number,
-    page: number,
+    endDate: string, 
+    employer: string, 
     numOfItems: number
     ) => {
         let modType = 'none';
         let modStart;
-        if (types) {
-            modType = types.join(',');
-        }
         if (startDate) {
             modStart = new Date(startDate);
             let month = modStart.getMonth() + 1;
@@ -103,7 +98,6 @@ export const getWorkExperiences = (
                 .where('LOWER(workExperience.title) LIKE :title', {
                     title: `%${title.toLowerCase()}%`,
                 })
-                .orWhere('workExperience.type IN (:...types)', { types })
                 .orWhere('workExperience.type LIKE :type', { type: `%${modType}%` })
                 .orWhere('workExperience.startDate >= :startDate', { startDate: modStart })
                 .take(numOfItems)
