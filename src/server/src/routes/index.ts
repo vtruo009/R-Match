@@ -8,6 +8,7 @@ import collegeRouter from './college';
 import departmentRouter from './department';
 import courseRouter from './course';
 import messageRouter from './message';
+import documentRouter from './document';
 // Init router and path
 const router = Router();
 
@@ -21,5 +22,6 @@ router.use('/college', collegeRouter);
 router.use('/course', courseRouter);
 router.use('/department', departmentRouter);
 router.use('/message', messageRouter);
+router.use('/document', documentRouter);
 // Export the base-router
 export default router;
