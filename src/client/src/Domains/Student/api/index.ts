@@ -40,14 +40,14 @@ export interface IStudent {
     workDescription: string;
 }
 
-/*export interface IWorkExperiences {
-    workStartDate:string; 
-    workEndDate?:string; 
-    workTitle:string; 
-    workEmployer:string; 
-    workDescription: string;
+export interface IWorkExperience {
+    id: number;
+    startDate: string;
+    endDate?: string;
+    title: string;
+    employer: string;
+    description: string;
 }
-*/
 
 export async function updateStudentProfile(
     studentProfile: IStudentProfileForm
