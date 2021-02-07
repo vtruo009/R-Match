@@ -26,7 +26,7 @@ export class Document extends BaseEntity {
     @Column({ nullable: true })
     isDefault: boolean;
 
-    @Column({ nullable: true}) //should false
+    @Column()
     dateAdded: Date;
 
     @Column({ type: 'bytea', nullable: false })
