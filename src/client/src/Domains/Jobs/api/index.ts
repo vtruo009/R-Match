@@ -13,7 +13,7 @@ export type jobType =
     | 'tutor'
     | 'other';
 
-export type targetYearsType = 'Freshman' | 'Sophmore' | 'Junior' | 'Senior';
+export type targetYearsType = 'Freshman' | 'Sophomore' | 'Junior' | 'Senior';
 
 export type statusType = 'Hiring' | 'Closed';
 
@@ -96,7 +96,6 @@ export interface IJobApplication {
     studentId: number;
 }
 
-// TODO: Tow job application interfaces, change their names or make on that is reusable for both use cases
 interface IJobApplicants {
     id: number;
     date: string;
@@ -210,13 +209,15 @@ export async function getJobApplicants(
     page: number,
     numOfItems: number,
     classStandings?: classStandingTypes[],
-    minimumGpa?: string
+    minimumGpa?: string,
+    departmentIds?: number[]
 ) {
     const params = {
         page,
         numOfItems,
         classStandings,
         minimumGpa,
+        departmentIds,
     };
     console.log(params);
     return API.get<{

@@ -4,6 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 
 import Card from 'Components/Card';
+import AcademicInfo from 'Components/AcademicInfo';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import SubmitButton from 'Components/SubmitButton';
@@ -21,11 +22,13 @@ interface ApplicantsListProps {
 interface IApplicantSearchForm {
     classStandings?: classStandingTypes[];
     minimumGpa?: string;
+    departmentId?: number[];
 }
 
 const formInitialValues: IApplicantSearchForm = {
     classStandings: [],
     minimumGpa: '',
+    departmentId: [],
 };
 
 const formSchema = yup.object({
@@ -38,6 +41,7 @@ const formSchema = yup.object({
         )
         .optional()
         .nullable(),
+    departmentId: yup.array(yup.number()).optional(),
 });
 
 const numOfItems = 5;
@@ -61,7 +65,8 @@ function ApplicantsList({ jobId }: ApplicantsListProps) {
                 page,
                 numOfItems,
                 formState.classStandings,
-                formState.minimumGpa
+                formState.minimumGpa,
+                formState.departmentId
             ),
         [jobId, page, formState]
     );
@@ -100,13 +105,8 @@ function ApplicantsList({ jobId }: ApplicantsListProps) {
                 >
                     {() => (
                         <Form>
-                            <Grid
-                                container
-                                spacing={4}
-                                alignItems='center'
-                                justify='center'
-                            >
-                                <Grid item md={3} xs={12}>
+                            <Grid container spacing={4} alignItems='center'>
+                                <Grid item md={6} xs={12}>
                                     <Field
                                         name='classStandings'
                                         label='Class standing'
@@ -115,14 +115,18 @@ function ApplicantsList({ jobId }: ApplicantsListProps) {
                                         component={SelectFormField}
                                     />
                                 </Grid>
-                                <Grid item md={3} xs={12}>
+                                <Grid item md={6} xs={12}>
                                     <Field
                                         name='minimumGpa'
                                         label='Minimum GPA'
                                         component={TextFormField}
                                     />
                                 </Grid>
-                                <Grid item md={3} xs={12}>
+                                <Field
+                                    component={AcademicInfo}
+                                    multipleDepartments
+                                />
+                                <Grid item md={4} xs={12}>
                                     <SubmitButton
                                         isLoading={isLoading}
                                         label='Filter'
