@@ -12,11 +12,11 @@ import {
     closeJob,
     openJob,
     applyToJob,
+    getJobApplications,
 } from '@modules/job';
 import { JWTUser } from '@entities/user';
 import logger from '@shared/Logger';
 import { validationMiddleware } from '@middlewares/validation';
-import { getJobApplications } from '@modules/job';
 import {
     jobCreateSchema,
     jobUpdateSchema,
