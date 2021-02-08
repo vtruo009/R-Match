@@ -10,7 +10,6 @@ import { User } from '@entities/user';
 import { signToken } from '@lib/jwt';
 import { validationMiddleware } from '@middlewares/validation';
 import { signUpSchema, signInSchema } from './schemas';
-import { clientPath } from '@app/index';
 
 const router = Router();
 const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
