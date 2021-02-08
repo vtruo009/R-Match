@@ -490,10 +490,10 @@ Faculty Member API
         -   Parameters:
             ```
             {
-                jobId: number;
+                jobId: string;
                 departmentIds: string[];
-                classStandings: 'freshman' | 'sophomore' | 'junior' | 'senior'[];
-                minimumGpa: number;
+                classStandings: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior'[];
+                minimumGpa: string;
             };
             ```
         -   Response:
@@ -501,7 +501,7 @@ Faculty Member API
                 Status code: 200
                 ```
                 {
-                    result: {
+                    students: {
                         id: number,
                         date: Date,
                         jobId: number,
@@ -509,7 +509,7 @@ Faculty Member API
                         student: {
                             id: number,
                             sid: number,
-                            classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior',
+                            classStanding: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior',
                             user: {
                                 id: number,
                                 email: : string,

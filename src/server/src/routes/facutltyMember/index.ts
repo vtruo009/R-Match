@@ -213,7 +213,7 @@ router.get(
                 parseFloat(minimumGpa),
             );
             return result
-                ? res.status(OK).json({ result }).end()
+                ? res.status(OK).json({ students: result }).end()
                 : res.status(BAD_REQUEST).json({ error: message });
         } catch (error) {
             logger.err(error);

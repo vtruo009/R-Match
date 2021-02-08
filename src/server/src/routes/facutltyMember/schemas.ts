@@ -22,7 +22,7 @@ export const getApplicantsSchema = Joi.object({
     departmentIds: Joi.array().allow('').items(Joi.number()).required(),
     classStandings: Joi.array()
         .allow('')
-        .items(Joi.string().valid('Freshman', 'Sophmore', 'Junior', 'Senior'))
+        .items(Joi.string().valid('Freshman', 'Sophomore', 'Junior', 'Senior'))
         .required(),
     minimumGpa: Joi.string().optional()
 });
