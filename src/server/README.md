@@ -132,7 +132,7 @@ Job API
                 -   Internal server error -> Status code: 500
 
     -   api/job/delete/:id
-        -   Deletes an existing job object from the database.
+        -   Deletes an existing job object and relevant job applications from the database.
         -   Body: None
         -   Authorization restrictions:
             -   User must be logged in

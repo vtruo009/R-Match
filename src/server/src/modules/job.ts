@@ -1,7 +1,7 @@
 import { Job } from '@entities/job';
 import { FacultyMember } from '@entities/facultyMember';
 import { findDepartment } from '@modules/department';
-import { getRepository, UpdateResult } from 'typeorm';
+import { getRepository, getConnection, UpdateResult } from 'typeorm';
 import { JobApplication } from '@entities/jobApplication';
 import { Student } from '@entities/student';
 
@@ -240,11 +240,18 @@ export const updateJob = async (job: Job) => {
 };
 
 /**
- * @description Deletes an existing job from the database
+ * @description Deletes an existing job and relevant job applications from the database
  * @param {number} id - Id of job to delete
  * @returns Promise
  */
-export const deleteJob = (id: Job['id']) => {
+export const deleteJob = async (id: Job['id']) => {
+    await getConnection()
+        .createQueryBuilder()
+        .delete()
+        .from(JobApplication, "jobApplication")
+        .where({ jobId: id })
+        .execute();
+
     return Job.delete(id);
 };
 
