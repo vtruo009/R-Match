@@ -68,9 +68,10 @@ router.post(
                 specificUserId,
             } = req.user as JWTUser;
             const token = signToken(userId);
+            const isCookieSecure = process.env.NODE_ENV === 'production';
             res.cookie('access_token', token, {
                 httpOnly: false,
-                secure: process.env.NODE_ENV === 'production',
+                secure: isCookieSecure,
                 sameSite: 'strict',
                 // domain: clientPath,
             });
