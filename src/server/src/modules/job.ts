@@ -1,6 +1,7 @@
 import { Job } from '@entities/job';
 import { FacultyMember } from '@entities/facultyMember';
 import { findDepartment } from '@modules/department';
+import { getJobApplications } from '@modules/student';
 import { getRepository, UpdateResult } from 'typeorm';
 import { JobApplication } from '@entities/jobApplication';
 import { Student } from '@entities/student';
@@ -16,6 +17,7 @@ export const findJob = (id: Job['id']) => {
 
 /**
  * @description Saves a new job. Assigns relationships with department and facultyMember tables
+ * @param {number} studentId - Student id of the logged in student
  * @param {string[]} targetYears - School years targeted by the job
  * @param {number} hoursPerWeek - Number of hours per week required by the job
  * @param {string} description - Description of the job
@@ -111,7 +113,8 @@ export const createJob = async (
     return insertResult;
 };
 
-export const getJobs = (
+export const getJobs = async (
+    studentId: number,
     title: string,
     types: string[],
     startDate: string,
@@ -132,6 +135,13 @@ export const getJobs = (
         let year = modStart.getFullYear();
         modStart = month + '/' + date + '/' + year;
     }
+
+    const jobApplications = await getJobApplications(studentId);
+
+    if (!jobApplications) return undefined;
+
+    const appliedJobIds = jobApplications.map((jobApplication) => jobApplication.jobId);
+
     return (
         getRepository(Job)
             .createQueryBuilder('job')
@@ -146,17 +156,26 @@ export const getJobs = (
             .leftJoin('job.facultyMember', 'facultyMember')
             .leftJoin('facultyMember.user', 'user')
             .leftJoinAndSelect('job.department', 'department')
-            .where('LOWER(job.title) LIKE :title', {
-                title: `%${title.toLowerCase()}%`,
+            .where(`(LOWER(job.title) LIKE :title 
+                    OR job.type IN (:...types)
+                    OR job.type LIKE :type
+                    OR job.startDate >= :startDate
+                    OR job.minSalary >= :minSalary
+                    OR job.hoursPerWeek >= :hoursPerWeek)`, {
+                    title: `%${title.toLowerCase()}%`,
+                    types,
+                    type: `%${modType}%`,
+                    startDate: modStart,
+                    minSalary,
+                    hoursPerWeek
+
             })
-            .orWhere('job.type IN (:...types)', { types })
-            .orWhere('job.type LIKE :type', { type: `%${modType}%` })
-            .orWhere('job.startDate >= :startDate', { startDate: modStart })
-            .orWhere('job.minSalary >= :minSalary', { minSalary })
-            .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
-            // .andWhere('job.status LIKE :jobStatus', {
-            //     jobStatus: 'Hiring',
-            // })
+            .andWhere('job.status = :jobStatus', {
+                 jobStatus: 'Hiring',
+            })
+            .andWhere('job.id NOT IN (:...appliedJobIds)', {
+                appliedJobIds
+            })
             .skip((page - 1) * numOfItems)
             .take(numOfItems)
             .getManyAndCount()

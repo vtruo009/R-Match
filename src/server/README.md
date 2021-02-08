@@ -18,9 +18,20 @@ Job API
 
     -   api/job/read
 
-        -   Returns all job records from database.
+        -   Returns open job records that have not been applied by the student based on queries from database.
         -   Body: None
-        -   Parameters: None
+        -   Parameters:
+            ```
+            {
+                title: string;
+                types: string[];
+                startDate?: string;
+                minSalary?: string;
+                hoursPerWeek?: string;
+                page: string;
+                numOfItems: string;
+            };
+            ```
         -   Authorization restrictions:
             -   User must be logged in
         -   Response:
@@ -39,7 +50,7 @@ Job API
                         postedOn: Date,
                         type: string[],
                         title: string,
-                        status: 'Hiring' | 'Closed',
+                        status: 'Hiring',
                         minSalary: number,
                         maxSalary?: number,
                         departmentId: number,

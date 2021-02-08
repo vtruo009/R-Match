@@ -118,12 +118,19 @@ interface JobReadRequest extends Request {
     };
 }
 
-// TODO: Filter out jobs that haven applied by a student
 router.get(
     '/read',
     passport.authenticate('jwt', { session: false }),
     validationMiddleware({ querySchema: jobReadSchema }),
     async (req: JobReadRequest, res: Response) => {
+        //checks that caller is a student.
+        const { role, specificUserId } = req.user as JWTUser;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' });
+        }
+
         const { title, types, page, numOfItems } = req.query;
         let { startDate, minSalary, hoursPerWeek } = req.query;
 
@@ -138,7 +145,8 @@ router.get(
                 startDate = '01/01/3000';
             }
 
-            const [jobs, jobsCount] = await getJobs(
+           const getJobsResult = await getJobs(
+                specificUserId,
                 title,
                 types,
                 startDate,
@@ -147,7 +155,12 @@ router.get(
                 parseInt(page),
                 parseInt(numOfItems)
             );
-            return res.status(OK).json({ jobs, jobsCount }).end();
+
+            if (getJobsResult) {
+                const [jobs, jobsCount] = getJobsResult;
+                return res.status(OK).json({ jobs, jobsCount }).end();
+            }
+            return res.status(BAD_REQUEST).json({ error: 'Student does not exist' });
         } catch (error) {
             logger.err(error);
             return res
