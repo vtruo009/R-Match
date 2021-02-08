@@ -651,10 +651,16 @@ Student API
 
         -   Returns a list of job application records associated with the logged-in student.
         -   Body: None
+        -   Parameters:
+            ```
+            {
+                page: string;
+                numOfItems: string;
+            };
+            ```
         -   Authorization restrictions:
             -   User must be logged in
             -   User must be a student
-        -   Parameters: None
         -   Response:
 
             -   success:
