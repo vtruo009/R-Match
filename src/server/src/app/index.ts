@@ -25,12 +25,11 @@ export const clientPath =
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
-// TODO: Update so that the origin can be also a production URL
 app.use(
     cors({
         credentials: true,
         origin: clientPath,
-        allowedHeaders: 'Content-Type, Authorization, X-Requested-With',
+        // allowedHeaders: 'Content-Type, Authorization, X-Requested-With',
     })
 );
 app.use(passport.initialize());

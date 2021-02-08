@@ -67,17 +67,13 @@ router.post(
                 lastName,
                 specificUserId,
             } = req.user as JWTUser;
-
             const token = signToken(userId);
-
-            const isCookieSecure = process.env.NODE_ENV === 'production';
             res.cookie('access_token', token, {
-                httpOnly: isCookieSecure,
-                secure: isCookieSecure,
-                sameSite: true,
+                httpOnly: false,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
                 // domain: clientPath,
             });
-
             return res
                 .status(OK)
                 .json({
