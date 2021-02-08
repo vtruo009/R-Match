@@ -18,6 +18,7 @@ RUN npm run build \
 FROM node:14-alpine
 WORKDIR /usr/app
 
+COPY --from=build-stage /usr/app/build /usr/app/build
 COPY --from=build-stage /usr/app/ormconfig.json /usr/app/ormconfig.json 
 COPY --from=build-stage /usr/app/package.json  /usr/app/package.json
 COPY --from=build-stage /usr/app/dist /usr/app/dist
@@ -26,4 +27,4 @@ COPY --from=build-stage /usr/app/node_modules /usr/app/node_modules
 EXPOSE 8080
 ENV NODE_PATH=.
 CMD [ "npm" , "run", "start:prod"]
-# CMD ["ls"]
+# CMD ["ls", "build"]
