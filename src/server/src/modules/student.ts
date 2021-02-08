@@ -68,10 +68,10 @@ export const updateStudent = async (
     });
 
     return Student.update(id, {
-        sid,
-        classStanding,
-        resume,
-        transcript,
+        sid: sid,
+        classStanding: classStanding,
+        resume: resume,
+        transcript: transcript,
     });
 };
 
@@ -98,7 +98,6 @@ export const getStudentProfile = (id: number) => {
         .leftJoinAndSelect('student.courses', 'courses')
         .getOne();
 };
-
 
 /**
  * @description Gets all job applications submitted by the student
