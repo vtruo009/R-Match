@@ -126,6 +126,31 @@ router.get(
 );
 
 /******************************************************************************
+ *             POST Request - Update - /api/workExperience/update
+ ******************************************************************************/
+
+router.post(
+    '/update',
+    passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ bodySchema: workExperienceUpdateSchema }),
+    async (req: workExperienceRequest, res: Response) => {
+        const { workExperience } = req.body;
+        try {
+            const { result, message } = await updateWorkExperience(workExperience);
+            return result
+                ? res.status(OK).end()
+                : res.status(BAD_REQUEST).json({ error: message }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
  *                                     Export
  ******************************************************************************/
 
