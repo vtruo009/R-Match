@@ -105,9 +105,15 @@ export const getStudentProfile = (id: number) => {
 /**
  * @description Gets all job applications submitted by the student
  * @param {number} studentId - id of student
+ * @param {number} page - page index
+ * @param {number} numOfItems - number of items per page
  * @returns Promise
  */
-export const getJobApplications = async (studentId: number) => {
+export const getJobApplications = async (
+    studentId: number,
+    page: number,
+    numOfItems: number
+) => {
     // Check if a student exists.
     const student = await Student.findOne(studentId);
     if (!student) return undefined;
@@ -128,7 +134,9 @@ export const getJobApplications = async (studentId: number) => {
             'user.biography',
             'user.email',
         ])
-        .getMany();
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount();
 };
 
 export const searchStudents = async (

@@ -33,3 +33,8 @@ export const studentSearchSchema = Joi.object({
     page: Joi.string().required(),
     numOfItems: Joi.string().required(),
 });
+
+export const getAppliedJobsSchema = Joi.object({
+    page: Joi.string().required(),
+    numOfItems: Joi.string().required(),
+});

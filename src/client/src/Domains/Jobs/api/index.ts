@@ -170,9 +170,15 @@ export async function getPostedJobs(
         ('/faculty-member/get-posted-jobs', { params });
 }
 
-export async function getAppliedJobs() {
+export async function getAppliedJobs(
+    page: number,
+    numOfItems: number
+) {
+    const params = {
+        page, numOfItems
+    };
     return API.get<{ jobApplications: IJobApplication[] }>(
-        '/student/get-applied-jobs'
+        '/student/get-applied-jobs', { params }
     );
 }
 
