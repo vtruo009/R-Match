@@ -49,7 +49,7 @@ export const createWorkExperience = async (
     });
     if (!studentToUpdate) {
         insertResult.message =
-            'Faculty member that posted the job does not exist';
+            'Student that posted the work experience does not exist';
         return insertResult;
     }
 
@@ -69,6 +69,7 @@ export const createWorkExperience = async (
 
 export const getWorkExperiences = (
     title: string,
+    description: string,
     startDate: string,
     endDate: string, 
     employer: string, 

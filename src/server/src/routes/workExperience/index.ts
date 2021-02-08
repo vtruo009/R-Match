@@ -13,6 +13,7 @@ import logger from '@shared/Logger';
 import { validationMiddleware } from '@middlewares/validation';
 import { 
     workExperienceCreateSchema,
+    workExperienceReadSchema,
     workExperienceUpdateSchema,
     workExperienceIdSchema
          } from './schemas';
@@ -38,7 +39,7 @@ interface workExperienceIdRequest extends Request {
     };
 }
 /******************************************************************************
- *            POST Request - Create - /api/job/create
+ *            POST Request - Create - /api/workExperience/create
  ******************************************************************************/
 
 router.post(
@@ -67,6 +68,53 @@ router.post(
             return result
                 ? res.status(CREATED).end()
                 : res.status(BAD_REQUEST).json({ error: message }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
+ *            GET Request - Read - /api/workExperience/read
+ ******************************************************************************/
+
+interface WorkExperienceReadRequest extends Request {
+    query: {
+        title: string;
+        startDate: string;
+        endDate: string;
+        employer: string; 
+        description: string; 
+        numOfItems: string;
+    };
+}
+
+router.get(
+    '/read',
+    passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ querySchema: workExperienceReadSchema }),
+    async (req: WorkExperienceReadRequest, res: Response) => {
+        const { title, numOfItems } = req.query;
+        let { startDate, endDate, employer, description  } = req.query;
+
+        try {
+            if (!startDate) {
+                startDate = '01/01/3000';
+            }
+
+            const [workExperiences, workExperiencesCount] = await getWorkExperiences(
+                title,
+                employer,
+                description, 
+                startDate,
+                endDate, 
+                parseInt(numOfItems)
+            );
+            return res.status(OK).json({ workExperiences, workExperiencesCount }).end();
         } catch (error) {
             logger.err(error);
             return res
