@@ -118,7 +118,9 @@ function JobActions({ job, hasPermission }: JobActionsProps) {
                 onDeleteRequest={deleteRequest}
                 onSuccess={() => removeJob(job.id)}
             />
-            <Link to={`/job-applicants/${job.id}`}>See Applicants</Link>
+            <Link to={`/job-applicants/${job.title}/${job.id}`}>
+                See Applicants
+            </Link>
         </Grid>
     ) : showApply ? (
         <Button

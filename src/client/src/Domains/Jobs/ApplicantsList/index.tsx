@@ -1,5 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
@@ -18,6 +19,7 @@ import StudentsList from 'Domains/Student/StudentsList';
 import { classStandingValues, classStandingTypes } from 'Domains/Student/api';
 interface ApplicantsListProps {
     jobId: number;
+    jobTitle: string;
 }
 
 interface IApplicantSearchForm {
@@ -46,7 +48,7 @@ const formSchema = yup.object({
 });
 
 const numOfItems = 5;
-function ApplicantsList({ jobId }: ApplicantsListProps) {
+function ApplicantsList({ jobId, jobTitle }: ApplicantsListProps) {
     const [formState, setFormState] = React.useState<IApplicantSearchForm>(
         formInitialValues
     );
@@ -106,6 +108,11 @@ function ApplicantsList({ jobId }: ApplicantsListProps) {
                     {() => (
                         <Form style={{ padding: 10 }}>
                             <Grid container spacing={4} alignItems='center'>
+                                <Grid item xs={12}>
+                                    <Typography color='primary' variant='h5'>
+                                        {jobTitle}
+                                    </Typography>
+                                </Grid>
                                 <Grid item md={6} xs={12}>
                                     <Field
                                         name='classStandings'

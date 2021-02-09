@@ -375,11 +375,17 @@ export const applyToJob = async (studentId: number, jobId: number) => {
  * @description Get a list of students who applied to a job.
  * @param {number} facultyMemberId - Id of faculty member
  * @param {number} jobId - Id of the job
+ * @param {number[]} departmentIds[] - List of department ids. [-1] if not specified.
+ * @param {ClassStanding[]} classStandings[] - List of preferred class standings.
+ * @param {number} minimumGpa - minimum GPA.
  * @returns Promise
  */
-export const getJobApplications = async (
+export const getApplicants = async (
     facultyMemberId: number,
     jobId: number,
+    departmentIds: Student['departmentId'][],
+    classStandings: Student['classStanding'][],
+    minimumGpa: number,
     page: number,
     numOfItems: number
 ) => {
@@ -416,12 +422,31 @@ export const getJobApplications = async (
     // Returns all students applied to the position.
     const applicants = await getRepository(JobApplication)
         .createQueryBuilder('jobApplication')
-        .where({ jobId })
         .leftJoin('jobApplication.student', 'student')
         .addSelect(['student.id', 'student.classStanding'])
         .leftJoin('student.user', 'user')
         .addSelect(['user.firstName', 'user.lastName'])
         .leftJoinAndSelect('student.department', 'department')
+        .leftJoinAndSelect('department.college', 'college')
+        .leftJoinAndSelect('student.courses', 'courses')
+        .where({ jobId })
+        .andWhere(
+            '(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))',
+            {
+                departmentIdsPopulated: departmentIds[0] !== -1,
+                departmentIds,
+            }
+        )
+        .andWhere(
+            '(student.classStanding IS NULL OR student.classStanding IN (:...classStandings))',
+            {
+                classStandings,
+            }
+        )
+        .andWhere('(NOT :gpaIsPopulated OR student.gpa >= :minimumGpa)', {
+            gpaIsPopulated: minimumGpa > 0,
+            minimumGpa,
+        })
         .skip((page - 1) * numOfItems)
         .take(numOfItems)
         .getManyAndCount();
@@ -429,5 +454,6 @@ export const getJobApplications = async (
     getApplicantsResult.message = 'Successfully obtained applicants.';
     getApplicantsResult.result = applicants[0];
     getApplicantsResult.count = applicants[1];
+
     return getApplicantsResult;
 };

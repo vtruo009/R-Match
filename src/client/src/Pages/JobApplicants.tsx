@@ -5,11 +5,12 @@ import ApplicantsList from 'Domains/Jobs/ApplicantsList';
 
 interface JobApplicantsParams {
     jobId: string;
+    jobTitle: string;
 }
 
 function JobApplicants() {
-    const params = useParams<JobApplicantsParams>();
-    return <ApplicantsList jobId={parseInt(params.jobId)} />;
+    const { jobId, jobTitle } = useParams<JobApplicantsParams>();
+    return <ApplicantsList jobId={parseInt(jobId, 10)} jobTitle={jobTitle} />;
 }
 
 export default JobApplicants;

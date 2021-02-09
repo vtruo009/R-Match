@@ -213,6 +213,7 @@ export async function getJobApplicants(
     departmentIds?: number[]
 ) {
     const params = {
+        jobId,
         page,
         numOfItems,
         classStandings,
@@ -222,5 +223,5 @@ export async function getJobApplicants(
     return API.get<{
         jobApplicants: IJobApplicants[];
         jobApplicantsCount: number;
-    }>(`job/get-job-applicants/${jobId}`, { params });
+    }>(`job/get-applicants`, { params });
 }

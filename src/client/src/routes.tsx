@@ -106,7 +106,7 @@ export const facultyMemberRoutes: IRoute[] = [
         icon: <DashboardIcon />,
     },
     {
-        path: '/job-applicants/:jobId',
+        path: '/job-applicants/:jobTitle/:jobId',
         name: 'Job Applicants',
         component: JobApplicants,
         hide: true,

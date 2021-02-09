@@ -2,7 +2,6 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 
 import { AuthContext } from 'Contexts/AuthContext';
-import Card from 'Components/Card';
 import useDialog from 'hooks/useDialog';
 import useApi from 'hooks/useApi';
 import BaseProfile from 'Components/BaseProfile';
