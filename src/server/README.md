@@ -132,6 +132,7 @@ Job API
                 -   Internal server error -> Status code: 500
 
     -   api/job/delete/:id
+
         -   Deletes an existing job object from the database.
         -   Body: None
         -   Authorization restrictions:
@@ -146,8 +147,9 @@ Job API
                 -   Internal server error -> Status code: 500
 
     -   api/job/close
+
         -   Closes an existing job object from the database.
-        -   Body: 
+        -   Body:
             ```
             {
                 jobId: number
@@ -164,6 +166,7 @@ Job API
                 -   Internal server error -> Status code: 500
 
     -   api/job/activate/:id
+
         -   Activates an existing job object from the database.
         -   Body:
             ```
@@ -179,6 +182,52 @@ Job API
                 Status code: 200
             -   errors:
                 -   Unauthorized user -> Status code: 401
+                -   Internal server error -> Status code: 500
+
+    -   api/job/get-applicants/:jobId
+
+        -   Returns a list of students who applied for a job with the given job Id from the database.
+        -   Body: None
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a faculty member
+            -   User must be an owner of the job
+        -   Parameters:
+            ```
+            {
+               jobId: string;
+               departmentIds: string[];
+               classStandings: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior'[];
+               minimumGpa: string;
+            };
+            ```
+        -   Response:
+            -   success:
+                Status code: 200
+                ```
+                {
+                    id: number,
+                    jobId: number,
+                    date: string,
+                    studentId: number,
+                    student: {
+                        id: number,
+                        classStanding: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior',
+                        user: {
+                            firstName: string,
+                            lastName: string,
+                        },
+                        department: {
+                            id: number,
+                            name: string,
+                        },
+                    }
+                }[]
+                ```
+            -   errors:
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
                 -   Internal server error -> Status code: 500
 
 User API
@@ -310,6 +359,7 @@ User API
                 -   Unauthorized: -> Status code: 401
 
     -   api/user/authenticated
+
         -   HTTP Method: GET
         -   Verifies whether or not an user is authenticated.
         -   Cookies:
@@ -479,70 +529,6 @@ Faculty Member API
                 -   Unprocessable Entity -> Status code: 422
                 -   Internal server error -> Status code: 500
 
-    -   api/facultyMember/get-applicants
-
-        -   Returns a list of students who applied for a job with the given job Id from the database.
-        -   Body: None
-        -   Authorization restrictions:
-            -   User must be logged in
-            -   User must be a faculty member
-            -   User must be an owner of the job
-        -   Parameters:
-            ```
-            {
-                jobId: string;
-                departmentIds: string[];
-                classStandings: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior'[];
-                minimumGpa: string;
-            };
-            ```
-        -   Response:
-            -   success:
-                Status code: 200
-                ```
-                {
-                    students: {
-                        id: number,
-                        date: Date,
-                        jobId: number,
-                        studentId: number,
-                        student: {
-                            id: number,
-                            sid: number,
-                            classStanding: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior',
-                            user: {
-                                id: number,
-                                email: : string,
-                                biography: string,
-                                firstName: string,
-                                lastName: string,
-                                middleName: string,
-                                role: 'student'
-                            },
-                            department: {
-                                id: number,
-                                name: string,
-                                college: {
-                                    id: number,
-                                    name: string
-                                }
-                            },
-                            courses: [
-                                {
-                                    id: number,
-                                    title: string
-                                }
-                            ]
-                        }
-                    }[]
-                }
-                ```
-            -   errors:
-                -   Invalid request -> Status code: 400
-                -   Unauthorized user -> Status code: 401
-                -   Unprocessable Entity -> Status code: 422
-                -   Internal server error -> Status code: 500
-
 Student API
 
 -   Interacts with:
@@ -568,8 +554,7 @@ Student API
                     },
                     departmentId?: number,
                     sid?: number,
-                    gpa?: number,
-                    classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior',
+                    classStanding?: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior',
                     courses?: {
                         id: number
                     }[]
@@ -605,8 +590,7 @@ Student API
                     student: {
                         id: number,
                         sid?: number,
-                        gpa?: number,
-                        classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior',
+                        classStanding?: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior',
                         user: {
                             id: number,
                             email: : string,
@@ -720,7 +704,7 @@ Student API
                 -   Internal server error -> Status code: 500
 
     -   api/student/search
-    
+
         -   Filters student records based on queries and returns them. Result is a list of student previews
         -   Body: None
         -   Parameters:
@@ -730,8 +714,8 @@ Student API
                 lastName?: string;
                 email?: string;
                 sid?: string;
-                departmentIds: string[];
-                classStandings: 'freshman' | 'sophomore' | 'junior' | 'senior'[];
+                departmentIds?: string[];
+                classStandings?: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior'[];
                 page: string;
                 numOfItems: string;
             };
@@ -743,9 +727,9 @@ Student API
                 Status code: 200
                 ```
                 {
-                    students: {
+                    studentPreviews: {
                         id: number,
-                        classStanding?: 'freshman' | 'sophomore' | 'junior' | 'senior',
+                        classStanding?: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior',
                         user: {
                             firstName: string,
                             lastName: string,
@@ -893,7 +877,6 @@ College API
             -   errors:
                 -   Internal server error -> Status code: 500
 
-
 Messaging API
 
 -   Interacts with:
@@ -970,6 +953,7 @@ Messaging API
         -   Body: None
         -   Parameters: None.
         -   Response:
+
             -   success:
                 Status code: 200
 
@@ -1006,6 +990,7 @@ Messaging API
                             }
                         }
                     }[]
+
             -   errors:
                 -   Internal server error -> Status code: 500
 

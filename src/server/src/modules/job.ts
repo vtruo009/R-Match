@@ -370,3 +370,90 @@ export const applyToJob = async (studentId: number, jobId: number) => {
     applicationResult.result = jobApplication;
     return applicationResult;
 };
+
+/**
+ * @description Get a list of students who applied to a job.
+ * @param {number} facultyMemberId - Id of faculty member
+ * @param {number} jobId - Id of the job
+ * @param {number[]} departmentIds - List of department ids. [-1] if not specified.
+ * @param {ClassStanding[]} classStandings - List of preferred class standings.
+ * @param {number} minimumGpa - minimum GPA.
+ * @returns Promise
+ */
+export const getApplicants = async (
+    facultyMemberId: number,
+    jobId: number,
+    departmentIds: Student['departmentId'][],
+    classStandings: Student['classStanding'][],
+    minimumGpa: number,
+    page: number,
+    numOfItems: number
+) => {
+    const getApplicantsResult: {
+        result?: JobApplication[];
+        message: string;
+        count: number;
+    } = {
+        result: undefined,
+        message: '',
+        count: 0,
+    };
+
+    // Check if a faculty member with the given id exists.
+    const facultyMember = await FacultyMember.findOne(facultyMemberId);
+    if (!facultyMember) {
+        getApplicantsResult.message = 'The faculty member does not exist.';
+        return getApplicantsResult;
+    }
+
+    // Check if a job with the given id exists.
+    const job = await Job.findOne(jobId);
+    if (!job) {
+        getApplicantsResult.message = 'The requested job does not exist.';
+        return getApplicantsResult;
+    }
+
+    // Check if the job is posted by the faculty member.
+    if (job.facultyMemberId != facultyMemberId) {
+        getApplicantsResult.message = 'The user does not have permission.';
+        return getApplicantsResult;
+    }
+
+    // Returns all students applied to the position.
+    const applicants = await getRepository(JobApplication)
+        .createQueryBuilder('jobApplication')
+        .leftJoin('jobApplication.student', 'student')
+        .addSelect(['student.id', 'student.classStanding'])
+        .leftJoin('student.user', 'user')
+        .addSelect(['user.firstName', 'user.lastName'])
+        .leftJoinAndSelect('student.department', 'department')
+        .leftJoinAndSelect('department.college', 'college')
+        .leftJoinAndSelect('student.courses', 'courses')
+        .where({ jobId })
+        .andWhere(
+            '(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))',
+            {
+                departmentIdsPopulated: departmentIds[0] !== -1,
+                departmentIds,
+            }
+        )
+        .andWhere(
+            '(student.classStanding IS NULL OR student.classStanding IN (:...classStandings))',
+            {
+                classStandings,
+            }
+        )
+        .andWhere('(NOT :gpaIsPopulated OR student.gpa >= :minimumGpa)', {
+            gpaIsPopulated: minimumGpa > 0,
+            minimumGpa,
+        })
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount();
+
+    getApplicantsResult.message = 'Successfully obtained applicants.';
+    getApplicantsResult.result = applicants[0];
+    getApplicantsResult.count = applicants[1];
+
+    return getApplicantsResult;
+};

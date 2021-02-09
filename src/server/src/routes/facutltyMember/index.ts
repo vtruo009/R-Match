@@ -7,18 +7,12 @@ import { errors } from '@shared/errors';
 import {
     getFacultyMemberProfile,
     updateFacultyMember,
-    getPostedJobs,
-    getApplicants
+    getPostedJobs
 } from '@modules/facultyMember';
-import {
-    classStandings,
-    classStandingValues
-} from '@entities/student';
 import { validationMiddleware } from '@middlewares/validation';
 import {
     facultyMemberProfileSchema,
     getPostedJobsSchema,
-    getApplicantsSchema
 } from './schemas';
 import { JWTUser } from '@entities/user';
 
@@ -165,65 +159,6 @@ router.get(
     }
 );
 
-/******************************************************************************
- * GET Request - Get Applicants - "GET /api/faculty-member/get-applicants"
- ******************************************************************************/
-
-interface GetApplicantsRequest extends Request {
-    query: {
-        jobId: string;
-        departmentIds: string[];
-        classStandings: classStandings[];
-        minimumGpa?: string;
-    };
-}
-
-router.get(
-    '/get-applicants',
-    passport.authenticate('jwt', { session: false }),
-    validationMiddleware({ querySchema: getApplicantsSchema }),
-    async (req: GetApplicantsRequest, res: Response) => {
-        const { specificUserId, role } = req.user as JWTUser;
-        if (role !== 'facultyMember') {
-            return res
-                .status(UNAUTHORIZED)
-                .json({ error: 'User is not a faculty member' });
-        }
-
-        const { jobId, departmentIds } = req.query;
-        let { classStandings, minimumGpa } = req.query;
-
-        // Pass -1 when the input is empty or null because it causes a sql parse error
-        // when we pass in an empty array.
-        const departmentIdInts =
-            departmentIds && departmentIds.length > 0
-                ? departmentIds.map((id) => parseInt(id, 10))
-                : [-1];
-
-        if (classStandings.length === 0) classStandings = classStandingValues;
-
-        if (!minimumGpa) minimumGpa = "0";
-
-        try {
-            const { result, message } = await getApplicants(
-                specificUserId,
-                parseInt(jobId, 10),
-                departmentIdInts,
-                classStandings,
-                parseFloat(minimumGpa),
-            );
-            return result
-                ? res.status(OK).json({ students: result }).end()
-                : res.status(BAD_REQUEST).json({ error: message });
-        } catch (error) {
-            logger.err(error);
-            return res
-                .status(INTERNAL_SERVER_ERROR)
-                .json(errors.internalServerError)
-                .end();
-        }
-    }
-);
 
 /******************************************************************************
  *                                     Export

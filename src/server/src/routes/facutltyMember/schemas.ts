@@ -16,13 +16,3 @@ export const getPostedJobsSchema = Joi.object({
     page: Joi.string().required(),
     numOfItems: Joi.string().required()
 });
-
-export const getApplicantsSchema = Joi.object({
-    jobId: Joi.string().required(),
-    departmentIds: Joi.array().allow('').items(Joi.number()).required(),
-    classStandings: Joi.array()
-        .allow('')
-        .items(Joi.string().valid('Freshman', 'Sophomore', 'Junior', 'Senior'))
-        .required(),
-    minimumGpa: Joi.string().optional()
-});

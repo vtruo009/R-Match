@@ -159,8 +159,8 @@ interface StudentSearchRequest extends Request {
         lastName?: string;
         email?: string;
         sid?: string;
-        departmentIds: string[];
-        classStandings: classStandings[];
+        departmentIds?: string[];
+        classStandings?: classStandings[];
         page: string;
         numOfItems: string;
     };
@@ -186,10 +186,11 @@ router.get(
                 ? departmentIds.map((id) => parseInt(id, 10))
                 : [-1];
 
-        if (classStandings.length === 0) classStandings = classStandingValues;
+        if (!classStandings || classStandings.length === 0)
+            classStandings = classStandingValues;
 
         try {
-            const [students, studentsCount] = await searchStudents(
+            const [studentPreviews, studentsCount] = await searchStudents(
                 firstName,
                 lastName,
                 email,
@@ -199,7 +200,10 @@ router.get(
                 parseInt(page),
                 parseInt(numOfItems)
             );
-            return res.status(OK).json({ students, studentsCount }).end();
+            return res
+                .status(OK)
+                .json({ studentPreviews, studentsCount })
+                .end();
         } catch (error) {
             logger.err(error);
             return res
