@@ -151,10 +151,8 @@ router.post(
 );
 
 /******************************************************************************
- *              DELETE Request - Delete - /api/job/delete/:id
+ *              DELETE Request - Delete - /api/workExperience/delete/:id
  ******************************************************************************/
-
-// TODO: Needs to delete joh applications related to the job as well. Can't delete jobs if it has applications
 router.delete(
     '/delete/:id',
     passport.authenticate('jwt', { session: false }),
