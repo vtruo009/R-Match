@@ -11,7 +11,12 @@ import LabelValues from 'Components/LabelValues';
 import Loader from 'Components/Loader';
 import StudentProfileForm from 'Domains/Student/StudentProfileForm';
 import WorkExperiences from 'Domains/Student/WorkExperiences';
-import { getStudentProfile, IStudent } from 'Domains/Student/api';
+import {
+    getStudentProfile,
+    IStudent,
+    getWorkExperiences,
+    IWorkExperience,
+} from 'Domains/Student/api';
 
 const workExperiencesDummy = [
     {
@@ -48,8 +53,16 @@ interface StudentProfileProps {
 
 function StudentProfile({ studentId }: StudentProfileProps) {
     const [studentProfile, setStudentProfile] = React.useState<IStudent>();
+    const [workExperiences, setWorkExperiences] = React.useState<
+        IWorkExperience[]
+    >();
     const { openDialog, closeDialog, DialogProps, Dialog } = useDialog();
     const { user } = React.useContext(AuthContext);
+
+    const getWorkExperiencesRequest = React.useCallback(
+        () => getWorkExperiences(),
+        []
+    );
 
     const getProfileRequest = React.useCallback(
         () => getStudentProfile(studentId),
@@ -64,6 +77,14 @@ function StudentProfile({ studentId }: StudentProfileProps) {
             },
         }
     );
+
+    const [
+        sendGetWorkExperiencesRequest,
+        isGettingWorkExperiencesLoading,
+    ] = useApi(getWorkExperiencesRequest, {
+        onSuccess: (results) =>
+            setWorkExperiences(results.data.workExperiences),
+    });
 
     const getCoursesTitles = () => {
         return studentProfile?.courses.map(
@@ -80,7 +101,8 @@ function StudentProfile({ studentId }: StudentProfileProps) {
 
     React.useEffect(() => {
         sendGetProfileRequest();
-    }, [sendGetProfileRequest]);
+        sendGetWorkExperiencesRequest();
+    }, [sendGetProfileRequest,  ]);
 
     return isGettingProfileLoading ? (
         <Loader center />
@@ -117,10 +139,14 @@ function StudentProfile({ studentId }: StudentProfileProps) {
                     />
                 </Grid>
                 <Grid item md={12} xs={12}>
-                    <WorkExperiences
-                        workExperiences={workExperiencesDummy}
-                        hasPermission={isUserProfileOwner}
-                    />
+                    {isGettingWorkExperiencesLoading ? (
+                        <Loader />
+                    ) : (
+                        <WorkExperiences
+                            workExperiences={workExperiencesDummy}
+                            hasPermission={isUserProfileOwner}
+                        />
+                    )}
                 </Grid>
             </Grid>
             <Dialog {...DialogProps} title='Edit Profile'>
