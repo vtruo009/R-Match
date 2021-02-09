@@ -180,9 +180,15 @@ export async function getPostedJobs(page: number, numOfItems: number) {
     );
 }
 
-export async function getAppliedJobs() {
-    return API.get<{ jobApplications: IJobApplication[] }>(
-        '/student/get-applied-jobs'
+export async function getAppliedJobs(
+    page: number,
+    numOfItems: number
+) {
+    const params = {
+        page, numOfItems
+    };
+    return API.get<{ jobApplications: IJobApplication[], jobApplicationsCount: number }>(
+        '/student/get-applied-jobs', { params }
     );
 }
 
