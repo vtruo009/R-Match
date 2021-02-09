@@ -21,6 +21,7 @@ function Messages({ receiver }: MessagesProps) {
             setMessages(response.data.messages);
         },
     });
+    const chatArea = document.querySelector('#chatArea');
 
     React.useEffect(() => {
         if (receiver) sendRequest();
@@ -44,6 +45,13 @@ function Messages({ receiver }: MessagesProps) {
         });
     }, [receiver, user]);
 
+    // Scroll to the bottom of the chat area for every messages update.
+    React.useEffect(() => {
+        if (chatArea) {
+            chatArea.scrollTop = chatArea.scrollHeight - chatArea.clientHeight;
+        }
+    }, [messages, chatArea]);
+
     return receiver ? (
         <div style={{ margin: 30 }}>
             <Grid container justify='center'>
@@ -52,17 +60,19 @@ function Messages({ receiver }: MessagesProps) {
                         Message with {receiver.firstName} {receiver.lastName}
                     </Typography>
                 </Grid>
-                {isLoading ? (
-                    <Grid item xs={12}>
-                        <Loader />
-                    </Grid>
-                ) : (
-                    messages.map((message, index) => (
-                        <Grid item key={index} xs={12}>
-                            <MessageDialog message={message} />
+                <Grid id='chatArea' style={{ overflow: 'auto', height: '300px', width: '100%' }}>
+                    {isLoading ? (
+                        <Grid item xs={12}>
+                            <Loader />
                         </Grid>
-                    ))
-                )}
+                    ) : (
+                        messages.map((message, index) => (
+                            <Grid item key={index} xs={12}>
+                                <MessageDialog message={message} />
+                            </Grid>
+                        ))
+                            )}
+                </Grid>
             </Grid>
         </div>
     ) : (

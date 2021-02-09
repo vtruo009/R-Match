@@ -1,12 +1,20 @@
 import request from 'supertest';
-import { connectToDb } from '@db/connection';
+import { connectToDb, disconnectFromDb } from '@db/connection';
 import app from '.';
 
-beforeAll(async () => {
+
+// TODO: Connection to database fails whe container builds
+beforeAll(async (done) => {
     await connectToDb();
+    done();
 });
 
-describe('App', function () {
+afterAll(async (done) => {
+    await disconnectFromDb();
+    done();
+});
+
+describe('App', () => {
     it('should respond with 200', async () => {
         const { status } = await request(app).get('/');
         expect(status).toStrictEqual(200);

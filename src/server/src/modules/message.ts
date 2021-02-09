@@ -1,7 +1,8 @@
 import { Message } from '@entities/message';
 import { User } from '@entities/user';
 import { getRepository } from 'typeorm';
-import { userIdExists } from '@modules/user';
+import { userIdExists, findUserByEmail, hidePassword, getUserById } from '@modules/user';
+import { sendEmail } from '@lib/mail';
 
 /**
  * @description Send a message to a receiver.
@@ -23,18 +24,37 @@ export const sendMessage = async (
         errorMessage: '',
     };
 
-    // Check if receiver exists.
-    if (!userIdExists(receiverId)) {
-        sendMessageResult.errorMessage = "Receiver does not exist.";
+    if (senderId === receiverId) {
+        sendMessageResult.errorMessage = "Sender should be different from receiver.";
         return sendMessageResult;
     }
 
-    // Check if sender exists.
-    if (!userIdExists(senderId)) {
-        sendMessageResult.errorMessage = "Sender does not exist.";
+    // Get sender user object
+    const getSenderByIdResult = await getUserById(senderId);
+    if (!getSenderByIdResult.result) {
+        sendMessageResult.errorMessage =
+            `Error while obtaining sender profile: ${getSenderByIdResult.message}`;
         return sendMessageResult;
     }
+    const sender = getSenderByIdResult.result;
 
+    // Get receiver user object
+    const getReceiverIdResult = await getUserById(receiverId);
+    if (!getReceiverIdResult.result) {
+        sendMessageResult.errorMessage =
+            `Error while obtaining receiver profile: ${getReceiverIdResult.message}`;
+        return sendMessageResult;
+    }
+    const receiver = getReceiverIdResult.result;
+
+    // Send email.
+    sendEmail(
+        receiver.email,
+        `${sender.firstName} ${sender.lastName} just messaged you`,
+        `You have new message from ${sender.firstName} ${sender.lastName}.\n    ${sender.firstName}: ${content}`,
+    )
+
+    // Insert Message object.
     const messageToInsert = Message.create({
         content: content,
         senderId: senderId,
@@ -188,4 +208,42 @@ export const getConversationList = async (userId: number) => {
             conversation2.latestMessage.date.getTime() - conversation1.latestMessage.date.getTime());
 
     return getConversationListResult;
+};
+
+/**
+ * @description Returns a user object with the email to initiate a message.
+ * @param {number} userId - id of the logged-in user.
+ * @param {string} email - email address.
+ * @returns Promise
+ */
+export const getUserByEmail = async (userId: number, email: string) => {
+    const getUserByEmailResult: {
+        result: User | undefined;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
+
+    const receiver = await findUserByEmail(email);
+
+    // Check if the user with the email exists.
+    if (!receiver) {
+        getUserByEmailResult.message =
+            'A user with the email does not exist.';
+        return getUserByEmailResult;
+    }
+
+    if (receiver.id === userId) {
+        getUserByEmailResult.message =
+            'You cannot send message to yourself.';
+        return getUserByEmailResult;
+    }
+
+    const getUserByIdResult = await hidePassword(receiver);
+
+    getUserByEmailResult.message = 'Successful';
+    getUserByEmailResult.result = getUserByIdResult;
+
+    return getUserByEmailResult;
 };

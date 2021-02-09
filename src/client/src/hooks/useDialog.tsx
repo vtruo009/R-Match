@@ -1,7 +1,9 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import MUIDialog from '@material-ui/core/Dialog';
+import MUIDialog, {
+    DialogProps as MUIDialogProps,
+} from '@material-ui/core/Dialog';
 import MUIDialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -14,9 +16,21 @@ interface DialogProps {
     title: string | JSX.Element;
 }
 
-function Dialog({ children, open, onClose, title }: DialogProps) {
+function Dialog({
+    children,
+    open,
+    onClose,
+    title,
+    ...passthroughProps
+}: DialogProps & MUIDialogProps) {
     return (
-        <MUIDialog open={open} onClose={onClose} maxWidth='md' fullWidth>
+        <MUIDialog
+            open={open}
+            onClose={onClose}
+            maxWidth='md'
+            fullWidth
+            {...passthroughProps}
+        >
             <div style={{ padding: 15 }}>
                 <MUIDialogTitle>
                     <Grid container justify='space-between' alignItems='center'>
@@ -44,13 +58,13 @@ function Dialog({ children, open, onClose, title }: DialogProps) {
     );
 }
 
-type useDialogReturn = [
-    open: boolean,
-    openDialog: () => void,
-    closeDialog: () => void,
-    DialogProps: DialogProps,
-    Dialog: any
-];
+type useDialogReturn = {
+    open: boolean;
+    openDialog: () => void;
+    closeDialog: () => void;
+    DialogProps: DialogProps;
+    Dialog: any;
+};
 
 export default function useDialog(): useDialogReturn {
     const [open, setOpen] = React.useState(false);
@@ -64,5 +78,5 @@ export default function useDialog(): useDialogReturn {
         children: <> </>,
     };
 
-    return [open, openDialog, closeDialog, DialogProps, Dialog];
+    return { open, openDialog, closeDialog, DialogProps, Dialog };
 }

@@ -1,7 +1,9 @@
 import StatusCodes from 'http-status-codes';
 import passport from 'passport';
 import { Request, Response, Router } from 'express';
+
 import { Job } from '@entities/job';
+import { classStandings, classStandingValues } from '@entities/student';
 import { errors } from '@shared/errors';
 import {
     createJob,
@@ -11,6 +13,7 @@ import {
     closeJob,
     openJob,
     applyToJob,
+    getApplicants,
 } from '@modules/job';
 import { JWTUser } from '@entities/user';
 import logger from '@shared/Logger';
@@ -20,6 +23,7 @@ import {
     jobUpdateSchema,
     jobReadSchema,
     jobIdSchema,
+    getApplicantsSchema,
 } from './schemas';
 
 const router = Router();
@@ -118,12 +122,19 @@ interface JobReadRequest extends Request {
     };
 }
 
-// TODO: Filter out jobs that haven applied by a student
 router.get(
     '/read',
     passport.authenticate('jwt', { session: false }),
     validationMiddleware({ querySchema: jobReadSchema }),
     async (req: JobReadRequest, res: Response) => {
+        //checks that caller is a student.
+        const { role, specificUserId } = req.user as JWTUser;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' });
+        }
+
         const { title, types, page, numOfItems } = req.query;
         let { startDate, minSalary, hoursPerWeek } = req.query;
 
@@ -138,7 +149,8 @@ router.get(
                 startDate = '01/01/3000';
             }
 
-            const [jobs, jobsCount] = await getJobs(
+           const getJobsResult = await getJobs(
+                specificUserId,
                 title,
                 types,
                 startDate,
@@ -147,7 +159,12 @@ router.get(
                 parseInt(page),
                 parseInt(numOfItems)
             );
-            return res.status(OK).json({ jobs, jobsCount }).end();
+
+            if (getJobsResult) {
+                const [jobs, jobsCount] = getJobsResult;
+                return res.status(OK).json({ jobs, jobsCount }).end();
+            }
+            return res.status(BAD_REQUEST).json({ error: 'Student does not exist' });
         } catch (error) {
             logger.err(error);
             return res
@@ -194,7 +211,6 @@ router.post(
  *              DELETE Request - Delete - /api/job/delete/:id
  ******************************************************************************/
 
-// TODO: Needs to delete joh applications related to the job as well. Can't delete jobs if it has applications
 router.delete(
     '/delete/:id',
     passport.authenticate('jwt', { session: false }),
@@ -304,6 +320,76 @@ router.post(
     }
 );
 
+/******************************************************************************
+ *   GET Request - Get Applicants - "GET /api/faculty-member/get-applicants"
+ ******************************************************************************/
+
+interface GetApplicantsRequest extends Request {
+    query: {
+        jobId: string;
+        departmentIds: string[];
+        classStandings: classStandings[];
+        minimumGpa?: string;
+        page: string;
+        numOfItems: string;
+    };
+}
+
+router.get(
+    '/get-applicants',
+    passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ querySchema: getApplicantsSchema }),
+    async (req: GetApplicantsRequest, res: Response) => {
+        const { specificUserId, role } = req.user as JWTUser;
+        if (role !== 'facultyMember') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a faculty member' });
+        }
+
+        const { jobId, departmentIds, page, numOfItems } = req.query;
+        let { classStandings, minimumGpa } = req.query;
+
+        // Pass -1 when the input is empty or null because it causes a sql parse error
+        // when we pass in an empty array.
+        const departmentIdInts =
+            departmentIds && departmentIds.length > 0
+                ? departmentIds.map((id) => parseInt(id, 10))
+                : [-1];
+
+        if (!classStandings || classStandings.length === 0)
+            classStandings = classStandingValues;
+
+        if (!minimumGpa || minimumGpa === '') minimumGpa = '0';
+
+        try {
+            const { result, message, count } = await getApplicants(
+                specificUserId,
+                parseInt(jobId, 10),
+                departmentIdInts,
+                classStandings,
+                parseFloat(minimumGpa),
+                parseInt(page, 10),
+                parseInt(numOfItems, 10)
+            );
+            return result
+                ? res
+                      .status(OK)
+                      .json({
+                          jobApplicants: result,
+                          jobApplicantsCount: count,
+                      })
+                      .end()
+                : res.status(BAD_REQUEST).json({ error: message });
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
 /******************************************************************************
  *                                     Export
  ******************************************************************************/
