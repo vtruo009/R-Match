@@ -1,7 +1,7 @@
 import { Job } from '@entities/job';
 import { FacultyMember } from '@entities/facultyMember';
 import { findDepartment } from '@modules/department';
-import { getRepository, getConnection, UpdateResult } from 'typeorm';
+import { getRepository, UpdateResult } from 'typeorm';
 import { JobApplication } from '@entities/jobApplication';
 import { Student } from '@entities/student';
 
@@ -245,13 +245,7 @@ export const updateJob = async (job: Job) => {
  * @returns Promise
  */
 export const deleteJob = async (id: Job['id']) => {
-    await getConnection()
-        .createQueryBuilder()
-        .delete()
-        .from(JobApplication, "jobApplication")
-        .where({ jobId: id })
-        .execute();
-
+    await JobApplication.delete({ jobId: id });
     return Job.delete(id);
 };
 
