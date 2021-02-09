@@ -263,11 +263,12 @@ export const updateJob = async (job: Job) => {
 };
 
 /**
- * @description Deletes an existing job from the database
+ * @description Deletes an existing job and relevant job applications from the database
  * @param {number} id - Id of job to delete
  * @returns Promise
  */
-export const deleteJob = (id: Job['id']) => {
+export const deleteJob = async (id: Job['id']) => {
+    await JobApplication.delete({ jobId: id });
     return Job.delete(id);
 };
 
