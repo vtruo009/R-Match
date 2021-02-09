@@ -15,7 +15,6 @@ import {
     workExperienceCreateSchema,
     workExperienceReadSchema,
     workExperienceUpdateSchema,
-    workExperienceIdSchema
          } from './schemas';
 
 const router = Router();
