@@ -1,7 +1,9 @@
 import API from 'api';
+
+import { IDepartment } from 'Components/AcademicInfo/api';
 import { IJobCreateFormValues } from 'Domains/Jobs/JobCreateForm';
 import { IJobUpdateFormValues } from 'Domains/Jobs/JobUpdateForm';
-import { IDepartment } from 'Components/AcademicInfo/api';
+import { IStudentPreview, classStandingTypes } from 'Domains/Student/api';
 
 export type jobType =
     | 'grader'
@@ -11,7 +13,7 @@ export type jobType =
     | 'tutor'
     | 'other';
 
-export type targetYearsType = 'Freshman' | 'Sophmore' | 'Junior' | 'Senior';
+export type targetYearsType = 'Freshman' | 'Sophomore' | 'Junior' | 'Senior';
 
 export type statusType = 'Hiring' | 'Closed';
 
@@ -87,11 +89,19 @@ export interface IJob {
 }
 
 export interface IJobApplication {
-    date: string;
     id: number;
+    date: string;
     job: IJob;
     jobId: number;
     studentId: number;
+}
+
+interface IJobApplicants {
+    id: number;
+    date: string;
+    jobId: number;
+    studentId: number;
+    student: IStudentPreview;
 }
 
 export async function getJobs(
@@ -159,20 +169,26 @@ export async function deleteJob(jobId: number) {
     return API.delete(`/job/delete/${jobId}`);
 }
 
-export async function getPostedJobs(
+export async function getPostedJobs(page: number, numOfItems: number) {
+    const params = {
+        page,
+        numOfItems,
+    };
+    return API.get<{ jobs: IJob[]; jobsCount: number }>(
+        '/faculty-member/get-posted-jobs',
+        { params }
+    );
+}
+
+export async function getAppliedJobs(
     page: number,
     numOfItems: number
 ) {
     const params = {
         page, numOfItems
     };
-    return API.get<{ jobs: IJob[]; jobsCount: number }>
-        ('/faculty-member/get-posted-jobs', { params });
-}
-
-export async function getAppliedJobs() {
-    return API.get<{ jobApplications: IJobApplication[] }>(
-        '/student/get-applied-jobs'
+    return API.get<{ jobApplications: IJobApplication[], jobApplicationsCount: number }>(
+        '/student/get-applied-jobs', { params }
     );
 }
 
@@ -192,4 +208,26 @@ export async function applyToJob(jobId: number) {
     return API.post<{ message: string }>('/job/apply-to-job', {
         jobId,
     });
+}
+
+export async function getJobApplicants(
+    jobId: number,
+    page: number,
+    numOfItems: number,
+    classStandings?: classStandingTypes[],
+    minimumGpa?: string,
+    departmentIds?: number[]
+) {
+    const params = {
+        jobId,
+        page,
+        numOfItems,
+        classStandings,
+        minimumGpa,
+        departmentIds,
+    };
+    return API.get<{
+        jobApplicants: IJobApplicants[];
+        jobApplicantsCount: number;
+    }>(`job/get-applicants`, { params });
 }

@@ -7,13 +7,12 @@ import { errors } from '@shared/errors';
 import {
     getFacultyMemberProfile,
     updateFacultyMember,
-    getPostedJobs,
-    getApplicants
+    getPostedJobs
 } from '@modules/facultyMember';
 import { validationMiddleware } from '@middlewares/validation';
 import {
     facultyMemberProfileSchema,
-    getPostedJobsSchema
+    getPostedJobsSchema,
 } from './schemas';
 import { JWTUser } from '@entities/user';
 
@@ -160,40 +159,6 @@ router.get(
     }
 );
 
-/******************************************************************************
- * GET Request - Read - "GET /api/faculty-member/get-applicants/:jobId"
- ******************************************************************************/
-
-router.get(
-    '/get-applicants/:jobId',
-    passport.authenticate('jwt', { session: false }),
-    async (req: Request, res: Response) => {
-        const { specificUserId, role } = req.user as JWTUser;
-        if (role !== 'facultyMember') {
-            return res
-                .status(UNAUTHORIZED)
-                .json({ error: 'User is not a faculty member' });
-        }
-
-        const { jobId } = req.params;
-
-        try {
-            const { result, message } = await getApplicants(
-                specificUserId,
-                parseInt(jobId, 10)
-            );
-            return result
-                ? res.status(OK).json({ result }).end()
-                : res.status(BAD_REQUEST).json({ error: message });
-        } catch (error) {
-            logger.err(error);
-            return res
-                .status(INTERNAL_SERVER_ERROR)
-                .json(errors.internalServerError)
-                .end();
-        }
-    }
-);
 
 /******************************************************************************
  *                                     Export

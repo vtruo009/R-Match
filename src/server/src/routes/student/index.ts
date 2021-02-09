@@ -16,7 +16,11 @@ import {
 } from '@modules/student';
 import { JWTUser } from '@entities/user';
 import { validationMiddleware } from '@middlewares/validation';
-import { studentProfileSchema, studentSearchSchema } from './schemas';
+import {
+    studentProfileSchema,
+    studentSearchSchema,
+    getAppliedJobsSchema
+} from './schemas';
 
 const router = Router();
 const { BAD_REQUEST, OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED } = StatusCodes;
@@ -119,11 +123,18 @@ router.get(
 /******************************************************************************
  *          GET Request - Read - "GET /api/student/get-applied-job"
  ******************************************************************************/
+interface GetAppliedJobsRequest extends Request {
+    query: {
+        page: string;
+        numOfItems: string;
+    };
+}
 
 router.get(
     '/get-applied-jobs',
     passport.authenticate('jwt', { session: false }),
-    async (req: Request, res: Response) => {
+    validationMiddleware({ querySchema: getAppliedJobsSchema }),
+    async (req: GetAppliedJobsRequest, res: Response) => {
         //checks that caller is a student.
         const { role, specificUserId } = req.user as JWTUser;
         if (role !== 'student') {
@@ -132,13 +143,19 @@ router.get(
                 .json({ error: 'User is not a student' });
         }
 
+        const { page, numOfItems } = req.query;
+
         try {
-            const jobApplications = await getJobApplications(specificUserId);
-            return jobApplications
-                ? res.status(OK).json({ jobApplications }).end()
-                : res
-                      .status(BAD_REQUEST)
-                      .json({ error: 'Student does not exist' });
+            const getJobApplicationResult = await getJobApplications(
+                specificUserId,
+                parseInt(page),
+                parseInt(numOfItems)
+            );
+            if (getJobApplicationResult) {
+                const [jobApplications, jobApplicationsCount] = getJobApplicationResult;
+                return res.status(OK).json({ jobApplications, jobApplicationsCount }).end()
+            }
+            return res.status(BAD_REQUEST).json({ error: 'Student does not exist' });
         } catch (error) {
             logger.err(error);
             return res
@@ -159,8 +176,8 @@ interface StudentSearchRequest extends Request {
         lastName?: string;
         email?: string;
         sid?: string;
-        departmentIds: string[];
-        classStandings: classStandings[];
+        departmentIds?: string[];
+        classStandings?: classStandings[];
         page: string;
         numOfItems: string;
     };
@@ -186,10 +203,11 @@ router.get(
                 ? departmentIds.map((id) => parseInt(id, 10))
                 : [-1];
 
-        if (classStandings.length === 0) classStandings = classStandingValues;
+        if (!classStandings || classStandings.length === 0)
+            classStandings = classStandingValues;
 
         try {
-            const [students, studentsCount] = await searchStudents(
+            const [studentPreviews, studentsCount] = await searchStudents(
                 firstName,
                 lastName,
                 email,
@@ -199,7 +217,10 @@ router.get(
                 parseInt(page),
                 parseInt(numOfItems)
             );
-            return res.status(OK).json({ students, studentsCount }).end();
+            return res
+                .status(OK)
+                .json({ studentPreviews, studentsCount })
+                .end();
         } catch (error) {
             logger.err(error);
             return res

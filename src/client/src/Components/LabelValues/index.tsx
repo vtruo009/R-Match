@@ -37,11 +37,7 @@ function LabelValues({ label, values }: LabelValuesProps) {
                         <List>
                             {values.map((value, index) => (
                                 <div key={index}>
-                                    {index ? (
-                                        <Divider />
-                                    ) : (
-                                        <ListItem> </ListItem>
-                                    )}
+                                    {index ? <Divider /> : <> </>}
                                     <ListItem>
                                         <ListItemText>{value}</ListItemText>
                                     </ListItem>

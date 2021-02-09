@@ -1,7 +1,12 @@
 import API from 'api';
+import {
+    ICourse,
+    IDepartment,
+    _IDepartment,
+} from 'Components/AcademicInfo/api';
 import { IStudentProfileForm } from 'Domains/Student/StudentProfileForm';
 import { IUser } from 'Domains/Accounts/api';
-import { ICourse, IDepartment } from 'Components/AcademicInfo/api';
+
 export const classStandingValues = [
     {
         label: 'Freshman',
@@ -33,21 +38,26 @@ export interface IStudent {
     courses: ICourse[];
     resume?: Buffer;
     transcript?: Buffer;
-    workStartDate: string;
-    workEndDate?: string;
-    workTitle: string;
-    workEmployer: string;
-    workDescription: string;
 }
 
-/*export interface IWorkExperiences {
-    workStartDate:string; 
-    workEndDate?:string; 
-    workTitle:string; 
-    workEmployer:string; 
-    workDescription: string;
+export interface IStudentPreview {
+    id: number;
+    user: {
+        firstName: string;
+        lastName: string;
+    };
+    department?: _IDepartment;
+    classStanding?: classStandingTypes;
 }
-*/
+
+export interface IWorkExperience {
+    id: number;
+    startDate: string;
+    endDate?: string;
+    title: string;
+    employer: string;
+    description: string;
+}
 
 export async function updateStudentProfile(
     studentProfile: IStudentProfileForm
@@ -71,16 +81,37 @@ export async function updateStudentProfile(
                 middleName: studentProfile.middleName,
                 biography: studentProfile.biography,
             },
-            // resume: studentProfile.resume,
-            // transcript: studentProfile.transcript,
-            // workStartDate: studentProfile.workStartDate,
-            // workEndDate: studentProfile.workEndDate,
-            // workEmployer: studentProfile.workEmployer,
-            // workDescription: studentProfile.workDescription,
         },
     };
     return API.post('/student/update-profile', body);
 }
 export async function getStudentProfile(studentId: number) {
     return API.get<{ student: IStudent }>(`/student/get-profile/${studentId}`);
+}
+
+export async function getStudents(
+    page: number,
+    numOfItems: number,
+    firstName?: string,
+    lastName?: string,
+    classStandings?: classStandingTypes[],
+    departmentIds?: number[],
+    email?: string,
+    sid?: string
+) {
+    const params = {
+        page,
+        numOfItems,
+        firstName,
+        lastName,
+        classStandings,
+        departmentIds,
+        email,
+        sid,
+    };
+
+    return API.get<{
+        studentPreviews: IStudentPreview[];
+        studentsCount: number;
+    }>('/student/search', { params });
 }

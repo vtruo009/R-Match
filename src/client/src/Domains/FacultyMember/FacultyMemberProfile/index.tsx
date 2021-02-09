@@ -16,10 +16,14 @@ import { AuthContext } from 'Contexts/AuthContext';
 function FacultyMemberProfile() {
     const [
         facultyMemberProfile,
-        setFactulyMemberProfile,
+        setFacultyMemberProfile,
     ] = React.useState<IFacultyMember>();
     const { user } = React.useContext(AuthContext);
     const [, openDialog, closeDialog, DialogProps, Dialog] = useDialog();
+
+    const isUserProfileOwner =
+        user?.role === 'facultyMember' &&
+        user?.specificUserId === facultyMemberProfile?.id;
 
     const getProfileRequest = React.useCallback(
         () => getFacultyMemberProfile(user?.specificUserId as number),
@@ -30,7 +34,7 @@ function FacultyMemberProfile() {
         getProfileRequest,
         {
             onSuccess: (results) => {
-                setFactulyMemberProfile(results.data.facultyMember);
+                setFacultyMemberProfile(results.data.facultyMember);
             },
         }
     );
@@ -45,7 +49,6 @@ function FacultyMemberProfile() {
         <div>
             <Grid container spacing={2} justify='center' alignItems='center'>
                 <BaseProfile
-                    id={facultyMemberProfile.id}
                     firstName={facultyMemberProfile.user.firstName}
                     middleName={facultyMemberProfile.user.middleName}
                     email={facultyMemberProfile.user.email}
@@ -53,6 +56,7 @@ function FacultyMemberProfile() {
                     biography={facultyMemberProfile.user.biography}
                     department={facultyMemberProfile.department}
                     onEdit={openDialog}
+                    hasPermission={isUserProfileOwner}
                 />
                 <Grid item md={4} xs={12}>
                     <LabelValue

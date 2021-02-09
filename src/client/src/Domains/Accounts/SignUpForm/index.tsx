@@ -32,7 +32,7 @@ const formInitialValues: ISignUpForm = {
 };
 
 const formSchema = yup.object({
-    email: yup.string().required().email('Please enter valid emai.'),
+    email: yup.string().required().email('Please enter valid email.'),
     password: yup
         .string()
         .required('Password is required.')
