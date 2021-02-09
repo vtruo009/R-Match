@@ -11,7 +11,7 @@ interface StudentsListProps {
 }
 
 function StudentsList({ studentPreviews }: StudentsListProps) {
-    const [, openDialog, , DialogProps, Dialog] = useDialog();
+    const { openDialog, DialogProps, Dialog } = useDialog();
     const [studentIdSelected, setStudentIdSelected] = React.useState(0);
     return (
         <div>

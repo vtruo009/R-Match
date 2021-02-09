@@ -13,21 +13,21 @@ import {
 } from 'Domains/FacultyMember/api';
 import { AuthContext } from 'Contexts/AuthContext';
 
-function FacultyMemberProfile() {
+interface FacultyMemberProfileProps {
+    facultyMemberId: number;
+}
+
+function FacultyMemberProfile({ facultyMemberId }: FacultyMemberProfileProps) {
     const [
         facultyMemberProfile,
         setFacultyMemberProfile,
     ] = React.useState<IFacultyMember>();
+    const { openDialog, closeDialog, DialogProps, Dialog } = useDialog();
     const { user } = React.useContext(AuthContext);
-    const [, openDialog, closeDialog, DialogProps, Dialog] = useDialog();
-
-    const isUserProfileOwner =
-        user?.role === 'facultyMember' &&
-        user?.specificUserId === facultyMemberProfile?.id;
 
     const getProfileRequest = React.useCallback(
-        () => getFacultyMemberProfile(user?.specificUserId as number),
-        [user?.specificUserId]
+        () => getFacultyMemberProfile(facultyMemberId),
+        [facultyMemberId]
     );
 
     const [sendGetProfileRequest, isGettingProfileLoading] = useApi(
@@ -38,6 +38,10 @@ function FacultyMemberProfile() {
             },
         }
     );
+
+    const isUserProfileOwner =
+        user?.role === 'facultyMember' &&
+        user?.specificUserId === facultyMemberProfile?.id;
 
     React.useEffect(() => {
         sendGetProfileRequest();

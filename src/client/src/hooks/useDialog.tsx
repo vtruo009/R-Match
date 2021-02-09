@@ -58,13 +58,13 @@ function Dialog({
     );
 }
 
-type useDialogReturn = [
-    open: boolean,
-    openDialog: () => void,
-    closeDialog: () => void,
-    DialogProps: DialogProps,
-    Dialog: any
-];
+type useDialogReturn = {
+    open: boolean;
+    openDialog: () => void;
+    closeDialog: () => void;
+    DialogProps: DialogProps;
+    Dialog: any;
+};
 
 export default function useDialog(): useDialogReturn {
     const [open, setOpen] = React.useState(false);
@@ -78,5 +78,5 @@ export default function useDialog(): useDialogReturn {
         children: <> </>,
     };
 
-    return [open, openDialog, closeDialog, DialogProps, Dialog];
+    return { open, openDialog, closeDialog, DialogProps, Dialog };
 }

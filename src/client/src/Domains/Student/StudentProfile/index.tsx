@@ -1,5 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import SchoolOutlinedIcon from '@material-ui/icons/SchoolOutlined';
 
 import { AuthContext } from 'Contexts/AuthContext';
 import useDialog from 'hooks/useDialog';
@@ -16,7 +17,7 @@ const workExperiencesDummy = [
     {
         id: 1,
         startDate: '2021-01-29T03:31:04.627Z',
-        endDate: '2021-01-29T03:31:04.627Z',
+        endDate: '2021-03-29T03:31:04.627Z',
         title: 'ARC Tutor',
         employer: 'UCR Academic Resource center',
         description:
@@ -25,7 +26,6 @@ const workExperiencesDummy = [
     {
         id: 2,
         startDate: '2021-01-29T03:31:04.627Z',
-        endDate: '2021-01-29T03:31:04.627Z',
         title: 'Web developer',
         employer: 'Microsoft',
         description:
@@ -34,7 +34,7 @@ const workExperiencesDummy = [
     {
         id: 3,
         startDate: '2021-01-29T03:31:04.627Z',
-        endDate: '2021-01-29T03:31:04.627Z',
+        endDate: '2021-06-29T03:31:04.627Z',
         title: 'Software Engineer Intern',
         employer: 'Google',
         description:
@@ -48,7 +48,7 @@ interface StudentProfileProps {
 
 function StudentProfile({ studentId }: StudentProfileProps) {
     const [studentProfile, setStudentProfile] = React.useState<IStudent>();
-    const [, openDialog, closeDialog, DialogProps, Dialog] = useDialog();
+    const { openDialog, closeDialog, DialogProps, Dialog } = useDialog();
     const { user } = React.useContext(AuthContext);
 
     const getProfileRequest = React.useCallback(
@@ -113,10 +113,14 @@ function StudentProfile({ studentId }: StudentProfileProps) {
                     <LabelValues
                         label='Courses Taken'
                         values={getCoursesTitles()}
+                        icon={<SchoolOutlinedIcon />}
                     />
                 </Grid>
                 <Grid item md={12} xs={12}>
-                    <WorkExperiences workExperiences={workExperiencesDummy} />
+                    <WorkExperiences
+                        workExperiences={workExperiencesDummy}
+                        hasPermission={isUserProfileOwner}
+                    />
                 </Grid>
             </Grid>
             <Dialog {...DialogProps} title='Edit Profile'>

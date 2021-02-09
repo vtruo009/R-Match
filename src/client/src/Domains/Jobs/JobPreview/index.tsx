@@ -4,9 +4,13 @@ import GraderIcon from '@material-ui/icons/Assignment';
 import ResearchIcon from '@material-ui/icons/FindInPage';
 import TutorIcon from '@material-ui/icons/SupervisedUserCircle';
 import VolunteerIcon from '@material-ui/icons/Accessibility';
+
 import OtherIcon from '@material-ui/icons/Help';
 
+import useDialog from 'hooks/useDialog';
 import CardPreview from 'Components/CardPreview';
+import Button from 'Components/Button';
+import FacultyMemberProfile from 'Domains/FacultyMember/FacultyMemberProfile';
 import { IJob, jobType } from 'Domains/Jobs/api';
 import { formatDateString, formatSalary } from 'utils/format';
 
@@ -42,6 +46,8 @@ function JobPreview({
     isSelected,
     hasPermission,
 }: JobPreviewProps) {
+    const { openDialog, DialogProps, Dialog } = useDialog();
+
     const getJobPosterName = () => {
         const { title, user } = job.facultyMember;
         const { firstName, lastName } = user;
@@ -50,7 +56,7 @@ function JobPreview({
     };
 
     const prepareValues = () => {
-        const values: { [key: string]: string | number } = {
+        const values: { [key: string]: string | number | JSX.Element } = {
             'Hours per week': job.hoursPerWeek,
         };
 
@@ -61,20 +67,32 @@ function JobPreview({
         if (hasPermission) {
             values['Posted on'] = formatDateString(job.postedOn);
         } else {
-            values['Posted by'] = getJobPosterName();
+            values['Posted by'] = (
+                <Button variant='text' onClick={openDialog}>
+                    {getJobPosterName()}
+                </Button>
+            );
         }
-
         return values;
     };
 
     return (
-        <CardPreview
-            onClick={onClick}
-            isSelected={isSelected}
-            visual={getIcon(job.type[0])}
-            title={job.title}
-            values={prepareValues()}
-        />
+        <>
+            <CardPreview
+                onClick={onClick}
+                isSelected={isSelected}
+                visual={getIcon(job.type[0])}
+                title={job.title}
+                values={prepareValues()}
+            />
+            <Dialog
+                {...DialogProps}
+                title='Faculty Member Profile'
+                maxWidth='lg'
+            >
+                <FacultyMemberProfile facultyMemberId={job.facultyMember.id} />
+            </Dialog>
+        </>
     );
 }
 

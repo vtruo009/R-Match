@@ -5,6 +5,7 @@ import {
     _IDepartment,
 } from 'Components/AcademicInfo/api';
 import { IStudentProfileForm } from 'Domains/Student/StudentProfileForm';
+import { IWorkExperienceCreateFormValues } from 'Domains/Student/WorkExperienceCreateForm';
 import { IUser } from 'Domains/Accounts/api';
 
 export const classStandingValues = [
@@ -114,4 +115,28 @@ export async function getStudents(
         studentPreviews: IStudentPreview[];
         studentsCount: number;
     }>('/student/search', { params });
+}
+
+export async function getWorkExperiences() {
+    return API.get<{ workExperiences: IWorkExperience[] }>(
+        '/student/get-work-experiences'
+    );
+}
+
+export async function createWorkExperience(
+    workExperience: IWorkExperienceCreateFormValues
+) {
+    console.log(workExperience);
+    return API.post('/student/create-work-experience');
+}
+
+export async function updateWorkExperience(
+    workExperience: IWorkExperienceCreateFormValues
+) {
+    console.log(workExperience);
+    return API.post('/student/update-work-experience');
+}
+
+export async function deleteWorkExperience(workExperienceId: number) {
+    return API.delete(`/student/delete-work-experience/${workExperienceId}`);
 }
