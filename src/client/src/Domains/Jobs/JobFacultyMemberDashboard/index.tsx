@@ -7,7 +7,7 @@ import JobDashboard from 'Domains/Jobs/JobDashboard';
 import usePagination from 'hooks/usePagination';
 import Loader from 'Components/Loader';
 
-const numOfItems = 10;
+const numOfItems = 7;
 function JobFacultyMemberDashBoard() {
     const [jobs, setJobs] = React.useState<IJob[]>([]);
     const [snack] = useSnack();

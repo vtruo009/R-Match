@@ -55,7 +55,7 @@ function StudentProfile({ studentId }: StudentProfileProps) {
     const [studentProfile, setStudentProfile] = React.useState<IStudent>();
     const [workExperiences, setWorkExperiences] = React.useState<
         IWorkExperience[]
-    >();
+    >([]);
     const { openDialog, closeDialog, DialogProps, Dialog } = useDialog();
     const { user } = React.useContext(AuthContext);
 
@@ -82,8 +82,9 @@ function StudentProfile({ studentId }: StudentProfileProps) {
         sendGetWorkExperiencesRequest,
         isGettingWorkExperiencesLoading,
     ] = useApi(getWorkExperiencesRequest, {
-        onSuccess: (results) =>
-            setWorkExperiences(results.data.workExperiences),
+        onSuccess: () => setWorkExperiences(workExperiencesDummy),
+        onFailure: () => setWorkExperiences(workExperiencesDummy),
+        // setWorkExperiences(results.data.workExperiences),
     });
 
     const getCoursesTitles = () => {
@@ -143,7 +144,7 @@ function StudentProfile({ studentId }: StudentProfileProps) {
                         <Loader />
                     ) : (
                         <WorkExperiences
-                            workExperiences={workExperiencesDummy}
+                            workExperiences={workExperiences}
                             hasPermission={isUserProfileOwner}
                         />
                     )}

@@ -136,12 +136,12 @@ export const getJobs = async (
         modStart = month + '/' + date + '/' + year;
     }
 
-    const jobApplications = await getJobApplications(studentId, 1, 5);
+    const jobApplications = await JobApplication.find({ where: { studentId } });
 
     // jobApplications is undefined when the studentId does not exist.
     if (!jobApplications) return undefined;
 
-    const appliedJobIds = jobApplications[0].map(
+    const appliedJobIds = jobApplications.map(
         (jobApplication) => jobApplication.jobId
     );
 

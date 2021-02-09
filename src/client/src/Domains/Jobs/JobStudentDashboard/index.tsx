@@ -7,7 +7,7 @@ import Loader from 'Components/Loader';
 import { getAppliedJobs, IJob } from '../api/index';
 import JobDashboard from 'Domains/Jobs/JobDashboard';
 
-const numOfItems = 10;
+const numOfItems = 7;
 function JobStudentDashBoard() {
     const [jobs, setJobs] = React.useState<IJob[]>([]);
     const [snack] = useSnack();

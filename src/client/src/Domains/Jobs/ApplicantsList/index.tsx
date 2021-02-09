@@ -47,7 +47,7 @@ const formSchema = yup.object({
     departmentId: yup.array(yup.number()).optional(),
 });
 
-const numOfItems = 10;
+const numOfItems = 7;
 function ApplicantsList({ jobId, jobTitle }: ApplicantsListProps) {
     const [formState, setFormState] = React.useState<IApplicantSearchForm>(
         formInitialValues
