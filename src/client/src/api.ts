@@ -6,9 +6,12 @@ axios.defaults.headers = {
     },
 };
 
-export const serverPath = 'http://localhost:5000/';
+export const serverPath =
+    process.env.NODE_ENV === 'production'
+        ? 'https://obscure-ocean-12960.herokuapp.com/api'
+        : 'http://localhost:5000/api';
 
 export default axios.create({
-    baseURL: 'http://localhost:5000/api',
+    baseURL: serverPath,
     withCredentials: true,
 });

@@ -1,7 +1,9 @@
 version: '3'
 services:
     server:
-        build: .
+        build:
+            context: .
+            target: dev-stage
         volumes:
             - ./src:/usr/app/src
             - ./package.json:/usr/app/package.json
