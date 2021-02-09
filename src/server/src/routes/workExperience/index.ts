@@ -151,6 +151,29 @@ router.post(
 );
 
 /******************************************************************************
+ *              DELETE Request - Delete - /api/job/delete/:id
+ ******************************************************************************/
+
+// TODO: Needs to delete joh applications related to the job as well. Can't delete jobs if it has applications
+router.delete(
+    '/delete/:id',
+    passport.authenticate('jwt', { session: false }),
+    async (req: workExperienceRequest, res: Response) => {
+        const { id } = req.params;
+        try {
+            await deleteWorkExperience(parseInt(id, 10));
+            return res.status(OK).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
  *                                     Export
  ******************************************************************************/
 
