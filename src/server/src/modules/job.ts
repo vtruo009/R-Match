@@ -138,6 +138,7 @@ export const getJobs = async (
 
     const jobApplications = await getJobApplications(studentId);
 
+    // jobApplications is undefined when the studentId does not exist.
     if (!jobApplications) return undefined;
 
     const appliedJobIds = jobApplications.map((jobApplication) => jobApplication.jobId);
@@ -174,7 +175,8 @@ export const getJobs = async (
                  jobStatus: 'Hiring',
             })
             .andWhere('job.id NOT IN (:...appliedJobIds)', {
-                appliedJobIds
+                // It causes a SQL parse error when an empty array is passed in.
+                appliedJobIds: appliedJobIds.length > 0 ? appliedJobIds : [-1]
             })
             .skip((page - 1) * numOfItems)
             .take(numOfItems)
