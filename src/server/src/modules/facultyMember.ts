@@ -93,7 +93,6 @@ export const getPostedJobs = async (
     page: number,
     numOfItems: number
 ) => {
-    
     // Check if a faculty member with the given id exists.
     const facultyMember = await FacultyMember.findOne(facultyMemberId);
     if (!facultyMember) return undefined;

@@ -1,6 +1,5 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 
 import { AuthContext } from 'Contexts/AuthContext';
 import Card from 'Components/Card';
@@ -11,31 +10,36 @@ import LabelValue from 'Components/LabelValue';
 import LabelValues from 'Components/LabelValues';
 import Loader from 'Components/Loader';
 import StudentProfileForm from 'Domains/Student/StudentProfileForm';
-import StudentWorkExperiencesPreview from 'Domains/Student/StudentWorkExperiencesPreview';
+import WorkExperiences from 'Domains/Student/WorkExperiences';
 import { getStudentProfile, IStudent } from 'Domains/Student/api';
-
 
 const workExperiencesDummy = [
     {
+        id: 1,
         startDate: '2021-01-29T03:31:04.627Z',
         endDate: '2021-01-29T03:31:04.627Z',
-        title: 'Intern',
-        employer: 'Google',
-        description: 'Some description',
+        title: 'ARC Tutor',
+        employer: 'UCR Academic Resource center',
+        description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     },
     {
+        id: 2,
         startDate: '2021-01-29T03:31:04.627Z',
         endDate: '2021-01-29T03:31:04.627Z',
-        title: 'Intern',
-        employer: 'Google',
-        description: 'Some description',
+        title: 'Web developer',
+        employer: 'Microsoft',
+        description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     },
     {
+        id: 3,
         startDate: '2021-01-29T03:31:04.627Z',
         endDate: '2021-01-29T03:31:04.627Z',
-        title: 'Intern',
+        title: 'Software Engineer Intern',
         employer: 'Google',
-        description: 'Some description',
+        description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     },
 ];
 
@@ -112,49 +116,8 @@ function StudentProfile({ studentId }: StudentProfileProps) {
                         values={getCoursesTitles()}
                     />
                 </Grid>
-                <Grid
-                    container
-                    spacing={2}
-                    justify='center'
-                    alignItems='center'
-                >
-                    <Grid item md={12} xs={12}>
-                        <Card style={{ padding: 30 }}>
-                            <Grid item>
-                                <Typography variant='h5' color='primary'>
-                                    Work Experiences
-                                </Typography>
-                            </Grid>
-                            <Grid container direction='row' spacing={3}>
-                                <Grid
-                                    container
-                                    item
-                                    direction='row'
-                                    spacing={6}
-                                    xs={12}
-                                ></Grid>
-                                {workExperiencesDummy.map(
-                                    (workExperience, index) => (
-                                        <Grid item key={index}>
-                                            <StudentWorkExperiencesPreview
-                                                startDate={
-                                                    workExperience.startDate
-                                                }
-                                                endDate={workExperience.endDate}
-                                                title={workExperience.title}
-                                                employer={
-                                                    workExperience.employer
-                                                }
-                                                description={
-                                                    workExperience.description
-                                                }
-                                            />
-                                        </Grid>
-                                    )
-                                )}
-                            </Grid>
-                        </Card>
-                    </Grid>
+                <Grid item md={12} xs={12}>
+                    <WorkExperiences workExperiences={workExperiencesDummy} />
                 </Grid>
             </Grid>
             <Dialog {...DialogProps} title='Edit Profile'>
@@ -175,12 +138,6 @@ function StudentProfile({ studentId }: StudentProfileProps) {
                         email: studentProfile.user.email,
                         biography: studentProfile.user.biography,
                         courseIds: getCoursesIds(),
-                        // resume: studentProfile.resume,
-                        // transcript: studentProfile.transcript,
-                        // workStartDate: studentProfile.workStartDate,
-                        // workEndDate: studentProfile.workEndDate,
-                        // workEmployer: studentProfile.workEmployer,
-                        // workDescription: studentProfile.workDescription,
                     }}
                 />
             </Dialog>

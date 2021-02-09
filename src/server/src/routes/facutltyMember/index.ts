@@ -12,7 +12,7 @@ import {
 import { validationMiddleware } from '@middlewares/validation';
 import {
     facultyMemberProfileSchema,
-    getPostedJobsSchema
+    getPostedJobsSchema,
 } from './schemas';
 import { JWTUser } from '@entities/user';
 

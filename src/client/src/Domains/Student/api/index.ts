@@ -38,11 +38,6 @@ export interface IStudent {
     courses: ICourse[];
     resume?: Buffer;
     transcript?: Buffer;
-    // workStartDate: string;
-    // workEndDate?: string;
-    // workTitle: string;
-    // workEmployer: string;
-    // workDescription: string;
 }
 
 export interface IStudentPreview {
@@ -54,14 +49,15 @@ export interface IStudentPreview {
     department?: _IDepartment;
     classStanding?: classStandingTypes;
 }
-/*export interface IWorkExperiences {
-    workStartDate:string; 
-    workEndDate?:string; 
-    workTitle:string; 
-    workEmployer:string; 
-    workDescription: string;
+
+export interface IWorkExperience {
+    id: number;
+    startDate: string;
+    endDate?: string;
+    title: string;
+    employer: string;
+    description: string;
 }
-*/
 
 export async function updateStudentProfile(
     studentProfile: IStudentProfileForm
@@ -85,12 +81,6 @@ export async function updateStudentProfile(
                 middleName: studentProfile.middleName,
                 biography: studentProfile.biography,
             },
-            // resume: studentProfile.resume,
-            // transcript: studentProfile.transcript,
-            // workStartDate: studentProfile.workStartDate,
-            // workEndDate: studentProfile.workEndDate,
-            // workEmployer: studentProfile.workEmployer,
-            // workDescription: studentProfile.workDescription,
         },
     };
     return API.post('/student/update-profile', body);
