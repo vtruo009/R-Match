@@ -44,19 +44,17 @@ interface docRequest extends Request {
 
         const {
             name,
-            docType,
+            type: type,
             isDefault,
-            //dateAdded,
             document,
         } = req.body.document;
         try {
             let document1 = Buffer.alloc(16);
             const { result, message } = await createDocument(
                 name,
-                docType,
+                type,
                 isDefault,
-                //dateAdded,
-                document1,
+                document1, // TODO: replace document1 with document data received in the request
                 specificUserId,
             );
             return result
@@ -107,7 +105,7 @@ router.get(
 router.delete(
     '/delete/:id',
     passport.authenticate('jwt', { session: false }),
-    async (req: docRequest, res: Response) => {
+    async (req: Request, res: Response) => {
         const { role } = req.user as JWTUser;
         if (role !== 'student') {
             return res

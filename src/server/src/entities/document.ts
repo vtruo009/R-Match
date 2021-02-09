@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { Student } from './student';
 
-export type docType = 'resume' | 'transcript';
+export type type = 'resume' | 'transcript';
 @Entity()
 export class Document extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -21,9 +21,9 @@ export class Document extends BaseEntity {
         type: 'enum',
         enum: ['resume', 'transcript'],
     })
-    docType: docType;
+    type: type;
 
-    @Column({ nullable: true })
+    @Column({ nullable: false })
     isDefault: boolean;
 
     @Column()

@@ -1,28 +1,22 @@
 import { Document } from '@entities/document';
 import { Student } from '@entities/student';
-import { getRepository } from 'typeorm';
 
-/* find a student by id? */
 /**
  * @description Find a student byt id
  * @param {number} id - id of student to find
  * @returns Promise
  */
-export const findStudent = (id: Student['id']) => {
-    return Document.findOne(id);
-};
 
 /**
- * @description Creates a new file. Assigns relationships with student tables
+ * @description Creates a new document. Assigns relationship with student tables
  * @param name - Name of document
  * @param isDefault - Default document that student uses to apply to jobs
- * @param dateAdded - The date the document was added (probably won't need as a param because it will always be today. The user doens't have to input the date)
  * @param document - Binary data of the file/document
  * @returns Promise
  */
 export const createDocument = async (
     name: Document['name'],
-    docType: Document['docType'],
+    type: Document['type'],
     isDefault: Document['isDefault'],
     document: Document['document'],
     studentId: Document['studentId']
@@ -33,23 +27,21 @@ export const createDocument = async (
     };
 
     const docName = name + '.pdf';
-    const dateAddedAsDate = new Date(); //today
-    const studentRepository = getRepository(Student);
 
-    const studentToUpdate = await studentRepository.findOne({
+    const studentToUpdate = await Student.findOne({
         where: { id: studentId },
     });
     if (!studentToUpdate) {
         insertResult.message =
-            'Student that uploaded the document does not exist';
+            'Student that uploaded the document no longer exists';
         return insertResult;
     }
 
     const documentToInsert = await Document.create({
         name: docName,
-        docType,
+        type: type,
         isDefault,
-        dateAdded: dateAddedAsDate,
+        dateAdded: new Date(),
         document,
         studentId,
     }).save();
@@ -60,7 +52,7 @@ export const createDocument = async (
 };
 
 /**
- * @description Get all the documents of this user (student)
+ * @description Gets all the documents of this user (student)
  * @param {number} studentId - Id of the student
  * @returns Promise
  */
@@ -69,17 +61,7 @@ export const getDocuments = async (studentId: number) => {
     const student = await Student.findOne(studentId);
     if (!student) return undefined;
 
-    return getRepository(Document)
-        .createQueryBuilder('document')
-        // .select([
-        //     'document',
-        //     'document.student',
-        //     'document.name',
-        //     'document.isDefault',
-        //     'document.dateAdded',
-        // ])
-        .where({ studentId: studentId })
-        .getMany();
+    return Document.find({ where: { studentId } });
 };
 
  /**
