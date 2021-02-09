@@ -177,7 +177,7 @@ export async function getAppliedJobs(
     const params = {
         page, numOfItems
     };
-    return API.get<{ jobApplications: IJobApplication[] }>(
+    return API.get<{ jobApplications: IJobApplication[], jobApplicationsCount: number }>(
         '/student/get-applied-jobs', { params }
     );
 }
