@@ -28,7 +28,7 @@ export const studentSearchSchema = Joi.object({
     departmentIds: Joi.array().allow('').items(Joi.number()).required(),
     classStandings: Joi.array()
         .allow('')
-        .items(Joi.string().valid('Freshman', 'Sophmore', 'Junior', 'Senior'))
+        .items(Joi.string().valid('Freshman', 'Sophomore', 'Junior', 'Senior'))
         .required(),
     page: Joi.string().required(),
     numOfItems: Joi.string().required(),

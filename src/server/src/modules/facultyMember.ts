@@ -2,6 +2,7 @@ import { FacultyMember } from '@entities/facultyMember';
 import { User } from '@entities/user';
 import { Department } from '@entities/department';
 import { Job } from '@entities/job';
+import { Student } from '@entities/student';
 import { getRepository } from 'typeorm';
 import { JobApplication } from '../entities/jobApplication';
 
@@ -124,9 +125,18 @@ export const getPostedJobs = async (
  * @description Get a list of students who applied to a job.
  * @param {number} facultyMemberId - Id of faculty member
  * @param {number} jobId - Id of the job
+ * @param {number[]} departmentIds[] - List of department ids. [-1] if not specified.
+ * @param {ClassStanding[]} classStandings[] - List of preferred class standings.
+ * @param {number} minimumGpa - minimum GPA.
  * @returns Promise
  */
-export const getApplicants = async (facultyMemberId: number, jobId: number) => {
+export const getApplicants = async (
+    facultyMemberId: number,
+    jobId: number,
+    departmentIds: Student['departmentId'][],
+    classStandings: Student['classStanding'][],
+    minimumGpa: number,
+) => {
     const getApplicantsResult: {
         result?: JobApplication[];
         message: string;
@@ -158,7 +168,6 @@ export const getApplicants = async (facultyMemberId: number, jobId: number) => {
     // Returns all students applied to the position.
     const applications = await getRepository(JobApplication)
         .createQueryBuilder('jobApplication')
-        .where({ jobId })
         .leftJoinAndSelect('jobApplication.student', 'student')
         .leftJoin('student.user', 'user')
         .addSelect([
@@ -172,6 +181,24 @@ export const getApplicants = async (facultyMemberId: number, jobId: number) => {
         .leftJoinAndSelect('student.department', 'department')
         .leftJoinAndSelect('department.college', 'college')
         .leftJoinAndSelect('student.courses', 'courses')
+        .where({ jobId })
+        .andWhere(
+            '(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))',
+            {
+                departmentIdsPopulated: departmentIds[0] !== -1,
+                departmentIds,
+            }
+        )
+        .andWhere(
+            '(student.classStanding IS NULL OR student.classStanding IN (:...classStandings))',
+            {
+                classStandings,
+            }
+        )
+        .andWhere('(NOT :gpaIsPopulated OR student.gpa >= :minimumGpa)', {
+            gpaIsPopulated: minimumGpa > 0,
+            minimumGpa
+        })
         .getMany();
 
     getApplicantsResult.message = 'Successfully obtained applicants.';
