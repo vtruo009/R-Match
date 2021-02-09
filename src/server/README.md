@@ -193,12 +193,12 @@ Job API
             -   User must be a faculty member
             -   User must be an owner of the job
         -   Parameters:
-             ```
+            ```
             {
-                jobId: string;
-                departmentIds: string[];
-                classStandings: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior'[];
-                minimumGpa: string;
+               jobId: string;
+               departmentIds: string[];
+               classStandings: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior'[];
+               minimumGpa: string;
             };
             ```
         -   Response:
@@ -705,7 +705,7 @@ Student API
 
     -   api/student/search
 
-        -   Filters student records based on queries and returns them.
+        -   Filters student records based on queries and returns them. Result is a list of student previews
         -   Body: None
         -   Parameters:
             ```

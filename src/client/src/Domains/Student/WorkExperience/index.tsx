@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import EditButton from 'Components/EditButton';
-import DeleteButton from 'Components/DeleteButton';
+// import DeleteButton from 'Components/DeleteButton';
 import { formatDateString } from 'utils/format';
 import { IWorkExperience } from '../api';
 
@@ -32,7 +32,7 @@ function WorkExperience({
             </Grid>
             <Grid item xs={12}>
                 <Typography variant='body1'>
-                    {formatDateString(startDate)} - {' '}
+                    {formatDateString(startDate)} -{' '}
                     {endDate && formatDateString(endDate)}
                 </Typography>
             </Grid>

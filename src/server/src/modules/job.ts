@@ -375,8 +375,8 @@ export const applyToJob = async (studentId: number, jobId: number) => {
  * @description Get a list of students who applied to a job.
  * @param {number} facultyMemberId - Id of faculty member
  * @param {number} jobId - Id of the job
- * @param {number[]} departmentIds[] - List of department ids. [-1] if not specified.
- * @param {ClassStanding[]} classStandings[] - List of preferred class standings.
+ * @param {number[]} departmentIds - List of department ids. [-1] if not specified.
+ * @param {ClassStanding[]} classStandings - List of preferred class standings.
  * @param {number} minimumGpa - minimum GPA.
  * @returns Promise
  */
