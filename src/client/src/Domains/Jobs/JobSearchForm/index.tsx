@@ -44,8 +44,7 @@ const formSchema = yup.object({
     hoursPerWeek: yup.number().moreThan(0).optional(),
 });
 
-const numOfItems = 5;
-
+const numOfItems = 10;
 function JobSearchForm({ setJobs, children }: JobSearchFormProps) {
     const [formState, setFormState] = React.useState<JobSearchFormType>(
         formInitialValues

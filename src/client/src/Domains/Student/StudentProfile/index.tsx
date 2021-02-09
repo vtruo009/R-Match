@@ -102,7 +102,7 @@ function StudentProfile({ studentId }: StudentProfileProps) {
     React.useEffect(() => {
         sendGetProfileRequest();
         sendGetWorkExperiencesRequest();
-    }, [sendGetProfileRequest,  ]);
+    }, [sendGetProfileRequest, sendGetWorkExperiencesRequest]);
 
     return isGettingProfileLoading ? (
         <Loader center />

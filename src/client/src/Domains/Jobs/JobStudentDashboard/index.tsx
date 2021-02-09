@@ -2,23 +2,34 @@ import React from 'react';
 
 import useSnack from 'hooks/useSnack';
 import useApi from 'hooks/useApi';
+import usePagination from 'hooks/usePagination';
 import Loader from 'Components/Loader';
 import { getAppliedJobs, IJob } from '../api/index';
 import JobDashboard from 'Domains/Jobs/JobDashboard';
 
+const numOfItems = 10;
 function JobStudentDashBoard() {
     const [jobs, setJobs] = React.useState<IJob[]>([]);
     const [snack] = useSnack();
-    // TODO: Update the parameters of getAppliedJobs.
-    const getPostedJobsRequest = React.useCallback(() => getAppliedJobs(1, 100), []);
+    const {
+        page,
+        setNumOfPages,
+        PaginationProps,
+        Pagination,
+    } = usePagination();
+    const getPostedJobsRequest = React.useCallback(
+        () => getAppliedJobs(page, numOfItems),
+        [page]
+    );
     const [sendRequest, isLoading] = useApi(getPostedJobsRequest, {
         onSuccess: (response) => {
-            const jobApps = response.data.jobApplications;
-            if (jobApps.length === 0) {
+            const { jobApplications, jobApplicationsCount } = response.data;
+            if (jobApplications.length === 0) {
                 snack('No job applications were found', 'warning');
             } else {
-                const jobs = jobApps.map((jobApp) => jobApp.job);
+                const jobs = jobApplications.map((jobApp) => jobApp.job);
                 setJobs(jobs);
+                setNumOfPages(Math.ceil(jobApplicationsCount / numOfItems));
             }
         },
     });
@@ -26,12 +37,15 @@ function JobStudentDashBoard() {
     return isLoading ? (
         <Loader center />
     ) : (
-        <JobDashboard
-            title='Applied Jobs'
-            jobs={jobs}
-            setJobs={setJobs}
-            reSendRequest={sendRequest}
-        />
+        <div>
+            <JobDashboard
+                title='Applied Jobs'
+                jobs={jobs}
+                setJobs={setJobs}
+                reSendRequest={sendRequest}
+            />
+            <Pagination {...PaginationProps} onPageChange={sendRequest} />
+        </div>
     );
 }
 

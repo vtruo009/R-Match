@@ -50,7 +50,7 @@ const formSchema = yup.object({
         .length(9, 'SID must contain 9 digits')
         .optional(),
 });
-const numOfItems = 5;
+const numOfItems = 10;
 function StudentSearchForm() {
     const [formState, setFormState] = React.useState<IStudentSearchForm>(
         formInitialValues

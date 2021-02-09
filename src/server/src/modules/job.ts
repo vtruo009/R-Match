@@ -136,52 +136,54 @@ export const getJobs = async (
         modStart = month + '/' + date + '/' + year;
     }
 
-    const jobApplications = await getJobApplications(studentId);
+    const jobApplications = await getJobApplications(studentId, 1, 5);
 
     // jobApplications is undefined when the studentId does not exist.
     if (!jobApplications) return undefined;
 
-    const appliedJobIds = jobApplications.map((jobApplication) => jobApplication.jobId);
+    const appliedJobIds = jobApplications[0].map(
+        (jobApplication) => jobApplication.jobId
+    );
 
-    return (
-        getRepository(Job)
-            .createQueryBuilder('job')
-            .select([
-                'job',
-                'job.facultyMember',
-                'facultyMember.id',
-                'facultyMember.title',
-                'user.firstName',
-                'user.lastName',
-            ])
-            .leftJoin('job.facultyMember', 'facultyMember')
-            .leftJoin('facultyMember.user', 'user')
-            .leftJoinAndSelect('job.department', 'department')
-            .where(`(LOWER(job.title) LIKE :title 
+    return getRepository(Job)
+        .createQueryBuilder('job')
+        .select([
+            'job',
+            'job.facultyMember',
+            'facultyMember.id',
+            'facultyMember.title',
+            'user.firstName',
+            'user.lastName',
+        ])
+        .leftJoin('job.facultyMember', 'facultyMember')
+        .leftJoin('facultyMember.user', 'user')
+        .leftJoinAndSelect('job.department', 'department')
+        .where(
+            `(LOWER(job.title) LIKE :title 
                     OR job.type IN (:...types)
                     OR job.type LIKE :type
                     OR job.startDate >= :startDate
                     OR job.minSalary >= :minSalary
-                    OR job.hoursPerWeek >= :hoursPerWeek)`, {
-                    title: `%${title.toLowerCase()}%`,
-                    types,
-                    type: `%${modType}%`,
-                    startDate: modStart,
-                    minSalary,
-                    hoursPerWeek
-
-            })
-            .andWhere('job.status = :jobStatus', {
-                 jobStatus: 'Hiring',
-            })
-            .andWhere('job.id NOT IN (:...appliedJobIds)', {
-                // It causes a SQL parse error when an empty array is passed in.
-                appliedJobIds: appliedJobIds.length > 0 ? appliedJobIds : [-1]
-            })
-            .skip((page - 1) * numOfItems)
-            .take(numOfItems)
-            .getManyAndCount()
-    );
+                    OR job.hoursPerWeek >= :hoursPerWeek)`,
+            {
+                title: `%${title.toLowerCase()}%`,
+                types,
+                type: `%${modType}%`,
+                startDate: modStart,
+                minSalary,
+                hoursPerWeek,
+            }
+        )
+        .andWhere('job.status = :jobStatus', {
+            jobStatus: 'Hiring',
+        })
+        .andWhere('job.id NOT IN (:...appliedJobIds)', {
+            // It causes a SQL parse error when an empty array is passed in.
+            appliedJobIds: appliedJobIds.length > 0 ? appliedJobIds : [-1],
+        })
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount();
 };
 
 /**
