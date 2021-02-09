@@ -9,7 +9,8 @@ import JobDashboard from 'Domains/Jobs/JobDashboard';
 function JobStudentDashBoard() {
     const [jobs, setJobs] = React.useState<IJob[]>([]);
     const [snack] = useSnack();
-    const getPostedJobsRequest = React.useCallback(() => getAppliedJobs(), []);
+    // TODO: Update the parameters of getAppliedJobs.
+    const getPostedJobsRequest = React.useCallback(() => getAppliedJobs(1, 100), []);
     const [sendRequest, isLoading] = useApi(getPostedJobsRequest, {
         onSuccess: (response) => {
             const jobApps = response.data.jobApplications;
