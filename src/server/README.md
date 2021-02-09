@@ -479,7 +479,7 @@ Faculty Member API
                 -   Unprocessable Entity -> Status code: 422
                 -   Internal server error -> Status code: 500
 
-    -   api/facultyMember/get-applicants/:jobId
+    -   api/facultyMember/get-applicants
 
         -   Returns a list of students who applied for a job with the given job Id from the database.
         -   Body: None
@@ -487,17 +487,29 @@ Faculty Member API
             -   User must be logged in
             -   User must be a faculty member
             -   User must be an owner of the job
-        -   Parameters: None
+        -   Parameters:
+            ```
+            {
+                jobId: string;
+                departmentIds: string[];
+                classStandings: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior'[];
+                minimumGpa: string;
+            };
+            ```
         -   Response:
             -   success:
                 Status code: 200
                 ```
                 {
-                    students: [
-                        {
+                    students: {
+                        id: number,
+                        date: Date,
+                        jobId: number,
+                        studentId: number,
+                        student: {
                             id: number,
                             sid: number,
-                            classStanding: 'freshman' | 'sophomore' | 'junior' | 'senior',
+                            classStanding: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior',
                             user: {
                                 id: number,
                                 email: : string,
@@ -522,7 +534,7 @@ Faculty Member API
                                 }
                             ]
                         }
-                    ]
+                    }[]
                 }
                 ```
             -   errors:
