@@ -29,7 +29,7 @@ function DeleteButton({
     onDeleteRequest,
     onSuccess,
 }: DeleteWarningProps) {
-    const [, openDialog, closeDialog, DialogProps, Dialog] = useDialog();
+    const { openDialog, closeDialog, DialogProps, Dialog } = useDialog();
     const classes = useStyles();
     const [snack] = useSnack();
     const [sendDeleteRequest, isLoading] = useApi(onDeleteRequest, {

@@ -37,7 +37,7 @@ export async function getConversationList() {
 
 export async function createMessage(newMessageForm: INewMessageForm) {
     return API.get<{ user: IUser; error: string }>(
-        `user/get-by-email/${newMessageForm.email}`
+        `message/get-user-by-email/${newMessageForm.email}`
     );
 }
 
