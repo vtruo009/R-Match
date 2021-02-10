@@ -9,7 +9,8 @@ import { JWTUser } from '@entities/user';
 import {
     getMessages,
     sendMessage,
-    getConversationList
+    getConversationList,
+    getUserByEmail
 } from '@modules/message';
 
 const router = Router();
@@ -90,6 +91,31 @@ router.get('/getConversationList',
             return result
                 ? res.status(OK).json({ conversationList: result }).end()
                 : res.status(BAD_REQUEST).json({ error: errorMessage }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
+ *       GET Request - Get user By Email - /api/message/get-user-by-email/:email
+ ******************************************************************************/
+
+router.get(
+    '/get-user-by-email/:email',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        const { userId } = req.user as JWTUser;
+        const { email } = req.params;
+        try {
+            const { result, message } = await getUserByEmail(userId, email);
+            return result
+                ? res.status(OK).json({ user: result }).end()
+                : res.status(BAD_REQUEST).json({ error: message }).end();
         } catch (error) {
             logger.err(error);
             return res

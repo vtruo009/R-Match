@@ -1,6 +1,7 @@
 import { Job } from '@entities/job';
 import { FacultyMember } from '@entities/facultyMember';
 import { findDepartment } from '@modules/department';
+import { getJobApplications } from '@modules/student';
 import { getRepository, UpdateResult } from 'typeorm';
 import { JobApplication } from '@entities/jobApplication';
 import { Student } from '@entities/student';
@@ -16,6 +17,7 @@ export const findJob = (id: Job['id']) => {
 
 /**
  * @description Saves a new job. Assigns relationships with department and facultyMember tables
+ * @param {number} studentId - Student id of the logged in student
  * @param {string[]} targetYears - School years targeted by the job
  * @param {number} hoursPerWeek - Number of hours per week required by the job
  * @param {string} description - Description of the job
@@ -111,7 +113,8 @@ export const createJob = async (
     return insertResult;
 };
 
-export const getJobs = (
+export const getJobs = async (
+    studentId: number,
     title: string,
     types: string[],
     startDate: string,
@@ -132,35 +135,55 @@ export const getJobs = (
         let year = modStart.getFullYear();
         modStart = month + '/' + date + '/' + year;
     }
-    return (
-        getRepository(Job)
-            .createQueryBuilder('job')
-            .select([
-                'job',
-                'job.facultyMember',
-                'facultyMember.id',
-                'facultyMember.title',
-                'user.firstName',
-                'user.lastName',
-            ])
-            .leftJoin('job.facultyMember', 'facultyMember')
-            .leftJoin('facultyMember.user', 'user')
-            .leftJoinAndSelect('job.department', 'department')
-            .where('LOWER(job.title) LIKE :title', {
-                title: `%${title.toLowerCase()}%`,
-            })
-            .orWhere('job.type IN (:...types)', { types })
-            .orWhere('job.type LIKE :type', { type: `%${modType}%` })
-            .orWhere('job.startDate >= :startDate', { startDate: modStart })
-            .orWhere('job.minSalary >= :minSalary', { minSalary })
-            .orWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
-            // .andWhere('job.status LIKE :jobStatus', {
-            //     jobStatus: 'Hiring',
-            // })
-            .skip((page - 1) * numOfItems)
-            .take(numOfItems)
-            .getManyAndCount()
+
+    const jobApplications = await JobApplication.find({ where: { studentId } });
+
+    // jobApplications is undefined when the studentId does not exist.
+    if (!jobApplications) return undefined;
+
+    const appliedJobIds = jobApplications.map(
+        (jobApplication) => jobApplication.jobId
     );
+
+    return getRepository(Job)
+        .createQueryBuilder('job')
+        .select([
+            'job',
+            'job.facultyMember',
+            'facultyMember.id',
+            'facultyMember.title',
+            'user.firstName',
+            'user.lastName',
+        ])
+        .leftJoin('job.facultyMember', 'facultyMember')
+        .leftJoin('facultyMember.user', 'user')
+        .leftJoinAndSelect('job.department', 'department')
+        .where(
+            `(LOWER(job.title) LIKE :title 
+                    OR job.type IN (:...types)
+                    OR job.type LIKE :type
+                    OR job.startDate >= :startDate
+                    OR job.minSalary >= :minSalary
+                    OR job.hoursPerWeek >= :hoursPerWeek)`,
+            {
+                title: `%${title.toLowerCase()}%`,
+                types,
+                type: `%${modType}%`,
+                startDate: modStart,
+                minSalary,
+                hoursPerWeek,
+            }
+        )
+        .andWhere('job.status = :jobStatus', {
+            jobStatus: 'Hiring',
+        })
+        .andWhere('job.id NOT IN (:...appliedJobIds)', {
+            // It causes a SQL parse error when an empty array is passed in.
+            appliedJobIds: appliedJobIds.length > 0 ? appliedJobIds : [-1],
+        })
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount();
 };
 
 /**
@@ -240,11 +263,12 @@ export const updateJob = async (job: Job) => {
 };
 
 /**
- * @description Deletes an existing job from the database
+ * @description Deletes an existing job and relevant job applications from the database
  * @param {number} id - Id of job to delete
  * @returns Promise
  */
-export const deleteJob = (id: Job['id']) => {
+export const deleteJob = async (id: Job['id']) => {
+    await JobApplication.delete({ jobId: id });
     return Job.delete(id);
 };
 
@@ -369,4 +393,91 @@ export const applyToJob = async (studentId: number, jobId: number) => {
     applicationResult.message = 'Job application successfully submitted';
     applicationResult.result = jobApplication;
     return applicationResult;
+};
+
+/**
+ * @description Get a list of students who applied to a job.
+ * @param {number} facultyMemberId - Id of faculty member
+ * @param {number} jobId - Id of the job
+ * @param {number[]} departmentIds - List of department ids. [-1] if not specified.
+ * @param {ClassStanding[]} classStandings - List of preferred class standings.
+ * @param {number} minimumGpa - minimum GPA.
+ * @returns Promise
+ */
+export const getApplicants = async (
+    facultyMemberId: number,
+    jobId: number,
+    departmentIds: Student['departmentId'][],
+    classStandings: Student['classStanding'][],
+    minimumGpa: number,
+    page: number,
+    numOfItems: number
+) => {
+    const getApplicantsResult: {
+        result?: JobApplication[];
+        message: string;
+        count: number;
+    } = {
+        result: undefined,
+        message: '',
+        count: 0,
+    };
+
+    // Check if a faculty member with the given id exists.
+    const facultyMember = await FacultyMember.findOne(facultyMemberId);
+    if (!facultyMember) {
+        getApplicantsResult.message = 'The faculty member does not exist.';
+        return getApplicantsResult;
+    }
+
+    // Check if a job with the given id exists.
+    const job = await Job.findOne(jobId);
+    if (!job) {
+        getApplicantsResult.message = 'The requested job does not exist.';
+        return getApplicantsResult;
+    }
+
+    // Check if the job is posted by the faculty member.
+    if (job.facultyMemberId != facultyMemberId) {
+        getApplicantsResult.message = 'The user does not have permission.';
+        return getApplicantsResult;
+    }
+
+    // Returns all students applied to the position.
+    const applicants = await getRepository(JobApplication)
+        .createQueryBuilder('jobApplication')
+        .leftJoin('jobApplication.student', 'student')
+        .addSelect(['student.id', 'student.classStanding'])
+        .leftJoin('student.user', 'user')
+        .addSelect(['user.firstName', 'user.lastName'])
+        .leftJoinAndSelect('student.department', 'department')
+        .leftJoinAndSelect('department.college', 'college')
+        .leftJoinAndSelect('student.courses', 'courses')
+        .where({ jobId })
+        .andWhere(
+            '(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))',
+            {
+                departmentIdsPopulated: departmentIds[0] !== -1,
+                departmentIds,
+            }
+        )
+        .andWhere(
+            '(student.classStanding IS NULL OR student.classStanding IN (:...classStandings))',
+            {
+                classStandings,
+            }
+        )
+        .andWhere('(NOT :gpaIsPopulated OR student.gpa >= :minimumGpa)', {
+            gpaIsPopulated: minimumGpa > 0,
+            minimumGpa,
+        })
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount();
+
+    getApplicantsResult.message = 'Successfully obtained applicants.';
+    getApplicantsResult.result = applicants[0];
+    getApplicantsResult.count = applicants[1];
+
+    return getApplicantsResult;
 };
