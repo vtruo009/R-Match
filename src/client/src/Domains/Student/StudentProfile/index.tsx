@@ -17,6 +17,7 @@ import {
     getWorkExperiences,
     IWorkExperience,
 } from 'Domains/Student/api';
+import StudentProfileContext from '../Contexts/StudentProfileContext';
 
 const workExperiencesDummy = [
     {
@@ -60,8 +61,8 @@ function StudentProfile({ studentId }: StudentProfileProps) {
     const { user } = React.useContext(AuthContext);
 
     const getWorkExperiencesRequest = React.useCallback(
-        () => getWorkExperiences(),
-        []
+        () => getWorkExperiences(studentId),
+        [studentId]
     );
 
     const getProfileRequest = React.useCallback(
@@ -108,14 +109,15 @@ function StudentProfile({ studentId }: StudentProfileProps) {
     return isGettingProfileLoading ? (
         <Loader center />
     ) : studentProfile ? (
-        <div>
+        <StudentProfileContext.Provider
+            value={{
+                userId: studentProfile.user.id,
+                hasPermission: isUserProfileOwner,
+            }}
+        >
             <Grid container spacing={2} justify='center' alignItems='center'>
                 <BaseProfile
-                    firstName={studentProfile.user.firstName}
-                    middleName={studentProfile.user.middleName}
-                    email={studentProfile.user.email}
-                    lastName={studentProfile.user.lastName}
-                    biography={studentProfile.user.biography}
+                    user={studentProfile.user}
                     department={studentProfile.department}
                     onEdit={openDialog}
                     hasPermission={isUserProfileOwner}
@@ -143,10 +145,7 @@ function StudentProfile({ studentId }: StudentProfileProps) {
                     {isGettingWorkExperiencesLoading ? (
                         <Loader />
                     ) : (
-                        <WorkExperiences
-                            workExperiences={workExperiences}
-                            hasPermission={isUserProfileOwner}
-                        />
+                        <WorkExperiences workExperiences={workExperiences} />
                     )}
                 </Grid>
             </Grid>
@@ -171,7 +170,7 @@ function StudentProfile({ studentId }: StudentProfileProps) {
                     }}
                 />
             </Dialog>
-        </div>
+        </StudentProfileContext.Provider>
     ) : (
         <> </>
     );

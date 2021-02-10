@@ -53,11 +53,7 @@ function FacultyMemberProfile({ facultyMemberId }: FacultyMemberProfileProps) {
         <div>
             <Grid container spacing={2} justify='center' alignItems='center'>
                 <BaseProfile
-                    firstName={facultyMemberProfile.user.firstName}
-                    middleName={facultyMemberProfile.user.middleName}
-                    email={facultyMemberProfile.user.email}
-                    lastName={facultyMemberProfile.user.lastName}
-                    biography={facultyMemberProfile.user.biography}
+                    user={facultyMemberProfile.user}
                     department={facultyMemberProfile.department}
                     onEdit={openDialog}
                     hasPermission={isUserProfileOwner}

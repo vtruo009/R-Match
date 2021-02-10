@@ -5,7 +5,12 @@ import passport from 'passport';
 import { JWTUser } from '@entities/user';
 import { errors } from '@shared/errors';
 import logger from '@shared/Logger';
-import { findUserByEmail, registerUser } from '@modules/user';
+import {
+    findUserByEmail,
+    registerUser,
+    saveProfileImage,
+    getProfileImage,
+} from '@modules/user';
 import { User } from '@entities/user';
 import { signToken } from '@lib/jwt';
 import { validationMiddleware } from '@middlewares/validation';
@@ -93,16 +98,19 @@ router.get(
     passport.authenticate('jwt', { session: false }),
     (req: Request, res: Response) => {
         res.clearCookie('access_token');
-        return res.status(OK).json({
-            user: {
-                userId: '',
-                specificUserId: '',
-                role: '',
-                firstName: '',
-                lastName: '',
-            },
-            success: true,
-        });
+        return res
+            .status(OK)
+            .json({
+                user: {
+                    userId: '',
+                    specificUserId: '',
+                    role: '',
+                    firstName: '',
+                    lastName: '',
+                },
+                success: true,
+            })
+            .end();
     }
 );
 
@@ -122,10 +130,50 @@ router.get(
             lastName,
         } = req.user as JWTUser;
 
-        return res.status(OK).json({
-            user: { userId, specificUserId, role, firstName, lastName },
-            isAuthenticated: true,
-        });
+        return res
+            .status(OK)
+            .json({
+                user: { userId, specificUserId, role, firstName, lastName },
+                isAuthenticated: true,
+            })
+            .end();
+    }
+);
+
+router.post(
+    '/save-profile-image',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        const { imageAsBase64 } = req.body as { imageAsBase64: string };
+        try {
+            const { userId } = req.user as JWTUser;
+            await saveProfileImage(userId, imageAsBase64);
+            res.send(CREATED).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+router.get(
+    '/get-profile-image/:userId',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        try {
+            const { userId } = req.params;
+            const imageAsBase64 = await getProfileImage(parseInt(userId, 10));
+            return res.status(OK).json({ imageAsBase64 }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
     }
 );
 

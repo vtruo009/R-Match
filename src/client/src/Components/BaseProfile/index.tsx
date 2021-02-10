@@ -1,5 +1,4 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
@@ -8,24 +7,16 @@ import Card from 'Components/Card';
 import LabelValue from 'Components/LabelValue';
 import EditButton from 'Components/EditButton';
 import { IDepartment } from 'Components/AcademicInfo/api';
-
+import { IUser } from 'Domains/Accounts/api';
 interface BaseProfileProps {
-    firstName: string;
-    middleName?: string;
-    lastName: string;
-    biography?: string;
-    email: string;
+    user: IUser;
     department?: IDepartment;
     onEdit: () => void;
     hasPermission: boolean;
 }
 
 function BaseProfile({
-    firstName,
-    middleName,
-    lastName,
-    biography,
-    email,
+    user: { firstName, middleName, lastName, biography, email, id },
     department,
     onEdit,
     hasPermission,
@@ -51,11 +42,10 @@ function BaseProfile({
                             </Grid>
                         )}
                         <Grid item>
-                            {/* <Avatar
-                                alt={getUserName()}
-                                style={{ width: 170, height: 170 }}
-                            /> */}
-                            <ProfileImage />
+                            <ProfileImage
+                                userId={id}
+                                hasPermission={hasPermission}
+                            />
                         </Grid>
                         <Grid item>
                             <Typography variant='h4'>

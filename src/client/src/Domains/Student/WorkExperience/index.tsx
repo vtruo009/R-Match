@@ -6,16 +6,15 @@ import DeleteButton from 'Components/DeleteButton';
 import WorkExperienceUpdateForm from '../WorkExperienceUpdateForm';
 import { formatDateString } from 'utils/format';
 import { IWorkExperience, deleteWorkExperience } from '../api';
+import StudentProfileContext from '../Contexts/StudentProfileContext';
 
 interface WorkExperienceProps {
     workExperience: IWorkExperience;
-    hasPermission: boolean;
 }
 
-function WorkExperience({
-    workExperience,
-    hasPermission,
-}: WorkExperienceProps) {
+function WorkExperience({ workExperience }: WorkExperienceProps) {
+    const { hasPermission } = React.useContext(StudentProfileContext);
+
     const deleteRequest = React.useCallback(
         () => deleteWorkExperience(workExperience.id),
         [workExperience.id]
@@ -25,7 +24,7 @@ function WorkExperience({
             <Grid container item xs={12} justify='space-between'>
                 <Grid item>
                     <Typography variant='h6' color='primary'>
-                        {workExperience.title} 
+                        {workExperience.title}
                     </Typography>
                 </Grid>
                 {hasPermission && (

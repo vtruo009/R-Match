@@ -117,9 +117,9 @@ export async function getStudents(
     }>('/student/search', { params });
 }
 
-export async function getWorkExperiences() {
+export async function getWorkExperiences(studentId: number) {
     return API.get<{ workExperiences: IWorkExperience[] }>(
-        '/student/get-work-experiences'
+        `/student/get-work-experiences/${studentId}`
     );
 }
 

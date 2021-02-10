@@ -15,7 +15,7 @@ export const userIdExists = async (userId: number) => {
         .where({ id: userId })
         .getOne();
     return user !== undefined;
-}
+};
 
 /**
  * @description Finds user by email
@@ -103,7 +103,7 @@ export const hidePassword = async (user: User) => {
         id,
         middleName,
         biography,
-        email
+        email,
     });
 };
 
@@ -136,8 +136,7 @@ export const getUserById = async (userId: number) => {
         .getOne();
 
     if (!user) {
-        getUserByIdResult.message =
-            'A user with the id does not exist.';
+        getUserByIdResult.message = 'A user with the id does not exist.';
         return getUserByIdResult;
     }
 
@@ -147,3 +146,14 @@ export const getUserById = async (userId: number) => {
     return getUserByIdResult;
 };
 
+export const saveProfileImage = (userId: User['id'], imageAsBase64: string) => {
+    return User.update(userId, {
+        picture: Buffer.from(imageAsBase64, 'base64'),
+    });
+};
+
+export const getProfileImage = async (userId: User['id']) => {
+    const user = await User.findOne(userId);
+    if (!user || !user.picture) return undefined;
+    return user.picture.toString('base64');
+};

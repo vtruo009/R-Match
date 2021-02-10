@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, BaseEntity } from 'typeorm';
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    OneToMany,
+    BaseEntity,
+} from 'typeorm';
 import { Message } from './message';
 export type role = 'student' | 'facultyMember';
 
@@ -15,6 +21,9 @@ export class User extends BaseEntity {
 
     @Column({ nullable: true })
     biography?: string;
+
+    @Column({ type: 'bytea', nullable: true })
+    picture: Buffer;
 
     @Column()
     firstName: string;

@@ -9,16 +9,14 @@ import Card from 'Components/Card';
 import WorkExperience from '../WorkExperience';
 import WorkExperienceCreateForm from '../WorkExperienceCreateForm';
 import { IWorkExperience } from '../api';
+import StudentProfileContext from '../Contexts/StudentProfileContext';
 
 interface WorkExperiencesProps {
     workExperiences: IWorkExperience[];
-    hasPermission: boolean;
 }
 
-function WorkExperiences({
-    workExperiences,
-    hasPermission,
-}: WorkExperiencesProps) {
+function WorkExperiences({ workExperiences }: WorkExperiencesProps) {
+    const { hasPermission } = React.useContext(StudentProfileContext);
     return (
         <div>
             <Card>
@@ -45,7 +43,6 @@ function WorkExperiences({
                                 )}
                                 <WorkExperience
                                     workExperience={workExperience}
-                                    hasPermission={hasPermission}
                                 />
                             </Grid>
                         ))}
