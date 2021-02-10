@@ -44,7 +44,7 @@ interface docRequest extends Request {
 
         const {
             name,
-            type: type,
+            type,
             isDefault,
             document,
         } = req.body.document;

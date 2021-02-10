@@ -39,7 +39,7 @@ export const createDocument = async (
 
     const documentToInsert = await Document.create({
         name: docName,
-        type: type,
+        type,
         isDefault,
         dateAdded: new Date(),
         document,
