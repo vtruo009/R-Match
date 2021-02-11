@@ -90,14 +90,31 @@ export const registerUser = async (
 };
 
 /**
- * @description Returns an user object corresponding to email in order to send a message.
- * @param {number} userId - id of the logged-in user.
- * @param {string} email - email address.
+ * @description Makes password field of the user object null.
+ * @param {User} user - user object
  * @returns Promise
  */
-export const getUserByEmail = async (userId: number, email: string) => {
-    const getUserByEmailResult: {
-        result: User | undefined;
+export const hidePassword = async (user: User) => {
+    const { firstName, lastName, id, middleName, biography, email } = user;
+
+    return User.create({
+        firstName,
+        lastName,
+        id,
+        middleName,
+        biography,
+        email
+    });
+};
+
+/**
+ * @description Returns an user object corresponding to the input userId.
+ * @param {number} userId - id of the requested user.
+ * @returns Promise
+ */
+export const getUserById = async (userId: number) => {
+    const getUserByIdResult: {
+        result?: User;
         message: string;
     } = {
         result: undefined,
@@ -107,7 +124,7 @@ export const getUserByEmail = async (userId: number, email: string) => {
     // Check if the user with the email exists.
     const user = await getRepository(User)
         .createQueryBuilder('user')
-        .where({ email: email })
+        .where({ id: userId })
         .select([
             'user.id',
             'user.firstName',
@@ -119,19 +136,14 @@ export const getUserByEmail = async (userId: number, email: string) => {
         .getOne();
 
     if (!user) {
-        getUserByEmailResult.message =
-            'A user with the email does not exist.';
-        return getUserByEmailResult;
+        getUserByIdResult.message =
+            'A user with the id does not exist.';
+        return getUserByIdResult;
     }
 
-    if (user.id == userId) {
-        getUserByEmailResult.message =
-            'You cannot send message to yourself.';
-        return getUserByEmailResult;
-    }
+    getUserByIdResult.message = 'Successful';
+    getUserByIdResult.result = user;
 
-    getUserByEmailResult.message = 'Successful';
-    getUserByEmailResult.result = user;
-
-    return getUserByEmailResult;
+    return getUserByIdResult;
 };
+

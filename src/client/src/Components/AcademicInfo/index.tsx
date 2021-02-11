@@ -9,6 +9,7 @@ import useApi from 'hooks/useApi';
 
 interface AcademicInfoProps extends FieldProps {
     showCourses?: boolean;
+    multipleDepartments?: boolean;
 }
 
 interface IBaseSelectValues {
@@ -30,6 +31,7 @@ const coursesDefaultValues = [
 
 function AcademicInfo({
     showCourses,
+    multipleDepartments,
     form: {
         setFieldValue,
         values: { collegeId, departmentId },
@@ -99,12 +101,16 @@ function AcademicInfo({
 
     React.useEffect(() => {
         if (!collegeId) {
-            setFieldValue('departmentId', undefined, true);
+            setFieldValue(
+                'departmentId',
+                multipleDepartments ? [] : undefined,
+                true
+            );
             setDepartments(departmentsDefaultValues);
         } else if (collegeDepartmentDict[collegeId]) {
             setDepartments(collegeDepartmentDict[collegeId]);
         }
-    }, [collegeId, collegeDepartmentDict, setFieldValue]);
+    }, [collegeId, collegeDepartmentDict, setFieldValue, multipleDepartments]);
 
     React.useEffect(() => {
         if (departmentId && showCourses) {
@@ -134,6 +140,7 @@ function AcademicInfo({
                             name='departmentId'
                             label='Department'
                             options={departments}
+                            multiple={multipleDepartments}
                             component={SelectFormField}
                         />
                     </Grid>

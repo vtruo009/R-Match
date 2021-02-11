@@ -32,7 +32,7 @@ function JobCreateForm() {
         setJobInitialValues,
     ] = React.useState<IJobCreateFormValues>(jobCreateFormInitialValues);
     const { addJob } = React.useContext(JobsContext);
-    const [, openDialog, closeDialog, DialogProps, Dialog] = useDialog();
+    const { openDialog, closeDialog, DialogProps, Dialog } = useDialog();
     const [snack] = useSnack();
     const request = React.useCallback(() => createJob(jobInitialValues), [
         jobInitialValues,

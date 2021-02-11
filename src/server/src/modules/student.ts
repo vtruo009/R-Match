@@ -23,6 +23,7 @@ export const createStudent = (user: User) => {
  * @param {User} user - User object to update
  * @param {number} departmentId - New id of the department that the student belongs to
  * @param {number} sid - New student's sid
+ * @param {number} gpa - New student's gpa
  * @param {'Freshman' | 'Sophomore' | 'Junior' | 'Senior'} classStanding - Student's class standing
  * @param {Course[]} courses - New courses of the student
  * @returns Promise
@@ -32,6 +33,7 @@ export const updateStudent = async (
     user: Student['user'],
     departmentId: Student['departmentId'],
     sid: Student['sid'],
+    gpa: Student['gpa'],
     classStanding: Student['classStanding'],
     courses: Student['courses'],
     transcript: Student['transcript'],
@@ -69,6 +71,7 @@ export const updateStudent = async (
 
     return Student.update(id, {
         sid,
+        gpa,
         classStanding,
         resume,
         transcript,
@@ -102,9 +105,15 @@ export const getStudentProfile = (id: number) => {
 /**
  * @description Gets all job applications submitted by the student
  * @param {number} studentId - id of student
+ * @param {number} page - page index
+ * @param {number} numOfItems - number of items per page
  * @returns Promise
  */
-export const getJobApplications = async (studentId: number) => {
+export const getJobApplications = async (
+    studentId: number,
+    page: number,
+    numOfItems: number
+) => {
     // Check if a student exists.
     const student = await Student.findOne(studentId);
     if (!student) return undefined;
@@ -125,7 +134,9 @@ export const getJobApplications = async (studentId: number) => {
             'user.biography',
             'user.email',
         ])
-        .getMany();
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount();
 };
 
 export const searchStudents = async (
@@ -140,18 +151,10 @@ export const searchStudents = async (
 ) => {
     return await getRepository(Student)
         .createQueryBuilder('student')
+        .select(['student.id', 'student.classStanding'])
         .leftJoin('student.user', 'user')
-        .addSelect([
-            'user.id',
-            'user.firstName',
-            'user.lastName',
-            'user.middleName',
-            'user.biography',
-            'user.email',
-        ])
+        .addSelect(['user.firstName', 'user.lastName'])
         .leftJoinAndSelect('student.department', 'department')
-        .leftJoinAndSelect('department.college', 'college')
-        .leftJoinAndSelect('student.courses', 'courses')
         .where('LOWER(user.firstName) LIKE :firstName', {
             firstName: `%${firstName.toLowerCase()}%`,
         })
@@ -162,17 +165,23 @@ export const searchStudents = async (
             email: `%${email}%`,
         })
         .andWhere('((NOT :sidExists) OR (:sidExists AND sid LIKE :sid))', {
-            sidExists: sid !== "",
+            sidExists: sid !== '',
             sid: `%${sid}%`,
         })
-        .andWhere('(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))', {
-            departmentIdsPopulated: departmentIds[0] !== -1,
-            departmentIds
-        })
-        .andWhere('(student.classStanding IS NULL OR student.classStanding IN (:...classStandings))', {
-            classStandings
-        })
+        .andWhere(
+            '(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))',
+            {
+                departmentIdsPopulated: departmentIds[0] !== -1,
+                departmentIds,
+            }
+        )
+        .andWhere(
+            '(student.classStanding IS NULL OR student.classStanding IN (:...classStandings))',
+            {
+                classStandings,
+            }
+        )
         .skip((page - 1) * numOfItems)
         .take(numOfItems)
-        .getManyAndCount()
+        .getManyAndCount();
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import { Link } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import { useHistory } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
@@ -107,12 +108,12 @@ function SignInForm() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Typography variant='h6' align='center'>
-                                        <a href='sign-up'>
+                                    <Link to='/sign-up'>
+                                        <Typography variant='h6' align='center'>
                                             Don't have an account yet? Create
                                             one!
-                                        </a>
-                                    </Typography>
+                                        </Typography>
+                                    </Link>
                                 </Grid>
                             </Grid>
                         </Form>
