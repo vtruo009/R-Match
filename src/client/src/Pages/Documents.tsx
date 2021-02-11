@@ -1,4 +1,5 @@
 import React from 'react';
+import testPDF from 'static/images/projectrt';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,6 +11,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import { Button } from '@material-ui/core';
+import { Document, Page, pdfjs } from 'react-pdf';
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export interface DocumentProps {
     name: JSX.Element | string,
@@ -91,6 +94,13 @@ function Documents() {
                     </TableBody>
                 </Table>
             </TableContainer>
+
+            <Document
+                file={testPDF}
+                onLoadError={console.error}
+            >
+                <Page pageNumber={1} />
+            </Document>
 
             <Button style={{ float: 'right', marginTop: 100, marginBottom: 100, marginRight: 35 }} variant='contained' color='primary'>
                 Add a Document
