@@ -485,8 +485,6 @@ export const getApplicants = async (
  * @description Returns at most 20 newest jobs that match with student's department
  *              and class standing.
  * @param {number} studentId - id of student
- * @param {number} page - page index
- * @param {number} numOfItems - number of items per page
  * @returns Promise
  */
 export const getRecommendedJobs = async (
