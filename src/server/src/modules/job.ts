@@ -1,10 +1,9 @@
-import { FacultyMember } from '@entities/facultyMember';
 import { Job } from '@entities/job';
-import { JobApplication } from '@entities/jobApplication';
-import { Student } from '@entities/student';
+import { FacultyMember } from '@entities/facultyMember';
 import { findDepartment } from '@modules/department';
 import { getRepository, UpdateResult } from 'typeorm';
-import { getStudentProfile } from './student';
+import { JobApplication } from '@entities/jobApplication';
+import { Student } from '@entities/student';
 
 /**
  * @description Finds a job by id
@@ -483,7 +482,7 @@ export const getApplicants = async (
 };
 
 /**
- * @description Returns at most 20 newest jobs that matches with students' department
+ * @description Returns at most 20 newest jobs that match with student's department
  *              and class standing.
  * @param {number} studentId - id of student
  * @param {number} page - page index
@@ -524,7 +523,7 @@ export const getRecommendedJobs = async (
             departmentId: student.departmentId ?? -1
         })
         .andWhere(`(:classStanding = :null OR
-                    :classStanding = ANY (string_to_array(job.targetYears, :comma)))`, {
+                    :classStanding = ANY(string_to_array(job.targetYears, :comma)))`, {
             classStanding: student.classStanding ?? "NULL",
             null: "NULL",
             comma: ","

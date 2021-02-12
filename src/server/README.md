@@ -294,7 +294,7 @@ Job API
 
     -   api/job/get-recommended-jobs
 
-        -   Returns 20 newest open job records that have not been applied by the student and that matches with the student's profile from database.
+        -   Returns 20 newest open job records that have not been applied by the student and that match with the student's profile from database.
         -   Body: None
         -   Parameters: None
         -   Authorization restrictions:
