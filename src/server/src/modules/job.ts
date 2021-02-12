@@ -1,10 +1,10 @@
-import { Job } from '@entities/job';
 import { FacultyMember } from '@entities/facultyMember';
-import { findDepartment } from '@modules/department';
-import { getJobApplications } from '@modules/student';
-import { getRepository, UpdateResult } from 'typeorm';
+import { Job } from '@entities/job';
 import { JobApplication } from '@entities/jobApplication';
 import { Student } from '@entities/student';
+import { findDepartment } from '@modules/department';
+import { getRepository, UpdateResult } from 'typeorm';
+import { getStudentProfile } from './student';
 
 /**
  * @description Finds a job by id
@@ -480,4 +480,100 @@ export const getApplicants = async (
     getApplicantsResult.count = applicants[1];
 
     return getApplicantsResult;
+};
+
+/**
+ * @description Returns at most 20 newest jobs that matches with students' department
+ *              and class standing.
+ * @param {number} studentId - id of student
+ * @param {number} page - page index
+ * @param {number} numOfItems - number of items per page
+ * @returns Promise
+ */
+export const getRecommendedJobs = async (
+    studentId: number
+) => {
+    const student = await Student.findOneOrFail({ where: { id: studentId } });
+
+    const jobApplications = await JobApplication.find({ where: { studentId } });
+    const appliedJobIds = jobApplications.map(
+        (jobApplication) => jobApplication.jobId
+    );
+
+    return getRepository(Job)
+        .createQueryBuilder('job')
+        .select([
+            'job',
+            'job.facultyMember',
+            'facultyMember.id',
+            'facultyMember.title',
+            'user.firstName',
+            'user.lastName',
+        ])
+        .leftJoin('job.facultyMember', 'facultyMember')
+        .leftJoin('facultyMember.user', 'user')
+        .leftJoinAndSelect('job.department', 'department')
+        .where('job.status = :jobStatus', {
+            jobStatus: 'Hiring',
+        })
+        .andWhere('job.id NOT IN (:...appliedJobIds)', {
+            // It causes a SQL parse error when an empty array is passed in.
+            appliedJobIds: appliedJobIds.length > 0 ? appliedJobIds : [-1],
+        })
+        .andWhere('(:departmentId < 0 OR job.departmentId = :departmentId)', {
+            departmentId: student.departmentId ?? -1
+        })
+        .andWhere(`(:classStanding = :null OR
+                    :classStanding = ANY (string_to_array(job.targetYears, :comma)))`, {
+            classStanding: student.classStanding ?? "NULL",
+            null: "NULL",
+            comma: ","
+        })
+        .take(20)
+        .orderBy("job.postedOn", "DESC")
+        .getMany()
+};
+
+/**
+ * @description Returns new jobs, excluding closed jobs and the jobs that are already applied
+ *              by the student.
+ * @param {number} studentId - id of student
+ * @param {number} page - page index
+ * @param {number} numOfItems - number of items per page
+ * @returns Promise
+ */
+export const getNewJobs = async (
+    studentId: number,
+    page: number,
+    numOfItems: number
+) => {
+    const jobApplications = await JobApplication.find({ where: { studentId } });
+    const appliedJobIds = jobApplications.map(
+        (jobApplication) => jobApplication.jobId
+    );
+
+    return getRepository(Job)
+        .createQueryBuilder('job')
+        .select([
+            'job',
+            'job.facultyMember',
+            'facultyMember.id',
+            'facultyMember.title',
+            'user.firstName',
+            'user.lastName',
+        ])
+        .leftJoin('job.facultyMember', 'facultyMember')
+        .leftJoin('facultyMember.user', 'user')
+        .leftJoinAndSelect('job.department', 'department')
+        .where('job.status = :jobStatus', {
+            jobStatus: 'Hiring',
+        })
+        .andWhere('job.id NOT IN (:...appliedJobIds)', {
+            // It causes a SQL parse error when an empty array is passed in.
+            appliedJobIds: appliedJobIds.length > 0 ? appliedJobIds : [-1],
+        })
+        .orderBy("job.postedOn", "DESC")
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount();
 };

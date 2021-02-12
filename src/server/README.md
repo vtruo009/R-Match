@@ -240,6 +240,103 @@ Job API
                 -   Unprocessable Entity -> Status code: 422
                 -   Internal server error -> Status code: 500
 
+    -   api/job/get-new-jobs
+
+        -   Returns open job records that have not been applied by the student from the newest to the oldest from database.
+        -   Body: None
+        -   Parameters:
+            ```
+            {
+                page: string;
+                numOfItems: string;
+            };
+            ```
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a student.
+        -   Response:
+            -   success:
+                Status code: 200
+                ```
+                {
+                    jobs: {
+                        id: number,
+                        targetYears: string[],
+                        hoursPerWeek: number,
+                        description: string,
+                        startDate: Date,
+                        endDate?: Date,
+                        expirationDate: Date,
+                        postedOn: Date,
+                        type: string[],
+                        title: string,
+                        status: 'Hiring',
+                        minSalary: number,
+                        maxSalary?: number,
+                        departmentId: number,
+                        facultyMember: {
+                            id: number,
+                            title: string,
+                            user: {
+                                firstName: string,
+                                lastName: string
+                            }
+                        }
+                    } [],
+                    jobsCount: number
+                }
+                ```
+            -   error:
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
+
+    -   api/job/get-recommended-jobs
+
+        -   Returns 20 newest open job records that have not been applied by the student and that matches with the student's profile from database.
+        -   Body: None
+        -   Parameters: None
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a student.
+        -   Response:
+            -   success:
+                Status code: 200
+                ```
+                {
+                    recommendedJobs: {
+                        id: number,
+                        targetYears: string[],
+                        hoursPerWeek: number,
+                        description: string,
+                        startDate: Date,
+                        endDate?: Date,
+                        expirationDate: Date,
+                        postedOn: Date,
+                        type: string[],
+                        title: string,
+                        status: 'Hiring',
+                        minSalary: number,
+                        maxSalary?: number,
+                        departmentId: number,
+                        facultyMember: {
+                            id: number,
+                            title: string,
+                            user: {
+                                firstName: string,
+                                lastName: string
+                            }
+                        }
+                    } []
+                }
+                ```
+            -   error:
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
+
 User API
 
 -   Interacts with:
