@@ -62,7 +62,7 @@ export const authenticatedRoutes: IRoute[] = [
         icon: <PersonIcon />,
     },
     {
-        path: '/message',
+        path: '/message/:email',
         name: 'Message',
         component: Message,
         icon: <MailIcon />,

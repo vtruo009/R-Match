@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Card from 'Components/Card';
 import LabelValue from 'Components/LabelValue';
 import EditButton from 'Components/EditButton';
+import MessageButton from 'Components/MessageButton';
 import { IDepartment } from 'Components/AcademicInfo/api';
 
 interface BaseProfileProps {
@@ -58,6 +59,7 @@ function BaseProfile({
                         <Grid item>
                             <Typography variant='h4'>
                                 {getUserName()}
+                                {!hasPermission && (<MessageButton email={email}/> )}
                             </Typography>
                         </Grid>
                     </Grid>
