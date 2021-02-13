@@ -1,6 +1,7 @@
 import { WorkExperience } from '@entities/workExperience'
 import { Student } from '@entities/student'
 import { getRepository, UpdateResult } from 'typeorm'
+import { workExperienceCreateSchema } from '@routes/workExperience/schemas';
 
 /**
  * @description Finds a work experience by id
@@ -68,43 +69,10 @@ export const createWorkExperience = async (
 };
 
 export const getWorkExperiences = (
-    title: string,
-    description: string,
-    startDate: string,
-    endDate: string, 
-    employer: string, 
-    numOfItems: number
+    studentId: number,
     ) => {
-        let modType = 'none';
-        let modStart;
-        if (startDate) {
-            modStart = new Date(startDate);
-            let month = modStart.getMonth() + 1;
-            let date = modStart.getDate();
-            let year = modStart.getFullYear();
-            modStart = month + '/' + date + '/' + year;
-        }
-        return (
-            getRepository(WorkExperience)
-                .createQueryBuilder('workExperience')
-                .select([
-                    'workExperience',
-                    'workExperience.student',
-                    'student.id',
-                    'user.firstName',
-                    'user.lastName',
-                 ])
-                .leftJoin('workExperience.student', 'student')
-                .leftJoin('student.user', 'user')
-                .where('LOWER(workExperience.title) LIKE :title', {
-                    title: `%${title.toLowerCase()}%`,
-                })
-                .orWhere('workExperience.type LIKE :type', { type: `%${modType}%` })
-                .orWhere('workExperience.startDate >= :startDate', { startDate: modStart })
-                .take(numOfItems)
-                .getManyAndCount()
-        );
-    };
+        return WorkExperience.find({where: {studentId}});};
+
 /**
  * @description Updates the properties of an already existing work experience.
  * @param {WorkExperience} workExperience - Work experience object storing the fields to update

@@ -32,11 +32,6 @@ interface workExperienceRequest extends Request {
     };
 }
 
-interface workExperienceIdRequest extends Request {
-    body: {
-        workExperienceId: number;
-    };
-}
 /******************************************************************************
  *            POST Request - Create - /api/workExperience/create
  ******************************************************************************/
@@ -80,40 +75,20 @@ router.post(
 /******************************************************************************
  *            GET Request - Read - /api/workExperience/read
  ******************************************************************************/
-
-interface WorkExperienceReadRequest extends Request {
-    query: {
-        title: string;
-        startDate: string;
-        endDate: string;
-        employer: string; 
-        description: string; 
-        numOfItems: string;
-    };
-}
-
 router.get(
     '/read',
     passport.authenticate('jwt', { session: false }),
-    validationMiddleware({ querySchema: workExperienceReadSchema }),
-    async (req: WorkExperienceReadRequest, res: Response) => {
-        const { title, numOfItems } = req.query;
-        let { startDate, endDate, employer, description  } = req.query;
-
+    async (req: Request, res: Response) => {
+        const {studentId} = req.params; 
         try {
-            if (!startDate) {
-                startDate = '01/01/3000';
-            }
-
-            const [workExperiences, workExperiencesCount] = await getWorkExperiences(
-                title,
-                employer,
-                description, 
-                startDate,
-                endDate, 
-                parseInt(numOfItems)
-            );
-            return res.status(OK).json({ workExperiences, workExperiencesCount }).end();
+            // This line of code produces an error (string is not assignable to number)
+            // const workExperiences = await getWorkExperiences(studentId);
+            return res
+                .status(OK)
+                .json({
+                    WorkExperience,
+                })
+                .end();
         } catch (error) {
             logger.err(error);
             return res
@@ -123,7 +98,6 @@ router.get(
         }
     }
 );
-
 /******************************************************************************
  *             POST Request - Update - /api/workExperience/update
  ******************************************************************************/
