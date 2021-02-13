@@ -1,14 +1,14 @@
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { IUser } from 'Domains/Accounts/api';
-import { createMessage } from 'Domains/Messages/api';
-import ConversationList from 'Domains/Messages/ConversationList';
-import Messages from 'Domains/Messages/GetMessages';
-import MessageSendForm from 'Domains/Messages/MessageSendForm';
-import { formInitialValues, INewMessageForm } from 'Domains/Messages/NewMessageForm';
 import useApi from 'hooks/useApi';
 import Loader from 'Components/Loader';
-import React from 'react';
+import { IUser } from 'Domains/Accounts/api';
+import MessageSendForm from 'Domains/Messages/MessageSendForm';
+import Messages from 'Domains/Messages/GetMessages';
+import ConversationList from 'Domains/Messages/ConversationList';
+import { createMessage } from 'Domains/Messages/api';
+import { formInitialValues, INewMessageForm } from 'Domains/Messages/NewMessageForm';
 
 interface MessagingProps {
     email?: string;
