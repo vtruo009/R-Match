@@ -13,7 +13,6 @@ import logger from '@shared/Logger';
 import { validationMiddleware } from '@middlewares/validation';
 import { 
     workExperienceCreateSchema,
-    workExperienceReadSchema,
     workExperienceUpdateSchema,
          } from './schemas';
 
@@ -35,7 +34,6 @@ interface workExperienceRequest extends Request {
 /******************************************************************************
  *            POST Request - Create - /api/workExperience/create
  ******************************************************************************/
-
 router.post(
     '/create',
     passport.authenticate('jwt', { session: false }),
@@ -79,14 +77,13 @@ router.get(
     '/read',
     passport.authenticate('jwt', { session: false }),
     async (req: Request, res: Response) => {
-        const {studentId} = req.params; 
+        const { studentId } = req.params; 
         try {
-            // This line of code produces an error (string is not assignable to number)
-            // const workExperiences = await getWorkExperiences(studentId);
+            const workExperiences = await getWorkExperiences(studentId);
             return res
                 .status(OK)
                 .json({
-                    WorkExperience,
+                    workExperiences,
                 })
                 .end();
         } catch (error) {
@@ -98,10 +95,10 @@ router.get(
         }
     }
 );
+
 /******************************************************************************
  *             POST Request - Update - /api/workExperience/update
  ******************************************************************************/
-
 router.post(
     '/update',
     passport.authenticate('jwt', { session: false }),

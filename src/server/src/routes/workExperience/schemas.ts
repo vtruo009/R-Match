@@ -12,11 +12,6 @@ export const workExperienceCreateSchema = Joi.object({
     workExperience: baseWorkExperience,
 });
 
-export const workExperienceReadSchema = Joi.object({
-    studentId: Joi.number().required(),
-});
-
-
 export const workExperienceUpdateSchema = Joi.object({
     workExperience: baseWorkExperience.keys({
         id: Joi.number().required(),

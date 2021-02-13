@@ -1,7 +1,6 @@
 import { WorkExperience } from '@entities/workExperience'
 import { Student } from '@entities/student'
-import { getRepository, UpdateResult } from 'typeorm'
-import { workExperienceCreateSchema } from '@routes/workExperience/schemas';
+import { UpdateResult } from 'typeorm'
 
 /**
  * @description Finds a work experience by id
@@ -19,7 +18,7 @@ export const findWorkExperience = (id: WorkExperience['id']) => {
  * @param {Date} startDate - Start date of the work experience
  * @param {Date} endDate - End date of the work experience
  * @param {string} title - Title of the work experience
- * @param {number} studentId - Id of the student that posted the work experience
+ * @param {string} studentId - Id of the student that posted the work experience
  * @returns Promise
  */
 export const createWorkExperience = async (
@@ -43,9 +42,8 @@ export const createWorkExperience = async (
     }
 
     const today = new Date();
-    const studentRepository = getRepository(Student);
 
-    const studentToUpdate = await studentRepository.findOne({
+    const studentToUpdate = await Student.findOne({
         where: { id: studentId },
     });
     if (!studentToUpdate) {
@@ -68,8 +66,9 @@ export const createWorkExperience = async (
     return insertResult;
 };
 
+//NOTE: Needed to change this type to a string to prevent the string is not assignable to number error.
 export const getWorkExperiences = (
-    studentId: number,
+    studentId: string,
     ) => {
         return WorkExperience.find({where: {studentId}});};
 
