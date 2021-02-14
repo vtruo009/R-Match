@@ -16,6 +16,7 @@ import {
     getApplicants,
     getNewJobs,
     getRecommendedJobs,
+    getNumberApplicants,
 } from '@modules/job';
 import { JWTUser } from '@entities/user';
 import logger from '@shared/Logger';
@@ -386,6 +387,40 @@ router.get(
                       })
                       .end()
                 : res.status(BAD_REQUEST).json({ error: message });
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
+ *   GET Request - Get Number of Applicants - "GET /api/faculty-member/get-number-of-applicants"
+ ******************************************************************************/
+router.get(
+    '/get-number-of-applicants/:jobId',
+    passport.authenticate('jwt', { session: false }),
+    async (req: GetApplicantsRequest, res: Response) => {
+        const { role } = req.user as JWTUser;
+        if (role !== 'facultyMember') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a faculty member' });
+        }
+        const { jobId } = req.params;
+        try {
+            const numberOfApplicants = await getNumberApplicants(
+                parseInt(jobId, 10)
+            );
+            return res
+                .status(OK)
+                .json({
+                    numberOfApplicants,
+                })
+                .end();
         } catch (error) {
             logger.err(error);
             return res

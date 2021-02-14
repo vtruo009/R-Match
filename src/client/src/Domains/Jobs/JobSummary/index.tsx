@@ -24,18 +24,13 @@ function JobSummary({ job, hasPermission }: JobSummaryProps) {
         <div>
             <Card>
                 <Grid container spacing={3} style={{ padding: 20 }}>
-                    <Grid container item justify='space-between'>
-                        <Grid item xs={6}>
-                            <Typography variant='h5' color='primary'>
-                                {job.title}
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <JobActions
-                                hasPermission={hasPermission}
-                                job={job}
-                            />
-                        </Grid>
+                    <Grid item xs={12}>
+                        <Typography variant='h5' color='primary'>
+                            {job.title}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <JobActions hasPermission={hasPermission} job={job} />
                     </Grid>
                     <Grid container item spacing={3}>
                         <Grid
