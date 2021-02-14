@@ -10,14 +10,14 @@ import ConversationList from 'Domains/Messages/ConversationList';
 import { createMessage } from 'Domains/Messages/api';
 import { formInitialValues, INewMessageForm } from 'Domains/Messages/NewMessageForm';
 
-interface MessagingProps {
+interface MessageRootProps {
     email?: string;
 }
 
-function MessageRoot({ email }: MessagingProps) {
+function MessageRoot({ email }: MessageRootProps) {
     const [receiver, setReceiver] = React.useState<IUser>();
 
-    const [newMessageForm, setnewMessageForm] = React.useState<INewMessageForm>(
+    const [newMessageForm, setNewMessageForm] = React.useState<INewMessageForm>(
         formInitialValues
     );
 
@@ -31,10 +31,10 @@ function MessageRoot({ email }: MessagingProps) {
     React.useEffect(() => {
         // Check if email is populated with a valid email.
         if (email && email.length > 0 && email !== ':email') {
-            setnewMessageForm({ email: email });
+            setNewMessageForm({ email });
             sendRequest();
         }
-    }, [email, sendRequest, setnewMessageForm]);
+    }, [email, sendRequest, setNewMessageForm]);
 
     return (
         <div style={{ padding: 20, margin: 30 }}>
