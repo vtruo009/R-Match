@@ -18,7 +18,7 @@ export const findWorkExperience = (id: WorkExperience['id']) => {
  * @param {Date} startDate - Start date of the work experience
  * @param {Date} endDate - End date of the work experience
  * @param {string} title - Title of the work experience
- * @param {string} studentId - Id of the student that posted the work experience
+ * @param {number} studentId - Id of the student that posted the work experience
  * @returns Promise
  */
 export const createWorkExperience = async (
@@ -68,7 +68,7 @@ export const createWorkExperience = async (
 
 //NOTE: Needed to change this type to a string to prevent the string is not assignable to number error.
 export const getWorkExperiences = (
-    studentId: string,
+    studentId: number,
     ) => {
         return WorkExperience.find({where: {studentId}});};
 

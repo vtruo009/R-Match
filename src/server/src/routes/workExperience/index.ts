@@ -74,12 +74,14 @@ router.post(
  *            GET Request - Read - /api/workExperience/read
  ******************************************************************************/
 router.get(
-    '/read',
+    '/read/:studentId',
     passport.authenticate('jwt', { session: false }),
     async (req: Request, res: Response) => {
         const { studentId } = req.params; 
         try {
-            const workExperiences = await getWorkExperiences(studentId);
+            const workExperiences = await getWorkExperiences(
+                parseInt(studentId, 10)
+            );
             return res
                 .status(OK)
                 .json({
