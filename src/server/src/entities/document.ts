@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Student } from './student';
 
+export type type = 'resume' | 'transcript';
 @Entity()
 export class Document extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -15,14 +16,24 @@ export class Document extends BaseEntity {
     @Column({ nullable: false })
     name: string;
 
-    @Column({ nullable: true })
+    @Column({
+        nullable: false,
+        type: 'enum',
+        enum: ['resume', 'transcript'],
+    })
+    type: type;
+
+    @Column({ nullable: false })
     isDefault: boolean;
 
-    @Column({ nullable: false})
+    @Column()
     dateAdded: Date;
 
     @Column({ type: 'bytea', nullable: false })
     document: Buffer;
+
+    @Column()
+    studentId: number;
 
     @ManyToOne(() => Student, (student) => (student.documents))
     public student: Student;

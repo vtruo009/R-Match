@@ -1009,7 +1009,7 @@ Messaging API
 
             -   errors:
                 -   Internal server error -> Status code: 500
-
+                
     -   api/message/get-user-by-email/:email
         -   HTTP Method: GET
         -   Get a user object given an email of the user.
@@ -1035,3 +1035,84 @@ Messaging API
                 -   Unauthorized -> Status code: 401
                 -   Email does not exist -> Status code: 400
                 -   Email of the logged-in user is requested -> Status code: 400
+
+Document API
+
+    -   Interacts with:
+
+        -   Student and Document tables
+
+    -   Routes:
+
+        -   api/document/create
+
+            -   Creates and saves a document in the document table.
+            -   Body:
+                ```
+                {
+                    document: {
+                        name: string,
+                        type: 'resume' | 'transcript',
+                        isDefault: boolean,
+                    }
+                }
+                ```
+            -   Authorization restrictions:
+                -   User must be logged in
+                -   User must be a student
+            -   Parameters: None
+            -   Response:
+                -   success:
+                    Status code: 201
+                -   errors:
+                    -   Invalid request -> Status code: 400
+                    -   Unauthorized user -> Status code: 401
+                    -   Unprocessable Enity -> Status code: 422
+                    -   Internal server error -> Status code: 500
+
+        -   api/document/read
+
+            -   Returns all document records from database
+            -   Body: None
+            -   Parameters: None
+            -   Authorization restriction:
+                -   User must be logged in
+                -   User must be a student
+            -   Response:
+                -   success:
+                    Status code: 200
+                    ```
+                    {
+                        documents: {
+                            id: number,
+                            name: string,
+                            type: 'resume' | 'transcript',
+                            isDefault: boolean,
+                            dateAdded: Date,
+                            document: {
+                                type: Buffer,
+                                data: BinaryData[]
+                            },
+                            studentId: number
+                        } []
+                    }
+                    ```
+                -   error:
+                    -   Invalid request -> Status code: 400
+                    -   Unauthorized user -> Status code: 401
+                    -   Unprocessable Entity -> Status Code: 442
+                    - Internal server error -> Status code: 500
+        
+        -   api/document/delete/:id
+
+            -   Delete an existing document record from the database
+            -   Body: None
+            -   Authorization restrictions:
+                -   User must be logged in
+                -   User must be a student
+            -   Parameter: id of document
+            -   Response:
+                -   success:
+                    Status code: 200
+                -   errors:
+                    -   Internal server error -> Status code: 500
