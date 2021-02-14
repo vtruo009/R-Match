@@ -1,8 +1,8 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import SchoolOutlinedIcon from '@material-ui/icons/SchoolOutlined';
 
-import Card from 'Components/Card';
+import { AuthContext } from 'Contexts/AuthContext';
 import useDialog from 'hooks/useDialog';
 import useApi from 'hooks/useApi';
 import BaseProfile from 'Components/BaseProfile';
@@ -10,47 +10,63 @@ import LabelValue from 'Components/LabelValue';
 import LabelValues from 'Components/LabelValues';
 import Loader from 'Components/Loader';
 import StudentProfileForm from 'Domains/Student/StudentProfileForm';
-import StudentWorkExperiencesPreview from 'Domains/Student/StudentWorkExperiencesPreview';
-import { getStudentProfile, IStudent } from 'Domains/Student/api';
-import { AuthContext } from 'Contexts/AuthContext';
-
-/*interface StudentsProps {
-    students: IStudent[];
-}
-*/
+import WorkExperiences from 'Domains/Student/WorkExperiences';
+import {
+    getStudentProfile,
+    IStudent,
+    getWorkExperiences,
+    IWorkExperience,
+} from 'Domains/Student/api';
 
 const workExperiencesDummy = [
     {
+        id: 1,
         startDate: '2021-01-29T03:31:04.627Z',
-        endDate: '2021-01-29T03:31:04.627Z',
-        title: 'Intern',
-        employer: 'Google',
-        description: 'Some description',
+        endDate: '2021-03-29T03:31:04.627Z',
+        title: 'ARC Tutor',
+        employer: 'UCR Academic Resource center',
+        description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     },
     {
+        id: 2,
         startDate: '2021-01-29T03:31:04.627Z',
-        endDate: '2021-01-29T03:31:04.627Z',
-        title: 'Intern',
-        employer: 'Google',
-        description: 'Some description',
+        title: 'Web developer',
+        employer: 'Microsoft',
+        description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     },
     {
+        id: 3,
         startDate: '2021-01-29T03:31:04.627Z',
-        endDate: '2021-01-29T03:31:04.627Z',
-        title: 'Intern',
+        endDate: '2021-06-29T03:31:04.627Z',
+        title: 'Software Engineer Intern',
         employer: 'Google',
-        description: 'Some description',
+        description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     },
 ];
 
-function StudentProfile() {
+interface StudentProfileProps {
+    studentId: number;
+}
+
+function StudentProfile({ studentId }: StudentProfileProps) {
     const [studentProfile, setStudentProfile] = React.useState<IStudent>();
+    const [workExperiences, setWorkExperiences] = React.useState<
+        IWorkExperience[]
+    >([]);
+    const { openDialog, closeDialog, DialogProps, Dialog } = useDialog();
     const { user } = React.useContext(AuthContext);
-    const [, openDialog, closeDialog, DialogProps, Dialog] = useDialog();
+
+    const getWorkExperiencesRequest = React.useCallback(
+        () => getWorkExperiences(),
+        []
+    );
 
     const getProfileRequest = React.useCallback(
-        () => getStudentProfile(user?.specificUserId as number),
-        [user?.specificUserId]
+        () => getStudentProfile(studentId),
+        [studentId]
     );
 
     const [sendGetProfileRequest, isGettingProfileLoading] = useApi(
@@ -62,6 +78,15 @@ function StudentProfile() {
         }
     );
 
+    const [
+        sendGetWorkExperiencesRequest,
+        isGettingWorkExperiencesLoading,
+    ] = useApi(getWorkExperiencesRequest, {
+        onSuccess: () => setWorkExperiences(workExperiencesDummy),
+        onFailure: () => setWorkExperiences(workExperiencesDummy),
+        // setWorkExperiences(results.data.workExperiences),
+    });
+
     const getCoursesTitles = () => {
         return studentProfile?.courses.map(
             (course) => `${course.shortTitle} - ${course.fullTitle}`
@@ -72,9 +97,13 @@ function StudentProfile() {
         return studentProfile?.courses.map((course) => course.id);
     };
 
+    const isUserProfileOwner =
+        user?.role === 'student' && user?.specificUserId === studentId;
+
     React.useEffect(() => {
         sendGetProfileRequest();
-    }, [sendGetProfileRequest]);
+        sendGetWorkExperiencesRequest();
+    }, [sendGetProfileRequest, sendGetWorkExperiencesRequest]);
 
     return isGettingProfileLoading ? (
         <Loader center />
@@ -82,7 +111,6 @@ function StudentProfile() {
         <div>
             <Grid container spacing={2} justify='center' alignItems='center'>
                 <BaseProfile
-                    id={studentProfile.id}
                     firstName={studentProfile.user.firstName}
                     middleName={studentProfile.user.middleName}
                     email={studentProfile.user.email}
@@ -90,65 +118,36 @@ function StudentProfile() {
                     biography={studentProfile.user.biography}
                     department={studentProfile.department}
                     onEdit={openDialog}
+                    hasPermission={isUserProfileOwner}
                 />
-                <Grid item md={6} xs={12}>
+                <Grid item md={4} xs={12}>
                     <LabelValue
                         label='Class Standing'
                         value={studentProfile.classStanding}
                     />
                 </Grid>
-                <Grid item md={6} xs={12}>
+                <Grid item md={4} xs={12}>
                     <LabelValue label='SID' value={studentProfile.sid} />
+                </Grid>
+                <Grid item md={4} xs={12}>
+                    <LabelValue label='GPA' value={studentProfile.gpa} />
                 </Grid>
                 <Grid item md={12} xs={12}>
                     <LabelValues
                         label='Courses Taken'
                         values={getCoursesTitles()}
+                        icon={<SchoolOutlinedIcon />}
                     />
                 </Grid>
-                <Grid
-                    container
-                    spacing={2}
-                    justify='center'
-                    alignItems='center'
-                >
-                    <Grid item md={12} xs={12}>
-                        <Card style={{ padding: 30 }}>
-                            <Grid item>
-                                <Typography variant='h5' color='primary'>
-                                    Work Experiences
-                                </Typography>
-                            </Grid>
-                            <Grid container direction='row' spacing={3}>
-                                <Grid
-                                    container
-                                    item
-                                    direction='row'
-                                    spacing={6}
-                                    xs={12}
-                                ></Grid>
-                                {workExperiencesDummy.map(
-                                    (workExperience, index) => (
-                                        <Grid item key={index}>
-                                            <StudentWorkExperiencesPreview
-                                                startDate={
-                                                    workExperience.startDate
-                                                }
-                                                endDate={workExperience.endDate}
-                                                title={workExperience.title}
-                                                employer={
-                                                    workExperience.employer
-                                                }
-                                                description={
-                                                    workExperience.description
-                                                }
-                                            />
-                                        </Grid>
-                                    )
-                                )}
-                            </Grid>
-                        </Card>
-                    </Grid>
+                <Grid item md={12} xs={12}>
+                    {isGettingWorkExperiencesLoading ? (
+                        <Loader />
+                    ) : (
+                        <WorkExperiences
+                            workExperiences={workExperiences}
+                            hasPermission={isUserProfileOwner}
+                        />
+                    )}
                 </Grid>
             </Grid>
             <Dialog {...DialogProps} title='Edit Profile'>
@@ -164,16 +163,11 @@ function StudentProfile() {
                         collegeId: studentProfile.department?.college.id,
                         departmentId: studentProfile.department?.id,
                         sid: studentProfile.sid,
+                        gpa: studentProfile.gpa?.toString(),
                         classStanding: studentProfile.classStanding,
                         email: studentProfile.user.email,
                         biography: studentProfile.user.biography,
                         courseIds: getCoursesIds(),
-                        resume: studentProfile.resume,
-                        transcript: studentProfile.transcript,
-                        // workStartDate: studentProfile.workStartDate,
-                        // workEndDate: studentProfile.workEndDate,
-                        // workEmployer: studentProfile.workEmployer,
-                        // workDescription: studentProfile.workDescription,
                     }}
                 />
             </Dialog>

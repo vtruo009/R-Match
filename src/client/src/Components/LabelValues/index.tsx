@@ -8,15 +8,18 @@ import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Badge from '@material-ui/core/Badge';
 
 import Card from 'Components/Card';
+
 interface LabelValuesProps {
     label: string;
     values?: string[];
+    icon: JSX.Element;
 }
 
-function LabelValues({ label, values }: LabelValuesProps) {
-    const labelCounter = () => (values ? `(${values.length})` : '(0)');
+function LabelValues({ label, values, icon }: LabelValuesProps) {
+    const labelCounter = values ? values.length : 0;
     const [expanded, setExpanded] = React.useState(false);
     return (
         <Card>
@@ -28,8 +31,11 @@ function LabelValues({ label, values }: LabelValuesProps) {
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon color='primary' />}
                 >
-                    <Typography variant='h6' color='primary'>
-                        {label} {labelCounter()}
+                    <Typography variant='h5' color='primary'>
+                        {label}{' '}
+                        <Badge badgeContent={labelCounter} color='primary' showZero>
+                            {icon}
+                        </Badge>
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -37,11 +43,7 @@ function LabelValues({ label, values }: LabelValuesProps) {
                         <List>
                             {values.map((value, index) => (
                                 <div key={index}>
-                                    {index ? (
-                                        <Divider />
-                                    ) : (
-                                        <ListItem> </ListItem>
-                                    )}
+                                    {index ? <Divider /> : <> </>}
                                     <ListItem>
                                         <ListItemText>{value}</ListItemText>
                                     </ListItem>

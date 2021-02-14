@@ -5,25 +5,30 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PersonIcon from '@material-ui/icons/Person';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import MailIcon from '@material-ui/icons/Mail';
+import DocumentsIcon from '@material-ui/icons/Description';
 
 import Home from 'Pages/Home';
 import SearchJobs from 'Pages/SearchJobs';
+import SearchStudents from 'Pages/SearchStudents';
 import JobFacultyMemberDashboard from 'Pages/JobFacultyMemberDashboard';
 import JobStudentDashboard from 'Pages/JobStudentDashboard';
+import JobApplicants from 'Pages/JobApplicants';
 import Profile from 'Pages/Profile';
 import SignIn from 'Pages/SignIn';
 import SignUp from 'Pages/SignUp';
 import Message from 'Pages/Message';
+import Documents from 'Pages/Documents';
 
 export interface IRoute {
     path: string;
     name: string;
     component: () => JSX.Element;
     icon: JSX.Element;
+    hide?: boolean;
 }
 
 // Add other routes for non-authenticated users
-export const generalRoutes = [
+export const generalRoutes: IRoute[] = [
     {
         path: '/',
         name: 'Home',
@@ -33,7 +38,7 @@ export const generalRoutes = [
 ];
 
 // Add other routes for non-authenticated users
-export const unauthenticatedRoutes = [
+export const unauthenticatedRoutes: IRoute[] = [
     {
         path: '/sign-in',
         name: 'Sign in',
@@ -49,7 +54,7 @@ export const unauthenticatedRoutes = [
 ];
 
 // Add other routes that are shared among all users
-export const authenticatedRoutes = [
+export const authenticatedRoutes: IRoute[] = [
     {
         path: '/profile',
         name: 'Profile',
@@ -57,7 +62,7 @@ export const authenticatedRoutes = [
         icon: <PersonIcon />,
     },
     {
-        path: '/message',
+        path: '/message/:email',
         name: 'Message',
         component: Message,
         icon: <MailIcon />,
@@ -65,7 +70,7 @@ export const authenticatedRoutes = [
 ];
 
 // Add routes specific to students
-export const studentRoutes = [
+export const studentRoutes: IRoute[] = [
     {
         path: '/search-jobs',
         name: 'Search Jobs',
@@ -78,14 +83,33 @@ export const studentRoutes = [
         component: JobStudentDashboard,
         icon: <DashboardIcon />,
     },
+    {
+        path: '/documents',
+        name: 'Documents',
+        component: Documents,
+        icon: <DocumentsIcon />,
+    },
 ];
 
 // Add routes specific to faculty members
-export const facultyMemberRoutes = [
+export const facultyMemberRoutes: IRoute[] = [
+    {
+        path: '/search-students',
+        name: 'Search students',
+        component: SearchStudents,
+        icon: <SearchIcon />,
+    },
     {
         path: '/job-dashboard',
         name: 'Dashboard',
         component: JobFacultyMemberDashboard,
+        icon: <DashboardIcon />,
+    },
+    {
+        path: '/job-applicants/:jobTitle/:jobId',
+        name: 'Job Applicants',
+        component: JobApplicants,
+        hide: true,
         icon: <DashboardIcon />,
     },
 ];

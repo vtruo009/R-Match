@@ -1,11 +1,7 @@
 import faker from 'faker';
 import request from 'supertest';
 import app from '@app/.';
-import {
-    createStudentTestUser,
-    signInTestStudentUser,
-    createFacultyMemberTestUser,
-} from '@lib/testUtils';
+import { createStudentTestUser, signInTestStudentUser, createFacultyMemberTestUser } from '@lib/testUtils';
 import { connectToDb, disconnectFromDb } from '@db/connection';
 import { Message } from '@entities/message';
 
@@ -13,19 +9,19 @@ const mockMessage1 = {
     content: faker.lorem.paragraph(),
     date: new Date(),
     senderId: 1,
-    receiverId: 2,
+    receiverId: 2
 };
 
 const mockMessage2 = {
     content: faker.lorem.paragraph(),
     date: new Date(),
     senderId: 2,
-    receiverId: 1,
+    receiverId: 1
 };
 
 let token: string;
 
-beforeAll(async (done) => {
+beforeAll(async () => {
     // Creates connection with the database
     await connectToDb();
     await createStudentTestUser();
@@ -43,12 +39,10 @@ beforeAll(async (done) => {
     await message1.save();
     const message2 = Message.create({ ...mockMessage2 });
     await message2.save();
-    done();
 });
 
-afterAll(async (done) => {
+afterAll(async () => {
     await disconnectFromDb();
-    done();
 });
 
 describe('sendMessage', () => {
@@ -72,8 +66,8 @@ describe('sendMessage', () => {
             .post(endpoint)
             .set('Cookie', token)
             .send({
-                content: '',
-                receiverId: 1,
+                content: "",
+                receiverId: 1
             });
         expect(status).toBe(422);
     });
@@ -84,7 +78,7 @@ describe('sendMessage', () => {
             .set('Cookie', token)
             .send({
                 content: faker.random.word(),
-                receiverId: undefined,
+                receiverId: undefined
             });
         expect(status).toBe(422);
     });
@@ -95,7 +89,7 @@ describe('sendMessage', () => {
             .set('Cookie', token)
             .send({
                 content: faker.random.word(),
-                receiverId: faker.random.word(),
+                receiverId: faker.random.word()
             });
         expect(status).toBe(422);
     });
@@ -106,7 +100,7 @@ describe('sendMessage', () => {
             .set('Cookie', token)
             .send({
                 content: faker.random.word(),
-                receiverId: 1,
+                receiverId: 1
             });
         expect(status).toBe(400);
     });
@@ -117,7 +111,7 @@ describe('sendMessage', () => {
             .set('Cookie', token)
             .send({
                 content: faker.random.word(),
-                receiverId: 10,
+                receiverId: 10
             });
         expect(status).toBe(400);
     });
@@ -128,7 +122,7 @@ describe('sendMessage', () => {
             .set('Cookie', token)
             .send({
                 content: faker.random.word(),
-                receiverId: 2,
+                receiverId: 2
             });
         expect(status).toBe(201);
     });
@@ -147,9 +141,7 @@ describe('getMessages', () => {
     });
 
     it('should get all messages between two users.', async () => {
-        const response = await request(app)
-            .get(`${endpoint}/2`)
-            .set('Cookie', token);
+        const response = await request(app).get(`${endpoint}/2`).set('Cookie', token);
         const messages = response.body.messages;
         expect(response.status).toBe(200);
 
@@ -189,11 +181,7 @@ describe('getConversationList', () => {
         expect(conversation.user.id).toBe(2);
         expect(conversation.latestMessage.content).toBe(mockMessage2.content);
         expect(conversation.latestMessage.senderId).toBe(mockMessage2.senderId);
-        expect(conversation.latestMessage.receiverId).toBe(
-            mockMessage2.receiverId
-        );
-        expect(conversation.latestMessage.date).toBe(
-            mockMessage2.date.toISOString()
-        );
+        expect(conversation.latestMessage.receiverId).toBe(mockMessage2.receiverId);
+        expect(conversation.latestMessage.date).toBe(mockMessage2.date.toISOString());
     });
 });

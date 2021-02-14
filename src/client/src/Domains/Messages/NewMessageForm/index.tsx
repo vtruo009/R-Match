@@ -15,7 +15,7 @@ export interface INewMessageForm {
     email: string;
 }
 
-const formInitialValues: INewMessageForm = {
+export const formInitialValues: INewMessageForm = {
     email: '',
 };
 

@@ -6,10 +6,14 @@ import FacultyMemberProfile from 'Domains/FacultyMember/FacultyMemberProfile';
 
 function Profile() {
     const { user } = React.useContext(AuthContext);
-    return user?.role === 'student' ? (
-        <StudentProfile />
+    return user ? (
+        user.role === 'student' ? (
+            <StudentProfile studentId={user.specificUserId} />
+        ) : (
+            <FacultyMemberProfile facultyMemberId={user.specificUserId} />
+        )
     ) : (
-        <FacultyMemberProfile />
+        <></>
     );
 }
 
