@@ -242,3 +242,9 @@ export async function getNewJobs() {
     };
     return API.get<{ newJobs: IJob[] }>('/job/get-new-jobs', { params });
 }
+
+export async function getNumberOfApplicants(jobId: number) {
+    return API.get<{ numberOfApplicants: number }>(
+        `/job/get-number-of-applicants/${jobId}`
+    );
+}

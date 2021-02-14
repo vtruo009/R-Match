@@ -482,14 +482,21 @@ export const getApplicants = async (
 };
 
 /**
+ * @description Returns total count of job applications of a given job
+ * @param {number} jobId - id of job
+ * @returns Promise
+ */
+export const getNumberApplicants = (jobId: Job['id']) => {
+    return JobApplication.count({ where: { jobId } });
+};
+
+/**
  * @description Returns at most 20 newest jobs that match with student's department
  *              and class standing.
  * @param {number} studentId - id of student
  * @returns Promise
  */
-export const getRecommendedJobs = async (
-    studentId: number
-) => {
+export const getRecommendedJobs = async (studentId: number) => {
     const student = await Student.findOneOrFail({ where: { id: studentId } });
 
     const jobApplications = await JobApplication.find({ where: { studentId } });
@@ -518,17 +525,20 @@ export const getRecommendedJobs = async (
             appliedJobIds: appliedJobIds.length > 0 ? appliedJobIds : [-1],
         })
         .andWhere('(:departmentId < 0 OR job.departmentId = :departmentId)', {
-            departmentId: student.departmentId ?? -1
+            departmentId: student.departmentId ?? -1,
         })
-        .andWhere(`(:classStanding = :null OR
-                    :classStanding = ANY(string_to_array(job.targetYears, :comma)))`, {
-            classStanding: student.classStanding ?? "NULL",
-            null: "NULL",
-            comma: ","
-        })
+        .andWhere(
+            `(:classStanding = :null OR
+                    :classStanding = ANY(string_to_array(job.targetYears, :comma)))`,
+            {
+                classStanding: student.classStanding ?? 'NULL',
+                null: 'NULL',
+                comma: ',',
+            }
+        )
         .take(20)
-        .orderBy("job.postedOn", "DESC")
-        .getMany()
+        .orderBy('job.postedOn', 'DESC')
+        .getMany();
 };
 
 /**
@@ -569,7 +579,7 @@ export const getNewJobs = async (
             // It causes a SQL parse error when an empty array is passed in.
             appliedJobIds: appliedJobIds.length > 0 ? appliedJobIds : [-1],
         })
-        .orderBy("job.postedOn", "DESC")
+        .orderBy('job.postedOn', 'DESC')
         .skip((page - 1) * numOfItems)
         .take(numOfItems)
         .getManyAndCount();
