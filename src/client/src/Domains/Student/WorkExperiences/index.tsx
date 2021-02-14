@@ -2,12 +2,11 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-import Badge from '@material-ui/core/Badge';
-import WorkIcon from '@material-ui/icons/WorkOutline';
 
 import Card from 'Components/Card';
 import WorkExperience from '../WorkExperience';
 import WorkExperienceCreateForm from '../WorkExperienceCreateForm';
+import JobIcon from 'Domains/Jobs/JobIcon';
 import { IWorkExperience } from '../api';
 
 interface WorkExperiencesProps {
@@ -26,12 +25,7 @@ function WorkExperiences({
                     <Grid item container justify='space-between'>
                         <Typography variant='h5' color='primary'>
                             Work Experiences{' '}
-                            <Badge
-                                badgeContent={workExperiences.length}
-                                color='primary'
-                            >
-                                <WorkIcon />
-                            </Badge>
+                            <JobIcon numberOfJobs={workExperiences.length} />
                         </Typography>
                         {hasPermission && <WorkExperienceCreateForm />}
                     </Grid>

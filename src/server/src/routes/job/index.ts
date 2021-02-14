@@ -15,7 +15,7 @@ import {
     applyToJob,
     getApplicants,
     getNewJobs,
-    getRecommendedJobs
+    getRecommendedJobs,
 } from '@modules/job';
 import { JWTUser } from '@entities/user';
 import logger from '@shared/Logger';
@@ -26,7 +26,7 @@ import {
     jobReadSchema,
     jobIdSchema,
     getApplicantsSchema,
-    getNewJobsSchema
+    getNewJobsSchema,
 } from './schemas';
 
 const router = Router();
@@ -152,7 +152,7 @@ router.get(
                 startDate = '01/01/3000';
             }
 
-           const getJobsResult = await getJobs(
+            const getJobsResult = await getJobs(
                 specificUserId,
                 title,
                 types,
@@ -167,7 +167,9 @@ router.get(
                 const [jobs, jobsCount] = getJobsResult;
                 return res.status(OK).json({ jobs, jobsCount }).end();
             }
-            return res.status(BAD_REQUEST).json({ error: 'Student does not exist' });
+            return res
+                .status(BAD_REQUEST)
+                .json({ error: 'Student does not exist' });
         } catch (error) {
             logger.err(error);
             return res
@@ -426,7 +428,7 @@ router.get(
                 parseInt(page),
                 parseInt(numOfItems)
             );
-            return res.status(OK).json({ jobs, jobsCount }).end();
+            return res.status(OK).json({ newJobs: jobs, jobsCount }).end();
         } catch (error) {
             logger.err(error);
             return res

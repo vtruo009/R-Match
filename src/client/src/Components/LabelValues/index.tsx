@@ -11,6 +11,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Badge from '@material-ui/core/Badge';
 
 import Card from 'Components/Card';
+
 interface LabelValuesProps {
     label: string;
     values?: string[];
@@ -32,7 +33,7 @@ function LabelValues({ label, values, icon }: LabelValuesProps) {
                 >
                     <Typography variant='h5' color='primary'>
                         {label}{' '}
-                        <Badge badgeContent={labelCounter} color='primary'>
+                        <Badge badgeContent={labelCounter} color='primary' showZero>
                             {icon}
                         </Badge>
                     </Typography>
