@@ -21,6 +21,9 @@ export class WorkExperience extends BaseEntity {
     @Column()
     title: string;
 
+    @Column()
+    studentId: number;
+
     @ManyToOne(() => Student, (student) => student.workExperiences)
     public student: Student;
 }
