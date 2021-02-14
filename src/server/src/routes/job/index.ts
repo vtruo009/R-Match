@@ -14,6 +14,8 @@ import {
     openJob,
     applyToJob,
     getApplicants,
+    getNewJobs,
+    getRecommendedJobs
 } from '@modules/job';
 import { JWTUser } from '@entities/user';
 import logger from '@shared/Logger';
@@ -24,6 +26,7 @@ import {
     jobReadSchema,
     jobIdSchema,
     getApplicantsSchema,
+    getNewJobsSchema
 } from './schemas';
 
 const router = Router();
@@ -390,6 +393,79 @@ router.get(
         }
     }
 );
+
+/******************************************************************************
+ *            GET Request - Get New Job - /api/job/get-new-jobs
+ ******************************************************************************/
+
+interface GetNewJobsRequest extends Request {
+    query: {
+        page: string;
+        numOfItems: string;
+    };
+}
+
+router.get(
+    '/get-new-jobs',
+    passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ querySchema: getNewJobsSchema }),
+    async (req: GetNewJobsRequest, res: Response) => {
+        //checks that caller is a student.
+        const { role, specificUserId } = req.user as JWTUser;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' });
+        }
+
+        const { page, numOfItems } = req.query;
+
+        try {
+            const [jobs, jobsCount] = await getNewJobs(
+                specificUserId,
+                parseInt(page),
+                parseInt(numOfItems)
+            );
+            return res.status(OK).json({ jobs, jobsCount }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
+ *       GET Request - Get Recommended Jobs - /api/job/get-recommended-jobs
+ ******************************************************************************/
+
+router.get(
+    '/get-recommended-jobs',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        //checks that caller is a student.
+        const { role, specificUserId } = req.user as JWTUser;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' });
+        }
+
+        try {
+            const recommendedJobs = await getRecommendedJobs(specificUserId);
+            return res.status(OK).json({ recommendedJobs }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
 /******************************************************************************
  *                                     Export
  ******************************************************************************/
