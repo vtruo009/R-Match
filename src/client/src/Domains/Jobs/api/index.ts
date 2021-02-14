@@ -180,16 +180,15 @@ export async function getPostedJobs(page: number, numOfItems: number) {
     );
 }
 
-export async function getAppliedJobs(
-    page: number,
-    numOfItems: number
-) {
+export async function getAppliedJobs(page: number, numOfItems: number) {
     const params = {
-        page, numOfItems
+        page,
+        numOfItems,
     };
-    return API.get<{ jobApplications: IJobApplication[], jobApplicationsCount: number }>(
-        '/student/get-applied-jobs', { params }
-    );
+    return API.get<{
+        jobApplications: IJobApplication[];
+        jobApplicationsCount: number;
+    }>('/student/get-applied-jobs', { params });
 }
 
 export async function closeJob(jobId: number) {
@@ -230,4 +229,16 @@ export async function getJobApplicants(
         jobApplicants: IJobApplicants[];
         jobApplicantsCount: number;
     }>(`job/get-applicants`, { params });
+}
+
+export async function getRecommendedJobs() {
+    return API.get<{ recommendedJobs: IJob[] }>('/job/get-recommended-jobs');
+}
+
+export async function getNewJobs() {
+    const params = {
+        page: 1,
+        numOfItems: 10,
+    };
+    return API.get<{ newJobs: IJob[] }>('/job/get-new-jobs', { params });
 }

@@ -1,14 +1,13 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Badge from '@material-ui/core/Badge';
-import JobIcon from '@material-ui/icons/WorkOutline';
 
 import JobResults from 'Domains/Jobs/JobResults';
 import JobCreateForm from 'Domains/Jobs/JobCreateForm';
 import { IJob, statusType } from '../api/index';
 import JobsContext from '../Contexts/JobsContext';
 import { IJobUpdateFormValues } from '../JobUpdateForm';
+import JobIcon from '../JobIcon';
 import { AuthContext } from 'Contexts/AuthContext';
 
 interface JobDashboardProps {
@@ -85,9 +84,7 @@ function JobDashboard({
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <Badge badgeContent={jobs.length} color='primary'>
-                        <JobIcon />
-                    </Badge>
+                    <JobIcon numberOfJobs={jobs.length} />
                 </Grid>
                 {user?.role === 'facultyMember' && (
                     <Grid item>
