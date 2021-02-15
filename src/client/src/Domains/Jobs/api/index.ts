@@ -192,21 +192,15 @@ export async function getAppliedJobs(page: number, numOfItems: number) {
 }
 
 export async function closeJob(jobId: number) {
-    return API.post('/job/close', {
-        jobId,
-    });
+    return API.post(`/job/close/${jobId}`);
 }
 
 export async function openJob(jobId: number) {
-    return API.post('/job/open', {
-        jobId,
-    });
+    return API.post(`/job/open/${jobId}`);
 }
 
 export async function applyToJob(jobId: number) {
-    return API.post<{ message: string }>('/job/apply-to-job', {
-        jobId,
-    });
+    return API.post<{ message: string }>(`/job/apply-to-job/${jobId}`);
 }
 
 export async function getJobApplicants(
