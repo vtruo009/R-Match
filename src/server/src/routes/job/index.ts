@@ -145,13 +145,13 @@ router.get(
 
         try {
             if (!minSalary) {
-                minSalary = '10000';
+                minSalary = '0';
             }
             if (!hoursPerWeek) {
-                hoursPerWeek = '10000';
+                hoursPerWeek = '0';
             }
             if (!startDate) {
-                startDate = '01/01/3000';
+                startDate = '01/01/1900';
             }
 
             const getJobsResult = await getJobs(

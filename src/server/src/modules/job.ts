@@ -112,6 +112,13 @@ export const createJob = async (
     return insertResult;
 };
 
+const getDateString = (dateObject: Date) => {
+    const month = dateObject.getMonth() + 1;
+    const date = dateObject.getDate();
+    const year = dateObject.getFullYear();
+    return month + '/' + date + '/' + year;
+}
+
 export const getJobs = async (
     studentId: number,
     title: string,
@@ -123,28 +130,59 @@ export const getJobs = async (
     numOfItems: number
 ) => {
     let modType = 'none';
-    let modStart;
+    const modStart = getDateString(new Date(startDate));
+    const todayString = getDateString(new Date());
     if (types) {
         modType = types.join(',');
     }
-    if (startDate) {
-        modStart = new Date(startDate);
-        let month = modStart.getMonth() + 1;
-        let date = modStart.getDate();
-        let year = modStart.getFullYear();
-        modStart = month + '/' + date + '/' + year;
-    }
 
     const jobApplications = await JobApplication.find({ where: { studentId } });
-
-    // jobApplications is undefined when the studentId does not exist.
-    if (!jobApplications) return undefined;
-
     const appliedJobIds = jobApplications.map(
         (jobApplication) => jobApplication.jobId
     );
 
-    return getRepository(Job)
+    const matchingJobs = await getRepository(Job)
+        .createQueryBuilder('job')
+        .select([
+            'job',
+            'job.facultyMember',
+            'facultyMember.id',
+            'facultyMember.title',
+            'user.firstName',
+            'user.lastName',
+        ])
+        .leftJoin('job.facultyMember', 'facultyMember')
+        .leftJoin('facultyMember.user', 'user')
+        .leftJoinAndSelect('job.department', 'department')
+        .where('LOWER(job.title) LIKE :title', { title: `%${title.toLowerCase()}%` })
+        .andWhere('(job.type IN (:...types) OR job.type LIKE :type)', {
+            types,
+            type: `%${modType}%`,
+        })
+        .andWhere('job.startDate >= :startDate', { startDate: modStart })
+        .andWhere('job.minSalary >= :minSalary', { minSalary })
+        .andWhere('job.hoursPerWeek >= :hoursPerWeek', {hoursPerWeek})
+        .andWhere('job.status = :jobStatus', {
+            jobStatus: 'Hiring',
+        })
+        .andWhere('job.id NOT IN (:...appliedJobIds)', {
+            // It causes a SQL parse error when an empty array is passed in.
+            appliedJobIds: appliedJobIds.length > 0 ? appliedJobIds : [-1],
+        })
+        .andWhere('job.expirationDate >= :today', { today: todayString })
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount();
+
+    const jobsCount = matchingJobs[1];
+
+    if (jobsCount > 0) {
+        return matchingJobs
+    }
+
+    // If no jobs found, we  use "OR" queries to suggest jobs
+    // that partially match with the query.
+    return await getRepository(Job)
         .createQueryBuilder('job')
         .select([
             'job',
@@ -158,7 +196,7 @@ export const getJobs = async (
         .leftJoin('facultyMember.user', 'user')
         .leftJoinAndSelect('job.department', 'department')
         .where(
-            `(LOWER(job.title) LIKE :title 
+            `(LOWER(job.title) LIKE :title
                     OR job.type IN (:...types)
                     OR job.type LIKE :type
                     OR job.startDate >= :startDate
@@ -180,6 +218,7 @@ export const getJobs = async (
             // It causes a SQL parse error when an empty array is passed in.
             appliedJobIds: appliedJobIds.length > 0 ? appliedJobIds : [-1],
         })
+        .andWhere('job.expirationDate >= :today', { today: todayString })
         .skip((page - 1) * numOfItems)
         .take(numOfItems)
         .getManyAndCount();
