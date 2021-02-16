@@ -1,6 +1,6 @@
-import { WorkExperience } from '@entities/workExperience'
-import { Student } from '@entities/student'
-import { UpdateResult } from 'typeorm'
+import { WorkExperience } from '@entities/workExperience';
+import { Student } from '@entities/student';
+import { UpdateResult } from 'typeorm';
 
 /**
  * @description Finds a work experience by id
@@ -35,13 +35,8 @@ export const createWorkExperience = async (
     };
 
     const startDateAsDate = new Date(startDate);
-
     let endDateAsDate;
-    if (endDate) {
-        endDateAsDate = new Date(endDate);
-    }
-
-    const today = new Date();
+    if (endDate) endDateAsDate = new Date(endDate);
 
     const studentToUpdate = await Student.findOne({
         where: { id: studentId },
@@ -67,10 +62,9 @@ export const createWorkExperience = async (
 };
 
 //NOTE: Needed to change this type to a string to prevent the string is not assignable to number error.
-export const getWorkExperiences = (
-    studentId: number,
-    ) => {
-        return WorkExperience.find({where: {studentId}});};
+export const getWorkExperiences = (studentId: number) => {
+    return WorkExperience.find({ where: { studentId } });
+};
 
 /**
  * @description Updates the properties of an already existing work experience.
@@ -84,7 +78,7 @@ export const getWorkExperiences = (
  * @returns Promise
  */
 
-export const updateWorkExperience = async (workExperience: WorkExperience) => {
+export const updateWorkExperience = (workExperience: WorkExperience) => {
     const {
         description,
         employer,
@@ -93,30 +87,17 @@ export const updateWorkExperience = async (workExperience: WorkExperience) => {
         title,
         id,
     } = workExperience;
-
-    const updateResult: {
-        result?: UpdateResult;
-        message: string;
-    } = {
-        result: undefined,
-        message: '',
-    };
-
-    const startDateAsDate = new Date(startDate);
     let endDateAsDate;
     if (endDate) {
         endDateAsDate = new Date(endDate);
     }
-    const updatedWorkExperience = await WorkExperience.update(id, {
+    return WorkExperience.update(id, {
         description,
         employer,
-        startDate: startDateAsDate,
+        startDate: new Date(startDate),
         endDate: endDateAsDate,
         title,
     });
-    updateResult.result = updatedWorkExperience;
-    updateResult.message = 'Work experience successfully updated';
-    return updateResult;
 };
 
 /**

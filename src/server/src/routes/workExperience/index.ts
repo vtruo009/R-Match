@@ -1,5 +1,6 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
+import { JWTUser } from '@entities/user';
 import { WorkExperience } from '@entities/workExperience';
 import { errors } from '@shared/errors';
 import passport from 'passport';
@@ -7,14 +8,14 @@ import {
     createWorkExperience,
     getWorkExperiences,
     updateWorkExperience,
-    deleteWorkExperience
+    deleteWorkExperience,
 } from '@modules/workExperience';
 import logger from '@shared/Logger';
 import { validationMiddleware } from '@middlewares/validation';
-import { 
+import {
     workExperienceCreateSchema,
     workExperienceUpdateSchema,
-         } from './schemas';
+} from './schemas';
 
 const router = Router();
 const {
@@ -39,23 +40,27 @@ router.post(
     passport.authenticate('jwt', { session: false }),
     validationMiddleware({ bodySchema: workExperienceCreateSchema }),
     async (req: workExperienceRequest, res: Response) => {
+        const { role, specificUserId } = req.user as JWTUser;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' });
+        }
         const {
             startDate,
-            endDate, 
+            endDate,
             description,
             employer,
             title,
-            studentId,
         } = req.body.workExperience;
-
         try {
             const { result, message } = await createWorkExperience(
                 description,
                 employer,
                 startDate,
-                endDate, 
+                endDate,
                 title,
-                studentId,
+                specificUserId
             );
             return result
                 ? res.status(CREATED).end()
@@ -77,7 +82,7 @@ router.get(
     '/read/:studentId',
     passport.authenticate('jwt', { session: false }),
     async (req: Request, res: Response) => {
-        const { studentId } = req.params; 
+        const { studentId } = req.params;
         try {
             const workExperiences = await getWorkExperiences(
                 parseInt(studentId, 10)
@@ -106,12 +111,16 @@ router.post(
     passport.authenticate('jwt', { session: false }),
     validationMiddleware({ bodySchema: workExperienceUpdateSchema }),
     async (req: workExperienceRequest, res: Response) => {
+        const { role } = req.user as JWTUser;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' });
+        }
         const { workExperience } = req.body;
         try {
-            const { result, message } = await updateWorkExperience(workExperience);
-            return result
-                ? res.status(OK).end()
-                : res.status(BAD_REQUEST).json({ error: message }).end();
+            await updateWorkExperience(workExperience);
+            return res.status(OK).end();
         } catch (error) {
             logger.err(error);
             return res
@@ -129,6 +138,12 @@ router.delete(
     '/delete/:id',
     passport.authenticate('jwt', { session: false }),
     async (req: workExperienceRequest, res: Response) => {
+        const { role } = req.user as JWTUser;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' });
+        }
         const { id } = req.params;
         try {
             await deleteWorkExperience(parseInt(id, 10));

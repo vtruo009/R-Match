@@ -244,9 +244,8 @@ router.delete(
 );
 
 router.post(
-    '/close',
+    '/close/:jobId',
     passport.authenticate('jwt', { session: false }),
-    validationMiddleware({ bodySchema: jobIdSchema }),
     async (req: jobIdRequest, res: Response) => {
         const { role, specificUserId } = req.user as JWTUser;
         if (role !== 'facultyMember') {
@@ -255,9 +254,9 @@ router.post(
                 .json({ error: 'User is not a faculty member' })
                 .end();
         }
-        const { jobId } = req.body;
+        const { jobId } = req.params;
         try {
-            await closeJob(jobId, specificUserId);
+            await closeJob(parseInt(jobId, 10), specificUserId);
             return res.status(OK).end();
         } catch (error) {
             logger.err(error);
@@ -270,9 +269,8 @@ router.post(
 );
 
 router.post(
-    '/open',
+    '/open/:jobId',
     passport.authenticate('jwt', { session: false }),
-    validationMiddleware({ bodySchema: jobIdSchema }),
     async (req: jobIdRequest, res: Response) => {
         const { role, specificUserId } = req.user as JWTUser;
         if (role !== 'facultyMember') {
@@ -281,9 +279,9 @@ router.post(
                 .json({ error: 'User is not a faculty member' })
                 .end();
         }
-        const { jobId } = req.body;
+        const { jobId } = req.params;
         try {
-            await openJob(jobId, specificUserId);
+            await openJob(parseInt(jobId, 10), specificUserId);
             return res.status(OK).end();
         } catch (error) {
             logger.err(error);
@@ -300,9 +298,8 @@ router.post(
  ******************************************************************************/
 
 router.post(
-    '/apply-to-job',
+    '/apply-to-job/:jobId',
     passport.authenticate('jwt', { session: false }),
-    validationMiddleware({ bodySchema: jobIdSchema }),
     async (req: jobIdRequest, res: Response) => {
         //checks that caller is a student.
         const { role, specificUserId } = req.user as JWTUser;
@@ -311,9 +308,12 @@ router.post(
                 .status(UNAUTHORIZED)
                 .json({ error: 'User is not a student' });
         }
-        const { jobId } = req.body;
+        const { jobId } = req.params;
         try {
-            const { result, message } = await applyToJob(specificUserId, jobId);
+            const { result, message } = await applyToJob(
+                specificUserId,
+                parseInt(jobId, 10)
+            );
             return result
                 ? res.status(OK).end()
                 : res.status(BAD_REQUEST).json({ message });

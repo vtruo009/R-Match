@@ -6,7 +6,7 @@ const baseWorkExperience = Joi.object({
     description: Joi.string().required(),
     startDate: Joi.date().required(),
     endDate: Joi.date().optional(),
-}).required(); 
+}).required();
 
 export const workExperienceCreateSchema = Joi.object({
     workExperience: baseWorkExperience,
