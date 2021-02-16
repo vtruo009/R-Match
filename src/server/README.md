@@ -337,6 +337,23 @@ Job API
                 -   Unprocessable Entity -> Status code: 422
                 -   Internal server error -> Status code: 500
 
+    -   /api/job/withdraw-from-job/:id
+
+        -   Deletes a student's job application information from the database.
+        -   Body: None
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a student
+        -   Parameters: None
+        -   Response:
+            -   success:
+                Status code: 200
+            -   errors:
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
+
 User API
 
 -   Interacts with:

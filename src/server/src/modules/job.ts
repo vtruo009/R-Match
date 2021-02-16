@@ -1,7 +1,7 @@
 import { Job } from '@entities/job';
 import { FacultyMember } from '@entities/facultyMember';
 import { findDepartment } from '@modules/department';
-import { getRepository, UpdateResult } from 'typeorm';
+import { getRepository, UpdateResult, DeleteResult } from 'typeorm';
 import { JobApplication } from '@entities/jobApplication';
 import { Student } from '@entities/student';
 
@@ -392,6 +392,52 @@ export const applyToJob = async (studentId: number, jobId: number) => {
     applicationResult.message = 'Job application successfully submitted';
     applicationResult.result = jobApplication;
     return applicationResult;
+};
+
+
+/**
+ * @description Deletes a student's job application from the database.
+ * @param {number} studentId - Id of student that withdraws the application
+ * @param {number} jobId - Id of job that student withdraws from.
+ * @returns Promise
+ */
+export const withdrawFromJob = async (studentId: number, jobId: number) => {
+    const withdrawResult: {
+        result?: DeleteResult;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
+
+    // Check if student exists.
+    const student = await Student.findOne(studentId);
+    if (!student) {
+        withdrawResult.message = 'Student does not exist';
+        return withdrawResult;
+    }
+
+    // Check if job exists.
+    const job = await Job.findOne(jobId);
+    if (!job) {
+        withdrawResult.message = 'Requested job does not exist';
+        return withdrawResult;
+    }
+
+    // Check if student already applied for the job.
+    const application = await JobApplication.findOne({
+        where: { jobId, studentId },
+    });
+
+    if (!application) {
+        withdrawResult.message = 'You have not applied for the position';
+        return withdrawResult;
+    }
+
+    // Delete job application.
+    withdrawResult.result = await JobApplication.delete(application);
+    withdrawResult.message = 'Job application successfully deleted';
+    return withdrawResult;
 };
 
 /**
