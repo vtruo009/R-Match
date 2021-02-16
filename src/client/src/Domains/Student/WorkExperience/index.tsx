@@ -3,29 +3,36 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import DeleteButton from 'Components/DeleteButton';
-import WorkExperienceUpdateForm from '../WorkExperienceUpdateForm';
+import WorkExperienceUpdateForm, {
+    IWorkExperienceUpdateFormValues,
+} from '../WorkExperienceUpdateForm';
 import { formatDateString } from 'utils/format';
 import { IWorkExperience, deleteWorkExperience } from '../api';
 
 interface WorkExperienceProps {
     workExperience: IWorkExperience;
     hasPermission: boolean;
+    onDeleteWorkExperience: (workExperienceId: number) => void;
+    onUpdateWorkExperience: (
+        updatedWorkExperience: IWorkExperienceUpdateFormValues
+    ) => void;
 }
 
 function WorkExperience({
-    workExperience,
+    workExperience: { title, description, employer, startDate, endDate, id },
     hasPermission,
+    onDeleteWorkExperience,
+    onUpdateWorkExperience,
 }: WorkExperienceProps) {
-    const deleteRequest = React.useCallback(
-        () => deleteWorkExperience(workExperience.id),
-        [workExperience.id]
-    );
+    const deleteRequest = React.useCallback(() => deleteWorkExperience(id), [
+        id,
+    ]);
     return (
         <Grid container spacing={1} alignItems='center' justify='center'>
             <Grid container item xs={12} justify='space-between'>
                 <Grid item>
                     <Typography variant='h6' color='primary'>
-                        {workExperience.title} 
+                        {title}
                     </Typography>
                 </Grid>
                 {hasPermission && (
@@ -33,20 +40,24 @@ function WorkExperience({
                         <Grid container>
                             <WorkExperienceUpdateForm
                                 workExperienceInitialValues={{
-                                    ...workExperience,
+                                    id,
+                                    title,
+                                    description,
+                                    employer,
                                     startDate: formatDateString(
-                                        workExperience.startDate,
+                                        startDate,
                                         'yyyy-MM-dd'
                                     ),
                                     endDate: formatDateString(
-                                        workExperience.endDate,
+                                        endDate,
                                         'yyyy-MM-dd'
                                     ),
                                 }}
+                                onSuccess={onUpdateWorkExperience}
                             />
                             <DeleteButton
-                                message={`Please confirm deletion of work experience: ${workExperience.title}`}
-                                onSuccess={() => {}}
+                                message={`Please confirm deletion of work experience: ${title}`}
+                                onSuccess={() => onDeleteWorkExperience(id)}
                                 onDeleteRequest={deleteRequest}
                             />
                         </Grid>
@@ -54,19 +65,16 @@ function WorkExperience({
                 )}
             </Grid>
             <Grid item xs={12}>
-                <Typography variant='h6'>{workExperience.employer}</Typography>
+                <Typography variant='h6'>{employer}</Typography>
             </Grid>
             <Grid item xs={12}>
                 <Typography variant='body1'>
-                    {formatDateString(workExperience.startDate)}
-                    {workExperience.endDate &&
-                        ` - ${formatDateString(workExperience.endDate)}`}
+                    {formatDateString(startDate)}
+                    {endDate && ` - ${formatDateString(endDate)}`}
                 </Typography>
             </Grid>
             <Grid item xs={12}>
-                <Typography variant='body1'>
-                    {workExperience.description}
-                </Typography>
+                <Typography variant='body1'>{description}</Typography>
             </Grid>
         </Grid>
     );

@@ -20,23 +20,31 @@ const workExperienceCreateFormInitialValues: IWorkExperienceCreateFormValues = {
     employer: '',
 };
 
-function WorkExperienceCreateForm() {
+interface WorkExperienceCreateFormProps {
+    onSuccess: () => void;
+    studentId: number;
+}
+
+function WorkExperienceCreateForm({
+    studentId,
+    onSuccess,
+}: WorkExperienceCreateFormProps) {
     const [
         workExperienceInitialValues,
         setWorkExperienceInitialValues,
     ] = React.useState<IWorkExperienceCreateFormValues>(
         workExperienceCreateFormInitialValues
     );
-    // const { addJob } = React.useContext(JobsContext);
     const { openDialog, closeDialog, DialogProps, Dialog } = useDialog();
     const [snack] = useSnack();
     const request = React.useCallback(
-        () => createWorkExperience(workExperienceInitialValues),
-        [workExperienceInitialValues]
+        () => createWorkExperience(studentId, workExperienceInitialValues),
+        [studentId, workExperienceInitialValues]
     );
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
             closeDialog();
+            onSuccess();
             snack('Work experience successfully added', 'success');
         },
     });
@@ -44,7 +52,7 @@ function WorkExperienceCreateForm() {
     return (
         <>
             <IconButton onClick={openDialog}>
-                <AddIcon color='primary'/>
+                <AddIcon color='primary' />
             </IconButton>
             <Dialog {...DialogProps} title='Add Work Experience'>
                 <WorkExperienceForm
