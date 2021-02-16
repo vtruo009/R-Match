@@ -22,11 +22,9 @@ const workExperienceCreateFormInitialValues: IWorkExperienceCreateFormValues = {
 
 interface WorkExperienceCreateFormProps {
     onSuccess: () => void;
-    studentId: number;
 }
 
 function WorkExperienceCreateForm({
-    studentId,
     onSuccess,
 }: WorkExperienceCreateFormProps) {
     const [
@@ -38,8 +36,8 @@ function WorkExperienceCreateForm({
     const { openDialog, closeDialog, DialogProps, Dialog } = useDialog();
     const [snack] = useSnack();
     const request = React.useCallback(
-        () => createWorkExperience(studentId, workExperienceInitialValues),
-        [studentId, workExperienceInitialValues]
+        () => createWorkExperience(workExperienceInitialValues),
+        [workExperienceInitialValues]
     );
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {

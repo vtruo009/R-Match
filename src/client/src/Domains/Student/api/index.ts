@@ -125,10 +125,9 @@ export async function getWorkExperiences(studentId: number) {
 }
 
 export async function createWorkExperience(
-    studentId: number,
     workExperience: IWorkExperienceCreateFormValues
 ) {
-    return API.post(`/work-experience/create/${studentId}`, {
+    return API.post(`/work-experience/create`, {
         workExperience,
     });
 }

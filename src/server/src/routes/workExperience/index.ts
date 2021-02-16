@@ -36,17 +36,16 @@ interface workExperienceRequest extends Request {
  *            POST Request - Create - /api/workExperience/create
  ******************************************************************************/
 router.post(
-    '/create/:studentId',
+    '/create',
     passport.authenticate('jwt', { session: false }),
     validationMiddleware({ bodySchema: workExperienceCreateSchema }),
     async (req: workExperienceRequest, res: Response) => {
-        const { role } = req.user as JWTUser;
+        const { role, specificUserId } = req.user as JWTUser;
         if (role !== 'student') {
             return res
                 .status(UNAUTHORIZED)
                 .json({ error: 'User is not a student' });
         }
-        const { studentId } = req.params;
         const {
             startDate,
             endDate,
@@ -61,7 +60,7 @@ router.post(
                 startDate,
                 endDate,
                 title,
-                parseInt(studentId, 10)
+                specificUserId
             );
             return result
                 ? res.status(CREATED).end()

@@ -70,7 +70,6 @@ function WorkExperiences({ hasPermission, studentId }: WorkExperiencesProps) {
                     </Typography>
                     {hasPermission && (
                         <WorkExperienceCreateForm
-                            studentId={studentId}
                             onSuccess={sendGetWorkExperiencesRequest}
                         />
                     )}
