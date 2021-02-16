@@ -13,6 +13,7 @@ import {
     closeJob,
     openJob,
     applyToJob,
+    withdrawFromJob,
     getApplicants,
     getNewJobs,
     getRecommendedJobs,
@@ -316,6 +317,39 @@ router.post(
             return result
                 ? res.status(OK).end()
                 : res.status(BAD_REQUEST).json({ message });
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
+ *      DELETE Request - Withdraw from Job - /api/job/withdraw-from-job/:id
+ ******************************************************************************/
+
+router.delete(
+    '/withdraw-from-job/:id',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        //checks that caller is a student.
+        const { role, specificUserId } = req.user as JWTUser;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' });
+        }
+        const { id } = req.params;
+        try {
+
+            const { result, message } = await withdrawFromJob(specificUserId, parseInt(id, 10));
+
+            return result
+                ? res.status(OK).end()
+                : res.status(BAD_REQUEST).json({ error: message }).end();
         } catch (error) {
             logger.err(error);
             return res
