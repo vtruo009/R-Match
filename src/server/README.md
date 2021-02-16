@@ -344,7 +344,7 @@ Job API
         -   Authorization restrictions:
             -   User must be logged in
             -   User must be a student
-        -   Parameters: None
+        -   Parameters: id of job.
         -   Response:
             -   success:
                 Status code: 200
