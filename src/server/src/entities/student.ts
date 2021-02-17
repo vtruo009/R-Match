@@ -15,8 +15,16 @@ import {WorkExperience} from './workExperience'
 import { Course } from './course';
 import { Department } from './department';
 import { JobApplication } from './jobApplication';
+import { Document } from './document'
 
 export type classStandings = 'Freshman' | 'Sophomore' | 'Junior' | 'Senior';
+export const classStandingValues = [
+    'Freshman',
+    'Sophomore',
+    'Junior',
+    'Senior',
+] as classStandings[];
+
 @Entity()
 export class Student extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -31,10 +39,13 @@ export class Student extends BaseEntity {
     @Column({ nullable: true })
     sid?: string;
 
+    @Column('decimal', { nullable: true, precision: 3, scale: 2 })
+    gpa?: number;
+
     @Column({
         nullable: true,
         type: 'enum',
-        enum: ['Freshman', 'Sophomore', 'Junior', 'Senior'],
+        enum: classStandingValues,
     })
     classStanding?: classStandings;
 
@@ -62,4 +73,7 @@ export class Student extends BaseEntity {
 
     @OneToMany(() => JobApplication, (jobApplication) => jobApplication.student)
     public jobApplications: JobApplication[];
+
+    @OneToMany(() => Document, (documents) => documents.student)
+    public documents: Document[];
 }

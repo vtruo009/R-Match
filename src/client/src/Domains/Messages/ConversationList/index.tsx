@@ -19,11 +19,11 @@ import ConversationPreview from 'Domains/Messages/ConversationPreview';
 
 interface ConversationListProps {
     setReceiver: (user: IUser) => void;
+    receiver?: IUser;
 }
 
-function ConversationList({ setReceiver }: ConversationListProps) {
+function ConversationList({ setReceiver, receiver }: ConversationListProps) {
     const [openNewMessageForm, setOpenNewMessageForm] = React.useState(false);
-    const [selectedReceiver, setSelectedReceiver] = React.useState<IUser>();
     const [conversationList, setConversationList] = React.useState<
         IConversation[]
     >([]);
@@ -34,8 +34,8 @@ function ConversationList({ setReceiver }: ConversationListProps) {
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: (response) => {
             if (response.data.conversationList.length > 0) {
-                if (!selectedReceiver) {
-                    setSelectedReceiver(response.data.conversationList[0].user);
+                if (!receiver) {
+                    setReceiver(response.data.conversationList[0].user);
                 }
                 setConversationList(response.data.conversationList);
             }
@@ -52,10 +52,6 @@ function ConversationList({ setReceiver }: ConversationListProps) {
     React.useEffect(() => {
         sendRequest();
     }, [sendRequest]);
-
-    React.useEffect(() => {
-        if (selectedReceiver) setReceiver(selectedReceiver);
-    }, [selectedReceiver, setReceiver]);
 
     React.useEffect(() => {
         // Reload conversation list when new message arrives.
@@ -92,11 +88,11 @@ function ConversationList({ setReceiver }: ConversationListProps) {
                                     <Grid item key={key}>
                                         <ConversationPreview
                                             conversation={conversation}
-                                            onClick={setSelectedReceiver}
+                                            onClick={setReceiver}
                                             isSelected={
-                                                selectedReceiver !== undefined &&
+                                                receiver !== undefined &&
                                                 conversation.user.id ===
-                                                    selectedReceiver.id
+                                                    receiver.id
                                             }
                                         />
                                     </Grid>
@@ -112,7 +108,7 @@ function ConversationList({ setReceiver }: ConversationListProps) {
                 fullWidth
             >
                 <NewMessageForm
-                    setReceiver={setSelectedReceiver}
+                    setReceiver={setReceiver}
                     closeForm={handleClose}
                 />
             </Dialog>

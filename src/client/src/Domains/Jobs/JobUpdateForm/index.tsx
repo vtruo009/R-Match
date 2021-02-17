@@ -21,7 +21,7 @@ function JobUpdateForm({ jobInitialValues }: JobUpdateFormProps) {
         jobToUpdate,
         setJobInitialValues,
     ] = React.useState<IJobUpdateFormValues>(jobInitialValues);
-    const [, openDialog, closeDialog, DialogProps, Dialog] = useDialog();
+    const { openDialog, closeDialog, DialogProps, Dialog } = useDialog();
     const { updateJob } = React.useContext(JobsContext);
     const [snack] = useSnack();
     const request = React.useCallback(() => updateJobRequest(jobToUpdate), [

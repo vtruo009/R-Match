@@ -6,7 +6,7 @@
         "lint": "eslint . --ext .ts",
         "start:prod": "node -r module-alias/register ./dist --env=production",
         "start": "nodemon",
-        "test": "jest --watchAll --runInBand --verbose",
+        "test": "jest --watchAll --runInBand",
         "migration": "ts-node -r tsconfig-paths/register node_modules/.bin/typeorm migration:generate -n migrationName -d src/migration -c development"
     },
     "nodemonConfig": {
@@ -70,6 +70,9 @@
         "@prisma/client": "^2.10.0",
         "@types/bcrypt": "^3.0.0",
         "@types/cors": "^2.8.8",
+        "@types/nodemailer": "^6.4.0",
+        "@types/nodemailer-direct-transport": "^1.0.31",
+        "@types/nodemailer-smtp-transport": "^2.7.4",
         "@types/passport": "^1.0.4",
         "@types/passport-jwt": "^3.0.3",
         "@types/passport-local": "^1.0.33",
@@ -88,6 +91,7 @@
         "jsonwebtoken": "^8.5.1",
         "module-alias": "^2.2.2",
         "morgan": "^1.10.0",
+        "nodemailer": "^6.4.17",
         "passport": "^0.4.1",
         "passport-jwt": "^4.0.0",
         "passport-local": "^1.0.0",

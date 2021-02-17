@@ -1,7 +1,7 @@
 import API from 'api';
-import { IUser } from 'Domains/Accounts/api';
-import { ICourse, IDepartment } from 'Components/AcademicInfo/api';
+import { IDepartment, ICourse } from 'Components/AcademicInfo/api';
 import { IFacultyMemberProfileForm } from 'Domains/FacultyMember/FacultyMemberProfileForm';
+import { IUser } from 'Domains/Accounts/api';
 
 export interface IFacultyMember {
     id: number;
