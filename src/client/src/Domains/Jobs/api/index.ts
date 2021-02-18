@@ -200,7 +200,7 @@ export async function openJob(jobId: number) {
 }
 
 export async function applyToJob(jobId: number) {
-    return API.post<{ message: string }>(`/job/apply-to-job/${jobId}`);
+    return API.post<{ error: string }>(`/job/apply-to-job/${jobId}`);
 }
 
 export async function getJobApplicants(
@@ -241,4 +241,8 @@ export async function getNumberOfApplicants(jobId: number) {
     return API.get<{ numberOfApplicants: number }>(
         `/job/get-number-of-applicants/${jobId}`
     );
+}
+
+export async function withdrawFromJob(jobId: number) {
+    return API.delete<{ error: string }>(`/job/withdraw-from-job/${jobId}`);
 }

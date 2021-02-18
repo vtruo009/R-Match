@@ -316,7 +316,7 @@ router.post(
             );
             return result
                 ? res.status(OK).end()
-                : res.status(BAD_REQUEST).json({ message });
+                : res.status(BAD_REQUEST).json({ error: message });
         } catch (error) {
             logger.err(error);
             return res
@@ -344,8 +344,10 @@ router.delete(
         }
         const { id } = req.params;
         try {
-
-            const { result, message } = await withdrawFromJob(specificUserId, parseInt(id, 10));
+            const { result, message } = await withdrawFromJob(
+                specificUserId,
+                parseInt(id, 10)
+            );
 
             return result
                 ? res.status(OK).end()
