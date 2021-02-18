@@ -7,8 +7,9 @@ interface LabelValueProps {
     label: string;
     value?: string | number;
     isParagraph?: boolean;
+    link?: string;
 }
-function LabelValue({ label, value, isParagraph = false }: LabelValueProps) {
+function LabelValue({ label, value, isParagraph = false, link = undefined }: LabelValueProps) {
     return (
         <Card>
             <Grid item container direction='column'>
@@ -19,7 +20,9 @@ function LabelValue({ label, value, isParagraph = false }: LabelValueProps) {
                 </Grid>
                 <Grid item>
                     <Typography variant={isParagraph ? 'body1' : 'h6'}>
-                        {value ? value : <i>Not provided</i>}
+                        <a href={link ? `http://${link}` : undefined}>
+                            {value ? value : <i>Not provided</i>}
+                        </a>
                     </Typography>
                 </Grid>
             </Grid>

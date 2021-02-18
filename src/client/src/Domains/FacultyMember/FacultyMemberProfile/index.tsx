@@ -66,6 +66,7 @@ function FacultyMemberProfile({ facultyMemberId }: FacultyMemberProfileProps) {
                     <LabelValue
                         label='Website'
                         value={facultyMemberProfile.websiteLink}
+                        link={facultyMemberProfile.websiteLink}
                     />
                 </Grid>
                 <Grid item md={4} xs={12}>
