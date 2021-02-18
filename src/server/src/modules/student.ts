@@ -156,6 +156,7 @@ export const searchStudents = async (
         .leftJoin('student.user', 'user')
         .addSelect(['user.firstName', 'user.lastName'])
         .leftJoinAndSelect('student.department', 'department')
+        .leftJoin('student.courses', 'course')
         .where('LOWER(user.firstName) LIKE :firstName', {
             firstName: `%${firstName.toLowerCase()}%`,
         })
@@ -194,8 +195,7 @@ export const searchStudents = async (
         }, {
             courseIdsPopulated: courseIds.length > 0,
             courseIds: courseIds.length > 0 ? courseIds : [-1]
-        }
-        )
+        })
         .skip((page - 1) * numOfItems)
         .take(numOfItems)
         .getManyAndCount();
