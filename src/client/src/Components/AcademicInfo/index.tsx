@@ -113,12 +113,16 @@ function AcademicInfo({
     }, [collegeId, collegeDepartmentDict, setFieldValue, multipleDepartments]);
 
     React.useEffect(() => {
-        if (departmentId && showCourses) {
+        const checkDepartmentId = multipleDepartments
+            ? departmentId.length > 0
+            : departmentId;
+
+        if (checkDepartmentId && showCourses) {
             sendGetCoursesRequest();
         } else {
             setCourses(coursesDefaultValues);
         }
-    }, [departmentId, sendGetCoursesRequest, showCourses]);
+    }, [departmentId, sendGetCoursesRequest, showCourses, multipleDepartments]);
 
     return (
         <Grid container item justify='center'>

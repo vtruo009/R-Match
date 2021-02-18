@@ -37,8 +37,7 @@ const formInitialValues: JobSearchFormType = {
 
 const formSchema = yup.object({
     title: yup.string().required(),
-    // TODO: should be array type?
-    types: yup.string().required(),
+    types: yup.array().required(),
     startDate: yup.date().optional(),
     minSalary: yup.number().min(0).optional(),
     hoursPerWeek: yup.number().moreThan(0).optional(),
