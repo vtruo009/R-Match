@@ -82,7 +82,11 @@ function ApplicantsList({ jobId, jobTitle }: ApplicantsListProps) {
             const { jobApplicants, jobApplicantsCount } = response.data;
             if (jobApplicants.length > 0) {
                 const studentPreviews = response.data.jobApplicants.map(
-                    (jobApplicants) => jobApplicants.student
+                    (jobApplicants) => {
+                        const studentPreview = jobApplicants.student;
+                        studentPreview.date = new Date(jobApplicants.date);
+                        return studentPreview;
+                    }
                 );
                 setNumOfPages(Math.ceil(jobApplicantsCount / numOfItems));
                 setApplicants(studentPreviews);

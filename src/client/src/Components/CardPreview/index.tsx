@@ -23,7 +23,7 @@ interface CardPreviewProps {
     onClick: () => void;
     isSelected: boolean;
     title: string;
-    values: { [key: string]: string | number | JSX.Element };
+    values: { [key: string]: string | number | JSX.Element | undefined };
 }
 
 function CardPreview({
@@ -51,9 +51,11 @@ function CardPreview({
                     </Grid>
                     {Object.entries(values).map(([key, value]) => (
                         <Grid item xs={12}>
-                            <Typography variant='body1'>
-                                {key}: {value}
-                            </Typography>
+                            {value === undefined ? (<> </>) : (
+                                    <Typography variant='body1'>
+                                        {key}: {value}
+                                    </Typography>
+                            )}
                         </Grid>
                     ))}
                 </Grid>
