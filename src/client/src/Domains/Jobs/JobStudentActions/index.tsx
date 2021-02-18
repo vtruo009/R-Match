@@ -13,8 +13,7 @@ interface JobStudentActionsProps {
 
 function JobStudentActions({ jobId }: JobStudentActionsProps) {
     const [snack] = useSnack();
-    const { removeJob, showApply } = React.useContext(JobsContext);
-
+    const { removeJob, showApply, onApply } = React.useContext(JobsContext);
     const applyRequest = React.useCallback(() => applyToJob(jobId), [jobId]);
     const withDrawFromJobRequest = React.useCallback(
         () => withdrawFromJob(jobId),
@@ -24,6 +23,7 @@ function JobStudentActions({ jobId }: JobStudentActionsProps) {
     const [sendApplyRequest, isApplyRequestLoading] = useApi(applyRequest, {
         onSuccess: () => {
             removeJob(jobId);
+            onApply();
             snack('Application successfully submitted', 'success');
         },
         onFailure: (error, response) => {

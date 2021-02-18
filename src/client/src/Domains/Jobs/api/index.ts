@@ -210,7 +210,7 @@ export async function getJobApplicants(
     classStandings?: classStandingTypes[],
     minimumGpa?: string,
     departmentIds?: number[],
-    courseIds?: number[],
+    courseIds?: number[]
 ) {
     const params = {
         jobId,
@@ -219,7 +219,7 @@ export async function getJobApplicants(
         classStandings,
         minimumGpa,
         departmentIds,
-        courseIds
+        courseIds,
     };
     return API.get<{
         jobApplicants: IJobApplicants[];
@@ -228,7 +228,7 @@ export async function getJobApplicants(
 }
 
 export async function getRecommendedJobs() {
-    return API.get<{ recommendedJobs: IJob[] }>('/job/get-recommended-jobs');
+    return API.get<{ jobs: IJob[] }>('/job/get-recommended-jobs');
 }
 
 export async function getNewJobs() {
@@ -236,7 +236,7 @@ export async function getNewJobs() {
         page: 1,
         numOfItems: 10,
     };
-    return API.get<{ newJobs: IJob[] }>('/job/get-new-jobs', { params });
+    return API.get<{ jobs: IJob[] }>('/job/get-new-jobs', { params });
 }
 
 export async function getNumberOfApplicants(jobId: number) {
