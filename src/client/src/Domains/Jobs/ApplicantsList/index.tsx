@@ -68,7 +68,9 @@ function ApplicantsList({ jobId, jobTitle }: ApplicantsListProps) {
                 numOfItems,
                 formState.classStandings,
                 formState.minimumGpa,
-                formState.departmentId
+                formState.departmentId,
+                // TODO: Get course Ids from user.
+                []
             ),
         [jobId, page, formState]
     );

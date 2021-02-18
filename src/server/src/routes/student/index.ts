@@ -178,6 +178,7 @@ interface StudentSearchRequest extends Request {
         sid?: string;
         departmentIds?: string[];
         classStandings?: classStandings[];
+        courseIds: string[];
         page: string;
         numOfItems: string;
     };
@@ -188,7 +189,7 @@ router.get(
     passport.authenticate('jwt', { session: false }),
     validationMiddleware({ querySchema: studentSearchSchema }),
     async (req: StudentSearchRequest, res: Response) => {
-        const { departmentIds, page, numOfItems } = req.query;
+        const { departmentIds, courseIds, page, numOfItems } = req.query;
         let { firstName, lastName, email, sid, classStandings } = req.query;
 
         if (!firstName) firstName = '';
@@ -196,12 +197,9 @@ router.get(
         if (!email) email = '';
         if (!sid) sid = '';
 
-        // Pass -1 when the input is empty or null because it causes a sql parse error
-        // when we pass in an empty array.
-        const departmentIdInts =
-            departmentIds && departmentIds.length > 0
-                ? departmentIds.map((id) => parseInt(id, 10))
-                : [-1];
+
+        const departmentIdInts = (departmentIds) ? departmentIds.map((id) => parseInt(id, 10)) : [];
+        const courseIdInts = (courseIds) ? courseIds.map((id) => parseInt(id, 10)) : [];
 
         if (!classStandings || classStandings.length === 0)
             classStandings = classStandingValues;
@@ -214,6 +212,7 @@ router.get(
                 sid,
                 departmentIdInts,
                 classStandings,
+                courseIdInts,
                 parseInt(page),
                 parseInt(numOfItems)
             );

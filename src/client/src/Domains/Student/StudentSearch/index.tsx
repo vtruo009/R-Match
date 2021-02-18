@@ -76,7 +76,9 @@ function StudentSearchForm() {
                 formState.classStandings,
                 formState.departmentId,
                 formState.email,
-                formState.sid
+                formState.sid,
+                // TODO: Get course Ids from user.
+                []
             ),
         [formState, page]
     );

@@ -209,6 +209,9 @@ Job API
                departmentIds: string[];
                classStandings: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior'[];
                minimumGpa: string;
+               courseIds: string[];
+               page: string;
+               numOfItems: string;
             };
             ```
         -   Response:
@@ -231,7 +234,13 @@ Job API
                             id: number,
                             name: string,
                         },
-                    }
+                    },
+                    courses :{
+                        id: number,
+                        shortTitle: string,
+                        fullTitle: string,
+                        departmentId: number
+					}[]
                 }[]
                 ```
             -   errors:
@@ -846,6 +855,7 @@ Student API
                 sid?: string;
                 departmentIds?: string[];
                 classStandings?: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior'[];
+                courseIds: string[];
                 page: string;
                 numOfItems: string;
             };

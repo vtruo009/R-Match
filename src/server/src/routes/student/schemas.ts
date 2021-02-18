@@ -30,6 +30,7 @@ export const studentSearchSchema = Joi.object({
         .allow('')
         .items(Joi.string().valid('Freshman', 'Sophomore', 'Junior', 'Senior'))
         .optional(),
+    courseIds: Joi.array().allow('').items(Joi.number()).optional(),
     page: Joi.string().required(),
     numOfItems: Joi.string().required(),
 });

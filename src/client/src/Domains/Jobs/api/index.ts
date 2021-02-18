@@ -209,7 +209,8 @@ export async function getJobApplicants(
     numOfItems: number,
     classStandings?: classStandingTypes[],
     minimumGpa?: string,
-    departmentIds?: number[]
+    departmentIds?: number[],
+    courseIds?: number[],
 ) {
     const params = {
         jobId,
@@ -218,6 +219,7 @@ export async function getJobApplicants(
         classStandings,
         minimumGpa,
         departmentIds,
+        courseIds
     };
     return API.get<{
         jobApplicants: IJobApplicants[];

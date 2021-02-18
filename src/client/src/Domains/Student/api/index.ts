@@ -99,7 +99,8 @@ export async function getStudents(
     classStandings?: classStandingTypes[],
     departmentIds?: number[],
     email?: string,
-    sid?: string
+    sid?: string,
+    courseIds?: number[]
 ) {
     const params = {
         page,
@@ -110,6 +111,7 @@ export async function getStudents(
         departmentIds,
         email,
         sid,
+        courseIds
     };
 
     return API.get<{
