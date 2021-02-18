@@ -8,6 +8,7 @@ import useSnack from 'hooks/useSnack';
 import useDialog from 'hooks/useDialog';
 import JobBaseForm, { IJobBaseFormValues } from 'Domains/Jobs/JobBaseForm';
 import { createJob } from '../api';
+import { formatDateString } from 'utils/format';
 
 export type IJobCreateFormValues = IJobBaseFormValues;
 
@@ -21,7 +22,10 @@ const jobCreateFormInitialValues = {
     type: [],
     startDate: '',
     endDate: undefined,
-    expirationDate: undefined,
+    expirationDate: formatDateString(
+        new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toLocaleDateString(),
+        'yyyy-MM-dd'
+    ),
     collegeId: undefined,
     departmentId: undefined,
 };
