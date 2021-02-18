@@ -146,6 +146,7 @@ export const searchStudents = async (
     sid: Student['sid'],
     departmentIds: Student['departmentId'][],
     classStandings: Student['classStanding'][],
+    courseIds: Course['id'][],
     page: number,
     numOfItems: number
 ) => {
@@ -155,6 +156,7 @@ export const searchStudents = async (
         .leftJoin('student.user', 'user')
         .addSelect(['user.firstName', 'user.lastName'])
         .leftJoinAndSelect('student.department', 'department')
+        .leftJoin('student.courses', 'course')
         .where('LOWER(user.firstName) LIKE :firstName', {
             firstName: `%${firstName.toLowerCase()}%`,
         })
@@ -171,8 +173,8 @@ export const searchStudents = async (
         .andWhere(
             '(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))',
             {
-                departmentIdsPopulated: departmentIds[0] !== -1,
-                departmentIds,
+                departmentIdsPopulated: departmentIds.length > 0,
+                departmentIds: departmentIds.length > 0 ? departmentIds : [-1]
             }
         )
         .andWhere(
@@ -181,6 +183,19 @@ export const searchStudents = async (
                 classStandings,
             }
         )
+        // Selects student who has taken at least one specified course.
+        .andWhere(qb => {
+            var subQuery = "";
+            for (var i = 0; i < courseIds.length; ++i) {
+                if (i == 0) subQuery += ` OR (course.id = ${courseIds[i]}`
+                else subQuery += ` OR course.id = ${courseIds[i]}`
+                if (i == courseIds.length - 1) subQuery += ')'
+            }
+            return `(NOT :courseIdsPopulated${subQuery})`;
+        }, {
+            courseIdsPopulated: courseIds.length > 0,
+            courseIds: courseIds.length > 0 ? courseIds : [-1]
+        })
         .skip((page - 1) * numOfItems)
         .take(numOfItems)
         .getManyAndCount();

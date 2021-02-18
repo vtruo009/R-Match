@@ -209,6 +209,9 @@ Job API
                departmentIds: string[];
                classStandings: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior'[];
                minimumGpa: string;
+               courseIds: string[];
+               page: string;
+               numOfItems: string;
             };
             ```
         -   Response:
@@ -231,7 +234,13 @@ Job API
                             id: number,
                             name: string,
                         },
-                    }
+                    },
+                    courses :{
+                        id: number,
+                        shortTitle: string,
+                        fullTitle: string,
+                        departmentId: number
+					}[]
                 }[]
                 ```
             -   errors:
@@ -846,6 +855,7 @@ Student API
                 sid?: string;
                 departmentIds?: string[];
                 classStandings?: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior'[];
+                courseIds: string[];
                 page: string;
                 numOfItems: string;
             };
@@ -1034,15 +1044,20 @@ Messaging API
             -   errors:
                 -   Internal server error -> Status code: 500
 
-    -   api/message/getMessages/:messengerId
+    -   api/message/getMessages
 
-        -   Gets all messages between the logged-in user and the user with the parameter id, sorted from the oldest to the newest.
+        -   Gets top [20 * page] newest messages between the logged-in user and the user with messengerId, sorted from the oldest to the newest.
         -   Authorization restrictions:
             -   User must be logged in
         -   Body: None
-        -   Parameters: id of the messenger.
+        -   Parameters:
+            ```
+            {
+                messangerId: string;
+                page: string;
+            };
+            ```
         -   Response:
-
             -   success:
                 Status code: 200
 
@@ -1069,7 +1084,8 @@ Messaging API
                                 lastName: string,
                                 middleName?: string
                             }
-                        }[]
+                        }[],
+                        messagesCount: number
                     }
 
             -   errors:

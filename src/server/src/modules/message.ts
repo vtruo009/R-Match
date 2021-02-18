@@ -71,15 +71,20 @@ export const sendMessage = async (
 };
 
 /**
- * @description Get all messages between two users,
+ * @description Get top [20 * page] newest messages between two users,
  *              sorted from the oldest to the newest
  * @param {number} userID1 - id of the first user.
  * @param {number} userId2 - id of the second user.
+ * @param {number} page - page index.
  * @returns Promise
  */
-export const getMessages = async (userId1: number, userId2: number) => {
+export const getMessages = async (
+    userId1: number,
+    userId2: number,
+    page: number
+) => {
     const getMessagesResult: {
-        result: Message[] | undefined,
+        result?: [Message[], number],
         errorMessage: string;
     } = {
         result: undefined,
@@ -98,7 +103,7 @@ export const getMessages = async (userId1: number, userId2: number) => {
         return getMessagesResult;
     }
 
-    const messages = await getRepository(Message)
+    const queryResult = await getRepository(Message)
         .createQueryBuilder('message')
         .setParameters({ id1: userId1, id2: userId2 })
         .where("sender.id = :id1 AND receiver.id = :id2")
@@ -121,11 +126,17 @@ export const getMessages = async (userId1: number, userId2: number) => {
             'receiver.biography',
             'receiver.email',
         ])
-        .orderBy('message.date', 'ASC')
-        .getMany();
+        // Order from the newest to the oldest.
+        .orderBy('message.date', 'DESC')
+        // Take top [page * 20] newest elements.
+        .take(page * 20)
+        .getManyAndCount();
+
+    const [messages, messagesCount] = queryResult;
 
     getMessagesResult.errorMessage = "Successful";
-    getMessagesResult.result = messages;
+    // Reverse messages to order the messages from the oldest to the newest.
+    getMessagesResult.result = [messages.reverse(), messagesCount];
 
     return getMessagesResult;
 };
@@ -191,12 +202,15 @@ export const getConversationList = async (userId: number) => {
     var unsortedConversationList: { user: User, latestMessage: Message }[];
     unsortedConversationList = [];
     for (const user of users) {
-        const getMessagesResult = await getMessages(user.id, userId);
+        const getMessagesResult = await getMessages(user.id, userId, 1);
         if (!getMessagesResult.result) {
             getConversationListResult.errorMessage = getMessagesResult.errorMessage;
             return getConversationListResult;
         }
-        const latestMessage = getMessagesResult.result.reduce(function (prev, current) {
+
+        const [messages] = getMessagesResult.result;
+
+        const latestMessage = messages.reduce(function (prev, current) {
             return (prev.date > current.date) ? prev : current
         })
         unsortedConversationList.push({ user: user, latestMessage: latestMessage });

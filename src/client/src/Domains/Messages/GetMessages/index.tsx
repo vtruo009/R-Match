@@ -15,7 +15,8 @@ interface MessagesProps {
 function Messages({ receiver }: MessagesProps) {
     const [messages, setMessages] = React.useState<IMessage[]>([]);
     const { user } = React.useContext(AuthContext);
-    const request = React.useCallback(() => getMessages(receiver), [receiver]);
+    // TODO: Update parameter of getMessages().
+    const request = React.useCallback(() => getMessages(100, receiver), [receiver]);
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: (response) => {
             setMessages(response.data.messages);
