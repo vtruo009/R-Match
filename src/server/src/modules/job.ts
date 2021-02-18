@@ -4,6 +4,7 @@ import { findDepartment } from '@modules/department';
 import { getRepository, UpdateResult, DeleteResult } from 'typeorm';
 import { JobApplication } from '@entities/jobApplication';
 import { Student } from '@entities/student';
+import { Course } from '@entities/course';
 
 /**
  * @description Finds a job by id
@@ -483,9 +484,10 @@ export const withdrawFromJob = async (studentId: number, jobId: number) => {
  * @description Get a list of students who applied to a job.
  * @param {number} facultyMemberId - Id of faculty member
  * @param {number} jobId - Id of the job
- * @param {number[]} departmentIds - List of department ids. [-1] if not specified.
+ * @param {number[]} departmentIds - List of department ids.
  * @param {ClassStanding[]} classStandings - List of preferred class standings.
  * @param {number} minimumGpa - minimum GPA.
+ * @param {number[]} courseIds - List of class ids.
  * @returns Promise
  */
 export const getApplicants = async (
@@ -494,6 +496,7 @@ export const getApplicants = async (
     departmentIds: Student['departmentId'][],
     classStandings: Student['classStanding'][],
     minimumGpa: number,
+    courseIds: Course['id'][],
     page: number,
     numOfItems: number
 ) => {
@@ -536,13 +539,13 @@ export const getApplicants = async (
         .addSelect(['user.firstName', 'user.lastName'])
         .leftJoinAndSelect('student.department', 'department')
         .leftJoinAndSelect('department.college', 'college')
-        .leftJoinAndSelect('student.courses', 'courses')
+        .leftJoinAndSelect('student.courses', 'course')
         .where({ jobId })
         .andWhere(
             '(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))',
             {
-                departmentIdsPopulated: departmentIds[0] !== -1,
-                departmentIds,
+                departmentIdsPopulated: departmentIds.length > 0,
+                departmentIds: departmentIds.length > 0 ? departmentIds : [-1]
             }
         )
         .andWhere(
@@ -555,6 +558,20 @@ export const getApplicants = async (
             gpaIsPopulated: minimumGpa > 0,
             minimumGpa,
         })
+        // Selects student who has taken at least one specified course.
+        .andWhere(qb => {
+            var subQuery = "";
+            for (var i = 0; i < courseIds.length; ++i){
+                if (i == 0) subQuery += ` OR (course.id = ${courseIds[i]}`
+                else subQuery += ` OR course.id = ${courseIds[i]}`
+                if (i == courseIds.length - 1) subQuery += ')'
+            }
+            return `(NOT :courseIdsPopulated${subQuery})`;
+        }, {
+                courseIdsPopulated: courseIds.length > 0,
+                courseIds: courseIds.length > 0 ? courseIds : [-1]
+            }
+        )
         .skip((page - 1) * numOfItems)
         .take(numOfItems)
         .getManyAndCount();

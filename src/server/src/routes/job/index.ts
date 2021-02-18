@@ -370,6 +370,7 @@ interface GetApplicantsRequest extends Request {
         departmentIds: string[];
         classStandings: classStandings[];
         minimumGpa?: string;
+        courseIds: string[];
         page: string;
         numOfItems: string;
     };
@@ -387,15 +388,11 @@ router.get(
                 .json({ error: 'User is not a faculty member' });
         }
 
-        const { jobId, departmentIds, page, numOfItems } = req.query;
+        const { jobId, departmentIds, courseIds, page, numOfItems } = req.query;
         let { classStandings, minimumGpa } = req.query;
 
-        // Pass -1 when the input is empty or null because it causes a sql parse error
-        // when we pass in an empty array.
-        const departmentIdInts =
-            departmentIds && departmentIds.length > 0
-                ? departmentIds.map((id) => parseInt(id, 10))
-                : [-1];
+        const departmentIdInts = (departmentIds) ? departmentIds.map((id) => parseInt(id, 10)) : [];
+        const courseIdInts = (courseIds) ? courseIds.map((id) => parseInt(id, 10)) : [];
 
         if (!classStandings || classStandings.length === 0)
             classStandings = classStandingValues;
@@ -409,6 +406,7 @@ router.get(
                 departmentIdInts,
                 classStandings,
                 parseFloat(minimumGpa),
+                courseIdInts,
                 parseInt(page, 10),
                 parseInt(numOfItems, 10)
             );
