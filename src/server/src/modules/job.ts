@@ -118,7 +118,7 @@ const getDateString = (dateObject: Date) => {
     const date = dateObject.getDate();
     const year = dateObject.getFullYear();
     return month + '/' + date + '/' + year;
-}
+};
 
 export const getJobs = async (
     studentId: number,
@@ -155,14 +155,16 @@ export const getJobs = async (
         .leftJoin('job.facultyMember', 'facultyMember')
         .leftJoin('facultyMember.user', 'user')
         .leftJoinAndSelect('job.department', 'department')
-        .where('LOWER(job.title) LIKE :title', { title: `%${title.toLowerCase()}%` })
+        .where('LOWER(job.title) LIKE :title', {
+            title: `%${title.toLowerCase()}%`,
+        })
         .andWhere('(job.type IN (:...types) OR job.type LIKE :type)', {
             types,
             type: `%${modType}%`,
         })
         .andWhere('job.startDate >= :startDate', { startDate: modStart })
         .andWhere('job.minSalary >= :minSalary', { minSalary })
-        .andWhere('job.hoursPerWeek >= :hoursPerWeek', {hoursPerWeek})
+        .andWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
         .andWhere('job.status = :jobStatus', {
             jobStatus: 'Hiring',
         })
@@ -178,7 +180,7 @@ export const getJobs = async (
     const jobsCount = matchingJobs[1];
 
     if (jobsCount > 0) {
-        return matchingJobs
+        return matchingJobs;
     }
 
     // If no jobs found, we  use "OR" queries to suggest jobs
@@ -434,7 +436,6 @@ export const applyToJob = async (studentId: number, jobId: number) => {
     return applicationResult;
 };
 
-
 /**
  * @description Deletes a student's job application from the database.
  * @param {number} studentId - Id of student that withdraws the application
@@ -545,7 +546,7 @@ export const getApplicants = async (
             '(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))',
             {
                 departmentIdsPopulated: departmentIds.length > 0,
-                departmentIds: departmentIds.length > 0 ? departmentIds : [-1]
+                departmentIds: departmentIds.length > 0 ? departmentIds : [-1],
             }
         )
         .andWhere(
@@ -559,17 +560,19 @@ export const getApplicants = async (
             minimumGpa,
         })
         // Selects student who has taken at least one specified course.
-        .andWhere(qb => {
-            var subQuery = "";
-            for (var i = 0; i < courseIds.length; ++i){
-                if (i == 0) subQuery += ` OR (course.id = ${courseIds[i]}`
-                else subQuery += ` OR course.id = ${courseIds[i]}`
-                if (i == courseIds.length - 1) subQuery += ')'
-            }
-            return `(NOT :courseIdsPopulated${subQuery})`;
-        }, {
+        .andWhere(
+            (qb) => {
+                var subQuery = '';
+                for (var i = 0; i < courseIds.length; ++i) {
+                    if (i == 0) subQuery += ` OR (course.id = ${courseIds[i]}`;
+                    else subQuery += ` OR course.id = ${courseIds[i]}`;
+                    if (i == courseIds.length - 1) subQuery += ')';
+                }
+                return `(NOT :courseIdsPopulated${subQuery})`;
+            },
+            {
                 courseIdsPopulated: courseIds.length > 0,
-                courseIds: courseIds.length > 0 ? courseIds : [-1]
+                courseIds: courseIds.length > 0 ? courseIds : [-1],
             }
         )
         .skip((page - 1) * numOfItems)
