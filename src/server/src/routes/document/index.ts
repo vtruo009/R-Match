@@ -49,12 +49,13 @@ interface docRequest extends Request {
             document,
         } = req.body.document;
         try {
-            let document1 = Buffer.alloc(16);
+            //let document1 = Buffer.alloc(16);
             const { result, message } = await createDocument(
                 name,
                 type,
                 isDefault,
-                document1, // TODO: replace document1 with document data received in the request
+                //document1, // TODO: replace document1 with document data received in the request
+                document,
                 specificUserId,
             );
             return result
@@ -85,7 +86,11 @@ router.get(
                 .json({ error: 'User is not a student' });
         }
 
+        // let { type } = req.query;
+        // if (!type) { type = 'resume'; }
+
         try {
+            // const documents = await getDocuments(specificUserId, type.toString());
             const documents = await getDocuments(specificUserId);
             return res.status(OK).json({ documents }).end();
         } catch (error) {

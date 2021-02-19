@@ -61,7 +61,7 @@ export const getDocuments = async (studentId: number) => {
     const student = await Student.findOne(studentId);
     if (!student) return undefined;
 
-    return Document.find({ where: { studentId } });
+    return await Document.find({ where: { studentId: studentId } });
 };
 
  /**
