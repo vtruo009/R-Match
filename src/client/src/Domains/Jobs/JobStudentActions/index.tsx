@@ -1,5 +1,6 @@
 import React from 'react';
 import ApplyIcon from '@material-ui/icons/ArrowUpward';
+import WithdrawIcon from '@material-ui/icons/RemoveCircle';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
@@ -66,6 +67,7 @@ function JobStudentActions({ jobId }: JobStudentActionsProps) {
         <Button
             onClick={sendWithdrawFromJobRequest}
             disabled={isWithdrawFromRequestLoading}
+            startIcon={<WithdrawIcon />}
         >
             Withdraw
         </Button>
