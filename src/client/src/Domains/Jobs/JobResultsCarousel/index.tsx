@@ -48,7 +48,7 @@ function JobResultsHorizontal({ title, request }: JobResultsHorizontalProps) {
         <Grid container spacing={4}>
             <Grid item>
                 <Typography variant='h4' color='primary'>
-                    {title} <JobIcon numberOfJobs={jobs.length} />{' '}
+                    {title} <JobIcon numberOfJobs={jobs.length} />
                 </Typography>
             </Grid>
             <Grid item>

@@ -21,14 +21,6 @@ interface ICollegeDepartmentDict {
     [id: number]: IBaseSelectValues[];
 }
 
-const departmentsDefaultValues = [
-    { value: undefined, label: 'Select a college first' },
-];
-
-const coursesDefaultValues = [
-    { value: undefined, label: 'Select a department first' },
-];
-
 function AcademicInfo({
     showCourses,
     multipleDepartments,
@@ -43,11 +35,9 @@ function AcademicInfo({
     ] = React.useState<ICollegeDepartmentDict>({});
     const [colleges, setColleges] = React.useState<IBaseSelectValues[]>([]);
     const [departments, setDepartments] = React.useState<IBaseSelectValues[]>(
-        departmentsDefaultValues
+        []
     );
-    const [courses, setCourses] = React.useState<IBaseSelectValues[]>(
-        coursesDefaultValues
-    );
+    const [courses, setCourses] = React.useState<IBaseSelectValues[]>([]);
 
     const collegeDepartmentApiRequest = React.useCallback(
         () => getCollegesAndDepartments(),
@@ -106,7 +96,7 @@ function AcademicInfo({
                 multipleDepartments ? [] : undefined,
                 true
             );
-            setDepartments(departmentsDefaultValues);
+            setDepartments([]);
         } else if (collegeDepartmentDict[collegeId]) {
             setDepartments(collegeDepartmentDict[collegeId]);
         }
@@ -120,9 +110,15 @@ function AcademicInfo({
         if (checkDepartmentId && showCourses) {
             sendGetCoursesRequest();
         } else {
-            setCourses(coursesDefaultValues);
+            setCourses([]);
         }
-    }, [departmentId, sendGetCoursesRequest, showCourses, multipleDepartments]);
+    }, [
+        departmentId,
+        sendGetCoursesRequest,
+        showCourses,
+        multipleDepartments,
+        setFieldValue,
+    ]);
 
     return (
         <Grid container item justify='center'>
@@ -146,6 +142,11 @@ function AcademicInfo({
                             options={departments}
                             multiple={multipleDepartments}
                             component={SelectFormField}
+                            defaultLabel={
+                                multipleDepartments
+                                    ? 'Select departments'
+                                    : 'Select a department'
+                            }
                         />
                     </Grid>
                     {showCourses && (
@@ -159,6 +160,7 @@ function AcademicInfo({
                                     options={courses}
                                     multiple
                                     component={SelectFormField}
+                                    defaultLabel='Select courses'
                                 />
                             )}
                         </Grid>

@@ -93,7 +93,11 @@ function JobDashboard({
                     </Grid>
                 )}
             </Grid>
-            {jobs.length > 0 && <JobResults jobs={jobs} />}
+            {jobs.length > 0 && (
+                <div style={{ marginTop: 20 }}>
+                    <JobResults jobs={jobs} />
+                </div>
+            )}
         </JobsContext.Provider>
     );
 }
