@@ -22,7 +22,6 @@ export const clientPath = 'http://localhost:3000';
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
-// TODO: Update so that the origin can be also a production URL
 app.use(cors({ credentials: true, origin: clientPath }));
 app.use(passport.initialize());
 

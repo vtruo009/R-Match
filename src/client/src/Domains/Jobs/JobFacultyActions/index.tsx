@@ -2,7 +2,6 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import CloseIcon from '@material-ui/icons/Close';
 import OpenIcon from '@material-ui/icons/Replay';
-import ApplyIcon from '@material-ui/icons/ArrowUpward';
 import { Link } from 'react-router-dom';
 import MUIButton from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
@@ -13,25 +12,23 @@ import useSnack from 'hooks/useSnack';
 import { formatDateString } from 'utils/format';
 import JobsContext from '../Contexts/JobsContext';
 import DeleteButton from 'Components/DeleteButton';
+import Loader from 'Components/Loader';
 import Button from 'Components/Button';
 import {
     IJob,
     deleteJob,
     closeJob,
     openJob,
-    applyToJob,
     getNumberOfApplicants,
 } from 'Domains/Jobs/api';
 import JobUpdateForm from 'Domains/Jobs/JobUpdateForm';
 
-interface JobActionsProps {
+interface JobFacultyActionsProps {
     job: IJob;
-    hasPermission: boolean;
 }
 
-function JobActions({ job, hasPermission }: JobActionsProps) {
+function JobFacultyActions({ job }: JobFacultyActionsProps) {
     const [numOfApplicants, setNumOfApplicants] = React.useState<number>(0);
-
     const getJobDescriptionForDelete = () => {
         const { title, postedOn } = job;
         return `Please confirm the deletion of the job "${title}", posted on: ${formatDateString(
@@ -39,13 +36,10 @@ function JobActions({ job, hasPermission }: JobActionsProps) {
         )}. All applications attached to this job will also be deleted.`;
     };
     const [snack] = useSnack();
-    const { removeJob, updateJobStatus, showApply } = React.useContext(
-        JobsContext
-    );
+    const { removeJob, updateJobStatus } = React.useContext(JobsContext);
     const deleteRequest = React.useCallback(() => deleteJob(job.id), [job.id]);
     const closeRequest = React.useCallback(() => closeJob(job.id), [job.id]);
     const openRequest = React.useCallback(() => openJob(job.id), [job.id]);
-    const applyRequest = React.useCallback(() => applyToJob(job.id), [job.id]);
     const getNumOfApplicantsRequest = React.useCallback(
         () => getNumberOfApplicants(job.id),
         [job.id]
@@ -65,31 +59,19 @@ function JobActions({ job, hasPermission }: JobActionsProps) {
         },
     });
 
-    const [sendApplyRequest, isApplyRequestLoading] = useApi(applyRequest, {
-        onSuccess: () => {
-            removeJob(job.id);
-            snack('Application successfully submitted', 'success');
-        },
-        onFailure: (error, response) => {
-            console.log(error);
-            if (response) {
-                snack(`${response.data.message}`, 'error');
-            } else {
-                snack('Something went wrong. Try again later!', 'error');
-            }
-        },
-    });
-
-    const [sendGetNumOfApplicantsRequest] = useApi(getNumOfApplicantsRequest, {
+    const [
+        sendGetNumOfApplicantsRequest,
+        isGettingNumberOfApplicantsLoading,
+    ] = useApi(getNumOfApplicantsRequest, {
         onSuccess: (result) =>
             setNumOfApplicants(result.data.numberOfApplicants),
     });
 
     React.useEffect(() => {
-        if (hasPermission) sendGetNumOfApplicantsRequest();
-    }, [hasPermission, sendGetNumOfApplicantsRequest, job.id]);
+        sendGetNumOfApplicantsRequest();
+    }, [sendGetNumOfApplicantsRequest, job.id]);
 
-    return hasPermission ? (
+    return (
         <Grid container spacing={2}>
             <Grid item>
                 {job.status === 'Hiring' ? (
@@ -117,13 +99,17 @@ function JobActions({ job, hasPermission }: JobActionsProps) {
                     color='primary'
                     variant='outlined'
                     startIcon={
-                        <Badge
-                            badgeContent={numOfApplicants}
-                            color='primary'
-                            showZero
-                        >
-                            <ApplicantIcon />
-                        </Badge>
+                        isGettingNumberOfApplicantsLoading ? (
+                            <Loader size={13} />
+                        ) : (
+                            <Badge
+                                badgeContent={numOfApplicants}
+                                color='primary'
+                                showZero
+                            >
+                                <ApplicantIcon />
+                            </Badge>
+                        )
                     }
                     component={Link}
                     to={`/job-applicants/${job.title}/${job.id}`}
@@ -164,19 +150,7 @@ function JobActions({ job, hasPermission }: JobActionsProps) {
                 />
             </Grid>
         </Grid>
-    ) : showApply ? (
-        <Button
-            onClick={sendApplyRequest}
-            disabled={isApplyRequestLoading}
-            size='small'
-            variant='outlined'
-            startIcon={<ApplyIcon />}
-        >
-            Apply
-        </Button>
-    ) : (
-        <> </>
     );
 }
 
-export default JobActions;
+export default JobFacultyActions;

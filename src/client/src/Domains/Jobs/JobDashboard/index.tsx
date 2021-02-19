@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import JobResults from 'Domains/Jobs/JobResults';
 import JobCreateForm from 'Domains/Jobs/JobCreateForm';
 import { IJob, statusType } from '../api/index';
-import JobsContext from '../Contexts/JobsContext';
+import JobsContext, { defaultJobStateHandlers } from '../Contexts/JobsContext';
 import { IJobUpdateFormValues } from '../JobUpdateForm';
 import JobIcon from '../JobIcon';
 import { AuthContext } from 'Contexts/AuthContext';
@@ -70,6 +70,7 @@ function JobDashboard({
     return (
         <JobsContext.Provider
             value={{
+                ...defaultJobStateHandlers,
                 removeJob,
                 addJob: () => reSendRequest(),
                 updateJob,
@@ -92,7 +93,11 @@ function JobDashboard({
                     </Grid>
                 )}
             </Grid>
-            {jobs.length > 0 && <JobResults jobs={jobs} />}
+            {jobs.length > 0 && (
+                <div style={{ marginTop: 60 }}>
+                    <JobResults jobs={jobs} />
+                </div>
+            )}
         </JobsContext.Provider>
     );
 }

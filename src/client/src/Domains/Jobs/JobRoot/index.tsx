@@ -20,7 +20,7 @@ function JobRoot() {
     return (
         <JobSearchForm
             children={
-                <div>
+                <div style={{ marginTop: 60 }}>
                     {jobsFetched.length > 0 && (
                         <JobsContext.Provider
                             value={{ ...defaultJobStateHandlers, removeJob }}

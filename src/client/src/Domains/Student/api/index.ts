@@ -111,7 +111,7 @@ export async function getStudents(
         departmentIds,
         email,
         sid,
-        courseIds
+        courseIds,
     };
 
     return API.get<{

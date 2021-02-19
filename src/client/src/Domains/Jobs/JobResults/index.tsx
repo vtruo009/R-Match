@@ -27,7 +27,7 @@ function JobResults({ jobs }: JobResultsProps) {
     );
 
     return (
-        <Grid container spacing={5} style={{ marginTop: 20 }}>
+        <Grid container spacing={5} justify='center'>
             <Grid
                 container
                 spacing={3}

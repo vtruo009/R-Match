@@ -316,7 +316,7 @@ router.post(
             );
             return result
                 ? res.status(OK).end()
-                : res.status(BAD_REQUEST).json({ message });
+                : res.status(BAD_REQUEST).json({ error: message });
         } catch (error) {
             logger.err(error);
             return res
@@ -344,8 +344,10 @@ router.delete(
         }
         const { id } = req.params;
         try {
-
-            const { result, message } = await withdrawFromJob(specificUserId, parseInt(id, 10));
+            const { result, message } = await withdrawFromJob(
+                specificUserId,
+                parseInt(id, 10)
+            );
 
             return result
                 ? res.status(OK).end()
@@ -391,8 +393,12 @@ router.get(
         const { jobId, departmentIds, courseIds, page, numOfItems } = req.query;
         let { classStandings, minimumGpa } = req.query;
 
-        const departmentIdInts = (departmentIds) ? departmentIds.map((id) => parseInt(id, 10)) : [];
-        const courseIdInts = (courseIds) ? courseIds.map((id) => parseInt(id, 10)) : [];
+        const departmentIdInts = departmentIds
+            ? departmentIds.map((id) => parseInt(id, 10))
+            : [];
+        const courseIdInts = courseIds
+            ? courseIds.map((id) => parseInt(id, 10))
+            : [];
 
         if (!classStandings || classStandings.length === 0)
             classStandings = classStandingValues;
@@ -495,7 +501,7 @@ router.get(
                 parseInt(page),
                 parseInt(numOfItems)
             );
-            return res.status(OK).json({ newJobs: jobs, jobsCount }).end();
+            return res.status(OK).json({ jobs, jobsCount }).end();
         } catch (error) {
             logger.err(error);
             return res
@@ -524,7 +530,7 @@ router.get(
 
         try {
             const recommendedJobs = await getRecommendedJobs(specificUserId);
-            return res.status(OK).json({ recommendedJobs }).end();
+            return res.status(OK).json({ jobs: recommendedJobs }).end();
         } catch (error) {
             logger.err(error);
             return res

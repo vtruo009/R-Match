@@ -41,6 +41,7 @@ const formSchema = yup.object({
     lastName: yup.string().required('Last name is required'),
     collegeId: yup.number().optional().nullable(),
     departmentId: yup.number().optional().nullable(),
+    courseIds: yup.array().of(yup.number()).optional(),
     sid: yup
         .string()
         .matches(/^\d+$/, 'SID must only contain digits')
