@@ -12,6 +12,7 @@ import useSnack from 'hooks/useSnack';
 import { formatDateString } from 'utils/format';
 import JobsContext from '../Contexts/JobsContext';
 import DeleteButton from 'Components/DeleteButton';
+import Loader from 'Components/Loader';
 import Button from 'Components/Button';
 import {
     IJob,
@@ -58,7 +59,10 @@ function JobFacultyActions({ job }: JobFacultyActionsProps) {
         },
     });
 
-    const [sendGetNumOfApplicantsRequest] = useApi(getNumOfApplicantsRequest, {
+    const [
+        sendGetNumOfApplicantsRequest,
+        isGettingNumberOfApplicantsLoading,
+    ] = useApi(getNumOfApplicantsRequest, {
         onSuccess: (result) =>
             setNumOfApplicants(result.data.numberOfApplicants),
     });
@@ -95,13 +99,17 @@ function JobFacultyActions({ job }: JobFacultyActionsProps) {
                     color='primary'
                     variant='outlined'
                     startIcon={
-                        <Badge
-                            badgeContent={numOfApplicants}
-                            color='primary'
-                            showZero
-                        >
-                            <ApplicantIcon />
-                        </Badge>
+                        isGettingNumberOfApplicantsLoading ? (
+                            <Loader size={13} />
+                        ) : (
+                            <Badge
+                                badgeContent={numOfApplicants}
+                                color='primary'
+                                showZero
+                            >
+                                <ApplicantIcon />
+                            </Badge>
+                        )
                     }
                     component={Link}
                     to={`/job-applicants/${job.title}/${job.id}`}

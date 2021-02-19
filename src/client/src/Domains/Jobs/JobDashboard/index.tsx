@@ -94,7 +94,7 @@ function JobDashboard({
                 )}
             </Grid>
             {jobs.length > 0 && (
-                <div style={{ marginTop: 20 }}>
+                <div style={{ marginTop: 60 }}>
                     <JobResults jobs={jobs} />
                 </div>
             )}
