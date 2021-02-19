@@ -48,7 +48,7 @@ function JobFacultyActions({ job }: JobFacultyActionsProps) {
     const [sendCloseRequest, isCloseRequestLoading] = useApi(closeRequest, {
         onSuccess: () => {
             updateJobStatus(job.id, 'Closed');
-            snack('Job successfully closed', 'success');
+            snack('Job successfully closed. It will no longer be displayed on the job search result.', 'success');
         },
     });
 
