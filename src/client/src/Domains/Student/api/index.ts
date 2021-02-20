@@ -50,6 +50,7 @@ export interface IStudentPreview {
     };
     department?: _IDepartment;
     classStanding?: classStandingTypes;
+    date?: Date;
 }
 
 export interface IWorkExperience {
