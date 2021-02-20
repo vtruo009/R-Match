@@ -4,6 +4,7 @@ import { Student } from '@entities/student';
 import { Course } from '@entities/course';
 import { Department } from '@entities/department';
 import { JobApplication } from '@entities/jobApplication';
+import { getDateString } from '@lib/dateUtils';
 
 /**
  * @description Creates a student using an user record from the database
@@ -118,10 +119,11 @@ export const getJobApplications = async (
     const student = await Student.findOne(studentId);
     if (!student) return undefined;
 
+    const todayString = getDateString(new Date());
+
     // Return all job application submitted by the student.
     return getRepository(JobApplication)
         .createQueryBuilder('jobApplication')
-        .where({ studentId })
         .leftJoinAndSelect('jobApplication.job', 'job')
         .leftJoinAndSelect('job.facultyMember', 'facultyMember')
         .leftJoinAndSelect('job.department', 'department')
@@ -134,6 +136,8 @@ export const getJobApplications = async (
             'user.biography',
             'user.email',
         ])
+        .where({ studentId })
+        .andWhere('job.expirationDate >= :today', { today: todayString })
         .skip((page - 1) * numOfItems)
         .take(numOfItems)
         .getManyAndCount();
