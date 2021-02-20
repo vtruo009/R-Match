@@ -5,6 +5,7 @@ import { getRepository, UpdateResult, DeleteResult } from 'typeorm';
 import { JobApplication } from '@entities/jobApplication';
 import { Student } from '@entities/student';
 import { Course } from '@entities/course';
+import { getDateString } from '@lib/dateUtils';
 
 /**
  * @description Finds a job by id
@@ -111,13 +112,6 @@ export const createJob = async (
     insertResult.result = jobToInsert;
     insertResult.message = 'Job successfully inserted';
     return insertResult;
-};
-
-const getDateString = (dateObject: Date) => {
-    const month = dateObject.getMonth() + 1;
-    const date = dateObject.getDate();
-    const year = dateObject.getFullYear();
-    return month + '/' + date + '/' + year;
 };
 
 export const getJobs = async (
@@ -414,6 +408,12 @@ export const applyToJob = async (studentId: number, jobId: number) => {
         return applicationResult;
     }
 
+    // Check if job is expired.
+    if (job.expirationDate && job.expirationDate < new Date()) {
+        applicationResult.message = 'Job is already expired';
+        return applicationResult;
+    }
+
     // Check if student already applied for the job.
     const application = await JobApplication.findOne({
         where: { jobId, studentId },
@@ -462,6 +462,12 @@ export const withdrawFromJob = async (studentId: number, jobId: number) => {
     const job = await Job.findOne(jobId);
     if (!job) {
         withdrawResult.message = 'Requested job does not exist';
+        return withdrawResult;
+    }
+
+    // Check if job is expired.
+    if (job.expirationDate && job.expirationDate < new Date()) {
+        withdrawResult.message = 'Job is already expired';
         return withdrawResult;
     }
 
@@ -528,6 +534,12 @@ export const getApplicants = async (
     // Check if the job is posted by the faculty member.
     if (job.facultyMemberId != facultyMemberId) {
         getApplicantsResult.message = 'The user does not have permission.';
+        return getApplicantsResult;
+    }
+
+    // Check if job is expired.
+    if (job.expirationDate && job.expirationDate < new Date()) {
+        getApplicantsResult.message = 'Job is already expired';
         return getApplicantsResult;
     }
 
@@ -609,6 +621,8 @@ export const getRecommendedJobs = async (studentId: number) => {
         (jobApplication) => jobApplication.jobId
     );
 
+    const todayString = getDateString(new Date());
+
     return getRepository(Job)
         .createQueryBuilder('job')
         .select([
@@ -641,6 +655,7 @@ export const getRecommendedJobs = async (studentId: number) => {
                 comma: ',',
             }
         )
+        .andWhere('job.expirationDate >= :today', { today: todayString })
         .take(20)
         .orderBy('job.postedOn', 'DESC')
         .getMany();
@@ -664,6 +679,8 @@ export const getNewJobs = async (
         (jobApplication) => jobApplication.jobId
     );
 
+    const todayString = getDateString(new Date());
+
     return getRepository(Job)
         .createQueryBuilder('job')
         .select([
@@ -684,6 +701,7 @@ export const getNewJobs = async (
             // It causes a SQL parse error when an empty array is passed in.
             appliedJobIds: appliedJobIds.length > 0 ? appliedJobIds : [-1],
         })
+        .andWhere('job.expirationDate >= :today', { today: todayString })
         .orderBy('job.postedOn', 'DESC')
         .skip((page - 1) * numOfItems)
         .take(numOfItems)

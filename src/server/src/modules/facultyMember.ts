@@ -3,6 +3,7 @@ import { User } from '@entities/user';
 import { Department } from '@entities/department';
 import { Job } from '@entities/job';
 import { getRepository } from 'typeorm';
+import { getDateString } from '@lib/dateUtils';
 
 /**
  * @description Creates a faculty member using an existing user record from the database
@@ -97,6 +98,8 @@ export const getPostedJobs = async (
     const facultyMember = await FacultyMember.findOne(facultyMemberId);
     if (!facultyMember) return undefined;
 
+    const todayString = getDateString(new Date());
+
     // Returns all jobs he posted.
     return getRepository(Job)
         .createQueryBuilder('job')
@@ -111,6 +114,7 @@ export const getPostedJobs = async (
         .leftJoin('job.facultyMember', 'facultyMember')
         .leftJoin('facultyMember.user', 'user')
         .where({ facultyMemberId: facultyMemberId })
+        .andWhere('job.expirationDate >= :today', { today: todayString })
         .leftJoinAndSelect('job.department', 'department')
         .leftJoinAndSelect('department.college', 'college')
         .skip((page - 1) * numOfItems)
