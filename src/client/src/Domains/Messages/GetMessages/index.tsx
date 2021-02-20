@@ -1,11 +1,11 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import useApi from 'hooks/useApi';
 import { AuthContext } from 'Contexts/AuthContext';
 import Loader from 'Components/Loader';
+import Button from 'Components/Button';
 import { IUser } from 'Domains/Accounts/api';
 import MessageDialog from 'Domains/Messages/MessageDialog';
 import { IMessage, getMessages, io } from 'Domains/Messages/api';
@@ -86,8 +86,6 @@ function Messages({ receiver }: MessagesProps) {
                                 {messageCount > page * 20 &&
                                     <Button
                                         onClick={loadMoreMessage}
-                                        color='primary'
-                                        variant='contained'
                                         fullWidth={true}
                                     >
                                         Load more...
