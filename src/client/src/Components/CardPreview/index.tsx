@@ -51,11 +51,11 @@ function CardPreview({
                     </Grid>
                     {Object.entries(values).map(([key, value]) => (
                         <Grid item xs={12}>
-                            {value === undefined ? (<> </>) : (
-                                    <Typography variant='body1'>
-                                        {key}: {value}
-                                    </Typography>
-                            )}
+                            {value &&
+                                <Typography variant='body1'>
+                                    {key}: {value}
+                                </Typography>
+                            }
                         </Grid>
                     ))}
                 </Grid>
