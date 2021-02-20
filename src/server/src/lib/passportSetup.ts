@@ -18,6 +18,7 @@ const filterSensitiveInformation = async (
         role: user.role,
         firstName: user.firstName,
         lastName: user.lastName,
+        emailVerified: user.emailVerified
     };
     switch (user.role) {
         case 'student': {
