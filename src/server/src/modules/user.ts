@@ -54,13 +54,13 @@ export const createUser = async (
         emailVerified: false
     });
 
+    await userToInsert.save();
+
     let verificationKeyString: string;
 
     do {
         verificationKeyString = makeRandomString(/*length=*/20);
     } while (await VerificationKey.findOne({ verificationKey: verificationKeyString }));
-
-    await userToInsert.save();
 
     const verificationKey = VerificationKey.create({
         user: userToInsert,
