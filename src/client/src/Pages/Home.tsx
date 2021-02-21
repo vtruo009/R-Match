@@ -21,6 +21,13 @@ const useStyles = makeStyles((theme: Theme) =>
         smallTopMargin: {
             marginTop: 10,
         },
+        campusImage: {
+            width: '100%',
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            left: 0,
+        },
     })
 );
 
@@ -28,16 +35,24 @@ function Home() {
     const classes = useStyles();
     const { user } = React.useContext(AuthContext);
     return (
-        <div style={{ marginTop: 100 }}>
-            <img src={UCRLogo} alt='UCR-Logo' className={classes.image} />
-            <Typography
-                variant='h3'
-                align='center'
-                color='primary'
-                className={classes.smallTopMargin}
-            >
-                Welcome to R'Match
-            </Typography>
+        <div>
+            <img
+                src='https://img.emg-services.net/institutes/institute32879/uc_riverside.jpg'
+                alt='Campus'
+                className={classes.campusImage}
+            />
+            <div style={{ position: 'relative' }}>
+                <img src={UCRLogo} alt='UCR-Logo' className={classes.image} />
+                <Typography
+                    style={{ fontWeight: 700 }}
+                    variant='h3'
+                    align='center'
+                    color='secondary'
+                    className={classes.smallTopMargin}
+                >
+                    Welcome to R'Match
+                </Typography>
+            </div>
             {user && user.role === 'student' && (
                 <div>
                     <div className={classes.largeTopMargin}>
