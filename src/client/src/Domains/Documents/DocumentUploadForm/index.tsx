@@ -3,7 +3,6 @@ import Grid from '@material-ui/core/Grid';
 import { Formik, Form, Field} from 'formik';
 import * as yup from 'yup';
 
-import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import SubmitButton from 'Components/SubmitButton';
 import { Checkbox, FormControlLabel} from '@material-ui/core';

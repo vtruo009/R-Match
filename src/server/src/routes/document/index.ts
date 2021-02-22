@@ -43,13 +43,13 @@ router.post(
         }
 
         const { name, type, isDefault, document } = req.body.document;
+        console.log('Document: ', Buffer.from(JSON.stringify(document)));
         try {
             //let document1 = Buffer.alloc(16);
             const { result, message } = await createDocument(
                 name,
                 type,
                 isDefault,
-                //document1, // TODO: replace document1 with document data received in the request
                 document,
                 specificUserId
             );
@@ -88,8 +88,6 @@ router.get(
             // const documents = await getDocuments(specificUserId, type.toString());
             const documents = await getDocuments(specificUserId);
             if (documents) {
-                console.log(typeof documents[0]);
-                console.log(typeof documents[0].document);
                 console.log(documents[0]);
                 console.log(Buffer.isBuffer(documents[0].document));
                 console.log(documents[0].document.buffer);
@@ -102,7 +100,7 @@ router.get(
 
             console.log(_documents);
 
-            return res.status(OK).json({ documents }).end();
+            return res.status(OK).json({ documents: _documents }).end();
         } catch (error) {
             logger.err(error);
             return res

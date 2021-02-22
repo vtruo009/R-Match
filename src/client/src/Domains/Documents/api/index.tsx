@@ -18,13 +18,11 @@ export interface IDocument {
     type: string;
     isDefault: boolean;
     dateAdded: Date;
-    document: {
-        data: any;
-        type: any;
-    };
+    document: { [key: number]: number };
 }
 
 export async function createDocument(document: IDocumentUploadForm) {
+    console.log(document.document);
     return API.post('/document/create', { document });
 }
 

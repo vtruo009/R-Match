@@ -21,6 +21,7 @@ import DocumentUploadForm, {
 import { IDocument, getDocuments } from 'Domains/Documents/api';
 import { formatDateString } from 'utils/format';
 import PDFViewer from 'Domains/Documents/PDFViewer';
+import { Viewer } from '@react-pdf-viewer/core';
 
 //create initial file initial values here
 const fileInitialValues: IDocumentUploadForm = {
@@ -70,6 +71,8 @@ function Documents() {
     const [transcripts, setTranscripts] = React.useState<IDocument[]>([]);
     const [checked, setChecked] = React.useState(false);
 
+    const [dd, setdd] = React.useState<Uint8Array>();
+
     const request = React.useCallback(() => getDocuments(), []);
 
     const [sendRequest, isLoading] = useApi(request, {
@@ -80,8 +83,15 @@ function Documents() {
             // console.log(documents);
             documents.forEach((document) => {
                 if (document.type === 'resume') {
-                    console.log(Buffer.from(document.document.data));
-                    console.log(Buffer.from(JSON.stringify(document.document)));
+                    console.log(document.document);
+                    const arr: number[] = [];
+                    Object.entries(document.document).forEach(([key, value]) =>
+                        arr.push(value)
+                    );
+                    console.log('Array: ', arr);
+                    console.log(new Uint8Array(arr));
+                    // console.log(Buffer.from(JSON.stringify(document.document)));
+                    setdd(new Uint8Array(arr));
                     // console.log(new Uint8Array(document.document));
                     filteredRes.push(document);
                 } else {
@@ -93,6 +103,13 @@ function Documents() {
             setTranscripts(filteredTrans);
         },
     });
+
+    const handleChangexd = (e) => {
+        const file = e.target.files[0]; // accesing file
+        console.log(file);
+        // setFile(file); // storing file
+    };
+
     React.useEffect(() => sendRequest(), [sendRequest]);
 
     const handleChange = () => {
@@ -186,12 +203,8 @@ function Documents() {
                 </pdfDialog.Dialog>
             </TableContainer>
 
-            {/* <Document
-                file={testPDF}
-                onLoadError={console.error}
-            >
-                <Page pageNumber={1} />
-            </Document> */}
+            <input type='file' onChange={handleChangexd} />
+            {dd ? <Viewer fileUrl={dd} /> : <h1>nope </h1>}
 
             <Button
                 style={{
