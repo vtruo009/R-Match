@@ -520,6 +520,29 @@ User API
             -   error:
                 -   Unauthorized: -> Status code: 401
 
+    -   api/user/verify
+
+        -   HTTP Method: POST
+        -   Make a user's account accessible given a correct verification key.
+        -   Body:
+            ```
+            {
+                verificationKey: string
+            }
+            ```
+        -   Parameters: None
+        -   Response:
+
+            -   success:
+
+                -   OK -> Status code: 200
+
+            -   error:
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
+
 Faculty Member API
 
 -   Interacts with:

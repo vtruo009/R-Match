@@ -1,10 +1,10 @@
+import { Typography } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Loader from 'Components/Loader';
 import { verify } from 'Domains/Accounts/api';
 import useApi from 'hooks/useApi';
 import React from 'react';
-import { Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 interface VerificationProps {
@@ -42,9 +42,11 @@ function Verification({ verificationKey }: VerificationProps) {
                             {verified ? (
                                     <div>
                                     Your account is now verified!
-                                        <Link to='/sign-in'>
+                                        <Typography variant='h6' color='primary'>
+                                            <Link to='/sign-in'>
                                                 Now you can sign in to your account here.
-                                        </Link>
+                                            </Link>
+                                        </Typography>
                                     </div>
                                 ) : (
                                     <div>

@@ -195,7 +195,7 @@ export const verifyEmail = async (
     const verificationKey = await VerificationKey.findOne({ key: verificationKeyString })
 
     if (!verificationKey) {
-        emailVerificationResult.message = 'Invalid verification key.';
+        emailVerificationResult.message = 'Email verification unsuccessful.';
         return emailVerificationResult;
     }
 
