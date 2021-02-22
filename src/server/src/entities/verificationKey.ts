@@ -21,5 +21,5 @@ export class VerificationKey extends BaseEntity {
     user: User;
 
     @Column()
-    verificationKey: string;
+    key: string;
 }

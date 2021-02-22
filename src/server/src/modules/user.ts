@@ -60,20 +60,22 @@ export const createUser = async (
 
     do {
         verificationKeyString = makeRandomString(/*length=*/20);
-    } while (await VerificationKey.findOne({ verificationKey: verificationKeyString }));
+    } while (await VerificationKey.findOne({ key: verificationKeyString }));
 
     const verificationKey = VerificationKey.create({
         user: userToInsert,
-        verificationKey: verificationKeyString
+        key: verificationKeyString
     });
 
     await verificationKey.save();
+
+    const link = process.env.NODE_ENV === "production" ? "obscure-ocean-12960.herokuapp.com" : "localhost:3000"
     
     // Send email with the verification link.
     sendEmail(
         email,
         `Verify your email address`,
-        `Welcome to R'match! Please verify your email address so we know that it's you. http://localhost:3000/verify/${verificationKeyString}`,
+        `Welcome to R'match!\n\nYour account has been created. Please follow the link below to verify your email and complete your registration.\n\nhttp://${link}/verify/${verificationKeyString}`,
     )
 
     return userToInsert;
@@ -180,7 +182,7 @@ export const getUserById = async (userId: number) => {
  * @returns Promise
  */
 export const verifyEmail = async (
-    verificationKeyString: VerificationKey['verificationKey']
+    verificationKeyString: VerificationKey['key']
 ) => {
     const emailVerificationResult: {
         result?: UpdateResult;
@@ -190,7 +192,7 @@ export const verifyEmail = async (
         message: '',
     };
 
-    const verificationKey = await VerificationKey.findOne({ verificationKey: verificationKeyString })
+    const verificationKey = await VerificationKey.findOne({ key: verificationKeyString })
 
     if (!verificationKey) {
         emailVerificationResult.message = 'Invalid verification key.';
@@ -202,7 +204,7 @@ export const verifyEmail = async (
             emailVerified: true
         });
 
-    await VerificationKey.delete({ verificationKey: verificationKeyString });
+    await VerificationKey.delete({ key: verificationKeyString });
 
     return emailVerificationResult;
 };

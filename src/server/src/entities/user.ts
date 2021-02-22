@@ -8,7 +8,6 @@ import {
     BaseEntity
 } from 'typeorm';
 import { Message } from './message';
-import { VerificationKey } from './verificationKey';
 export type role = 'student' | 'facultyMember';
 
 @Entity()

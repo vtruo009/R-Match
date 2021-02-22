@@ -59,7 +59,7 @@ function SignUpForm() {
     const [snack] = useSnack();
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
-            snack('Account successfully created', 'success');
+            snack('We sent an email verification link to your email. Please check your inbox.', 'success');
         },
         onFailure: (error, results) => {
             console.log(error);

@@ -10,7 +10,6 @@ import { User } from '@entities/user';
 import { signToken } from '@lib/jwt';
 import { validationMiddleware } from '@middlewares/validation';
 import { signUpSchema, signInSchema, emailVerificationSchema } from './schemas';
-import { verify } from 'jsonwebtoken';
 
 const router = Router();
 const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED } = StatusCodes;
@@ -78,7 +77,7 @@ router.post(
             if (!emailVerified)
                 res
                     .status(UNAUTHORIZED)
-                    .json({ error: 'User\'s email is not verified.' });
+                    .json({ error: 'Your email is not verified.' });
 
             const token = signToken(userId);
             res.cookie('access_token', token, {
