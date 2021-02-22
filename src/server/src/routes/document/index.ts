@@ -30,10 +30,10 @@ interface docRequest extends Request {
  *            POST Request - Create - /api/document/create
  ******************************************************************************/
 
- router.post(
-     '/create',
-     passport.authenticate('jwt', { session: false }),
-     async (req: docRequest, res: Response) => {
+router.post(
+    '/create',
+    passport.authenticate('jwt', { session: false }),
+    async (req: docRequest, res: Response) => {
         const { role, specificUserId } = req.user as JWTUser;
         if (role !== 'student') {
             return res
@@ -42,12 +42,7 @@ interface docRequest extends Request {
                 .end();
         }
 
-        const {
-            name,
-            type,
-            isDefault,
-            document,
-        } = req.body.document;
+        const { name, type, isDefault, document } = req.body.document;
         try {
             //let document1 = Buffer.alloc(16);
             const { result, message } = await createDocument(
@@ -56,7 +51,7 @@ interface docRequest extends Request {
                 isDefault,
                 //document1, // TODO: replace document1 with document data received in the request
                 document,
-                specificUserId,
+                specificUserId
             );
             return result
                 ? res.status(CREATED).end()
@@ -68,10 +63,10 @@ interface docRequest extends Request {
                 .json(errors.internalServerError)
                 .end();
         }
-     } 
- );
+    }
+);
 
- /******************************************************************************
+/******************************************************************************
  *            POST Request - Read - /api/document/read
  ******************************************************************************/
 
@@ -92,6 +87,21 @@ router.get(
         try {
             // const documents = await getDocuments(specificUserId, type.toString());
             const documents = await getDocuments(specificUserId);
+            if (documents) {
+                console.log(typeof documents[0]);
+                console.log(typeof documents[0].document);
+                console.log(documents[0]);
+                console.log(Buffer.isBuffer(documents[0].document));
+                console.log(documents[0].document.buffer);
+            }
+
+            const _documents = documents?.map((document) => ({
+                ...document,
+                document: new Uint8Array(document.document.buffer),
+            }));
+
+            console.log(_documents);
+
             return res.status(OK).json({ documents }).end();
         } catch (error) {
             logger.err(error);
@@ -101,9 +111,9 @@ router.get(
                 .end();
         }
     }
-)
+);
 
- /******************************************************************************
+/******************************************************************************
  *            DELETE Request - Delete - /api/document/delete/:id
  ******************************************************************************/
 
@@ -131,12 +141,5 @@ router.delete(
         }
     }
 );
-
-
-
-
-
-
-
 
 export default router;

@@ -1,27 +1,31 @@
 import API from 'api';
-import { IDocumentUploadForm } from 'Domains/Documents/DocumentUploadForm'
+import { IDocumentUploadForm } from 'Domains/Documents/DocumentUploadForm';
 
 export const documentType = [
     {
         label: 'Resume',
-        value: 'resume'
+        value: 'resume',
     },
     {
         label: 'Transcript',
-        value: 'transcript'
-    }
-]
+        value: 'transcript',
+    },
+];
 
 export interface IDocument {
-    id: number,
-    name: string,
-    type: string,
-    isDefault: boolean,
-    dateAdded: Date,
+    id: number;
+    name: string;
+    type: string;
+    isDefault: boolean;
+    dateAdded: Date;
+    document: {
+        data: any;
+        type: any;
+    };
 }
 
 export async function createDocument(document: IDocumentUploadForm) {
-    return API.post('/document/create', {document});
+    return API.post('/document/create', { document });
 }
 
 // export async function getDocuments(type: string) {
@@ -29,6 +33,6 @@ export async function getDocuments() {
     // const params = {
     //     type,
     // };
-//    return API.get<{documents: IDocument[]}>('/document/read', { params });
-    return API.get<{documents: IDocument[]}>('/document/read');
+    //    return API.get<{documents: IDocument[]}>('/document/read', { params });
+    return API.get<{ documents: IDocument[] }>('/document/read');
 }
