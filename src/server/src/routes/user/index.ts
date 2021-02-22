@@ -5,17 +5,23 @@ import passport from 'passport';
 import { JWTUser } from '@entities/user';
 import { errors } from '@shared/errors';
 import logger from '@shared/Logger';
-import { findUserByEmail, registerUser } from '@modules/user';
+import { findUserByEmail, registerUser, verifyEmail } from '@modules/user';
 import { User } from '@entities/user';
 import { signToken } from '@lib/jwt';
 import { validationMiddleware } from '@middlewares/validation';
-import { signUpSchema, signInSchema } from './schemas';
+import { signUpSchema, signInSchema, emailVerificationSchema } from './schemas';
 
 const router = Router();
-const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
+const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED } = StatusCodes;
 interface ISignUpRequest extends Request {
     body: {
         user: User;
+    };
+}
+
+interface IEmailVerificationRequest extends Request {
+    body: {
+        verificationKey: string;
     };
 }
 
@@ -65,7 +71,13 @@ router.post(
                 firstName,
                 lastName,
                 specificUserId,
+                emailVerified,
             } = req.user as JWTUser;
+
+            if (!emailVerified)
+                res
+                    .status(UNAUTHORIZED)
+                    .json({ error: 'Your email is not verified.' });
 
             const token = signToken(userId);
             res.cookie('access_token', token, {
@@ -126,6 +138,30 @@ router.get(
             user: { userId, specificUserId, role, firstName, lastName },
             isAuthenticated: true,
         });
+    }
+);
+
+/******************************************************************************
+ *              POST Request - Verify Email - /api/user/verify
+ ******************************************************************************/
+
+router.post(
+    '/verify',
+    validationMiddleware({ bodySchema: emailVerificationSchema }),
+    async (req: IEmailVerificationRequest, res: Response) => {
+        const { verificationKey } = req.body;
+        try {
+            const { result, message } = await verifyEmail( verificationKey );
+            return result
+                ? res.status(OK).end()
+                : res.status(BAD_REQUEST).json({ error: message }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
     }
 );
 

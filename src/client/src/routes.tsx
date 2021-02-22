@@ -18,6 +18,7 @@ import SignIn from 'Pages/SignIn';
 import SignUp from 'Pages/SignUp';
 import Message from 'Pages/Message';
 import Documents from 'Pages/Documents';
+import Verify from 'Pages/Verify'; 
 
 export interface IRoute {
     path: string;
@@ -49,6 +50,13 @@ export const unauthenticatedRoutes: IRoute[] = [
         path: '/sign-up',
         name: 'Sign up',
         component: SignUp,
+        icon: <PersonAddIcon />,
+    },
+    {
+        path: '/verify/:verificationKey',
+        name: 'Verify',
+        component: Verify,
+        hide: true,
         icon: <PersonAddIcon />,
     },
 ];
