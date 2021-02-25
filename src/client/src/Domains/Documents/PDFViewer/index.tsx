@@ -1,6 +1,9 @@
 import React from 'react';
 import { Viewer } from '@react-pdf-viewer/core';
+import { ProgressBar } from '@react-pdf-viewer/core';
+
 import Grid from '@material-ui/core/Grid';
+
 import Loader from 'Components/Loader';
 import useApi from 'hooks/useApi';
 import { getDocumentData } from '../api';
@@ -47,7 +50,14 @@ function PDFViewer({ documentId }: PDFViewerProps) {
             <Loader />
         </Grid>
     ) : documentData ? (
-        <Viewer fileUrl={documentData} />
+        <Viewer
+            fileUrl={documentData}
+            renderLoader={(percentages: number) => (
+                <div style={{ width: '240px' }}>
+                    <ProgressBar progress={Math.round(percentages)} />
+                </div>
+            )}
+        />
     ) : (
         <> </>
     );
