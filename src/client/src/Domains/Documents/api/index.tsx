@@ -18,19 +18,29 @@ export interface IDocument {
     type: string;
     isDefault: boolean;
     dateAdded: Date;
-    document: { [key: number]: number };
 }
 
-export async function createDocument(document: IDocumentUploadForm) {
-    console.log(document.document);
-    return API.post('/document/create', { document });
+export async function createDocument(
+    name: string,
+    type: IDocumentUploadForm['type'],
+    isDefault: IDocumentUploadForm['isDefault'],
+    data: string
+) {
+    return API.post('/document/create', {
+        document: { name, type, isDefault, data },
+    });
 }
 
-// export async function getDocuments(type: string) {
 export async function getDocuments() {
-    // const params = {
-    //     type,
-    // };
-    //    return API.get<{documents: IDocument[]}>('/document/read', { params });
     return API.get<{ documents: IDocument[] }>('/document/read');
+}
+
+export async function getDocumentData(documentId: number) {
+    return API.get<{ documentData: string }>(
+        `/document/get-data/${documentId}`
+    );
+}
+
+export async function deleteDocument(documentId: number) {
+    return API.delete(`/document/delete/${documentId}`);
 }

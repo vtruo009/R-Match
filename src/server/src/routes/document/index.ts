@@ -5,6 +5,7 @@ import { errors } from '@shared/errors';
 import {
     createDocument,
     getDocuments,
+    getDocumentData,
     deleteDocument,
 } from '@modules/document';
 import { JWTUser } from '@entities/user';
@@ -22,7 +23,12 @@ const {
 
 interface docRequest extends Request {
     body: {
-        document: Document;
+        document: {
+            name: Document['name'];
+            type: Document['type'];
+            isDefault: Document['isDefault'];
+            data: string;
+        };
     };
 }
 
@@ -41,16 +47,13 @@ router.post(
                 .json({ error: 'User is not a student' })
                 .end();
         }
-
-        const { name, type, isDefault, document } = req.body.document;
-        console.log('Document: ', Buffer.from(JSON.stringify(document)));
+        const { name, type, isDefault, data } = req.body.document;
         try {
-            //let document1 = Buffer.alloc(16);
             const { result, message } = await createDocument(
                 name,
                 type,
                 isDefault,
-                document,
+                data,
                 specificUserId
             );
             return result
@@ -74,33 +77,15 @@ router.get(
     '/read',
     passport.authenticate('jwt', { session: false }),
     async (req: Request, res: Response) => {
-        const { role, specificUserId } = req.user as JWTUser;
-        if (role !== 'student') {
-            return res
-                .status(UNAUTHORIZED)
-                .json({ error: 'User is not a student' });
-        }
-
-        // let { type } = req.query;
-        // if (!type) { type = 'resume'; }
-
+        const { specificUserId } = req.user as JWTUser;
         try {
-            // const documents = await getDocuments(specificUserId, type.toString());
             const documents = await getDocuments(specificUserId);
-            if (documents) {
-                console.log(documents[0]);
-                console.log(Buffer.isBuffer(documents[0].document));
-                console.log(documents[0].document.buffer);
-            }
-
-            const _documents = documents?.map((document) => ({
-                ...document,
-                document: new Uint8Array(document.document.buffer),
-            }));
-
-            console.log(_documents);
-
-            return res.status(OK).json({ documents: _documents }).end();
+            if (!documents)
+                return res
+                    .status(BAD_REQUEST)
+                    .json({ error: 'Student does not exist' })
+                    .end();
+            return res.status(OK).json({ documents }).end();
         } catch (error) {
             logger.err(error);
             return res
@@ -140,4 +125,29 @@ router.delete(
     }
 );
 
+router.get(
+    '/get-data/:documentId',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        const { documentId } = req.params;
+        try {
+            // const documents = await getDocuments(specificUserId, type.toString());
+            const documentData = await getDocumentData(
+                parseInt(documentId, 10)
+            );
+            if (!documentData)
+                return res
+                    .status(BAD_REQUEST)
+                    .json({ error: 'Document does not exist' })
+                    .end();
+            return res.status(OK).json({ documentData }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
 export default router;

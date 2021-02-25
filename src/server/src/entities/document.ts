@@ -30,11 +30,11 @@ export class Document extends BaseEntity {
     dateAdded: Date;
 
     @Column({ type: 'bytea', nullable: false })
-    document: Buffer;
+    data: Buffer;
 
     @Column()
     studentId: number;
 
-    @ManyToOne(() => Student, (student) => (student.documents))
+    @ManyToOne(() => Student, (student) => student.documents)
     public student: Student;
 }

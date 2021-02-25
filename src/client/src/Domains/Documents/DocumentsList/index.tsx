@@ -1,114 +1,72 @@
 import React from 'react';
-import testPDF from 'static/images/project-rt.pdf';
-import { makeStyles } from '@material-ui/core/styles';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    Typography,
-    Checkbox,
-} from '@material-ui/core';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import CheckBox from '@material-ui/core/Checkbox';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import Badge from '@material-ui/core/Badge';
+import DocumentIcon from '@material-ui/icons/Description';
+
+import DeleteButton from 'Components/DeleteButton';
+import Loader from 'Components/Loader';
+import Table from 'Components/Table';
 import Button from 'Components/Button';
+import useSnack from 'hooks/useSnack';
 import useDialog from 'hooks/useDialog';
 import useApi from 'hooks/useApi';
-import DocumentUploadForm, {
-    IDocumentUploadForm,
-} from 'Domains/Documents/DocumentUploadForm/index';
-import { IDocument, getDocuments } from 'Domains/Documents/api';
+import DocumentUploadForm from 'Domains/Documents/DocumentUploadForm/index';
+import { IDocument, getDocuments, deleteDocument } from 'Domains/Documents/api';
 import { formatDateString } from 'utils/format';
 import PDFViewer from 'Domains/Documents/PDFViewer';
-import { Viewer } from '@react-pdf-viewer/core';
-
-//create initial file initial values here
-const fileInitialValues: IDocumentUploadForm = {
-    name: '',
-    type: '',
-    isDefault: false,
-    dateAdded: '',
-    document: Buffer.alloc(0),
-};
 
 export interface DocumentProps {
     name: JSX.Element | string;
     type: string;
     isDefault: boolean;
-    dateAdded: string; //change to Date later
+    dateAdded: string;
     document: Buffer;
 }
 
-const useStyles = makeStyles({
-    table: {
-        minWidth: 650,
-    },
-});
-
-// function createData(
-//     name: JSX.Element | string,
-//     isDefault: boolean,
-//     dateAdded: string,
-//     document: Buffer,
-// ) : DocumentProps {
-//     return { name, isDefault, dateAdded, document };
-// };
-
-// const rows = [
-//     createData('Resume.pdf', true, '01/02/2021', Buffer.alloc(0)),
-// createData('Resume.pdf', true, '01/02/2021'),
-// createData('Resume.pdf', true, '01/02/2021'),
-// createData('Resume.pdf', true, '01/02/2021'),
-// createData('Resume.pdf', true, '01/02/2021'),
-//];
-
 function Documents() {
-    const classes = useStyles();
     const uploadDialog = useDialog();
     const pdfDialog = useDialog();
+    const [snack] = useSnack();
     const [resumes, setResumes] = React.useState<IDocument[]>([]);
     const [transcripts, setTranscripts] = React.useState<IDocument[]>([]);
+    const [documentIdToDelete, setDocumentIdToDelete] = React.useState(0);
     const [checked, setChecked] = React.useState(false);
+    const [
+        documentIdSelected,
+        setDocumentIdSelected,
+    ] = React.useState<number>();
 
-    const [dd, setdd] = React.useState<Uint8Array>();
+    const getDocumentsRequest = React.useCallback(() => getDocuments(), []);
+    const deleteDocumentRequest = React.useCallback(
+        () => deleteDocument(documentIdToDelete),
+        [documentIdToDelete]
+    );
 
-    const request = React.useCallback(() => getDocuments(), []);
-
-    const [sendRequest, isLoading] = useApi(request, {
+    const [sendRequest, isLoading] = useApi(getDocumentsRequest, {
         onSuccess: (response) => {
-            const documents = response.data.documents;
-            let filteredRes: IDocument[] = [];
-            let filteredTrans: IDocument[] = [];
-            // console.log(documents);
-            documents.forEach((document) => {
-                if (document.type === 'resume') {
-                    console.log(document.document);
-                    const arr: number[] = [];
-                    Object.entries(document.document).forEach(([key, value]) =>
-                        arr.push(value)
-                    );
-                    console.log('Array: ', arr);
-                    console.log(new Uint8Array(arr));
-                    // console.log(Buffer.from(JSON.stringify(document.document)));
-                    setdd(new Uint8Array(arr));
-                    // console.log(new Uint8Array(document.document));
-                    filteredRes.push(document);
-                } else {
-                    filteredTrans.push(document);
-                }
-            });
-
-            setResumes(filteredRes);
-            setTranscripts(filteredTrans);
+            const { documents } = response.data;
+            const filteredRes: IDocument[] = [];
+            const filteredTrans: IDocument[] = [];
+            if (documents.length === 0) {
+                snack('No documents were found', 'warning');
+            } else {
+                documents.forEach((document) => {
+                    if (document.type === 'resume') {
+                        filteredRes.push(document);
+                    } else {
+                        filteredTrans.push(document);
+                    }
+                });
+                setResumes(filteredRes);
+                setTranscripts(filteredTrans);
+            }
         },
     });
-
-    const handleChangexd = (e) => {
-        const file = e.target.files[0]; // accesing file
-        console.log(file);
-        // setFile(file); // storing file
-    };
 
     React.useEffect(() => sendRequest(), [sendRequest]);
 
@@ -116,123 +74,177 @@ function Documents() {
         setChecked(true);
     };
 
-    return (
-        <div>
-            <Typography variant='h4' style={{ marginBottom: 10 }}>
-                Resumes
-            </Typography>
-            <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label='simple table'>
-                    <TableHead style={{ backgroundColor: 'gainsboro' }}>
-                        <TableRow>
-                            <TableCell align='justify' style={{ width: '75%' }}>
-                                Name
-                            </TableCell>
-                            <TableCell align='center'>Default</TableCell>
-                            <TableCell align='center'>Date Added</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {resumes.map((row, index) => (
-                            <TableRow key={index}>
-                                <TableCell onClick={pdfDialog.openDialog}>
-                                    {row.name}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    <Checkbox color='primary'></Checkbox>
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {formatDateString(
-                                        new Date(
-                                            row.dateAdded
-                                        ).toLocaleDateString()
-                                    )}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-
-            <Typography
-                variant='h4'
-                style={{ marginBottom: 10, marginTop: 100 }}
-            >
-                Transcripts
-            </Typography>
-            <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label='simple table'>
-                    <TableHead style={{ backgroundColor: 'gainsboro' }}>
-                        <TableRow>
-                            <TableCell align='justify' style={{ width: '75%' }}>
-                                Name
-                            </TableCell>
-                            <TableCell align='center'>Default</TableCell>
-                            <TableCell align='center'>Date Added</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {transcripts.map((row, index) => (
-                            <TableRow key={index}>
-                                <TableCell onClick={pdfDialog.openDialog}>
-                                    {row.name}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    <Checkbox
-                                        color='primary'
-                                        onClick={handleChange}
-                                        //checked={checked}
-                                        disabled={
-                                            row.isDefault !== true && !checked
-                                        }
-                                    />
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {formatDateString(row.dateAdded.toString())}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-
+    return isLoading ? (
+        <Loader center />
+    ) : (
+        <Grid container spacing={5}>
+            <Grid item xs={12}>
+                <Typography variant='h4' color='primary'>
+                    Resumes{' '}
+                    <Badge
+                        badgeContent={resumes.length}
+                        color='primary'
+                        showZero
+                    >
+                        <DocumentIcon />
+                    </Badge>
+                </Typography>
+            </Grid>
+            <Grid item xs={12}>
+                {resumes.length > 0 && (
+                    <Table
+                        columns={['Name', 'Default', 'Date Added', 'Delete']}
+                    >
+                        <>
+                            {resumes.map((resume, index) => (
+                                <TableRow key={index}>
+                                    <TableCell
+                                        onClick={() => {
+                                            setDocumentIdSelected(resume.id);
+                                            pdfDialog.openDialog();
+                                        }}
+                                    >
+                                        {resume.name}
+                                    </TableCell>
+                                    <TableCell align='center'>
+                                        <CheckBox
+                                            color='primary'
+                                            checked={resume.isDefault}
+                                        />
+                                    </TableCell>
+                                    <TableCell align='center'>
+                                        {formatDateString(
+                                            new Date(
+                                                resume.dateAdded
+                                            ).toLocaleDateString()
+                                        )}
+                                    </TableCell>
+                                    <TableCell>
+                                        <DeleteButton
+                                            message={`Please confirm deletion of the document: ${resume.name}`}
+                                            onClickBeforeRequest={() =>
+                                                setDocumentIdToDelete(resume.id)
+                                            }
+                                            onDeleteRequest={
+                                                deleteDocumentRequest
+                                            }
+                                            onSuccess={() =>
+                                                setResumes(
+                                                    resumes.filter(
+                                                        (_resume) =>
+                                                            _resume.id !==
+                                                            resume.id
+                                                    )
+                                                )
+                                            }
+                                        />
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </>
+                    </Table>
+                )}
+            </Grid>
+            <Divider />
+            <Grid item xs={12}>
+                <Typography
+                    variant='h4'
+                    style={{ marginBottom: 20 }}
+                    color='primary'
+                >
+                    Transcripts{' '}
+                    <Badge
+                        badgeContent={transcripts.length}
+                        color='primary'
+                        showZero
+                    >
+                        <DocumentIcon />
+                    </Badge>
+                </Typography>
+            </Grid>
+            <Grid item xs={12}>
+                {transcripts.length > 0 && (
+                    <Table
+                        columns={['Name', 'Default', 'Date Added', 'delete']}
+                    >
+                        <>
+                            {transcripts.map((transcript, index) => (
+                                <TableRow key={index}>
+                                    <TableCell
+                                        onClick={() => {
+                                            setDocumentIdSelected(
+                                                transcript.id
+                                            );
+                                            pdfDialog.openDialog();
+                                        }}
+                                    >
+                                        {transcript.name}
+                                    </TableCell>
+                                    <TableCell align='center'>
+                                        <CheckBox
+                                            color='primary'
+                                            onClick={handleChange}
+                                            checked={transcript.isDefault}
+                                        />
+                                    </TableCell>
+                                    <TableCell align='center'>
+                                        {formatDateString(
+                                            transcript.dateAdded.toString()
+                                        )}
+                                    </TableCell>
+                                    <TableCell>
+                                        <DeleteButton
+                                            message={`Please confirm deletion of the document: ${transcript.name}`}
+                                            onClickBeforeRequest={() =>
+                                                setDocumentIdToDelete(
+                                                    transcript.id
+                                                )
+                                            }
+                                            onDeleteRequest={
+                                                deleteDocumentRequest
+                                            }
+                                            onSuccess={() =>
+                                                setTranscripts(
+                                                    transcripts.filter(
+                                                        (_transcript) =>
+                                                            _transcript.id !==
+                                                            transcript.id
+                                                    )
+                                                )
+                                            }
+                                        />
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </>
+                    </Table>
+                )}
+            </Grid>
+            <Grid container item xs={12} justify='flex-end'>
+                <Button onClick={uploadDialog.openDialog}>
+                    Add a Document
+                </Button>
+            </Grid>
+            {documentIdSelected && (
                 <pdfDialog.Dialog
                     {...pdfDialog.DialogProps}
                     title='File Viewer'
                 >
-                    <PDFViewer />
+                    <PDFViewer documentId={documentIdSelected} />
                 </pdfDialog.Dialog>
-            </TableContainer>
-
-            <input type='file' onChange={handleChangexd} />
-            {dd ? <Viewer fileUrl={dd} /> : <h1>nope </h1>}
-
-            <Button
-                style={{
-                    float: 'right',
-                    marginTop: 100,
-                    marginBottom: 100,
-                    marginRight: 35,
-                }}
-                onClick={uploadDialog.openDialog}
-            >
-                Add a Document
-            </Button>
+            )}
             <uploadDialog.Dialog
                 {...uploadDialog.DialogProps}
                 title='Add a Document'
             >
                 <DocumentUploadForm
-                    // isLoading={false}
-                    // onCancel={closeDialog}
-                    // onSubmit={(fileBaseValues) => {
-                    //     closeDialog();
-                    //     //sendRequest();
-                    // }}
-                    // formInitialValues={fileInitialValues}
-                    onSubmit={uploadDialog.closeDialog}
+                    onSubmit={() => {
+                        uploadDialog.closeDialog();
+                        sendRequest();
+                    }}
                 />
             </uploadDialog.Dialog>
-        </div>
+        </Grid>
     );
 }
 

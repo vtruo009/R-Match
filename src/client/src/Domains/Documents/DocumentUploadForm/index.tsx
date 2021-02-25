@@ -1,55 +1,36 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { Formik, Form, Field} from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 
+import useSnack from 'hooks/useSnack';
+import useApi from 'hooks/useApi';
 import { SelectFormField } from 'Components/SelectFormField';
 import SubmitButton from 'Components/SubmitButton';
-import { Checkbox, FormControlLabel} from '@material-ui/core';
-import { documentType } from 'Domains/Documents/api'
 import { SimpleFileUpload } from 'Components/FileUploadField';
-import useSnack from 'hooks/useSnack';
-
+import { CheckBoxField } from 'Components/CheckBoxField';
 import { createDocument } from 'Domains/Documents/api';
-import useApi from 'hooks/useApi';
+import { documentType } from 'Domains/Documents/api';
 
 export interface IDocumentUploadForm {
-    name: string,
-    type: string,
-    isDefault: boolean,
-    dateAdded: string,
-    document: Buffer,
+    type: string;
+    isDefault: boolean;
+    data: Blob;
 }
 
 interface DocumentUploadFormProps {
-    //formInitialValues: DocumentUploadFormType;
-    // formInitialValues: IDocumentUploadForm;
-    // isLoading: boolean;
-    // onCancel: () => void;
-    // //onSubmit: (file: DocumentUploadFormType) => void;
-    // onSubmit: (file: IDocumentUploadForm) => void;
     onSubmit: () => void;
 }
 
-// interface DocumentUploadFormType {
-//     name: string,
-//     type: string,
-//     isDefault?: boolean,
-// }
-
-// const formInitialValues: DocumentUploadFormType = {
 const formInitialValues: IDocumentUploadForm = {
-    name: '',
     type: '',
     isDefault: false,
-    dateAdded: '',
-    document: Buffer.alloc(0),
+    data: new Blob(),
 };
 
 const formSchema = yup.object({
-    //name: yup.string().required('Name is required'),
     type: yup.string().required('Please choose a type'),
-    //isDefault: yup.boolean().optional(),
+    isDefault: yup.boolean().optional(),
     document: yup
         .mixed()
         .test('empty-check', 'Please select a document', (value) => {
@@ -61,37 +42,56 @@ const formSchema = yup.object({
             return (
                 !value || (value && ['application/pdf'].includes(value.type))
             );
-        })
+        }),
 });
 
-function DocumentUploadForm(
-    {
-//     //isLoading,
-//     onCancel,
-    onSubmit,
-}: DocumentUploadFormProps
-) {
-    const [ docInitialValues, setDocInitialValues] = React.useState<IDocumentUploadForm>(formInitialValues);
-
+function DocumentUploadForm({ onSubmit }: DocumentUploadFormProps) {
+    const [
+        documentValues,
+        setDocumentValues,
+    ] = React.useState<IDocumentUploadForm>(formInitialValues);
+    const [encodedPDF, setEncodedPDF] = React.useState<string>('');
+    const [documentName, setDocumentName] = React.useState('');
     const [snack] = useSnack();
-    const request = React.useCallback( () => createDocument(docInitialValues), [
-        docInitialValues
-    ]);
-
-    const [sendRequest, isLoading] = useApi(request, {
+    const createDocumentRequest = React.useCallback(
+        () =>
+            createDocument(
+                documentName,
+                documentValues.type,
+                documentValues.isDefault,
+                encodedPDF
+            ),
+        [documentName, documentValues, encodedPDF]
+    );
+    const [sendRequest, isLoading] = useApi(createDocumentRequest, {
         onSuccess: () => {
-            //sendRequest();
             snack('Document successfully uploaded', 'success');
             onSubmit();
-        }
-    })
+        },
+    });
+
+    async function getPDFBase64(pdfFile: Blob) {
+        return new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                if (e.target?.DONE) {
+                    resolve(e.target.result as string);
+                }
+            };
+            reader.readAsDataURL(pdfFile);
+        });
+    }
 
     return (
         <Formik
             validationSchema={formSchema}
             initialValues={formInitialValues}
-            onSubmit={(formValues) => {
-                setDocInitialValues(formValues);
+            onSubmit={async (formValues) => {
+                const b64Data = await getPDFBase64(formValues.data);
+                const file = formValues.data as File;
+                setDocumentName(file.name);
+                setEncodedPDF(b64Data);
+                setDocumentValues(formValues);
                 sendRequest();
             }}
         >
@@ -103,38 +103,33 @@ function DocumentUploadForm(
                         justify='center'
                         alignItems='center'
                     >
-                        <Grid item md={6} xs={12}>
+                        <Grid item md={4} xs={12}>
                             <Field
                                 name='type'
-                                label='Document Type'
+                                label='Type'
                                 options={documentType}
                                 component={SelectFormField}
                             />
                         </Grid>
-                        <Grid item md={6} xs={12}>
+                        <Grid item md={4} xs={12}>
                             <Field
-                                name='document'
+                                name='data'
+                                label='File'
                                 type='file'
                                 component={SimpleFileUpload}
                             />
                         </Grid>
-                    </Grid>
-                    <Grid
-                        container
-                        justify='flex-end'
-                        style={{marginTop: 20}}    
-                    >
-                        <FormControlLabel
-                            label='Make Default'
-                            control={
-                                <Checkbox
-                                    color='primary'
-                                />
-                            }
-                        />
-                        <SubmitButton
-                            isLoading={false}
-                        />
+                        <Grid item md={2} xs={12}>
+                            <Field
+                                name='isDefault'
+                                label='Make Default'
+                                component={CheckBoxField}
+                                color='primary'
+                            />
+                        </Grid>
+                        <Grid item md={2} xs={12}>
+                            <SubmitButton isLoading={isLoading} />
+                        </Grid>
                     </Grid>
                 </Form>
             )}

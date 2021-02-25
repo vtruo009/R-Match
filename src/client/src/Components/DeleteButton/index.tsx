@@ -18,30 +18,38 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-interface DeleteWarningProps {
+interface DeleteProps {
     message: string;
     onDeleteRequest: () => Promise<AxiosResponse<unknown>>;
-    onSuccess: () => void;
+    onSuccess?: () => void;
+    onClickBeforeRequest?: () => void;
 }
 
 function DeleteButton({
     message,
     onDeleteRequest,
     onSuccess,
-}: DeleteWarningProps) {
+    onClickBeforeRequest,
+}: DeleteProps) {
     const { openDialog, closeDialog, DialogProps, Dialog } = useDialog();
     const classes = useStyles();
     const [snack] = useSnack();
     const [sendDeleteRequest, isLoading] = useApi(onDeleteRequest, {
         onSuccess: () => {
             closeDialog();
-            onSuccess();
+            if (onSuccess) onSuccess();
             snack('Item successfully deleted', 'success');
         },
     });
     return (
         <div>
-            <IconButton onClick={openDialog} className={classes.warning}>
+            <IconButton
+                onClick={() => {
+                    openDialog();
+                    if (onClickBeforeRequest) onClickBeforeRequest();
+                }}
+                className={classes.warning}
+            >
                 {<TrashCanIcon />}
             </IconButton>
             <Dialog
