@@ -49,7 +49,7 @@ export const SimpleFileUpload = ({
               inputProps.onChange(event);
             } else {
               const file = event.currentTarget.files[0];
-              setFieldValue(field.name, file);  
+              setFieldValue(field.name, file);
             }
           },
         }}

@@ -106,6 +106,13 @@ function DocumentUploadForm(
                     >
                         <Grid item md={6} xs={12}>
                             <Field
+                                name='name'
+                                label='Name'
+                                component={TextFormField}
+                            />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                            <Field
                                 name='type'
                                 label='Document Type'
                                 options={documentType}

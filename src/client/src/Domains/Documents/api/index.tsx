@@ -18,9 +18,11 @@ export interface IDocument {
     type: string,
     isDefault: boolean,
     dateAdded: Date,
+    document: Buffer,
 }
 
 export async function createDocument(document: IDocumentUploadForm) {
+    console.log(document.document);
     return API.post('/document/create', {document});
 }
 
@@ -31,4 +33,8 @@ export async function getDocuments() {
     // };
 //    return API.get<{documents: IDocument[]}>('/document/read', { params });
     return API.get<{documents: IDocument[]}>('/document/read');
+}
+
+export async function deleteDocument(documentId: number) {
+    return API.delete(`/document/delete/${documentId}`);
 }

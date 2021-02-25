@@ -1,5 +1,6 @@
 import { Document } from '@entities/document';
 import { Student } from '@entities/student';
+import { UpdateResult } from 'typeorm';
 
 /**
  * @description Find a student byt id
@@ -65,10 +66,46 @@ export const getDocuments = async (studentId: number) => {
 };
 
  /**
+  * @description Update the properties of an existing/uploaded document
+  * @param {number} id - Id of the document that is to be updated
+  * @param {string} name - New name of the document
+  * @param {string} type - New type of the document
+  * @param {boolean} isDefault - New default status of the document
+  * @returns Promise
+  */
+ export const updateDocument = async (document: Document) => { //does it need to be async?
+    const {
+        id,
+        name,
+        type,
+        isDefault,
+    } = document;
+
+    const updateResult: {
+        result?: UpdateResult;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
+
+    const updatedDocument = await Document.update(id, { //does it need to await?
+        name,
+        type,
+        isDefault,
+    });
+
+    updateResult.result = updatedDocument;
+    updateResult.message = 'Document successfully updated';
+    return updateResult;
+};
+
+
+ /**
   * @description Delete an uploaded document from the database
   * @param {number} id - Id of the document to delete
   * @returns Promise
   */
-export const deleteDocument = (id: Document['id']) => {
+export const deleteDocument = async (id: Document['id']) => {
     return Document.delete(id);
 };
