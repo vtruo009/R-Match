@@ -6,6 +6,8 @@ import {
     createDocument,
     getDocuments,
     getDocumentData,
+    getDefaultDocuments,
+    markDocumentAsDefault,
     deleteDocument,
 } from '@modules/document';
 import { JWTUser } from '@entities/user';
@@ -150,4 +152,57 @@ router.get(
         }
     }
 );
+
+router.get(
+    '/default-documents/:studentId',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        const { studentId } = req.params;
+        try {
+            const defaultDocuments = await getDefaultDocuments(
+                parseInt(studentId, 10)
+            );
+            return res.status(OK).json({ documents: defaultDocuments }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+router.put(
+    '/mark-as-default/:documentId/:type',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        const { role, specificUserId } = req.user as JWTUser;
+        const { documentId, type } = req.params;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not student' })
+                .end();
+        }
+        try {
+            const { result, message } = await markDocumentAsDefault(
+                parseInt(documentId, 10),
+                type as Document['type'],
+                specificUserId
+            );
+
+            return result
+                ? res.status(OK).end()
+                : res.status(BAD_REQUEST).json({ error: message }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
 export default router;
