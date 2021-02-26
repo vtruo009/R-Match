@@ -26,12 +26,14 @@ interface IApplicantSearchForm {
     classStandings?: classStandingTypes[];
     minimumGpa?: string;
     departmentId?: number[];
+    courseIds?: number[];
 }
 
 const formInitialValues: IApplicantSearchForm = {
     classStandings: [],
     minimumGpa: '',
     departmentId: [],
+    courseIds: [],
 };
 
 const formSchema = yup.object({
@@ -44,7 +46,8 @@ const formSchema = yup.object({
         )
         .optional()
         .nullable(),
-    departmentId: yup.array(yup.number()).optional(),
+    departmentId: yup.array().of(yup.number()).optional(),
+    courseIds: yup.array().of(yup.number()).optional(),
 });
 
 const numOfItems = 7;
@@ -68,7 +71,8 @@ function ApplicantsList({ jobId, jobTitle }: ApplicantsListProps) {
                 numOfItems,
                 formState.classStandings,
                 formState.minimumGpa,
-                formState.departmentId
+                formState.departmentId,
+                formState.courseIds
             ),
         [jobId, page, formState]
     );
@@ -132,6 +136,7 @@ function ApplicantsList({ jobId, jobTitle }: ApplicantsListProps) {
                                 <Field
                                     component={AcademicInfo}
                                     multipleDepartments
+                                    showCourses
                                 />
                                 <Grid item md={4} xs={12}>
                                     <SubmitButton

@@ -31,7 +31,7 @@ export async function signUp(signUpData: ISignUpForm) {
 }
 
 export async function signIn(signInData: ISignInForm) {
-    return API.post<{ user: IAuthUser; isAuthenticated: boolean }>(
+    return API.post<{ user: IAuthUser; isAuthenticated: boolean, error: string }>(
         '/user/sign-in',
         {
             ...signInData,
@@ -41,4 +41,8 @@ export async function signIn(signInData: ISignInForm) {
 
 export async function signOut() {
     return API.get<{ user: IAuthUser }>('/user/sign-out');
+}
+
+export async function verify(verificationKey: string) {
+    return API.post<{ error: string }>('/user/verify', { verificationKey });
 }

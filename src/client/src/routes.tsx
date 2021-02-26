@@ -18,6 +18,7 @@ import SignIn from 'Pages/SignIn';
 import SignUp from 'Pages/SignUp';
 import Message from 'Pages/Message';
 import Documents from 'Pages/Documents';
+import Verify from 'Pages/Verify'; 
 
 export interface IRoute {
     path: string;
@@ -51,6 +52,13 @@ export const unauthenticatedRoutes: IRoute[] = [
         component: SignUp,
         icon: <PersonAddIcon />,
     },
+    {
+        path: '/verify/:verificationKey',
+        name: 'Verify',
+        component: Verify,
+        hide: true,
+        icon: <PersonAddIcon />,
+    },
 ];
 
 // Add other routes that are shared among all users
@@ -62,7 +70,7 @@ export const authenticatedRoutes: IRoute[] = [
         icon: <PersonIcon />,
     },
     {
-        path: '/message',
+        path: '/message/:email',
         name: 'Message',
         component: Message,
         icon: <MailIcon />,

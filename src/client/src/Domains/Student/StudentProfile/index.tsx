@@ -11,41 +11,7 @@ import LabelValues from 'Components/LabelValues';
 import Loader from 'Components/Loader';
 import StudentProfileForm from 'Domains/Student/StudentProfileForm';
 import WorkExperiences from 'Domains/Student/WorkExperiences';
-import {
-    getStudentProfile,
-    IStudent,
-    getWorkExperiences,
-    IWorkExperience,
-} from 'Domains/Student/api';
-
-const workExperiencesDummy = [
-    {
-        id: 1,
-        startDate: '2021-01-29T03:31:04.627Z',
-        endDate: '2021-03-29T03:31:04.627Z',
-        title: 'ARC Tutor',
-        employer: 'UCR Academic Resource center',
-        description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    },
-    {
-        id: 2,
-        startDate: '2021-01-29T03:31:04.627Z',
-        title: 'Web developer',
-        employer: 'Microsoft',
-        description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    },
-    {
-        id: 3,
-        startDate: '2021-01-29T03:31:04.627Z',
-        endDate: '2021-06-29T03:31:04.627Z',
-        title: 'Software Engineer Intern',
-        employer: 'Google',
-        description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    },
-];
+import { getStudentProfile, IStudent } from 'Domains/Student/api';
 
 interface StudentProfileProps {
     studentId: number;
@@ -53,16 +19,8 @@ interface StudentProfileProps {
 
 function StudentProfile({ studentId }: StudentProfileProps) {
     const [studentProfile, setStudentProfile] = React.useState<IStudent>();
-    const [workExperiences, setWorkExperiences] = React.useState<
-        IWorkExperience[]
-    >([]);
     const { openDialog, closeDialog, DialogProps, Dialog } = useDialog();
     const { user } = React.useContext(AuthContext);
-
-    const getWorkExperiencesRequest = React.useCallback(
-        () => getWorkExperiences(),
-        []
-    );
 
     const getProfileRequest = React.useCallback(
         () => getStudentProfile(studentId),
@@ -77,15 +35,6 @@ function StudentProfile({ studentId }: StudentProfileProps) {
             },
         }
     );
-
-    const [
-        sendGetWorkExperiencesRequest,
-        isGettingWorkExperiencesLoading,
-    ] = useApi(getWorkExperiencesRequest, {
-        onSuccess: () => setWorkExperiences(workExperiencesDummy),
-        onFailure: () => setWorkExperiences(workExperiencesDummy),
-        // setWorkExperiences(results.data.workExperiences),
-    });
 
     const getCoursesTitles = () => {
         return studentProfile?.courses.map(
@@ -102,8 +51,7 @@ function StudentProfile({ studentId }: StudentProfileProps) {
 
     React.useEffect(() => {
         sendGetProfileRequest();
-        sendGetWorkExperiencesRequest();
-    }, [sendGetProfileRequest, sendGetWorkExperiencesRequest]);
+    }, [sendGetProfileRequest]);
 
     return isGettingProfileLoading ? (
         <Loader center />
@@ -140,14 +88,10 @@ function StudentProfile({ studentId }: StudentProfileProps) {
                     />
                 </Grid>
                 <Grid item md={12} xs={12}>
-                    {isGettingWorkExperiencesLoading ? (
-                        <Loader />
-                    ) : (
-                        <WorkExperiences
-                            workExperiences={workExperiences}
-                            hasPermission={isUserProfileOwner}
-                        />
-                    )}
+                    <WorkExperiences
+                        hasPermission={isUserProfileOwner}
+                        studentId={studentId}
+                    />
                 </Grid>
             </Grid>
             <Dialog {...DialogProps} title='Edit Profile'>

@@ -76,6 +76,7 @@ function WorkExperienceForm({
                                 name='description'
                                 label='description'
                                 component={TextFormField}
+                                multiline
                             />
                         </Grid>
                         <Grid item md={6} xs={12}>

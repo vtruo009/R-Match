@@ -4,6 +4,7 @@ import { Student } from '@entities/student';
 import { Course } from '@entities/course';
 import { Department } from '@entities/department';
 import { JobApplication } from '@entities/jobApplication';
+import { getDateString } from '@lib/dateUtils';
 
 /**
  * @description Creates a student using an user record from the database
@@ -118,10 +119,11 @@ export const getJobApplications = async (
     const student = await Student.findOne(studentId);
     if (!student) return undefined;
 
+    const todayString = getDateString(new Date());
+
     // Return all job application submitted by the student.
     return getRepository(JobApplication)
         .createQueryBuilder('jobApplication')
-        .where({ studentId })
         .leftJoinAndSelect('jobApplication.job', 'job')
         .leftJoinAndSelect('job.facultyMember', 'facultyMember')
         .leftJoinAndSelect('job.department', 'department')
@@ -134,6 +136,8 @@ export const getJobApplications = async (
             'user.biography',
             'user.email',
         ])
+        .where({ studentId })
+        .andWhere('job.expirationDate >= :today', { today: todayString })
         .skip((page - 1) * numOfItems)
         .take(numOfItems)
         .getManyAndCount();
@@ -146,6 +150,7 @@ export const searchStudents = async (
     sid: Student['sid'],
     departmentIds: Student['departmentId'][],
     classStandings: Student['classStanding'][],
+    courseIds: Course['id'][],
     page: number,
     numOfItems: number
 ) => {
@@ -155,6 +160,7 @@ export const searchStudents = async (
         .leftJoin('student.user', 'user')
         .addSelect(['user.firstName', 'user.lastName'])
         .leftJoinAndSelect('student.department', 'department')
+        .leftJoin('student.courses', 'course')
         .where('LOWER(user.firstName) LIKE :firstName', {
             firstName: `%${firstName.toLowerCase()}%`,
         })
@@ -171,8 +177,8 @@ export const searchStudents = async (
         .andWhere(
             '(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))',
             {
-                departmentIdsPopulated: departmentIds[0] !== -1,
-                departmentIds,
+                departmentIdsPopulated: departmentIds.length > 0,
+                departmentIds: departmentIds.length > 0 ? departmentIds : [-1]
             }
         )
         .andWhere(
@@ -181,6 +187,19 @@ export const searchStudents = async (
                 classStandings,
             }
         )
+        // Selects student who has taken at least one specified course.
+        .andWhere(qb => {
+            var subQuery = "";
+            for (var i = 0; i < courseIds.length; ++i) {
+                if (i == 0) subQuery += ` OR (course.id = ${courseIds[i]}`
+                else subQuery += ` OR course.id = ${courseIds[i]}`
+                if (i == courseIds.length - 1) subQuery += ')'
+            }
+            return `(NOT :courseIdsPopulated${subQuery})`;
+        }, {
+            courseIdsPopulated: courseIds.length > 0,
+            courseIds: courseIds.length > 0 ? courseIds : [-1]
+        })
         .skip((page - 1) * numOfItems)
         .take(numOfItems)
         .getManyAndCount();

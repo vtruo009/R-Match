@@ -180,34 +180,27 @@ export async function getPostedJobs(page: number, numOfItems: number) {
     );
 }
 
-export async function getAppliedJobs(
-    page: number,
-    numOfItems: number
-) {
+export async function getAppliedJobs(page: number, numOfItems: number) {
     const params = {
-        page, numOfItems
+        page,
+        numOfItems,
     };
-    return API.get<{ jobApplications: IJobApplication[], jobApplicationsCount: number }>(
-        '/student/get-applied-jobs', { params }
-    );
+    return API.get<{
+        jobApplications: IJobApplication[];
+        jobApplicationsCount: number;
+    }>('/student/get-applied-jobs', { params });
 }
 
 export async function closeJob(jobId: number) {
-    return API.post('/job/close', {
-        jobId,
-    });
+    return API.post(`/job/close/${jobId}`);
 }
 
 export async function openJob(jobId: number) {
-    return API.post('/job/open', {
-        jobId,
-    });
+    return API.post(`/job/open/${jobId}`);
 }
 
 export async function applyToJob(jobId: number) {
-    return API.post<{ message: string }>('/job/apply-to-job', {
-        jobId,
-    });
+    return API.post<{ error: string }>(`/job/apply-to-job/${jobId}`);
 }
 
 export async function getJobApplicants(
@@ -216,7 +209,8 @@ export async function getJobApplicants(
     numOfItems: number,
     classStandings?: classStandingTypes[],
     minimumGpa?: string,
-    departmentIds?: number[]
+    departmentIds?: number[],
+    courseIds?: number[]
 ) {
     const params = {
         jobId,
@@ -225,9 +219,32 @@ export async function getJobApplicants(
         classStandings,
         minimumGpa,
         departmentIds,
+        courseIds,
     };
     return API.get<{
         jobApplicants: IJobApplicants[];
         jobApplicantsCount: number;
     }>(`job/get-applicants`, { params });
+}
+
+export async function getRecommendedJobs() {
+    return API.get<{ jobs: IJob[] }>('/job/get-recommended-jobs');
+}
+
+export async function getNewJobs() {
+    const params = {
+        page: 1,
+        numOfItems: 10,
+    };
+    return API.get<{ jobs: IJob[] }>('/job/get-new-jobs', { params });
+}
+
+export async function getNumberOfApplicants(jobId: number) {
+    return API.get<{ numberOfApplicants: number }>(
+        `/job/get-number-of-applicants/${jobId}`
+    );
+}
+
+export async function withdrawFromJob(jobId: number) {
+    return API.delete<{ error: string }>(`/job/withdraw-from-job/${jobId}`);
 }

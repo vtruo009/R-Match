@@ -25,6 +25,7 @@ interface IStudentSearchForm {
     lastName?: string;
     classStandings?: classStandingTypes[];
     departmentId?: number[];
+    courseIds?: number[];
     email?: string;
     sid?: string;
 }
@@ -34,6 +35,7 @@ const formInitialValues: IStudentSearchForm = {
     lastName: '',
     classStandings: [],
     departmentId: [],
+    courseIds: [],
     email: '',
     sid: '',
 };
@@ -76,7 +78,8 @@ function StudentSearchForm() {
                 formState.classStandings,
                 formState.departmentId,
                 formState.email,
-                formState.sid
+                formState.sid,
+                formState.courseIds
             ),
         [formState, page]
     );
@@ -150,6 +153,7 @@ function StudentSearchForm() {
                                 <Field
                                     component={AcademicInfo}
                                     multipleDepartments
+                                    showCourses
                                 />
                                 <Grid item xs={12}>
                                     <SubmitButton

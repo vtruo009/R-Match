@@ -16,9 +16,13 @@ export interface IWorkExperienceUpdateFormValues
 
 interface JobUpdateFormProps {
     workExperienceInitialValues: IWorkExperienceUpdateFormValues;
+    onSuccess: (updatedWorkExperience: IWorkExperienceUpdateFormValues) => void;
 }
 
-function JobUpdateForm({ workExperienceInitialValues }: JobUpdateFormProps) {
+function JobUpdateForm({
+    workExperienceInitialValues,
+    onSuccess,
+}: JobUpdateFormProps) {
     const [
         workExperienceToUpdate,
         setWorkExperienceToUpdate,
@@ -34,13 +38,15 @@ function JobUpdateForm({ workExperienceInitialValues }: JobUpdateFormProps) {
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
             closeDialog();
+            onSuccess(workExperienceToUpdate);
             snack('Work experience successfully updated', 'success');
         },
     });
 
-    // React.useEffect(() => setWorkExperienceToUpdate(workExperienceInitialValues), [
-    //     jobInitialValues,
-    // ]);
+    React.useEffect(
+        () => setWorkExperienceToUpdate(workExperienceInitialValues),
+        [workExperienceInitialValues]
+    );
 
     return (
         <>

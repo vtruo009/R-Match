@@ -12,10 +12,11 @@ interface Props {
 
 function StudentPreview({ studentPreview, onClick, isSelected }: Props) {
     const prepareValues = () => {
-        const { classStanding, department } = studentPreview;
+        const { classStanding, department, date } = studentPreview;
         return {
             Major: department?.name ? department?.name : 'Not provided',
             'Class Standing': classStanding ? classStanding : 'Not provided',
+            'Applied Date' : date ? date.toLocaleDateString() : undefined
         };
     };
 

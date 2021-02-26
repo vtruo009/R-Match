@@ -13,7 +13,11 @@ import {
     closeJob,
     openJob,
     applyToJob,
+    withdrawFromJob,
     getApplicants,
+    getNewJobs,
+    getRecommendedJobs,
+    getNumberApplicants,
 } from '@modules/job';
 import { JWTUser } from '@entities/user';
 import logger from '@shared/Logger';
@@ -24,6 +28,7 @@ import {
     jobReadSchema,
     jobIdSchema,
     getApplicantsSchema,
+    getNewJobsSchema,
 } from './schemas';
 
 const router = Router();
@@ -140,16 +145,16 @@ router.get(
 
         try {
             if (!minSalary) {
-                minSalary = '10000';
+                minSalary = '0';
             }
             if (!hoursPerWeek) {
-                hoursPerWeek = '10000';
+                hoursPerWeek = '0';
             }
             if (!startDate) {
-                startDate = '01/01/3000';
+                startDate = '01/01/1900';
             }
 
-           const getJobsResult = await getJobs(
+            const getJobsResult = await getJobs(
                 specificUserId,
                 title,
                 types,
@@ -164,7 +169,9 @@ router.get(
                 const [jobs, jobsCount] = getJobsResult;
                 return res.status(OK).json({ jobs, jobsCount }).end();
             }
-            return res.status(BAD_REQUEST).json({ error: 'Student does not exist' });
+            return res
+                .status(BAD_REQUEST)
+                .json({ error: 'Student does not exist' });
         } catch (error) {
             logger.err(error);
             return res
@@ -237,9 +244,8 @@ router.delete(
 );
 
 router.post(
-    '/close',
+    '/close/:jobId',
     passport.authenticate('jwt', { session: false }),
-    validationMiddleware({ bodySchema: jobIdSchema }),
     async (req: jobIdRequest, res: Response) => {
         const { role, specificUserId } = req.user as JWTUser;
         if (role !== 'facultyMember') {
@@ -248,9 +254,9 @@ router.post(
                 .json({ error: 'User is not a faculty member' })
                 .end();
         }
-        const { jobId } = req.body;
+        const { jobId } = req.params;
         try {
-            await closeJob(jobId, specificUserId);
+            await closeJob(parseInt(jobId, 10), specificUserId);
             return res.status(OK).end();
         } catch (error) {
             logger.err(error);
@@ -263,9 +269,8 @@ router.post(
 );
 
 router.post(
-    '/open',
+    '/open/:jobId',
     passport.authenticate('jwt', { session: false }),
-    validationMiddleware({ bodySchema: jobIdSchema }),
     async (req: jobIdRequest, res: Response) => {
         const { role, specificUserId } = req.user as JWTUser;
         if (role !== 'facultyMember') {
@@ -274,9 +279,9 @@ router.post(
                 .json({ error: 'User is not a faculty member' })
                 .end();
         }
-        const { jobId } = req.body;
+        const { jobId } = req.params;
         try {
-            await openJob(jobId, specificUserId);
+            await openJob(parseInt(jobId, 10), specificUserId);
             return res.status(OK).end();
         } catch (error) {
             logger.err(error);
@@ -293,9 +298,8 @@ router.post(
  ******************************************************************************/
 
 router.post(
-    '/apply-to-job',
+    '/apply-to-job/:jobId',
     passport.authenticate('jwt', { session: false }),
-    validationMiddleware({ bodySchema: jobIdSchema }),
     async (req: jobIdRequest, res: Response) => {
         //checks that caller is a student.
         const { role, specificUserId } = req.user as JWTUser;
@@ -304,12 +308,50 @@ router.post(
                 .status(UNAUTHORIZED)
                 .json({ error: 'User is not a student' });
         }
-        const { jobId } = req.body;
+        const { jobId } = req.params;
         try {
-            const { result, message } = await applyToJob(specificUserId, jobId);
+            const { result, message } = await applyToJob(
+                specificUserId,
+                parseInt(jobId, 10)
+            );
             return result
                 ? res.status(OK).end()
-                : res.status(BAD_REQUEST).json({ message });
+                : res.status(BAD_REQUEST).json({ error: message });
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
+ *      DELETE Request - Withdraw from Job - /api/job/withdraw-from-job/:id
+ ******************************************************************************/
+
+router.delete(
+    '/withdraw-from-job/:id',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        //checks that caller is a student.
+        const { role, specificUserId } = req.user as JWTUser;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' });
+        }
+        const { id } = req.params;
+        try {
+            const { result, message } = await withdrawFromJob(
+                specificUserId,
+                parseInt(id, 10)
+            );
+
+            return result
+                ? res.status(OK).end()
+                : res.status(BAD_REQUEST).json({ error: message }).end();
         } catch (error) {
             logger.err(error);
             return res
@@ -330,6 +372,7 @@ interface GetApplicantsRequest extends Request {
         departmentIds: string[];
         classStandings: classStandings[];
         minimumGpa?: string;
+        courseIds: string[];
         page: string;
         numOfItems: string;
     };
@@ -347,15 +390,15 @@ router.get(
                 .json({ error: 'User is not a faculty member' });
         }
 
-        const { jobId, departmentIds, page, numOfItems } = req.query;
+        const { jobId, departmentIds, courseIds, page, numOfItems } = req.query;
         let { classStandings, minimumGpa } = req.query;
 
-        // Pass -1 when the input is empty or null because it causes a sql parse error
-        // when we pass in an empty array.
-        const departmentIdInts =
-            departmentIds && departmentIds.length > 0
-                ? departmentIds.map((id) => parseInt(id, 10))
-                : [-1];
+        const departmentIdInts = departmentIds
+            ? departmentIds.map((id) => parseInt(id, 10))
+            : [];
+        const courseIdInts = courseIds
+            ? courseIds.map((id) => parseInt(id, 10))
+            : [];
 
         if (!classStandings || classStandings.length === 0)
             classStandings = classStandingValues;
@@ -369,6 +412,7 @@ router.get(
                 departmentIdInts,
                 classStandings,
                 parseFloat(minimumGpa),
+                courseIdInts,
                 parseInt(page, 10),
                 parseInt(numOfItems, 10)
             );
@@ -390,6 +434,113 @@ router.get(
         }
     }
 );
+
+/******************************************************************************
+ *   GET Request - Get Number of Applicants - "GET /api/faculty-member/get-number-of-applicants"
+ ******************************************************************************/
+router.get(
+    '/get-number-of-applicants/:jobId',
+    passport.authenticate('jwt', { session: false }),
+    async (req: GetApplicantsRequest, res: Response) => {
+        const { role } = req.user as JWTUser;
+        if (role !== 'facultyMember') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a faculty member' });
+        }
+        const { jobId } = req.params;
+        try {
+            const numberOfApplicants = await getNumberApplicants(
+                parseInt(jobId, 10)
+            );
+            return res
+                .status(OK)
+                .json({
+                    numberOfApplicants,
+                })
+                .end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
+ *            GET Request - Get New Job - /api/job/get-new-jobs
+ ******************************************************************************/
+
+interface GetNewJobsRequest extends Request {
+    query: {
+        page: string;
+        numOfItems: string;
+    };
+}
+
+router.get(
+    '/get-new-jobs',
+    passport.authenticate('jwt', { session: false }),
+    validationMiddleware({ querySchema: getNewJobsSchema }),
+    async (req: GetNewJobsRequest, res: Response) => {
+        //checks that caller is a student.
+        const { role, specificUserId } = req.user as JWTUser;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' });
+        }
+
+        const { page, numOfItems } = req.query;
+
+        try {
+            const [jobs, jobsCount] = await getNewJobs(
+                specificUserId,
+                parseInt(page),
+                parseInt(numOfItems)
+            );
+            return res.status(OK).json({ jobs, jobsCount }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
+ *       GET Request - Get Recommended Jobs - /api/job/get-recommended-jobs
+ ******************************************************************************/
+
+router.get(
+    '/get-recommended-jobs',
+    passport.authenticate('jwt', { session: false }),
+    async (req: Request, res: Response) => {
+        //checks that caller is a student.
+        const { role, specificUserId } = req.user as JWTUser;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' });
+        }
+
+        try {
+            const recommendedJobs = await getRecommendedJobs(specificUserId);
+            return res.status(OK).json({ jobs: recommendedJobs }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
 /******************************************************************************
  *                                     Export
  ******************************************************************************/

@@ -1,10 +1,11 @@
 import { Job } from '@entities/job';
 import { FacultyMember } from '@entities/facultyMember';
 import { findDepartment } from '@modules/department';
-import { getJobApplications } from '@modules/student';
-import { getRepository, UpdateResult } from 'typeorm';
+import { getRepository, UpdateResult, DeleteResult } from 'typeorm';
 import { JobApplication } from '@entities/jobApplication';
 import { Student } from '@entities/student';
+import { Course } from '@entities/course';
+import { getDateString } from '@lib/dateUtils';
 
 /**
  * @description Finds a job by id
@@ -124,28 +125,61 @@ export const getJobs = async (
     numOfItems: number
 ) => {
     let modType = 'none';
-    let modStart;
+    const modStart = getDateString(new Date(startDate));
+    const todayString = getDateString(new Date());
     if (types) {
         modType = types.join(',');
     }
-    if (startDate) {
-        modStart = new Date(startDate);
-        let month = modStart.getMonth() + 1;
-        let date = modStart.getDate();
-        let year = modStart.getFullYear();
-        modStart = month + '/' + date + '/' + year;
-    }
 
     const jobApplications = await JobApplication.find({ where: { studentId } });
-
-    // jobApplications is undefined when the studentId does not exist.
-    if (!jobApplications) return undefined;
-
     const appliedJobIds = jobApplications.map(
         (jobApplication) => jobApplication.jobId
     );
 
-    return getRepository(Job)
+    const matchingJobs = await getRepository(Job)
+        .createQueryBuilder('job')
+        .select([
+            'job',
+            'job.facultyMember',
+            'facultyMember.id',
+            'facultyMember.title',
+            'user.firstName',
+            'user.lastName',
+        ])
+        .leftJoin('job.facultyMember', 'facultyMember')
+        .leftJoin('facultyMember.user', 'user')
+        .leftJoinAndSelect('job.department', 'department')
+        .where('LOWER(job.title) LIKE :title', {
+            title: `%${title.toLowerCase()}%`,
+        })
+        .andWhere('(job.type IN (:...types) OR job.type LIKE :type)', {
+            types,
+            type: `%${modType}%`,
+        })
+        .andWhere('job.startDate >= :startDate', { startDate: modStart })
+        .andWhere('job.minSalary >= :minSalary', { minSalary })
+        .andWhere('job.hoursPerWeek >= :hoursPerWeek', { hoursPerWeek })
+        .andWhere('job.status = :jobStatus', {
+            jobStatus: 'Hiring',
+        })
+        .andWhere('job.id NOT IN (:...appliedJobIds)', {
+            // It causes a SQL parse error when an empty array is passed in.
+            appliedJobIds: appliedJobIds.length > 0 ? appliedJobIds : [-1],
+        })
+        .andWhere('job.expirationDate >= :today', { today: todayString })
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount();
+
+    const jobsCount = matchingJobs[1];
+
+    if (jobsCount > 0) {
+        return matchingJobs;
+    }
+
+    // If no jobs found, we  use "OR" queries to suggest jobs
+    // that partially match with the query.
+    return await getRepository(Job)
         .createQueryBuilder('job')
         .select([
             'job',
@@ -159,7 +193,7 @@ export const getJobs = async (
         .leftJoin('facultyMember.user', 'user')
         .leftJoinAndSelect('job.department', 'department')
         .where(
-            `(LOWER(job.title) LIKE :title 
+            `(LOWER(job.title) LIKE :title
                     OR job.type IN (:...types)
                     OR job.type LIKE :type
                     OR job.startDate >= :startDate
@@ -181,6 +215,7 @@ export const getJobs = async (
             // It causes a SQL parse error when an empty array is passed in.
             appliedJobIds: appliedJobIds.length > 0 ? appliedJobIds : [-1],
         })
+        .andWhere('job.expirationDate >= :today', { today: todayString })
         .skip((page - 1) * numOfItems)
         .take(numOfItems)
         .getManyAndCount();
@@ -373,6 +408,12 @@ export const applyToJob = async (studentId: number, jobId: number) => {
         return applicationResult;
     }
 
+    // Check if job is expired.
+    if (job.expirationDate && job.expirationDate < new Date()) {
+        applicationResult.message = 'Job is already expired';
+        return applicationResult;
+    }
+
     // Check if student already applied for the job.
     const application = await JobApplication.findOne({
         where: { jobId, studentId },
@@ -396,12 +437,64 @@ export const applyToJob = async (studentId: number, jobId: number) => {
 };
 
 /**
+ * @description Deletes a student's job application from the database.
+ * @param {number} studentId - Id of student that withdraws the application
+ * @param {number} jobId - Id of job that student withdraws from.
+ * @returns Promise
+ */
+export const withdrawFromJob = async (studentId: number, jobId: number) => {
+    const withdrawResult: {
+        result?: DeleteResult;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
+
+    // Check if student exists.
+    const student = await Student.findOne(studentId);
+    if (!student) {
+        withdrawResult.message = 'Student does not exist';
+        return withdrawResult;
+    }
+
+    // Check if job exists.
+    const job = await Job.findOne(jobId);
+    if (!job) {
+        withdrawResult.message = 'Requested job does not exist';
+        return withdrawResult;
+    }
+
+    // Check if job is expired.
+    if (job.expirationDate && job.expirationDate < new Date()) {
+        withdrawResult.message = 'Job is already expired';
+        return withdrawResult;
+    }
+
+    // Check if student already applied for the job.
+    const application = await JobApplication.findOne({
+        where: { jobId, studentId },
+    });
+
+    if (!application) {
+        withdrawResult.message = 'You have not applied for the position';
+        return withdrawResult;
+    }
+
+    // Delete job application.
+    withdrawResult.result = await JobApplication.delete(application);
+    withdrawResult.message = 'Job application successfully deleted';
+    return withdrawResult;
+};
+
+/**
  * @description Get a list of students who applied to a job.
  * @param {number} facultyMemberId - Id of faculty member
  * @param {number} jobId - Id of the job
- * @param {number[]} departmentIds - List of department ids. [-1] if not specified.
+ * @param {number[]} departmentIds - List of department ids.
  * @param {ClassStanding[]} classStandings - List of preferred class standings.
  * @param {number} minimumGpa - minimum GPA.
+ * @param {number[]} courseIds - List of class ids.
  * @returns Promise
  */
 export const getApplicants = async (
@@ -410,6 +503,7 @@ export const getApplicants = async (
     departmentIds: Student['departmentId'][],
     classStandings: Student['classStanding'][],
     minimumGpa: number,
+    courseIds: Course['id'][],
     page: number,
     numOfItems: number
 ) => {
@@ -443,6 +537,12 @@ export const getApplicants = async (
         return getApplicantsResult;
     }
 
+    // Check if job is expired.
+    if (job.expirationDate && job.expirationDate < new Date()) {
+        getApplicantsResult.message = 'Job is already expired';
+        return getApplicantsResult;
+    }
+
     // Returns all students applied to the position.
     const applicants = await getRepository(JobApplication)
         .createQueryBuilder('jobApplication')
@@ -452,13 +552,13 @@ export const getApplicants = async (
         .addSelect(['user.firstName', 'user.lastName'])
         .leftJoinAndSelect('student.department', 'department')
         .leftJoinAndSelect('department.college', 'college')
-        .leftJoinAndSelect('student.courses', 'courses')
+        .leftJoinAndSelect('student.courses', 'course')
         .where({ jobId })
         .andWhere(
             '(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))',
             {
-                departmentIdsPopulated: departmentIds[0] !== -1,
-                departmentIds,
+                departmentIdsPopulated: departmentIds.length > 0,
+                departmentIds: departmentIds.length > 0 ? departmentIds : [-1],
             }
         )
         .andWhere(
@@ -471,6 +571,22 @@ export const getApplicants = async (
             gpaIsPopulated: minimumGpa > 0,
             minimumGpa,
         })
+        // Selects student who has taken at least one specified course.
+        .andWhere(
+            (qb) => {
+                var subQuery = '';
+                for (var i = 0; i < courseIds.length; ++i) {
+                    if (i == 0) subQuery += ` OR (course.id = ${courseIds[i]}`;
+                    else subQuery += ` OR course.id = ${courseIds[i]}`;
+                    if (i == courseIds.length - 1) subQuery += ')';
+                }
+                return `(NOT :courseIdsPopulated${subQuery})`;
+            },
+            {
+                courseIdsPopulated: courseIds.length > 0,
+                courseIds: courseIds.length > 0 ? courseIds : [-1],
+            }
+        )
         .skip((page - 1) * numOfItems)
         .take(numOfItems)
         .getManyAndCount();
@@ -480,4 +596,114 @@ export const getApplicants = async (
     getApplicantsResult.count = applicants[1];
 
     return getApplicantsResult;
+};
+
+/**
+ * @description Returns total count of job applications of a given job
+ * @param {number} jobId - id of job
+ * @returns Promise
+ */
+export const getNumberApplicants = (jobId: Job['id']) => {
+    return JobApplication.count({ where: { jobId } });
+};
+
+/**
+ * @description Returns at most 20 newest jobs that match with student's department
+ *              and class standing.
+ * @param {number} studentId - id of student
+ * @returns Promise
+ */
+export const getRecommendedJobs = async (studentId: number) => {
+    const student = await Student.findOneOrFail({ where: { id: studentId } });
+
+    const jobApplications = await JobApplication.find({ where: { studentId } });
+    const appliedJobIds = jobApplications.map(
+        (jobApplication) => jobApplication.jobId
+    );
+
+    const todayString = getDateString(new Date());
+
+    return getRepository(Job)
+        .createQueryBuilder('job')
+        .select([
+            'job',
+            'job.facultyMember',
+            'facultyMember.id',
+            'facultyMember.title',
+            'user.firstName',
+            'user.lastName',
+        ])
+        .leftJoin('job.facultyMember', 'facultyMember')
+        .leftJoin('facultyMember.user', 'user')
+        .leftJoinAndSelect('job.department', 'department')
+        .where('job.status = :jobStatus', {
+            jobStatus: 'Hiring',
+        })
+        .andWhere('job.id NOT IN (:...appliedJobIds)', {
+            // It causes a SQL parse error when an empty array is passed in.
+            appliedJobIds: appliedJobIds.length > 0 ? appliedJobIds : [-1],
+        })
+        .andWhere('(:departmentId < 0 OR job.departmentId = :departmentId)', {
+            departmentId: student.departmentId ?? -1,
+        })
+        .andWhere(
+            `(:classStanding = :null OR
+                    :classStanding = ANY(string_to_array(job.targetYears, :comma)))`,
+            {
+                classStanding: student.classStanding ?? 'NULL',
+                null: 'NULL',
+                comma: ',',
+            }
+        )
+        .andWhere('job.expirationDate >= :today', { today: todayString })
+        .take(20)
+        .orderBy('job.postedOn', 'DESC')
+        .getMany();
+};
+
+/**
+ * @description Returns new jobs, excluding closed jobs and the jobs that are already applied
+ *              by the student.
+ * @param {number} studentId - id of student
+ * @param {number} page - page index
+ * @param {number} numOfItems - number of items per page
+ * @returns Promise
+ */
+export const getNewJobs = async (
+    studentId: number,
+    page: number,
+    numOfItems: number
+) => {
+    const jobApplications = await JobApplication.find({ where: { studentId } });
+    const appliedJobIds = jobApplications.map(
+        (jobApplication) => jobApplication.jobId
+    );
+
+    const todayString = getDateString(new Date());
+
+    return getRepository(Job)
+        .createQueryBuilder('job')
+        .select([
+            'job',
+            'job.facultyMember',
+            'facultyMember.id',
+            'facultyMember.title',
+            'user.firstName',
+            'user.lastName',
+        ])
+        .leftJoin('job.facultyMember', 'facultyMember')
+        .leftJoin('facultyMember.user', 'user')
+        .leftJoinAndSelect('job.department', 'department')
+        .where('job.status = :jobStatus', {
+            jobStatus: 'Hiring',
+        })
+        .andWhere('job.id NOT IN (:...appliedJobIds)', {
+            // It causes a SQL parse error when an empty array is passed in.
+            appliedJobIds: appliedJobIds.length > 0 ? appliedJobIds : [-1],
+        })
+        .andWhere('job.expirationDate >= :today', { today: todayString })
+        .orderBy('job.postedOn', 'DESC')
+        .skip((page - 1) * numOfItems)
+        .take(numOfItems)
+        .getManyAndCount();
 };

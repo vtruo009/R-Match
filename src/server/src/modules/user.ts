@@ -1,8 +1,11 @@
 import bcrypt from 'bcrypt';
 import { User } from '@entities/user';
+import { VerificationKey } from '@entities/verificationKey';
 import { createStudent } from '@modules/student';
 import { createFacultyMember } from '@modules/facultyMember';
-import { getRepository } from 'typeorm';
+import { getRepository, UpdateResult } from 'typeorm';
+import { sendEmail } from '@lib/mail';
+import { makeRandomString } from '@lib/randomKey';
 
 /**
  * @description Return a boolean value checking if the user with the given id exists.
@@ -35,7 +38,7 @@ export const findUserByEmail = (email: string) => {
  * @param {role} role - user's role, either 'student' or 'facultyMember'
  * @returns Promise
  */
-export const createUser = (
+export const createUser = async (
     email: User['email'],
     password: User['password'],
     firstName: User['firstName'],
@@ -48,8 +51,34 @@ export const createUser = (
         firstName,
         lastName,
         role,
+        emailVerified: false
     });
-    return userToInsert.save();
+
+    await userToInsert.save();
+
+    let verificationKeyString: string;
+
+    do {
+        verificationKeyString = makeRandomString(/*length=*/20);
+    } while (await VerificationKey.findOne({ key: verificationKeyString }));
+
+    const verificationKey = VerificationKey.create({
+        user: userToInsert,
+        key: verificationKeyString
+    });
+
+    await verificationKey.save();
+
+    const link = process.env.NODE_ENV === "production" ? "obscure-ocean-12960.herokuapp.com" : "localhost:3000"
+    
+    // Send email with the verification link.
+    sendEmail(
+        email,
+        `Verify your email address`,
+        `Welcome to R'match!\n\nYour account has been created. Please follow the link below to verify your email and complete your registration.\n\nhttp://${link}/verify/${verificationKeyString}`,
+    )
+
+    return userToInsert;
 };
 
 /**
@@ -145,5 +174,38 @@ export const getUserById = async (userId: number) => {
     getUserByIdResult.result = user;
 
     return getUserByIdResult;
+};
+
+/**
+ * @description Verify a user's email.
+ * @param {string} verificationKeyString - verification key
+ * @returns Promise
+ */
+export const verifyEmail = async (
+    verificationKeyString: VerificationKey['key']
+) => {
+    const emailVerificationResult: {
+        result?: UpdateResult;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
+
+    const verificationKey = await VerificationKey.findOne({ key: verificationKeyString })
+
+    if (!verificationKey) {
+        emailVerificationResult.message = 'Email verification unsuccessful.';
+        return emailVerificationResult;
+    }
+
+    emailVerificationResult.result = await
+        User.update(verificationKey.userId, {
+            emailVerified: true
+        });
+
+    await VerificationKey.delete({ key: verificationKeyString });
+
+    return emailVerificationResult;
 };
 

@@ -1,7 +1,10 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import { validationMiddleware } from '@middlewares/validation';
-import { sendMessageSchema } from './schemas';
+import {
+    sendMessageSchema,
+    getMessagesSchema,
+} from './schemas';
 import passport from 'passport';
 import logger from '@shared/Logger';
 import { errors } from '@shared/errors';
@@ -10,7 +13,7 @@ import {
     getMessages,
     sendMessage,
     getConversationList,
-    getUserByEmail
+    getUserByEmail,
 } from '@modules/message';
 
 const router = Router();
@@ -55,19 +58,33 @@ router.post('/sendMessage',
 );
 
 /******************************************************************************
- *       GET Request - Get Messages - /api/message/getMessages/:messengerId
+ *       GET Request - Get Messages - /api/message/getMessages
  ******************************************************************************/
 
-router.get('/getMessages/:messengerId',
+interface GetMessagesRequest extends Request {
+    query: {
+        messangerId: string;
+        page: string;
+    };
+}
+
+router.get('/getMessages',
     passport.authenticate('jwt', { session: false }),
-    async (req: Request, res: Response) => {
+    validationMiddleware({ querySchema: getMessagesSchema }),
+    async (req: GetMessagesRequest, res: Response) => {
         const { userId } = req.user as JWTUser;
-        const { messengerId } = req.params;
         try {
-            const { result, errorMessage } = await getMessages(userId, parseInt(messengerId, 10));
-            return result
-                ? res.status(OK).json({ messages: result }).end()
-                : res.status(BAD_REQUEST).json({ error: errorMessage }).end();
+            const { messangerId, page } = req.query;
+            const { result, errorMessage } = await getMessages(
+                userId,
+                parseInt(messangerId, 10),
+                parseInt(page, 10)
+            );
+
+            if (!result) return res.status(BAD_REQUEST).json({ error: errorMessage }).end();
+
+            const [ messages, messagesCount ] = result;
+            return res.status(OK).json({ messages, messagesCount }).end();
         } catch (error) {
             logger.err(error);
             return res

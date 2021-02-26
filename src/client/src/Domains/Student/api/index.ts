@@ -6,6 +6,7 @@ import {
 } from 'Components/AcademicInfo/api';
 import { IStudentProfileForm } from 'Domains/Student/StudentProfileForm';
 import { IWorkExperienceCreateFormValues } from 'Domains/Student/WorkExperienceCreateForm';
+import { IWorkExperienceUpdateFormValues } from 'Domains/Student/WorkExperienceUpdateForm';
 import { IUser } from 'Domains/Accounts/api';
 
 export const classStandingValues = [
@@ -49,6 +50,7 @@ export interface IStudentPreview {
     };
     department?: _IDepartment;
     classStanding?: classStandingTypes;
+    date?: Date;
 }
 
 export interface IWorkExperience {
@@ -98,7 +100,8 @@ export async function getStudents(
     classStandings?: classStandingTypes[],
     departmentIds?: number[],
     email?: string,
-    sid?: string
+    sid?: string,
+    courseIds?: number[]
 ) {
     const params = {
         page,
@@ -109,6 +112,7 @@ export async function getStudents(
         departmentIds,
         email,
         sid,
+        courseIds,
     };
 
     return API.get<{
@@ -117,26 +121,28 @@ export async function getStudents(
     }>('/student/search', { params });
 }
 
-export async function getWorkExperiences() {
+export async function getWorkExperiences(studentId: number) {
     return API.get<{ workExperiences: IWorkExperience[] }>(
-        '/student/get-work-experiences'
+        `/work-experience/read/${studentId}`
     );
 }
 
 export async function createWorkExperience(
     workExperience: IWorkExperienceCreateFormValues
 ) {
-    console.log(workExperience);
-    return API.post('/student/create-work-experience');
+    return API.post(`/work-experience/create`, {
+        workExperience,
+    });
 }
 
 export async function updateWorkExperience(
-    workExperience: IWorkExperienceCreateFormValues
+    workExperience: IWorkExperienceUpdateFormValues
 ) {
-    console.log(workExperience);
-    return API.post('/student/update-work-experience');
+    return API.post('/work-experience/update', {
+        workExperience,
+    });
 }
 
 export async function deleteWorkExperience(workExperienceId: number) {
-    return API.delete(`/student/delete-work-experience/${workExperienceId}`);
+    return API.delete(`/work-experience/delete/${workExperienceId}`);
 }

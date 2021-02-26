@@ -5,7 +5,9 @@ import Typography from '@material-ui/core/Typography';
 import { formatDateString, formatSalary } from 'utils/format';
 import Card from 'Components/Card';
 import { IJob } from 'Domains/Jobs/api';
-import JobActions from 'Domains/Jobs/JobActions';
+import JobFacultyActions from 'Domains/Jobs/JobFacultyActions';
+import JobStudentActions from 'Domains/Jobs/JobStudentActions';
+
 interface JobSummaryProps {
     job: IJob;
     hasPermission: boolean;
@@ -24,18 +26,17 @@ function JobSummary({ job, hasPermission }: JobSummaryProps) {
         <div>
             <Card>
                 <Grid container spacing={3} style={{ padding: 20 }}>
-                    <Grid container item justify='space-between'>
-                        <Grid item xs={6}>
-                            <Typography variant='h5' color='primary'>
-                                {job.title}
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <JobActions
-                                hasPermission={hasPermission}
-                                job={job}
-                            />
-                        </Grid>
+                    <Grid item xs={12}>
+                        <Typography variant='h5' color='primary'>
+                            {job.title}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        {hasPermission ? (
+                            <JobFacultyActions job={job} />
+                        ) : (
+                            <JobStudentActions jobId={job.id} />
+                        )}
                     </Grid>
                     <Grid container item spacing={3}>
                         <Grid

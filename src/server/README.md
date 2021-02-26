@@ -209,6 +209,9 @@ Job API
                departmentIds: string[];
                classStandings: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior'[];
                minimumGpa: string;
+               courseIds: string[];
+               page: string;
+               numOfItems: string;
             };
             ```
         -   Response:
@@ -231,9 +234,129 @@ Job API
                             id: number,
                             name: string,
                         },
-                    }
+                    },
+                    courses :{
+                        id: number,
+                        shortTitle: string,
+                        fullTitle: string,
+                        departmentId: number
+					}[]
                 }[]
                 ```
+            -   errors:
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
+
+    -   api/job/get-new-jobs
+
+        -   Returns open job records that have not been applied by the student from the newest to the oldest from database.
+        -   Body: None
+        -   Parameters:
+            ```
+            {
+                page: string;
+                numOfItems: string;
+            };
+            ```
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a student.
+        -   Response:
+            -   success:
+                Status code: 200
+                ```
+                {
+                    jobs: {
+                        id: number,
+                        targetYears: string[],
+                        hoursPerWeek: number,
+                        description: string,
+                        startDate: Date,
+                        endDate?: Date,
+                        expirationDate: Date,
+                        postedOn: Date,
+                        type: string[],
+                        title: string,
+                        status: 'Hiring',
+                        minSalary: number,
+                        maxSalary?: number,
+                        departmentId: number,
+                        facultyMember: {
+                            id: number,
+                            title: string,
+                            user: {
+                                firstName: string,
+                                lastName: string
+                            }
+                        }
+                    } [],
+                    jobsCount: number
+                }
+                ```
+            -   error:
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
+
+    -   api/job/get-recommended-jobs
+
+        -   Returns 20 newest open job records that have not been applied by the student and that match with the student's profile from database.
+        -   Body: None
+        -   Parameters: None
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a student.
+        -   Response:
+            -   success:
+                Status code: 200
+                ```
+                {
+                    recommendedJobs: {
+                        id: number,
+                        targetYears: string[],
+                        hoursPerWeek: number,
+                        description: string,
+                        startDate: Date,
+                        endDate?: Date,
+                        expirationDate: Date,
+                        postedOn: Date,
+                        type: string[],
+                        title: string,
+                        status: 'Hiring',
+                        minSalary: number,
+                        maxSalary?: number,
+                        departmentId: number,
+                        facultyMember: {
+                            id: number,
+                            title: string,
+                            user: {
+                                firstName: string,
+                                lastName: string
+                            }
+                        }
+                    } []
+                }
+                ```
+            -   error:
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
+
+    -   /api/job/withdraw-from-job/:id
+
+        -   Deletes a student's job application information from the database.
+        -   Body: None
+        -   Authorization restrictions:
+            -   User must be logged in
+            -   User must be a student
+        -   Parameters: id of job.
+        -   Response:
+            -   success:
+                Status code: 200
             -   errors:
                 -   Invalid request -> Status code: 400
                 -   Unauthorized user -> Status code: 401
@@ -396,6 +519,29 @@ User API
                     ```
             -   error:
                 -   Unauthorized: -> Status code: 401
+
+    -   api/user/verify
+
+        -   HTTP Method: POST
+        -   Make a user's account accessible given a correct verification key.
+        -   Body:
+            ```
+            {
+                verificationKey: string
+            }
+            ```
+        -   Parameters: None
+        -   Response:
+
+            -   success:
+
+                -   OK -> Status code: 200
+
+            -   error:
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
 
 Faculty Member API
 
@@ -732,6 +878,7 @@ Student API
                 sid?: string;
                 departmentIds?: string[];
                 classStandings?: 'Freshman' | 'Sophomore' | 'Junior' | 'Senior'[];
+                courseIds: string[];
                 page: string;
                 numOfItems: string;
             };
@@ -920,15 +1067,20 @@ Messaging API
             -   errors:
                 -   Internal server error -> Status code: 500
 
-    -   api/message/getMessages/:messengerId
+    -   api/message/getMessages
 
-        -   Gets all messages between the logged-in user and the user with the parameter id, sorted from the oldest to the newest.
+        -   Gets top [20 * page] newest messages between the logged-in user and the user with messengerId, sorted from the oldest to the newest.
         -   Authorization restrictions:
             -   User must be logged in
         -   Body: None
-        -   Parameters: id of the messenger.
+        -   Parameters:
+            ```
+            {
+                messangerId: string;
+                page: string;
+            };
+            ```
         -   Response:
-
             -   success:
                 Status code: 200
 
@@ -955,7 +1107,8 @@ Messaging API
                                 lastName: string,
                                 middleName?: string
                             }
-                        }[]
+                        }[],
+                        messagesCount: number
                     }
 
             -   errors:
