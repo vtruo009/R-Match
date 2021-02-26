@@ -250,9 +250,8 @@ export const searchStudents = async (
 
     const perfectMatchStudentIds = perfectMatchStudents.map((student) => student.id);
     // Filter out perfect match students from the partial match student list to remove duplicate.
-    const filteredPartialMatchStudents = partialMatchStudents.filter(function (student) {
-        return perfectMatchStudentIds.indexOf(student.id) == -1
-    })
+    const filteredPartialMatchStudents = partialMatchStudents.filter(
+        (student) => perfectMatchStudentIds.indexOf(student.id) === -1)
 
     const result = perfectMatchStudents
         .concat(filteredPartialMatchStudents);
