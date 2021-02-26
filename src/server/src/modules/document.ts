@@ -1,3 +1,4 @@
+import { UpdateResult } from 'typeorm';
 import { Document } from '@entities/document';
 import { Student } from '@entities/student';
 
@@ -32,10 +33,24 @@ export const createDocument = async (
         return insertResult;
     }
 
+    if (isDefault) {
+        // Make current default document for the respective type as non-default
+        await Document.update(
+            { studentId, isDefault: true, type },
+            { isDefault: false }
+        );
+    }
+
+    // Find number of documents of the type provided
+    const countOfStudentDocuments = await Document.count({
+        where: { studentId, type },
+    });
+
     const documentToInsert = await Document.create({
         name,
         type,
-        isDefault,
+        // if students has no documents of the provided type then make this new document the default one
+        isDefault: countOfStudentDocuments === 0 ? true : isDefault,
         dateAdded: new Date(),
         data: Buffer.from(data, 'base64'),
         studentId,
@@ -46,6 +61,46 @@ export const createDocument = async (
     return insertResult;
 };
 
+export const getDefaultDocuments = (studentId: Document['studentId']) => {
+    return Document.find({ where: { studentId, isDefault: true } });
+};
+
+export const markDocumentAsDefault = async (
+    documentId: Document['id'],
+    type: Document['type'],
+    studentId: Document['studentId']
+) => {
+    const updateResult: { result?: UpdateResult; message: string } = {
+        result: undefined,
+        message: '',
+    };
+
+    const student = await Student.findOne(studentId);
+    if (!student) {
+        updateResult.message = 'Student does not exist';
+        return updateResult;
+    }
+
+    // Set previous default document as non-default
+    await Document.update(
+        { studentId, type, isDefault: true },
+        { isDefault: false }
+    );
+
+    // set specified document as the default one
+    const result = await Document.update(documentId, { isDefault: true });
+    const { affected } = result;
+
+    // if affected is 0 then document does not exist or it could not be updated
+    if (affected && affected === 0) {
+        updateResult.message = 'Document could not be marked as default';
+        return updateResult;
+    }
+
+    updateResult.result = result;
+    updateResult.message = 'Document successfully marked as default';
+    return updateResult;
+};
 /**
  * @description Gets all the documents of a particular student
  * @param {number} studentId - Id of the student
@@ -54,10 +109,17 @@ export const createDocument = async (
 export const getDocuments = async (studentId: Student['id']) => {
     const student = await Student.findOne(studentId);
     if (!student) return undefined;
-    return Document.find({
+    const documents = await Document.find({
         where: { studentId: studentId },
         select: ['dateAdded', 'isDefault', 'id', 'name', 'type'],
     });
+
+    const resumes = documents.filter((document) => document.type === 'resume');
+    const transcripts = documents.filter(
+        (document) => document.type === 'transcript'
+    );
+
+    return { resumes, transcripts };
 };
 
 /**
