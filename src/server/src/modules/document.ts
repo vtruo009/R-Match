@@ -81,6 +81,15 @@ export const markDocumentAsDefault = async (
         return updateResult;
     }
 
+    const documentToUpdate = await Document.findOne(documentId, {
+        select: ['studentId'],
+    });
+
+    if (documentToUpdate?.studentId !== studentId) {
+        updateResult.message = 'Student is not owner of the document';
+        return updateResult;
+    }
+
     // Set previous default document as non-default
     await Document.update(
         { studentId, type, isDefault: true },
