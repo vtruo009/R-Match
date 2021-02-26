@@ -8,71 +8,96 @@ import Divider from '@material-ui/core/Divider';
 import Badge from '@material-ui/core/Badge';
 import DocumentIcon from '@material-ui/icons/Description';
 
+import { formatDateString } from 'utils/format';
+import useSnack from 'hooks/useSnack';
+import useDialog from 'hooks/useDialog';
+import useApi from 'hooks/useApi';
+import { AuthContext } from 'Contexts/AuthContext';
 import DeleteButton from 'Components/DeleteButton';
 import Loader from 'Components/Loader';
 import Table from 'Components/Table';
 import Button from 'Components/Button';
-import useSnack from 'hooks/useSnack';
-import useDialog from 'hooks/useDialog';
-import useApi from 'hooks/useApi';
 import DocumentUploadForm from 'Domains/Documents/DocumentUploadForm/index';
-import { IDocument, getDocuments, deleteDocument } from 'Domains/Documents/api';
-import { formatDateString } from 'utils/format';
+import {
+    IDocument,
+    getDocuments,
+    deleteDocument,
+    markDocumentAsDefault,
+} from 'Domains/Documents/api';
 import PDFViewer from 'Domains/Documents/PDFViewer';
 
-export interface DocumentProps {
-    name: JSX.Element | string;
-    type: string;
-    isDefault: boolean;
-    dateAdded: string;
-    document: Buffer;
-}
-
 function Documents() {
+    const { user } = React.useContext(AuthContext);
     const uploadDialog = useDialog();
     const pdfDialog = useDialog();
     const [snack] = useSnack();
     const [resumes, setResumes] = React.useState<IDocument[]>([]);
     const [transcripts, setTranscripts] = React.useState<IDocument[]>([]);
+    const [defaultResumeId, setDefaultResumeId] = React.useState(0);
+    const [defaultTranscriptId, setDefaultTranscriptId] = React.useState(0);
     const [documentIdToDelete, setDocumentIdToDelete] = React.useState(0);
-    const [checked, setChecked] = React.useState(false);
     const [
         documentIdSelected,
         setDocumentIdSelected,
     ] = React.useState<number>();
+    const [defaultDocumentData, setDefaultDocumentData] = React.useState<{
+        documentId: IDocument['id'];
+        type: IDocument['type'];
+        studentId: number;
+    }>({
+        documentId: 0,
+        type: 'resume',
+        studentId: user?.specificUserId as number,
+    });
 
-    const getDocumentsRequest = React.useCallback(() => getDocuments(), []);
     const deleteDocumentRequest = React.useCallback(
         () => deleteDocument(documentIdToDelete),
         [documentIdToDelete]
     );
+    const getDocumentsRequest = React.useCallback(() => getDocuments(), []);
+    const markDocumentAsDefaultRequest = React.useCallback(
+        () =>
+            markDocumentAsDefault(
+                defaultDocumentData.documentId,
+                defaultDocumentData.studentId,
+                defaultDocumentData.type
+            ),
+        [defaultDocumentData]
+    );
 
-    const [sendRequest, isLoading] = useApi(getDocumentsRequest, {
+    const [sendGetDocumentsRequest, isLoading] = useApi(getDocumentsRequest, {
         onSuccess: (response) => {
-            const { documents } = response.data;
-            const filteredRes: IDocument[] = [];
-            const filteredTrans: IDocument[] = [];
-            if (documents.length === 0) {
-                snack('No documents were found', 'warning');
+            const { resumes, transcripts } = response.data.documents;
+            if (resumes.length === 0) {
+                snack('No resumes were found', 'warning');
             } else {
-                documents.forEach((document) => {
-                    if (document.type === 'resume') {
-                        filteredRes.push(document);
-                    } else {
-                        filteredTrans.push(document);
-                    }
+                resumes.forEach((resume) => {
+                    if (resume.isDefault) setDefaultResumeId(resume.id);
                 });
-                setResumes(filteredRes);
-                setTranscripts(filteredTrans);
+                setResumes(resumes);
+            }
+
+            if (transcripts.length === 0) {
+                snack('No transcripts were found', 'warning');
+            } else {
+                transcripts.forEach((transcript) => {
+                    if (transcript.isDefault)
+                        setDefaultTranscriptId(transcript.id);
+                });
+                setTranscripts(transcripts);
             }
         },
     });
 
-    React.useEffect(() => sendRequest(), [sendRequest]);
+    const [sendMarkDocumentAsDefaultRequest] = useApi(
+        markDocumentAsDefaultRequest,
+        {
+            onSuccess: () =>
+                snack('Document successfully marked as default', 'success'),
+        }
+    );
 
-    const handleChange = () => {
-        setChecked(true);
-    };
+    React.useEffect(() => sendGetDocumentsRequest(), [sendGetDocumentsRequest]);
 
     return isLoading ? (
         <Loader center />
@@ -109,18 +134,28 @@ function Documents() {
                                     <TableCell align='center'>
                                         <CheckBox
                                             color='primary'
-                                            checked={resume.isDefault}
+                                            onClick={() => {
+                                                setDefaultDocumentData({
+                                                    ...defaultDocumentData,
+                                                    documentId: resume.id,
+                                                    type: 'resume',
+                                                });
+                                                sendMarkDocumentAsDefaultRequest();
+                                                setDefaultResumeId(resume.id);
+                                            }}
+                                            checked={
+                                                resume.id === defaultResumeId
+                                            }
                                         />
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {formatDateString(
-                                            new Date(
-                                                resume.dateAdded
-                                            ).toLocaleDateString()
-                                        )}
+                                        {formatDateString(resume.dateAdded)}
                                     </TableCell>
                                     <TableCell>
                                         <DeleteButton
+                                            disabled={
+                                                resume.id === defaultResumeId
+                                            }
                                             message={`Please confirm deletion of the document: ${resume.name}`}
                                             onClickBeforeRequest={() =>
                                                 setDocumentIdToDelete(resume.id)
@@ -183,17 +218,32 @@ function Documents() {
                                     <TableCell align='center'>
                                         <CheckBox
                                             color='primary'
-                                            onClick={handleChange}
-                                            checked={transcript.isDefault}
+                                            onClick={() => {
+                                                setDefaultDocumentData({
+                                                    ...defaultDocumentData,
+                                                    documentId: transcript.id,
+                                                    type: 'transcript',
+                                                });
+                                                sendMarkDocumentAsDefaultRequest();
+                                                setDefaultTranscriptId(
+                                                    transcript.id
+                                                );
+                                            }}
+                                            checked={
+                                                transcript.id ===
+                                                defaultTranscriptId
+                                            }
                                         />
                                     </TableCell>
                                     <TableCell align='center'>
-                                        {formatDateString(
-                                            transcript.dateAdded.toString()
-                                        )}
+                                        {formatDateString(transcript.dateAdded)}
                                     </TableCell>
                                     <TableCell>
                                         <DeleteButton
+                                            disabled={
+                                                transcript.id ===
+                                                defaultTranscriptId
+                                            }
                                             message={`Please confirm deletion of the document: ${transcript.name}`}
                                             onClickBeforeRequest={() =>
                                                 setDocumentIdToDelete(
@@ -240,7 +290,7 @@ function Documents() {
                 <DocumentUploadForm
                     onSubmit={() => {
                         uploadDialog.closeDialog();
-                        sendRequest();
+                        sendGetDocumentsRequest();
                     }}
                 />
             </uploadDialog.Dialog>
