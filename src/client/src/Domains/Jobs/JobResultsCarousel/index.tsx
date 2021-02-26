@@ -3,6 +3,9 @@ import { AxiosResponse } from 'axios';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Carousel from 'react-material-ui-carousel';
+import IconButton from '@material-ui/core/IconButton';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
 import useApi from 'hooks/useApi';
 import useDialog from 'hooks/useDialog';
@@ -59,7 +62,28 @@ function JobResultsHorizontal({ title, request }: JobResultsHorizontalProps) {
                         onApply: closeDialog,
                     }}
                 >
-                    <Carousel>
+                    <Carousel
+                        IndicatorIcon={<></>}
+                        navButtonsProps={{
+                            className: '',
+                            style: {},
+                        }}
+                        navButtonsWrapperProps={{
+                            className: '',
+                            style: {
+                                position: 'absolute',
+                                top: 'calc(50% - 40px)',
+                            },
+                        }}
+                        NextIcon='next'
+                        PrevIcon='prev'
+                        NavButton={({ next, prev, onClick }) => (
+                            <IconButton onClick={() => onClick()}>
+                                {next && <ChevronRightIcon />}
+                                {prev && <ChevronLeftIcon />}
+                            </IconButton>
+                        )}
+                    >
                         {createJobSections().map((jobSection) => (
                             <Grid container justify='center' spacing={1}>
                                 {jobSection.map((job, index) => (
