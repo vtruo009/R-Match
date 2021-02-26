@@ -6526,79 +6526,79 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'SOC 002M',
-                        fullTitle: 'Introduction to Criminology'
+                        fullTitle: 'Introduction to Criminology',
                     },
                     {
                         shortTitle: 'SOC 002R',
-                        fullTitle: 'Racial and Ethnic Issues in American Society'
+                        fullTitle: 'Racial and Ethnic Issues in American Society',
                     },
                     {
                         shortTitle: 'SOC 002S',
-                        fullTitle: 'Social Problems'
+                        fullTitle: 'Social Problems',
                     },
                     {
                         shortTitle: 'SOC 003',
-                        fullTitle: 'Theoretical Perspectives in Sociology'
+                        fullTitle: 'Theoretical Perspectives in Sociology',
                     },
                     {
                         shortTitle: 'SOC 004',
-                        fullTitle: 'Methods of Sociological Inquiry'
+                        fullTitle: 'Methods of Sociological Inquiry',
                     },
                     {
                         shortTitle: 'SOC 005',
-                        fullTitle: 'Statistical Analysis'
+                        fullTitle: 'Statistical Analysis',
                     },
                     {
                         shortTitle: 'SOC 010',
-                        fullTitle: 'The Sociological Imagination'
+                        fullTitle: 'The Sociological Imagination',
                     },
                     {
                         shortTitle: 'SOC 011',
-                        fullTitle: 'Introduction to Applied Demography'
+                        fullTitle: 'Introduction to Applied Demography',
                     },
                     {
                         shortTitle: 'SOC 020',
-                        fullTitle: 'American Society'
+                        fullTitle: 'American Society',
                     },
                     {
                         shortTitle: 'SOC 028',
-                        fullTitle: 'Introduction to the Sociology of Gender'
+                        fullTitle: 'Introduction to the Sociology of Gender',
                     },
                     {
                         shortTitle: 'SOC 030',
-                        fullTitle: 'Identity and Society'
+                        fullTitle: 'Identity and Society',
                     },
                     {
                         shortTitle: 'SOC 031',
-                        fullTitle: 'Couples and Families'
+                        fullTitle: 'Couples and Families',
                     },
                     {
                         shortTitle: 'SOC 110',
-                        fullTitle: 'Multivariate Analysis'
+                        fullTitle: 'Multivariate Analysis',
                     },
                     {
                         shortTitle: 'SOC 112',
-                        fullTitle: 'Sociology of the Labor Movement'
+                        fullTitle: 'Sociology of the Labor Movement',
                     },
                     {
                         shortTitle: 'SOC 112S',
-                        fullTitle: 'Sociology of the Labor Movement'
+                        fullTitle: 'Sociology of the Labor Movement',
                     },
                     {
                         shortTitle: 'SOC 122',
-                        fullTitle: 'Social Change'
+                        fullTitle: 'Social Change',
                     },
                     {
                         shortTitle: 'SOC 127',
-                        fullTitle: 'Sociological Determinants of Health'
+                        fullTitle: 'Sociological Determinants of Health',
                     },
                     {
                         shortTitle: 'SOC 128S',
-                        fullTitle: 'Chicano Sociology'
+                        fullTitle: 'Chicano Sociology',
                     },
                     {
                         shortTitle: 'SOC 129',
-                        fullTitle: 'Racism in Western Society'
+                        fullTitle: 'Racism in Western Society',
                     },
                     {
                         shortTitle: 'SOC 130',
@@ -6606,159 +6606,159 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'SOC 131F',
-                        fullTitle: 'Black Americans'
+                        fullTitle: 'Black Americans',
                     },
                     {
                         shortTitle: 'SOC 133',
-                        fullTitle: 'Inequality and Social Class'
+                        fullTitle: 'Inequality and Social Class',
                     },
                     {
                         shortTitle: 'SOC 134',
-                        fullTitle: 'Law, Race, Class, Gender, and Culture'
+                        fullTitle: 'Law, Race, Class, Gender, and Culture',
                     },
                     {
                         shortTitle: 'SOC 135S',
-                        fullTitle: 'Conflict'
+                        fullTitle: 'Conflict',
                     },
                     {
                         shortTitle: 'SOC 137',
-                        fullTitle: 'Population'
+                        fullTitle: 'Population',
                     },
                     {
                         shortTitle: 'SOC 140',
-                        fullTitle: 'The Sociology of Women'
+                        fullTitle: 'The Sociology of Women',
                     },
                     {
                         shortTitle: 'SOC 142',
-                        fullTitle: 'Sociology of the Family'
+                        fullTitle: 'Sociology of the Family',
                     },
                     {
                         shortTitle: 'SOC 143',
-                        fullTitle: 'Urban Sociology'
+                        fullTitle: 'Urban Sociology',
                     },
                     {
                         shortTitle: 'SOC 144',
-                        fullTitle: 'Family Violence'
+                        fullTitle: 'Family Violence',
                     },
                     {
                         shortTitle: 'SOC 145',
-                        fullTitle: 'Law and Subordination'
+                        fullTitle: 'Law and Subordination',
                     },
                     {
                         shortTitle: 'SOC 146',
-                        fullTitle: 'Gender in Global Perspective'
+                        fullTitle: 'Gender in Global Perspective',
                     },
                     {
                         shortTitle: 'SOC 150',
-                        fullTitle: 'The Sociology of Economic Organizations'
+                        fullTitle: 'The Sociology of Economic Organizations',
                     },
                     {
                         shortTitle: 'SOC 151',
-                        fullTitle: 'Formal Organizations'
+                        fullTitle: 'Formal Organizations',
                     },
                     {
                         shortTitle: 'SOC 159',
-                        fullTitle: 'Sociology of Law'
+                        fullTitle: 'Sociology of Law',
                     },
                     {
                         shortTitle: 'SOC 161',
-                        fullTitle: 'Immigration and Society'
+                        fullTitle: 'Immigration and Society',
                     },
                     {
                         shortTitle: 'SOC 163',
-                        fullTitle: 'Social Forces and the Educational Condition of Chicana/Os'
+                        fullTitle: 'Social Forces and the Educational Condition of Chicana/Os',
                     },
                     {
                         shortTitle: 'SOC 164',
-                        fullTitle: 'Racial and Ethnic Diversity Issues in Higher Education'
+                        fullTitle: 'Racial and Ethnic Diversity Issues in Higher Education',
                     },
                     {
                         shortTitle: 'SOC 167',
-                        fullTitle: 'Medical Sociology'
+                        fullTitle: 'Medical Sociology',
                     },
                     {
                         shortTitle: 'SOC 168',
-                        fullTitle: 'Development of Sociological Theory'
+                        fullTitle: 'Development of Sociological Theory',
                     },
                     {
                         shortTitle: 'SOC 169',
-                        fullTitle: 'Modern Sociological Theory'
+                        fullTitle: 'Modern Sociological Theory',
                     },
                     {
                         shortTitle: 'SOC 173',
-                        fullTitle: 'Social Psychology: Sociological Orientation'
+                        fullTitle: 'Social Psychology: Sociological Orientation',
                     },
                     {
                         shortTitle: 'SOC 174',
-                        fullTitle: 'Socialization and Personality'
+                        fullTitle: 'Socialization and Personality',
                     },
                     {
                         shortTitle: 'SOC 175',
-                        fullTitle: 'Social Roles and Interaction'
+                        fullTitle: 'Social Roles and Interaction',
                     },
                     {
                         shortTitle: 'SOC 176',
-                        fullTitle: 'The Sociology of Work in Organizations'
+                        fullTitle: 'The Sociology of Work in Organizations',
                     },
                     {
                         shortTitle: 'SOC 177G',
-                        fullTitle: 'Topics in Social Psychology: Sociological Orientation'
+                        fullTitle: 'Topics in Social Psychology: Sociological Orientation',
                     },
                     {
                         shortTitle: 'SOC 178',
-                        fullTitle: 'Sociology of Emotions'
+                        fullTitle: 'Sociology of Emotions',
                     },
                     {
                         shortTitle: 'SOC 179',
-                        fullTitle: 'Social Movements and Collective Action'
+                        fullTitle: 'Social Movements and Collective Action',
                     },
                     {
                         shortTitle: 'SOC 180',
-                        fullTitle: 'Deviance and Control'
+                        fullTitle: 'Deviance and Control',
                     },
                     {
                         shortTitle: 'SOC 181',
-                        fullTitle: 'World-Systems and Globalization'
+                        fullTitle: 'World-Systems and Globalization',
                     },
                     {
                         shortTitle: 'SOC 181S',
-                        fullTitle: 'World-Systems and Globalization'
+                        fullTitle: 'World-Systems and Globalization',
                     },
                     {
                         shortTitle: 'SOC 183P',
-                        fullTitle: 'Poetry and Welfare'
+                        fullTitle: 'Poetry and Welfare',
                     },
                     {
                         shortTitle: 'SOC 184',
-                        fullTitle: 'Environmental Sociology'
+                        fullTitle: 'Environmental Sociology',
                     },
                     {
                         shortTitle: 'SOC 185',
-                        fullTitle: 'Population Forecasting'
+                        fullTitle: 'Population Forecasting',
                     },
                     {
                         shortTitle: 'SOC 187',
-                        fullTitle: 'Capstone Seminar in Sociology'
+                        fullTitle: 'Capstone Seminar in Sociology',
                     },
                     {
                         shortTitle: 'SOC 190',
-                        fullTitle: 'Special Studies'
+                        fullTitle: 'Special Studies',
                     },
                     {
                         shortTitle: 'SOC 195',
-                        fullTitle: 'Senior Thesis'
+                        fullTitle: 'Senior Thesis',
                     },
                     {
                         shortTitle: 'SOC 197',
-                        fullTitle: 'Research for Undergraduates'
+                        fullTitle: 'Research for Undergraduates',
                     },
                     {
                         shortTitle: 'SOC 198I',
-                        fullTitle: 'Individual Internship in Sociology'
+                        fullTitle: 'Individual Internship in Sociology',
                     },
                     {
                         shortTitle: 'SOC 199H',
-                        fullTitle: 'Senior Honors Research'
+                        fullTitle: 'Senior Honors Research',
                     },
                 ],
             },
@@ -6769,29 +6769,550 @@ export const colleges = [
         departments: [
             {
                 name: 'Botany & Plant Sciences',
-                courses: [],
+                courses: [
+                    {
+                        shortTitle: 'BPSC 011',
+                        fullTitle: 'Plants and Human Affairs',
+                    },
+                    {
+                        shortTitle: 'BPSC 021',
+                        fullTitle: 'California\'\s Cornucopia: Food From the Field to Your Table',
+                    },
+                    {
+                        shortTitle: 'BPSC 031',
+                        fullTitle: 'Spring Wildflowers',
+                    },
+                    {
+                        shortTitle: 'BPSC 050',
+                        fullTitle: 'The Evidence for Evolution',
+                    },
+                    {
+                        shortTitle: 'BPSC 097',
+                        fullTitle: 'Lower-Division Research',
+                    },
+                    {
+                        shortTitle: 'BPSC 104',
+                        fullTitle: 'Foundations of Plant Biology',
+                    },
+                    {
+                        shortTitle: 'BPSC 109',
+                        fullTitle: 'Epigenetics',
+                    },
+                    {
+                        shortTitle: 'BPSC 112',
+                        fullTitle: 'Systematics',
+                    },
+                    {
+                        shortTitle: 'BPSC 132',
+                        fullTitle: 'Plant Anatomy',
+                    },
+                    {
+                        shortTitle: 'BPSC 133',
+                        fullTitle: 'Plant Diversity and Evolution',
+                    },
+                    {
+                        shortTitle: 'BPSC 135',
+                        fullTitle: 'Plant Cell Biology',
+                    },
+                    {
+                        shortTitle: 'BPSC 143',
+                        fullTitle: 'Plant Physiology',
+                    },
+                    {
+                        shortTitle: 'BPSC 146',
+                        fullTitle: 'Plant Ecology',
+                    },
+                    {
+                        shortTitle: 'BPSC 148',
+                        fullTitle: 'Quantitive Genetics',
+                    },
+                    {
+                        shortTitle: 'BPSC 149',
+                        fullTitle: 'Nanobiotechnology',
+                    },
+                    {
+                        shortTitle: 'BPSC 150',
+                        fullTitle: 'Genes, Selection, and Populations',
+                    },
+                    {
+                        shortTitle: 'BPSC 155',
+                        fullTitle: 'Chromosomes',
+                    },
+                    {
+                        shortTitle: 'BPSC 165',
+                        fullTitle: 'Restoration Ecology',
+                    },
+                    {
+                        shortTitle: 'BPSC 166',
+                        fullTitle: 'Plant Physiological Ecology',
+                    },
+                    {
+                        shortTitle: 'BPSC 183',
+                        fullTitle: 'Plant Biochemistry and Pharmacology of Plant Metabolies',
+                    },
+                    {
+                        shortTitle: 'BPSC 190',
+                        fullTitle: 'Special Studies',
+                    },
+                    {
+                        shortTitle: 'BPSC 191',
+                        fullTitle: 'Seminar in Agricultural Careers in the 21st Century',
+                    },
+                    {
+                        shortTitle: 'BPSC 193',
+                        fullTitle: 'Senior Seminar',
+                    },
+                    {
+                        shortTitle: 'BPSC 195H',
+                        fullTitle: 'Senior Honors Thesis',
+                    },
+                    {
+                        shortTitle: 'BPSC 197',
+                        fullTitle: 'Research for Undergraduates',
+                    },
+                    {
+                        shortTitle: 'BPSC 198I',
+                        fullTitle: 'Individual Internship in Botany and Plant Sciences',
+                    },
+                    {
+                        shortTitle: 'BPSC 199',
+                        fullTitle: 'Senior Research',
+                    },
+                ],
             },
             {
                 name: 'Entomology',
-                courses: [],
+                courses: [
+                    {
+                        shortTitle: 'ENTM 010',
+                        fullTitle: 'Natural History of Insects',
+                    },
+                    {
+                        shortTitle: 'ENTM 020',
+                        fullTitle: 'Bees and Beekeeping',
+                    },
+                    {
+                        shortTitle: 'ENTM 050',
+                        fullTitle: 'The Evidence for Evolution',
+                    },
+                    {
+                        shortTitle: 'ENTM 060W',
+                        fullTitle: 'Scicomm: Exploring Effective Communication Methods In The Life Science',
+                    },
+                    {
+                        shortTitle: 'ENTM 100',
+                        fullTitle: 'General Entomology',
+                    },
+                    {
+                        shortTitle: 'ENTM 106',
+                        fullTitle: 'Insect Evolution',
+                    },
+                    {
+                        shortTitle: 'ENTM 107',
+                        fullTitle: 'Insect Biodiversity',
+                    },
+                    {
+                        shortTitle: 'ENTM 108',
+                        fullTitle: 'Biology of Social Insects',
+                    },
+                    {
+                        shortTitle: 'ENTM 109',
+                        fullTitle: 'Field Entomology',
+                    },
+                    {
+                        shortTitle: 'ENTM 111',
+                        fullTitle: 'Molecular Biology and Genomics of Human Disease Vectors',
+                    },
+                    {
+                        shortTitle: 'ENTM 112',
+                        fullTitle: 'Systematics',
+                    },
+                    {
+                        shortTitle: 'ENTM 114',
+                        fullTitle: 'Aquatic Insects',
+                    },
+                    {
+                        shortTitle: 'ENTM 124',
+                        fullTitle: 'Agricultural Entomology',
+                    },
+                    {
+                        shortTitle: 'ENTM 125',
+                        fullTitle: 'Pesticides, Biological Organisms, and the Environment',
+                    },
+                    {
+                        shortTitle: 'ENTM 126',
+                        fullTitle: 'Medical and Veterinary Entomology',
+                    },
+                    {
+                        shortTitle: 'ENTM 127',
+                        fullTitle: 'Insect Ecology',
+                    },
+                    {
+                        shortTitle: 'ENTM 129',
+                        fullTitle: 'Introduction to Biological Control',
+                    },
+                    {
+                        shortTitle: 'ENTM 129L',
+                        fullTitle: 'Introduction to Biological Control Laboratory',
+                    },
+                    {
+                        shortTitle: 'ENTM 130',
+                        fullTitle: 'Invasion Ecology',
+                    },
+                    {
+                        shortTitle: 'ENTM 133',
+                        fullTitle: 'Urban Entomology',
+                    },
+                    {
+                        shortTitle: 'ENTM 139',
+                        fullTitle: 'The Evolution Of Conflict And Cooperation: Cheaters And Altruists',
+                    },
+                    {
+                        shortTitle: 'ENTM 149',
+                        fullTitle: 'Special Topics in Undergraduate Entomology',
+                    },
+                    {
+                        shortTitle: 'ENTM 154',
+                        fullTitle: 'Forensic Entomology',
+                    },
+                    {
+                        shortTitle: 'ENTM 162',
+                        fullTitle: 'Insect Behavior',
+                    },
+                    {
+                        shortTitle: 'ENTM 173',
+                        fullTitle: 'Insect Physiology',
+                    },
+                    {
+                        shortTitle: 'ENTM 180',
+                        fullTitle: 'Capstone Research Seminar in Entomology',
+                    },
+                    {
+                        shortTitle: 'ENTM 190',
+                        fullTitle: 'Special Studies',
+                    },
+                    {
+                        shortTitle: 'ENTM 197',
+                        fullTitle: 'Research for Undergraduates',
+                    },
+                    {
+                        shortTitle: 'ENTM 199',
+                        fullTitle: 'Senior Research',
+                    },
+                    {
+                        shortTitle: 'ENTM 199',
+                        fullTitle: 'Senior Honors Research',
+                    },
+                ],
             },
             {
                 name: 'Environmental Sciences',
-                courses: [],
+                courses: [
+                    {
+                        shortTitle: 'ENSC 001',
+                        fullTitle: 'Introduction to Environmental Science: Natural Resources',
+                    },
+                    {
+                        shortTitle: 'ENSC 002',
+                        fullTitle: 'Introduction to Environmental Science: Environmental Quality',
+                    },
+                    {
+                        shortTitle: 'ENSC 003',
+                        fullTitle: 'Contemporary Issues in the Environmental Sciences',
+                    },
+                    {
+                        shortTitle: 'ENSC 006',
+                        fullTitle: 'Introduction to Environmental Economics',
+                    },
+                    {
+                        shortTitle: 'ENSC 100',
+                        fullTitle: 'Introduction to Soil Science',
+                    },
+                    {
+                        shortTitle: 'ENSC 101',
+                        fullTitle: 'Water Resources',
+                    },
+                    {
+                        shortTitle: 'ENSC 102',
+                        fullTitle: 'Introductory Atmospheric Science',
+                    },
+                    {
+                        shortTitle: 'ENSC 103',
+                        fullTitle: 'Environmental Pollution and Health',
+                    },
+                    {
+                        shortTitle: 'ENSC 104',
+                        fullTitle: 'Environmental Soil Chemistry',
+                    },
+                    {
+                        shortTitle: 'ENSC 105',
+                        fullTitle: 'Ecohydrology',
+                    },
+                    {
+                        shortTitle: 'ENSC 107',
+                        fullTitle: 'Soil Physics',
+                    },
+                    {
+                        shortTitle: 'ENSC 110',
+                        fullTitle: 'Environmental Statistics',
+                    },
+                    {
+                        shortTitle: 'ENSC 120',
+                        fullTitle: 'Soil Ecology',
+                    },
+                    {
+                        shortTitle: 'ENSC 127',
+                        fullTitle: 'Fate and Transport of Contaminants in the Environment',
+                    },
+                    {
+                        shortTitle: 'ENSC 130',
+                        fullTitle: 'Weather and Climate',
+                    },
+                    {
+                        shortTitle: 'ENSC 133',
+                        fullTitle: 'Environmental Microbiology',
+                    },
+                    {
+                        shortTitle: 'ENSC 135',
+                        fullTitle: 'Atmospheric Chemistry',
+                    },
+                    {
+                        shortTitle: 'ENSC 136',
+                        fullTitle: 'Chemistry of Natural Waters',
+                    },
+                    {
+                        shortTitle: 'ENSC 138',
+                        fullTitle: 'Pedology',
+                    },
+                    {
+                        shortTitle: 'ENSC 139',
+                        fullTitle: 'Soils and Landforms of California',
+                    },
+                    {
+                        shortTitle: 'ENSC 140',
+                        fullTitle: 'Limnology',
+                    },
+                    {
+                        shortTitle: 'ENSC 144',
+                        fullTitle: 'Solid Waste Management',
+                    },
+                    {
+                        shortTitle: 'ENSC 153',
+                        fullTitle: 'Ecological Economics and Environmental Valuation',
+                    },
+                    {
+                        shortTitle: 'ENSC 163',
+                        fullTitle: 'Hydrology',
+                    },
+                    {
+                        shortTitle: 'ENSC 165',
+                        fullTitle: 'Principles of Groundwater Science',
+                    },
+                    {
+                        shortTitle: 'ENSC 172',
+                        fullTitle: 'Principles of Environmental Impact Analysis',
+                    },
+                    {
+                        shortTitle: 'ENSC 174',
+                        fullTitle: 'Law, Institutions, and the Environment',
+                    },
+                    {
+                        shortTitle: 'ENSC 175',
+                        fullTitle: 'Spatial Analysis And Remote Sensing For Environmental Sciences',
+                    },
+                    {
+                        shortTitle: 'ENSC 177',
+                        fullTitle: 'Environmental Sampling and Analysis',
+                    },
+                    {
+                        shortTitle: 'ENSC 190',
+                        fullTitle: 'Special Studies',
+                    },
+                    {
+                        shortTitle: 'ENSC 191',
+                        fullTitle: 'Seminar In Professional Development In Environmental Sciences',
+                    },
+                    {
+                        shortTitle: 'ENSC 197',
+                        fullTitle: 'Research for Undergraduates',
+                    },
+                    {
+                        shortTitle: 'ENSC 198I',
+                        fullTitle: 'Internship in Environmental Sciences',
+                    },
+                ],
             },
             {
                 name: 'Nematology',
-                courses: [],
+                courses: [
+                    {
+                        shortTitle: 'NEM 120',
+                        fullTitle: 'Soil Ecology',
+                    },
+                    {
+                        shortTitle: 'NEM 159',
+                        fullTitle: 'Biology of Nematodes',
+                    },
+                    {
+                        shortTitle: 'NEM 190',
+                        fullTitle: 'Special Studies',
+                    },
+                    {
+                        shortTitle: 'NEM 197',
+                        fullTitle: 'Research for Undergraduates',
+                    },
+                    {
+                        shortTitle: 'NEM 199',
+                        fullTitle: 'Senior Research',
+                    },
+                ],
             },
             {
                 name: 'Biochemistry',
-                courses: [],
+                courses: [
+                    {
+                        shortTitle: 'BCH 010',
+                        fullTitle: 'Introduction to Nutrition',
+                    },
+                    {
+                        shortTitle: 'BCH 015',
+                        fullTitle: 'Introduction Biochemistry Laboratory',
+                    },
+                    {
+                        shortTitle: 'BCH 095',
+                        fullTitle: 'Topics in Biochemistry for Career Planning',
+                    },
+                    {
+                        shortTitle: 'BCH 096',
+                        fullTitle: 'Introduction to Humanitarian and Healthcare Service',
+                    },
+                    {
+                        shortTitle: 'BCH 097',
+                        fullTitle: 'Research Tutorial in Biochemistry',
+                    },
+                    {
+                        shortTitle: 'BCH 098I',
+                        fullTitle: 'Individual Internship in a Humanitarian or Healthcare Arena',
+                    },
+                    {
+                        shortTitle: 'BCH 100',
+                        fullTitle: 'Introductory Biochemistry',
+                    },
+                    {
+                        shortTitle: 'BCH 110A',
+                        fullTitle: 'General Biochemistry',
+                    },
+                    {
+                        shortTitle: 'BCH 110HB',
+                        fullTitle: 'Honors General Biochemistry',
+                    },
+                    {
+                        shortTitle: 'BCH 110B',
+                        fullTitle: 'General Biochemistry',
+                    },
+                    {
+                        shortTitle: 'BCH 120',
+                        fullTitle: 'Topics in Human Biochemistry',
+                    },
+                    {
+                        shortTitle: 'BCH 162',
+                        fullTitle: 'Advanced Biochemistry Lab',
+                    },
+                    {
+                        shortTitle: 'BCH 180E',
+                        fullTitle: 'Gene Regulation',
+                    },
+                    {
+                        shortTitle: 'BCH 183',
+                        fullTitle: 'Plant Biochemistry And Pharmacology Of Plant Metabolites',
+                    },
+                    {
+                        shortTitle: 'BCH 184',
+                        fullTitle: 'Topics in Plant Biochemistry',
+                    },
+                    {
+                        shortTitle: 'BCH 187',
+                        fullTitle: 'Fundamentals Of Enzymology',
+                    },
+                    {
+                        shortTitle: 'BCH 190',
+                        fullTitle: 'Special Studies',
+                    },
+                    {
+                        shortTitle: 'BCH 197',
+                        fullTitle: 'Research for Undergraduate Students',
+                    },
+                    {
+                        shortTitle: 'BCH 198I',
+                        fullTitle: 'Internship in Biochemistry',
+                    },
+                ],
             },
             {
                 name: 'Evolution, Ecology, and Organismal Biology',
-                courses: [],
+                courses: [
+                    {
+                        shortTitle: 'EEOB 210',
+                        fullTitle: 'Organismal Biology',
+                    },
+                    {
+                        shortTitle: 'EEOB 211',
+                        fullTitle: 'Foundations of Ecology',
+                    },
+                    {
+                        shortTitle: 'EEOB 213',
+                        fullTitle: 'Behavioral Ecology',
+                    },
+                    {
+                        shortTitle: 'EEOB 214',
+                        fullTitle: 'Evolutionary Genetics',
+                    },
+                    {
+                        shortTitle: 'EEOB 216',
+                        fullTitle: 'The Theory of Evolution',
+                    },
+                    {
+                        shortTitle: 'EEOB 219',
+                        fullTitle: 'Theory of Systematics',
+                    },
+                    {
+                        shortTitle: 'EEOB 230',
+                        fullTitle: 'Analysis of Ecological Communities',
+                    },
+                    {
+                        shortTitle: 'EEOB 265',
+                        fullTitle: 'Advances in Population and Evolutionary Biology',
+                    },
+                    {
+                        shortTitle: 'EEOB 282',
+                        fullTitle: 'Seminar in Genetics and Evolution',
+                    },
+                    {
+                        shortTitle: 'EEOB 290',
+                        fullTitle: 'Directed Studies',
+                    },
+                    {
+                        shortTitle: 'EEOB 291',
+                        fullTitle: 'Individual Study in Coordinated Areas',
+                    },
+                    {
+                        shortTitle: 'EEOB 292',
+                        fullTitle: 'Concurrent Analytical Studies In Evolution, Ecology, And Organismal Biology',
+                    },
+                    {
+                        shortTitle: 'EEOB 297',
+                        fullTitle: 'Directed Research',
+                    },
+                    {
+                        shortTitle: 'EEOB 299',
+                        fullTitle: 'Research for the Thesis or Dissertation',
+                    },
+                    {
+                        shortTitle: 'EEOB 400',
+                        fullTitle: 'Introduction to Graduate Study in Biology',
+                    },
+                ],
             },
-            // STOP HERE!
             {
                 name: 'Molecular, Cell and Systems Biology',
                 courses: [],
