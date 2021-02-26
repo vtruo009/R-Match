@@ -154,7 +154,56 @@ export const searchStudents = async (
     page: number,
     numOfItems: number
 ) => {
-    return await getRepository(Student)
+    const perfectMatchStudents = await getRepository(Student)
+        .createQueryBuilder('student')
+        .select(['student.id', 'student.classStanding'])
+        .leftJoin('student.user', 'user')
+        .addSelect(['user.firstName', 'user.lastName'])
+        .leftJoinAndSelect('student.department', 'department')
+        .leftJoin('student.courses', 'course')
+        .where('(:firstName = :empty OR LOWER(user.firstName) = :firstName)', {
+            firstName: firstName.toLowerCase(),
+        })
+        .andWhere('(:lastName = :empty OR LOWER(user.lastName) = :lastName)', {
+            lastName: lastName.toLowerCase(),
+        })
+        .andWhere('(:email = :empty OR user.email = :email)', {
+            email
+        })
+        .andWhere('(:sid = :empty OR sid = :sid)', {
+            sid
+        })
+        .andWhere(
+            `(NOT :departmentIdsPopulated OR
+                (department.id IS NOT NULL AND department.id IN (:...departmentIds)))`,
+            {
+                departmentIdsPopulated: departmentIds.length > 0,
+                departmentIds: departmentIds.length > 0 ? departmentIds : [-1]
+            }
+        )
+        .andWhere(
+            '(student.classStanding IN (:...classStandings))',
+            {
+                classStandings,
+            }
+        )
+        // Selects student who has taken at least one specified course.
+        .andWhere(qb => {
+            var subQuery = "";
+            for (var i = 0; i < courseIds.length; ++i) {
+                subQuery += ` OR course.id = ${courseIds[i]}`
+            }
+            return `(NOT :courseIdsPopulated${subQuery})`;
+        }, {
+            courseIdsPopulated: courseIds.length > 0,
+            courseIds: courseIds.length > 0 ? courseIds : [-1]
+        })
+        .setParameters({
+            empty: ''
+        })
+        .getMany();
+
+    const partialMatchStudents = await getRepository(Student)
         .createQueryBuilder('student')
         .select(['student.id', 'student.classStanding'])
         .leftJoin('student.user', 'user')
@@ -170,12 +219,11 @@ export const searchStudents = async (
         .andWhere('user.email LIKE :email', {
             email: `%${email}%`,
         })
-        .andWhere('((NOT :sidExists) OR (:sidExists AND sid LIKE :sid))', {
-            sidExists: sid !== '',
+        .andWhere('(sid IS NULL OR sid LIKE :sid)', {
             sid: `%${sid}%`,
         })
         .andWhere(
-            '(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))',
+            '(NOT :departmentIdsPopulated OR department.id IS NULL OR department.id IN (:...departmentIds))',
             {
                 departmentIdsPopulated: departmentIds.length > 0,
                 departmentIds: departmentIds.length > 0 ? departmentIds : [-1]
@@ -191,16 +239,25 @@ export const searchStudents = async (
         .andWhere(qb => {
             var subQuery = "";
             for (var i = 0; i < courseIds.length; ++i) {
-                if (i == 0) subQuery += ` OR (course.id = ${courseIds[i]}`
-                else subQuery += ` OR course.id = ${courseIds[i]}`
-                if (i == courseIds.length - 1) subQuery += ')'
+                subQuery += ` OR course.id = ${courseIds[i]}`
             }
             return `(NOT :courseIdsPopulated${subQuery})`;
         }, {
             courseIdsPopulated: courseIds.length > 0,
             courseIds: courseIds.length > 0 ? courseIds : [-1]
         })
-        .skip((page - 1) * numOfItems)
-        .take(numOfItems)
-        .getManyAndCount();
+        .getMany();
+
+    const perfectMatchStudentIds = perfectMatchStudents.map((student) => student.id);
+    // Filter out perfect match students from the partial match student list to remove duplicate.
+    const filteredPartialMatchStudents = partialMatchStudents.filter(
+        (student) => perfectMatchStudentIds.indexOf(student.id) === -1)
+
+    const result = perfectMatchStudents
+        .concat(filteredPartialMatchStudents);
+
+    return [
+        result
+            .slice((page - 1) * numOfItems, (page - 1) * numOfItems + numOfItems),
+        result.length];
 };
