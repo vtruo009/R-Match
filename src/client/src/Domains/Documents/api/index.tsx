@@ -49,10 +49,9 @@ export async function deleteDocument(documentId: IDocument['id']) {
 
 export async function markDocumentAsDefault(
     documentId: IDocument['id'],
-    studentId: number,
     type: IDocument['type']
 ) {
     return API.put(
-        `/document/mark-as-default/${documentId}/${studentId}/${type}`
+        `/document/mark-as-default/${documentId}/${type}`
     );
 }

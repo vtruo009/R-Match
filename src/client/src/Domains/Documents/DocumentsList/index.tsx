@@ -12,7 +12,6 @@ import { formatDateString } from 'utils/format';
 import useSnack from 'hooks/useSnack';
 import useDialog from 'hooks/useDialog';
 import useApi from 'hooks/useApi';
-import { AuthContext } from 'Contexts/AuthContext';
 import DeleteButton from 'Components/DeleteButton';
 import Loader from 'Components/Loader';
 import Table from 'Components/Table';
@@ -27,7 +26,6 @@ import {
 import PDFViewer from 'Domains/Documents/PDFViewer';
 
 function Documents() {
-    const { user } = React.useContext(AuthContext);
     const uploadDialog = useDialog();
     const pdfDialog = useDialog();
     const [snack] = useSnack();
@@ -43,11 +41,9 @@ function Documents() {
     const [defaultDocumentData, setDefaultDocumentData] = React.useState<{
         documentId: IDocument['id'];
         type: IDocument['type'];
-        studentId: number;
     }>({
         documentId: 0,
         type: 'resume',
-        studentId: user?.specificUserId as number,
     });
 
     const deleteDocumentRequest = React.useCallback(
@@ -59,7 +55,6 @@ function Documents() {
         () =>
             markDocumentAsDefault(
                 defaultDocumentData.documentId,
-                defaultDocumentData.studentId,
                 defaultDocumentData.type
             ),
         [defaultDocumentData]
@@ -136,7 +131,6 @@ function Documents() {
                                             color='primary'
                                             onClick={() => {
                                                 setDefaultDocumentData({
-                                                    ...defaultDocumentData,
                                                     documentId: resume.id,
                                                     type: 'resume',
                                                 });
@@ -220,7 +214,6 @@ function Documents() {
                                             color='primary'
                                             onClick={() => {
                                                 setDefaultDocumentData({
-                                                    ...defaultDocumentData,
                                                     documentId: transcript.id,
                                                     type: 'transcript',
                                                 });
