@@ -2,7 +2,7 @@ import React from 'react';
 import { AxiosResponse } from 'axios';
 import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import IconButton, { IconButtonProps } from '@material-ui/core/IconButton';
 import TrashCanIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-interface DeleteProps {
+interface DeleteButtonProps extends IconButtonProps {
     message: string;
     onDeleteRequest: () => Promise<AxiosResponse<unknown>>;
     onSuccess?: () => void;
@@ -30,7 +30,8 @@ function DeleteButton({
     onDeleteRequest,
     onSuccess,
     onClickBeforeRequest,
-}: DeleteProps) {
+    ...props
+}: DeleteButtonProps) {
     const { openDialog, closeDialog, DialogProps, Dialog } = useDialog();
     const classes = useStyles();
     const [snack] = useSnack();
@@ -49,6 +50,7 @@ function DeleteButton({
                     if (onClickBeforeRequest) onClickBeforeRequest();
                 }}
                 className={classes.warning}
+                {...props}
             >
                 {<TrashCanIcon />}
             </IconButton>
