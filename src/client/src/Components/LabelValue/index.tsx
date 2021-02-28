@@ -9,7 +9,12 @@ interface LabelValueProps {
     isParagraph?: boolean;
     link?: string;
 }
-function LabelValue({ label, value, link, isParagraph = false }: LabelValueProps) {
+function LabelValue({
+    label,
+    value,
+    link,
+    isParagraph = false,
+}: LabelValueProps) {
     return (
         <Card>
             <Grid item container direction='column'>

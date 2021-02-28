@@ -4,9 +4,11 @@ import WithdrawIcon from '@material-ui/icons/RemoveCircle';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
+import useDialog from 'hooks/useDialog';
 import JobsContext from '../Contexts/JobsContext';
 import Button from 'Components/Button';
-import { applyToJob, withdrawFromJob } from 'Domains/Jobs/api';
+import ApplicationForm from '../ApplicationForm';
+import { withdrawFromJob } from 'Domains/Jobs/api';
 
 interface JobStudentActionsProps {
     jobId: number;
@@ -14,28 +16,12 @@ interface JobStudentActionsProps {
 
 function JobStudentActions({ jobId }: JobStudentActionsProps) {
     const [snack] = useSnack();
-    const { removeJob, showApply, onApply } = React.useContext(JobsContext);
-    const applyRequest = React.useCallback(() => applyToJob(jobId), [jobId]);
+    const { openDialog, closeDialog, DialogProps, Dialog } = useDialog();
+    const { showApply, removeJob } = React.useContext(JobsContext);
     const withDrawFromJobRequest = React.useCallback(
         () => withdrawFromJob(jobId),
         [jobId]
     );
-
-    const [sendApplyRequest, isApplyRequestLoading] = useApi(applyRequest, {
-        onSuccess: () => {
-            removeJob(jobId);
-            onApply();
-            snack('Application successfully submitted', 'success');
-        },
-        onFailure: (error, response) => {
-            console.log(error);
-            if (response) {
-                snack(`${response.data.error}`, 'error');
-            } else {
-                snack('Something went wrong. Try again later!', 'error');
-            }
-        },
-    });
 
     const [sendWithdrawFromJobRequest, isWithdrawFromRequestLoading] = useApi(
         withDrawFromJobRequest,
@@ -56,13 +42,14 @@ function JobStudentActions({ jobId }: JobStudentActionsProps) {
     );
 
     return showApply ? (
-        <Button
-            onClick={sendApplyRequest}
-            disabled={isApplyRequestLoading}
-            startIcon={<ApplyIcon />}
-        >
-            Apply
-        </Button>
+        <>
+            <Button onClick={openDialog} startIcon={<ApplyIcon />}>
+                Apply
+            </Button>
+            <Dialog {...DialogProps} title='Select Documents'>
+                <ApplicationForm jobId={jobId} onSubmit={closeDialog} />
+            </Dialog>
+        </>
     ) : (
         <Button
             onClick={sendWithdrawFromJobRequest}

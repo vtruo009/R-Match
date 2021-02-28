@@ -94,6 +94,7 @@ export interface IJobApplication {
     job: IJob;
     jobId: number;
     studentId: number;
+
 }
 
 interface IJobApplicants {
@@ -102,6 +103,8 @@ interface IJobApplicants {
     jobId: number;
     studentId: number;
     student: IStudentPreview;
+    resumeId: number;
+    transcriptId: number;
 }
 
 export async function getJobs(
@@ -199,8 +202,15 @@ export async function openJob(jobId: number) {
     return API.post(`/job/open/${jobId}`);
 }
 
-export async function applyToJob(jobId: number) {
-    return API.post<{ error: string }>(`/job/apply-to-job/${jobId}`);
+export async function applyToJob(
+    jobId: number,
+    resumeId?: number,
+    transcriptId?: number
+) {
+    return API.post<{ error: string }>(`/job/apply-to-job/${jobId}`, {
+        resumeId,
+        transcriptId,
+    });
 }
 
 export async function getJobApplicants(

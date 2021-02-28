@@ -45,11 +45,14 @@ function PDFViewer({ documentId }: PDFViewerProps) {
         sendRequest();
     }, [sendRequest, documentId]);
 
-    return isLoading ? (
-        <Grid container justify='center'>
-            <Loader />
-        </Grid>
-    ) : documentData ? (
+    if (isLoading) {
+        return (
+            <Grid container justify='center'>
+                <Loader />
+            </Grid>
+        );
+    }
+    return documentData ? (
         <Viewer
             fileUrl={documentData}
             renderLoader={(percentages: number) => (

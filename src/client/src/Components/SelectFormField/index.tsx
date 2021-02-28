@@ -9,10 +9,12 @@ import {
 } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 
+export type IOptions = Array<{ label: string; value: string | number }>;
+
 interface SelectFormFieldProps {
     label?: string;
     defaultLabel?: string;
-    options: Array<{ label: string; value: string | number }>;
+    options: IOptions;
 }
 
 export const SelectFormField: React.FC<FieldProps & SelectFormFieldProps> = ({

@@ -1,10 +1,13 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import ViewIcon from '@material-ui/icons/Visibility';
 
 import useDialog from 'hooks/useDialog';
+import Button from 'Components/Button';
 import StudentPreview from 'Domains/Student/StudentPreview';
 import StudentProfile from 'Domains/Student/StudentProfile';
 import { IStudentPreview } from 'Domains/Student/api';
+import PDFViewer from 'Domains/Documents/PDFViewer';
 
 interface StudentsListProps {
     studentPreviews: IStudentPreview[];
@@ -12,7 +15,13 @@ interface StudentsListProps {
 
 function StudentsList({ studentPreviews }: StudentsListProps) {
     const { openDialog, DialogProps, Dialog } = useDialog();
-    const [studentIdSelected, setStudentIdSelected] = React.useState(0);
+    const [selectedDocumentId, setSelectedDocumentId] = React.useState(0);
+    const pdfDialog = useDialog();
+
+    const [
+        studentSelected,
+        setStudentSelected,
+    ] = React.useState<IStudentPreview>();
     return (
         <div>
             <Grid container spacing={3} justify='center'>
@@ -21,17 +30,62 @@ function StudentsList({ studentPreviews }: StudentsListProps) {
                         <StudentPreview
                             studentPreview={studentPreview}
                             onClick={() => {
-                                setStudentIdSelected(studentPreview.id);
+                                setStudentSelected(studentPreview);
                                 openDialog();
                             }}
-                            isSelected={studentIdSelected === studentPreview.id}
+                            isSelected={
+                                studentSelected?.id === studentPreview.id
+                            }
                         />
                     </Grid>
                 ))}
             </Grid>
-            <Dialog {...DialogProps} title='Student Profile' maxWidth='lg'>
-                <StudentProfile studentId={studentIdSelected} />
-            </Dialog>
+            {studentSelected && (
+                <Dialog {...DialogProps} title='Student Profile' fullScreen>
+                    <StudentProfile studentId={studentSelected.id} />
+                    <Grid container spacing={3} style={{ marginTop: 10 }}>
+                        <Grid item xs={6}>
+                            {studentSelected.resumeId && (
+                                <Button
+                                    fullWidth
+                                    onClick={() => {
+                                        setSelectedDocumentId(
+                                            studentSelected.resumeId as number
+                                        );
+                                        pdfDialog.openDialog();
+                                    }}
+                                    startIcon={<ViewIcon />}
+                                >
+                                    Resume
+                                </Button>
+                            )}
+                        </Grid>
+                        <Grid item xs={6}>
+                            {studentSelected.transcriptId && (
+                                <Button
+                                    fullWidth
+                                    onClick={() => {
+                                        setSelectedDocumentId(
+                                            studentSelected.transcriptId as number
+                                        );
+                                        pdfDialog.openDialog();
+                                    }}
+                                    startIcon={<ViewIcon />}
+                                >
+                                    Transcript
+                                </Button>
+                            )}
+                        </Grid>
+                    </Grid>
+                    <pdfDialog.Dialog
+                        {...pdfDialog.DialogProps}
+                        maxWidth='lg'
+                        title='Document Viewer'
+                    >
+                        <PDFViewer documentId={selectedDocumentId} />
+                    </pdfDialog.Dialog>
+                </Dialog>
+            )}
         </div>
     );
 }

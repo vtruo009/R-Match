@@ -27,4 +27,10 @@ export class JobApplication extends BaseEntity {
 
     @ManyToOne(() => Student, (student) => student.jobApplications)
     public student: Student;
+
+    @Column({ nullable: true })
+    resumeId?: number;
+
+    @Column({ nullable: true })
+    transcriptId?: number;
 }

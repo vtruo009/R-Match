@@ -79,7 +79,13 @@ router.get(
     '/read',
     passport.authenticate('jwt', { session: false }),
     async (req: Request, res: Response) => {
-        const { specificUserId } = req.user as JWTUser;
+        const { role, specificUserId } = req.user as JWTUser;
+        if (role !== 'student') {
+            return res
+                .status(UNAUTHORIZED)
+                .json({ error: 'User is not a student' })
+                .end();
+        }
         try {
             const documents = await getDocuments(specificUserId);
             if (!documents)

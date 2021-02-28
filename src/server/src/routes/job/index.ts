@@ -46,11 +46,6 @@ interface jobRequest extends Request {
     };
 }
 
-interface jobIdRequest extends Request {
-    body: {
-        jobId: number;
-    };
-}
 /******************************************************************************
  *            POST Request - Create - /api/job/create
  ******************************************************************************/
@@ -246,7 +241,7 @@ router.delete(
 router.post(
     '/close/:jobId',
     passport.authenticate('jwt', { session: false }),
-    async (req: jobIdRequest, res: Response) => {
+    async (req: Request, res: Response) => {
         const { role, specificUserId } = req.user as JWTUser;
         if (role !== 'facultyMember') {
             return res
@@ -271,7 +266,7 @@ router.post(
 router.post(
     '/open/:jobId',
     passport.authenticate('jwt', { session: false }),
-    async (req: jobIdRequest, res: Response) => {
+    async (req: Request, res: Response) => {
         const { role, specificUserId } = req.user as JWTUser;
         if (role !== 'facultyMember') {
             return res
@@ -297,11 +292,17 @@ router.post(
  *          POST Request - Apply Job - /api/job/apply-job
  ******************************************************************************/
 
+interface ApplyToJobRequest extends Request {
+    body: {
+        resumeId?: number;
+        transcriptId?: number;
+    };
+}
+
 router.post(
     '/apply-to-job/:jobId',
     passport.authenticate('jwt', { session: false }),
-    async (req: jobIdRequest, res: Response) => {
-        //checks that caller is a student.
+    async (req: ApplyToJobRequest, res: Response) => {
         const { role, specificUserId } = req.user as JWTUser;
         if (role !== 'student') {
             return res
@@ -309,10 +310,13 @@ router.post(
                 .json({ error: 'User is not a student' });
         }
         const { jobId } = req.params;
+        const { resumeId, transcriptId } = req.body;
         try {
             const { result, message } = await applyToJob(
                 specificUserId,
-                parseInt(jobId, 10)
+                parseInt(jobId, 10),
+                resumeId,
+                transcriptId
             );
             return result
                 ? res.status(OK).end()

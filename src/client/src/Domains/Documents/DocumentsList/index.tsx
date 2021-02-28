@@ -63,24 +63,14 @@ function Documents() {
     const [sendGetDocumentsRequest, isLoading] = useApi(getDocumentsRequest, {
         onSuccess: (response) => {
             const { resumes, transcripts } = response.data.documents;
-            if (resumes.length === 0) {
-                snack('No resumes were found', 'warning');
-            } else {
-                resumes.forEach((resume) => {
-                    if (resume.isDefault) setDefaultResumeId(resume.id);
-                });
-                setResumes(resumes);
-            }
-
-            if (transcripts.length === 0) {
-                snack('No transcripts were found', 'warning');
-            } else {
-                transcripts.forEach((transcript) => {
-                    if (transcript.isDefault)
-                        setDefaultTranscriptId(transcript.id);
-                });
-                setTranscripts(transcripts);
-            }
+            resumes.forEach((resume) => {
+                if (resume.isDefault) setDefaultResumeId(resume.id);
+            });
+            setResumes(resumes);
+            transcripts.forEach((transcript) => {
+                if (transcript.isDefault) setDefaultTranscriptId(transcript.id);
+            });
+            setTranscripts(transcripts);
         },
     });
 
