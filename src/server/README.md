@@ -543,6 +543,31 @@ User API
                 -   Unprocessable Entity -> Status code: 422
                 -   Internal server error -> Status code: 500
 
+    -   api/user/update-email
+
+        -   HTTP Method: POST
+        -   Updates a user's email and signs out the user.
+        -   Body:
+            ```
+            {
+                email: string
+            }
+            ```
+        -   Authorization restrictions:
+            -   User must be logged in
+        -   Parameters: None
+        -   Response:
+
+            -   success:
+
+                -   OK -> Status code: 200
+
+            -   error:
+                -   Invalid request -> Status code: 400
+                -   Unauthorized user -> Status code: 401
+                -   Unprocessable Entity -> Status code: 422
+                -   Internal server error -> Status code: 500
+
 Faculty Member API
 
 -   Interacts with:

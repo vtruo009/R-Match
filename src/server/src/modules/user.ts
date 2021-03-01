@@ -30,6 +30,34 @@ export const findUserByEmail = (email: string) => {
 };
 
 /**
+ * @description Create a verification key and send a user an email with the verification key.
+ * @param {number} id - user's id
+ * @param {string} emailText - email text to use when sending the verification email
+ */
+const sendEmailVerificationEmail = async (id: User['id'], emailText: string) => {
+    const user = await User.findOneOrFail({ id })
+
+    let key: string;
+
+    do {
+        key = makeRandomString(/*length=*/20);
+    } while (await VerificationKey.findOne({ key: key }));
+
+    const verificationKey = VerificationKey.create({ user, key });
+
+    await verificationKey.save();
+
+    const link = process.env.NODE_ENV === "production" ? "obscure-ocean-12960.herokuapp.com" : "localhost:3000"
+
+    // Send email with the verification link.
+    sendEmail(
+        user.email,
+        `Verify your email address`,
+        `${emailText} Please follow the link below to verify your email and complete your registration.\n\nhttp://${link}/verify/${key}`,
+    )
+}
+
+/**
  * @description Creates a user object and saves it in the database
  * @param {string} email - User's email address
  * @param {string} password - User's password
@@ -56,27 +84,9 @@ export const createUser = async (
 
     await userToInsert.save();
 
-    let verificationKeyString: string;
-
-    do {
-        verificationKeyString = makeRandomString(/*length=*/20);
-    } while (await VerificationKey.findOne({ key: verificationKeyString }));
-
-    const verificationKey = VerificationKey.create({
-        user: userToInsert,
-        key: verificationKeyString
-    });
-
-    await verificationKey.save();
-
-    const link = process.env.NODE_ENV === "production" ? "obscure-ocean-12960.herokuapp.com" : "localhost:3000"
-    
-    // Send email with the verification link.
-    sendEmail(
-        email,
-        `Verify your email address`,
-        `Welcome to R'match!\n\nYour account has been created. Please follow the link below to verify your email and complete your registration.\n\nhttp://${link}/verify/${verificationKeyString}`,
-    )
+    await sendEmailVerificationEmail(
+        userToInsert.id,
+        'Welcome to R\'match!\n\nYour account has been created.');
 
     return userToInsert;
 };
@@ -174,6 +184,52 @@ export const getUserById = async (userId: number) => {
     getUserByIdResult.result = user;
 
     return getUserByIdResult;
+};
+
+/**
+ * @description Update a user's email.
+ * @param {number} id - id of the user.
+ * @param {string} email - new email.
+ * @returns Promise
+ */
+export const updateEmail = async (
+    id: User['id'],
+    email: User['email']
+) => {
+    const emailUpdateResult: {
+        result?: UpdateResult;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
+    const user = await User.findOne({ id })
+
+    if (!user) {
+        emailUpdateResult.message = 'The requested user does not exist.';
+        return emailUpdateResult;
+    }
+
+    if (user.email == email) {
+        emailUpdateResult.message = 'The email is the same as your current email.';
+        return emailUpdateResult;
+    }
+
+    const userWithSameEmail = await User.findOne({ email })
+    if (userWithSameEmail) {
+        emailUpdateResult.message = 'The email is already taken by another user.';
+        return emailUpdateResult;
+    }
+
+    emailUpdateResult.result = await
+        User.update(id, {
+            email,
+            emailVerified: false
+        });
+
+    await sendEmailVerificationEmail(id, 'Your email is successfully updated.');
+
+    return emailUpdateResult;
 };
 
 /**
