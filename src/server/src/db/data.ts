@@ -7249,98 +7249,1158 @@ export const colleges = [
                 ],
             },
             {
-                name: 'Evolution, Ecology, and Organismal Biology',
+                name: 'Microbiology & Plant Pathology',
                 courses: [
                     {
-                        shortTitle: 'EEOB 210',
-                        fullTitle: 'Organismal Biology',
+                        shortTitle: 'PLPA 120',
+                        fullTitle: 'Introduction to Plant Panthology',
                     },
                     {
-                        shortTitle: 'EEOB 211',
-                        fullTitle: 'Foundations of Ecology',
+                        shortTitle: 'PLPA 120L',
+                        fullTitle: 'Introduction to Plant Panthology Laboratory',
                     },
                     {
-                        shortTitle: 'EEOB 213',
-                        fullTitle: 'Behavioral Ecology',
+                        shortTitle: 'PLPA 123',
+                        fullTitle: 'Introduction to Compartive Virology',
                     },
                     {
-                        shortTitle: 'EEOB 214',
-                        fullTitle: 'Evolutionary Genetics',
+                        shortTitle: 'PLPA 125',
+                        fullTitle: 'Pesticides, Biological Organisms, and the Environment',
                     },
                     {
-                        shortTitle: 'EEOB 216',
-                        fullTitle: 'The Theory of Evolution',
+                        shortTitle: 'PLPA 134',
+                        fullTitle: 'Introduction to Mycology',
                     },
                     {
-                        shortTitle: 'EEOB 219',
-                        fullTitle: 'Theory of Systematics',
+                        shortTitle: 'PLPA 134L',
+                        fullTitle: 'Introduction to Mycology Laboratory',
                     },
                     {
-                        shortTitle: 'EEOB 230',
-                        fullTitle: 'Analysis of Ecological Communities',
+                        shortTitle: 'PLPA 190',
+                        fullTitle: 'Special Studies',
                     },
                     {
-                        shortTitle: 'EEOB 265',
-                        fullTitle: 'Advances in Population and Evolutionary Biology',
+                        shortTitle: 'PLPA 197',
+                        fullTitle: 'Research For Undergraduates',
                     },
                     {
-                        shortTitle: 'EEOB 282',
-                        fullTitle: 'Seminar in Genetics and Evolution',
-                    },
-                    {
-                        shortTitle: 'EEOB 290',
-                        fullTitle: 'Directed Studies',
-                    },
-                    {
-                        shortTitle: 'EEOB 291',
-                        fullTitle: 'Individual Study in Coordinated Areas',
-                    },
-                    {
-                        shortTitle: 'EEOB 292',
-                        fullTitle: 'Concurrent Analytical Studies In Evolution, Ecology, And Organismal Biology',
-                    },
-                    {
-                        shortTitle: 'EEOB 297',
-                        fullTitle: 'Directed Research',
-                    },
-                    {
-                        shortTitle: 'EEOB 299',
-                        fullTitle: 'Research for the Thesis or Dissertation',
-                    },
-                    {
-                        shortTitle: 'EEOB 400',
-                        fullTitle: 'Introduction to Graduate Study in Biology',
+                        shortTitle: 'PLPA 198I',
+                        fullTitle: 'Individual Internship in Microbiology',
                     },
                 ],
             },
             {
-                name: 'Molecular, Cell and Systems Biology',
-                courses: [],
-            },
-            {
-                name: 'Microbiology & Plant Pathology',
-                courses: [],
-            },
-            {
                 name: 'Chemistry',
-                courses: [],
+                courses: [
+                    {
+                        shortTitle: 'CHEM 001',
+                        fullTitle: 'Preparation For General Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 001A',
+                        fullTitle: 'General Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 001B',
+                        fullTitle: 'General Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 001C',
+                        fullTitle: 'General Chemistry',
+                    },{
+                        shortTitle: 'CHEM 01LA',
+                        fullTitle: 'General Chemistry Laboratory',
+                    },
+                    {
+                        shortTitle: 'CHEM 01LB',
+                        fullTitle: 'General Chemistry Laboratory',
+                    },
+                    {
+                        shortTitle: 'CHEM 01LC',
+                        fullTitle: 'General Chemistry Laboratory',
+                    },
+                    {
+                        shortTitle: 'CHEM 01HA',
+                        fullTitle: 'Honors General Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 01HB',
+                        fullTitle: 'Honors General Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 01HC',
+                        fullTitle: 'Honors General Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 1HLA',
+                        fullTitle: 'Honors General Chemistry Laboratory',
+                    },
+                    {
+                        shortTitle: 'CHEM 1HLB',
+                        fullTitle: 'Honors General Chemistry Laboratory',
+                    },
+                    {
+                        shortTitle: 'CHEM 1HLC',
+                        fullTitle: 'Honors General Chemistry Laboratory',
+                    },
+                    {
+                        shortTitle: 'CHEM 001W',
+                        fullTitle: 'Preparation For General Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 003',
+                        fullTitle: 'Concepts of Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 005',
+                        fullTitle: 'Quantitative Analysis',
+                    },
+                    {
+                        shortTitle: 'CHEM 008A',
+                        fullTitle: 'Organic Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 008B',
+                        fullTitle: 'Organic Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 008C',
+                        fullTitle: 'Organic Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 08LA',
+                        fullTitle: 'Organic Chemistry Laboratory',
+                    },
+                    {
+                        shortTitle: 'CHEM 08LB',
+                        fullTitle: 'Organic Chemistry Laboratory',
+                    },
+                    {
+                        shortTitle: 'CHEM 08LC',
+                        fullTitle: 'Organic Chemistry Laboratory',
+                    },
+                    {
+                        shortTitle: 'CHEM 08HA',
+                        fullTitle: 'Honors Organic Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 08HB',
+                        fullTitle: 'Honors Organic Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 08HC',
+                        fullTitle: 'Honors Organic Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 08HLA',
+                        fullTitle: 'Honors Organic Chemistry Laboratory',
+                    },
+                    {
+                        shortTitle: 'CHEM 08HLB',
+                        fullTitle: 'Honors Organic Chemistry Laboratory',
+                    },
+                    {
+                        shortTitle: 'CHEM 08HLC',
+                        fullTitle: 'Honors Organic Chemistry Laboratory',
+                    },
+                    {
+                        shortTitle: 'CHEM 13HA',
+                        fullTitle: 'Honors Discussion For Organiz Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 13HB',
+                        fullTitle: 'Honors Discussion For Organiz Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 13HC',
+                        fullTitle: 'Honors Discussion For Organiz Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 091',
+                        fullTitle: 'Freshman Seminar: What Chemists Do',
+                    },
+                    {
+                        shortTitle: 'CHEM 092',
+                        fullTitle: 'Introduction to Undergraduate Research in Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 095',
+                        fullTitle: 'Explorations in Molecular Science',
+                    },
+                    {
+                        shortTitle: 'CHEM 097H',
+                        fullTitle: 'Freshman Honors Project: Intro to Research',
+                    },
+                    {
+                        shortTitle: 'CHEM 109',
+                        fullTitle: 'Survey of Physical Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 110A',
+                        fullTitle: 'Chemical Thermodynamics',
+                    },
+                    {
+                        shortTitle: 'CHEM 110B',
+                        fullTitle: 'Introduction to Statistical mechanics and Kinetics',
+                    },
+                    {
+                        shortTitle: 'CHEM 111',
+                        fullTitle: 'Physical Chemistry Laboratory',
+                    },
+                    {
+                        shortTitle: 'CHEM 113',
+                        fullTitle: 'Physical Chemistry: Introduction to Quantum Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 114',
+                        fullTitle: 'Advanced Physical Chemistry Laboratory',
+                    },
+                    {
+                        shortTitle: 'CHEM 125W',
+                        fullTitle: 'Instrumental Methods',
+                    },
+                    {
+                        shortTitle: 'CHEM 135',
+                        fullTitle: 'Atmospheric Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 136',
+                        fullTitle: 'Chemistry of Natural Waters',
+                    },
+                    {
+                        shortTitle: 'CHEM 140',
+                        fullTitle: 'Environmental Chemistry Laboratory',
+                    },
+                    {
+                        shortTitle: 'CHEM 143',
+                        fullTitle: 'Chemical Biology',
+                    },
+                    {
+                        shortTitle: 'CHEM 150A',
+                        fullTitle: 'Inorganic Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 150B',
+                        fullTitle: 'Inorganic Chemistry',
+                    },
+                    {
+                        shortTitle: 'CHEM 155',
+                        fullTitle: 'Advanced Inorganic Chemistry: Synthesis and Mehtods',
+                    },
+                    {
+                        shortTitle: 'CHEM 166',
+                        fullTitle: 'Advanced Organic Chemistry: Synthesis and Mehtods',
+                    },
+                    {
+                        shortTitle: 'CHEM 190',
+                        fullTitle: 'Special Studies',
+                    },
+                    {
+                        shortTitle: 'CHEM 191',
+                        fullTitle: 'Seminar in Chemistry Careers',
+                    },
+                    {
+                        shortTitle: 'CHEM 197',
+                        fullTitle: 'Research For Undergraduates',
+                    },
+                    {
+                        shortTitle: 'CHEM 198I',
+                        fullTitle: 'Individual Internship',
+                    },
+                    {
+                        shortTitle: 'CHEM 199',
+                        fullTitle: 'Senior Research',
+                    },
+                    {
+                        shortTitle: 'CHEM 199H',
+                        fullTitle: 'Senior Honors Research',
+                    },
+                ],
             },
             {
                 name: 'Earth Sciences',
-                courses: [],
+                courses: [
+                    {
+                        shortTitle: 'GEO 001',
+                        fullTitle: 'The Earth\'s Crust and Interior',
+                    },
+                    {
+                        shortTitle: 'GEO 002',
+                        fullTitle: 'Earth\'s Climate Through Time',
+                    },
+                    {
+                        shortTitle: 'GEO 003',
+                        fullTitle: 'Headlines in the History of life',
+                    },
+                    {
+                        shortTitle: 'GEO 004',
+                        fullTitle: 'Natural Hazards and Disasters',
+                    },
+                    {
+                        shortTitle: 'GEO 005',
+                        fullTitle: 'Geoscience in Movies',
+                    },
+                    {
+                        shortTitle: 'GEO 007',
+                        fullTitle: 'Minerals and Human Health',
+                    },
+                    {
+                        shortTitle: 'GEO 008',
+                        fullTitle: 'Earthquake Country',
+                    },
+                    {
+                        shortTitle: 'GEO 009',
+                        fullTitle: 'Oceanography',
+                    },
+                    {
+                        shortTitle: 'GEO 009H',
+                        fullTitle: 'Honors Oceanography',
+                    },
+                    {
+                        shortTitle: 'GEO 010',
+                        fullTitle: 'Earth Resources and Sustainability',
+                    },
+                    {
+                        shortTitle: 'GEO 011',
+                        fullTitle: 'Global Climate Change',
+                    },
+                    {
+                        shortTitle: 'GEO 011H',
+                        fullTitle: 'Honors Global Climate Change',
+                    },
+                    {
+                        shortTitle: 'GEO 012',
+                        fullTitle: 'At Home in the Universe',
+                    },
+                    {
+                        shortTitle: 'GEO 013',
+                        fullTitle: 'Our Planetary Neighbors: the Solar System and Beyond',
+                    },
+                    {
+                        shortTitle: 'GEO 080',
+                        fullTitle: 'Astrology: the Search For Life in the Universe',
+                    },
+                    {
+                        shortTitle: 'GEO 100',
+                        fullTitle: 'Igneous and Metamorphic Petrology',
+                    },
+                    {
+                        shortTitle: 'GEO 101A',
+                        fullTitle: 'Field Geology',
+                    },
+                    {
+                        shortTitle: 'GEO 101B',
+                        fullTitle: 'Field Geology',
+                    },
+                    {
+                        shortTitle: 'GEO 102A',
+                        fullTitle: 'Summer Field Geology',
+                    },
+                    {
+                        shortTitle: 'GEO 102B',
+                        fullTitle: 'Summer Field Geology',
+                    },
+                    {
+                        shortTitle: 'GEO 111',
+                        fullTitle: 'Numerical Skills in Geoscience',
+                    },
+                    {
+                        shortTitle: 'GEO 115',
+                        fullTitle: 'Geologic Maps and Landforms',
+                    },
+                    {
+                        shortTitle: 'GEO 116',
+                        fullTitle: 'Structural Geology',
+                    },
+                    {
+                        shortTitle: 'GEO 118',
+                        fullTitle: 'Sedimentology and Stratigraphy',
+                    },
+                    {
+                        shortTitle: 'GEO 122',
+                        fullTitle: 'Mineralogy',
+                    },
+                    {
+                        shortTitle: 'GEO 123',
+                        fullTitle: 'Analytical Mineralogy',
+                    },
+                    {
+                        shortTitle: 'GEO 124',
+                        fullTitle: 'Advanced Petrogenesis',
+                    },
+                    {
+                        shortTitle: 'GEO 132',
+                        fullTitle: 'Groundwater Geology',
+                    },
+                    {
+                        shortTitle: 'GEO 136',
+                        fullTitle: 'Introduction to Molecular and Petroleum Geochemistry',
+                    },
+                    {
+                        shortTitle: 'GEO 137',
+                        fullTitle: 'Geochemistry of Natural Waters',
+                    },
+                    {
+                        shortTitle: 'GEO 138',
+                        fullTitle: 'Pedology',
+                    },
+                    {
+                        shortTitle: 'GEO 139',
+                        fullTitle: 'Soils and Landforms of California',
+                    },
+                    {
+                        shortTitle: 'GEO 140',
+                        fullTitle: 'Global Geophysics',
+                    },
+                    {
+                        shortTitle: 'GEO 144',
+                        fullTitle: 'Earthquake Seismology',
+                    },
+                    {
+                        shortTitle: 'GEO 145',
+                        fullTitle: 'Applied and Exploration Geophysics',
+                    },
+                    {
+                        shortTitle: 'GEO 147',
+                        fullTitle: 'Active Tectonics and Remote Sensing',
+                    },
+                    {
+                        shortTitle: 'GEO 151',
+                        fullTitle: 'Principles of Paleontology',
+                    },
+                    {
+                        shortTitle: 'GEO 152',
+                        fullTitle: 'Principles of Invertebrate Paleobiology and Paleoecology',
+                    },
+                    {
+                        shortTitle: 'GEO 157',
+                        fullTitle: 'Introduction to Geographical Information Science',
+                    },
+                    {
+                        shortTitle: 'GEO 158',
+                        fullTitle: 'Advanced Geographic Information System (GIS)',
+                    },
+                    {
+                        shortTitle: 'GEO 160',
+                        fullTitle: 'Global Climate Change',
+                    },
+                    {
+                        shortTitle: 'GEO 161',
+                        fullTitle: 'Cenozoic Climate Change',
+                    },
+                    {
+                        shortTitle: 'GEO 162',
+                        fullTitle: 'Geomorphology',
+                    },
+                    {
+                        shortTitle: 'GEO 163',
+                        fullTitle: 'Global Physical Climatology',
+                    },
+                    {
+                        shortTitle: 'GEO 167',
+                        fullTitle: 'Conservation Biogeography',
+                    },
+                    {
+                        shortTitle: 'GEO 169',
+                        fullTitle: 'California Vegetation',
+                    },
+                    {
+                        shortTitle: 'GEO 180',
+                        fullTitle: 'Exoplanetary Science Detection Tech',
+                    },
+                    {
+                        shortTitle: 'GEO 181',
+                        fullTitle: 'Exoplanetary Science Characterization',
+                    },
+                    {
+                        shortTitle: 'GEO 190',
+                        fullTitle: 'Special Studies',
+                    },
+                    {
+                        shortTitle: 'GEO 191',
+                        fullTitle: 'Undergraduate Seminar in Geological Sciences',
+                    },
+                    {
+                        shortTitle: 'GEO 195A',
+                        fullTitle: 'Senior Thesis',
+                    },
+                    {
+                        shortTitle: 'GEO 195B',
+                        fullTitle: 'Senior Thesis',
+                    },
+                    {
+                        shortTitle: 'GEO 195C',
+                        fullTitle: 'Senior Thesis',
+                    },
+                    {
+                        shortTitle: 'GEO 198I',
+                        fullTitle: 'Independent Internship',
+                    },
+                ],
             },
             {
                 name: 'Mathematics',
-                courses: [],
+                courses: [
+                    {
+                        shortTitle: 'MATH 002',
+                        fullTitle: 'Math Support Practicum',
+                    },
+                    {
+                        shortTitle: 'MATH 004',
+                        fullTitle: 'Introduction to College Mathematics For Business and the Social Sciences',
+                    },
+                    {
+                        shortTitle: 'MATH 005',
+                        fullTitle: 'Precalculus',
+                    },
+                    {
+                        shortTitle: 'MATH 006A',
+                        fullTitle: 'Introduction to College Mathematics For the Sciences',
+                    },
+                    {
+                        shortTitle: 'MATH 006B',
+                        fullTitle: 'Introduction to College Mathematics For the Sciences',
+                    },
+                    {
+                        shortTitle: 'MATH 007A',
+                        fullTitle: 'Calculus For Life Sciences',
+                    },
+                    {
+                        shortTitle: 'MATH 007B',
+                        fullTitle: 'Calculus For Life Sciences',
+                    },
+                    {
+                        shortTitle: 'MATH 008A',
+                        fullTitle: 'Introduction to College Mathematics For the Sciences',
+                    },
+                    {
+                        shortTitle: 'MATH 008B',
+                        fullTitle: 'Introduction to College Mathematics For the Sciences',
+                    },
+                    {
+                        shortTitle: 'MATH 009A',
+                        fullTitle: 'First-Year Calculus',
+                    },
+                    {
+                        shortTitle: 'MATH 009B',
+                        fullTitle: 'First-Year Calculus',
+                    },
+                    {
+                        shortTitle: 'MATH 009C',
+                        fullTitle: 'First-Year Calculus',
+                    },
+                    {
+                        shortTitle: 'MATH 09HA',
+                        fullTitle: 'First-Year Honors Calculus',
+                    },
+                    {
+                        shortTitle: 'MATH 09HB',
+                        fullTitle: 'First-Year Honors Calculus',
+                    },
+                    {
+                        shortTitle: 'MATH 09HC',
+                        fullTitle: 'First-Year Honors Calculus',
+                    },
+                    {
+                        shortTitle: 'MATH 010A',
+                        fullTitle: 'Calculus of Several Variables',
+                    },
+                    {
+                        shortTitle: 'MATH 010B',
+                        fullTitle: 'Calculus of Several Variables',
+                    },
+                    {
+                        shortTitle: 'MATH 011',
+                        fullTitle: 'Introduction to Discrete Structures',
+                    },
+                    {
+                        shortTitle: 'MATH 022',
+                        fullTitle: 'Calculus For Business',
+                    },
+                    {
+                        shortTitle: 'MATH 031',
+                        fullTitle: 'Applied Linear Algebra',
+                    },
+                    {
+                        shortTitle: 'MATH 046',
+                        fullTitle: 'Introduction to Ordinary Differential Equations',
+                    },
+                    {
+                        shortTitle: 'MATH 120',
+                        fullTitle: 'Optimization',
+                    },
+                    {
+                        shortTitle: 'MATH 121',
+                        fullTitle: 'Game Theory',
+                    },
+                    {
+                        shortTitle: 'MATH 126',
+                        fullTitle: 'Combinatorics',
+                    },
+                    {
+                        shortTitle: 'MATH 131',
+                        fullTitle: 'Linear Algebra I',
+                    },
+                    {
+                        shortTitle: 'MATH 132',
+                        fullTitle: 'Linear Algebra II',
+                    },
+                    {
+                        shortTitle: 'MATH 133',
+                        fullTitle: 'Geometry',
+                    },
+                    {
+                        shortTitle: 'MATH 135A',
+                        fullTitle: 'Introduction to Numerical Analysis',
+                    },
+                    {
+                        shortTitle: 'MATH 135B',
+                        fullTitle: 'Introduction to Numerical Analysis',
+                    },
+                    {
+                        shortTitle: 'MATH 136',
+                        fullTitle: 'Introduction to the Theory of Numbers',
+                    },
+                    {
+                        shortTitle: 'MATH 137',
+                        fullTitle: 'Plane Curves',
+                    },
+                    {
+                        shortTitle: 'MATH 138A',
+                        fullTitle: 'Introduction to Differential Geometry',
+                    },
+                    {
+                        shortTitle: 'MATH 138B',
+                        fullTitle: 'Introduction to Differential Geometry',
+                    },
+                    {
+                        shortTitle: 'MATH 140',
+                        fullTitle: 'Polynomials and Number Systems',
+                    },
+                    {
+                        shortTitle: 'MATH 141',
+                        fullTitle: 'Fractal Geometry With Applications',
+                    },
+                    {
+                        shortTitle: 'MATH 144',
+                        fullTitle: 'Introduction to Set Theory',
+                    },
+                    {
+                        shortTitle: 'MATH 145A',
+                        fullTitle: 'Introduction Topology',
+                    },
+                    {
+                        shortTitle: 'MATH 145B',
+                        fullTitle: 'Introduction Topology',
+                    },
+                    {
+                        shortTitle: 'MATH 146A',
+                        fullTitle: 'Ordinary and Partial Differential Equations',
+                    },
+                    {
+                        shortTitle: 'MATH 146B',
+                        fullTitle: 'Ordinary and Partial Differential Equations',
+                    },
+                    {
+                        shortTitle: 'MATH 146C',
+                        fullTitle: 'Ordinary and Partial Differential Equations',
+                    },
+                    {
+                        shortTitle: 'MATH 147',
+                        fullTitle: 'Introduction to Fourier Analysis and its Applications',
+                    },
+                    {
+                        shortTitle: 'MATH 148',
+                        fullTitle: 'Introduction to Chaotic and Complex Dynamical Systems',
+                    },
+                    {
+                        shortTitle: 'MATH 149A',
+                        fullTitle: 'Probability and Mathematical Statistics',
+                    },
+                    {
+                        shortTitle: 'MATH 149B',
+                        fullTitle: 'Probability and Mathematical Statistics',
+                    },
+                    {
+                        shortTitle: 'MATH 150A',
+                        fullTitle: 'Intermediate Analysis',
+                    },
+                    {
+                        shortTitle: 'MATH 150B',
+                        fullTitle: 'Intermediate Analysis',
+                    },
+                    {
+                        shortTitle: 'MATH 151A',
+                        fullTitle: 'Advanced Calculus',
+                    },
+                    {
+                        shortTitle: 'MATH 151B',
+                        fullTitle: 'Advanced Calculus',
+                    },
+                    {
+                        shortTitle: 'MATH 151C',
+                        fullTitle: 'Advanced Calculus',
+                    },
+                    {
+                        shortTitle: 'MATH 153',
+                        fullTitle: 'History of Mathematics',
+                    },
+                    {
+                        shortTitle: 'MATH 165A',
+                        fullTitle: 'Introduction to Complex Variables',
+                    },
+                    {
+                        shortTitle: 'MATH 165B',
+                        fullTitle: 'Introduction to Complex Variables',
+                    },
+                    {
+                        shortTitle: 'MATH 168',
+                        fullTitle: 'Introduction to Mathematical Modeling',
+                    },
+                    {
+                        shortTitle: 'MATH 171',
+                        fullTitle: 'Introduction to Modern Algebra',
+                    },
+                    {
+                        shortTitle: 'MATH 172',
+                        fullTitle: 'Modern Algebra',
+                    },
+                    {
+                        shortTitle: 'MATH 190',
+                        fullTitle: 'Special Studies',
+                    },
+                    {
+                        shortTitle: 'MATH 194',
+                        fullTitle: 'Independent Reading',
+                    },
+                    {
+                        shortTitle: 'MATH 197',
+                        fullTitle: 'Research For Undergraduates',
+                    },
+                    {
+                        shortTitle: 'MATH 198I',
+                        fullTitle: 'Internship in Mathematics',
+                    },
+                ],
             },
 
             {
                 name: 'Physics and Astronomy',
-                courses: [],
+                courses: [
+                    {
+                        shortTitle: 'PHYS 002A',
+                        fullTitle: 'General Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 002B',
+                        fullTitle: 'General Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 002C',
+                        fullTitle: 'General Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 02LA',
+                        fullTitle: 'General Physics Laboratory',
+                    },
+                    {
+                        shortTitle: 'PHYS 02LB',
+                        fullTitle: 'General Physics Laboratory',
+                    },
+                    {
+                        shortTitle: 'PHYS 02LC',
+                        fullTitle: 'General Physics Laboratory',
+                    },
+                    {
+                        shortTitle: 'PHYS 02HA',
+                        fullTitle: 'Honors General Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 02HB',
+                        fullTitle: 'Honors General Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 02HC',
+                        fullTitle: 'Honors General Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 02HLA',
+                        fullTitle: 'Honors General Physics Laboratory',
+                    },
+                    {
+                        shortTitle: 'PHYS 02HLB',
+                        fullTitle: 'Honors General Physics Laboratory',
+                    },
+                    {
+                        shortTitle: 'PHYS 02HLC',
+                        fullTitle: 'Honors General Physics Laboratory',
+                    },
+                    {
+                        shortTitle: 'PHYS 005',
+                        fullTitle: 'History of the Universe',
+                    },
+                    {
+                        shortTitle: 'PHYS 006',
+                        fullTitle: 'The Violent Universe',
+                    },
+                    {
+                        shortTitle: 'PHYS 007',
+                        fullTitle: 'Space -Time, Relativity, and Cosmology',
+                    },
+                    {
+                        shortTitle: 'PHYS 008',
+                        fullTitle: 'Color and Sound: Dimensions In Communication',
+                    },
+                    {
+                        shortTitle: 'PHYS 010',
+                        fullTitle: 'How Things Work',
+                    },
+                    {
+                        shortTitle: 'PHYS 016',
+                        fullTitle: 'Principles of Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 017',
+                        fullTitle: 'Linear Algebra For Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 018',
+                        fullTitle: 'Energy and the Environment',
+                    },
+                    {
+                        shortTitle: 'PHYS 020',
+                        fullTitle: 'Exploring the Universe: An Adventure in Astronomy',
+                    },
+                    {
+                        shortTitle: 'PHYS 024',
+                        fullTitle: 'DNA in Your Life: the Physical Basis For Structure, Function, and Control',
+                    },
+                    {
+                        shortTitle: 'PHYS 037',
+                        fullTitle: 'The Origins',
+                    },
+                    {
+                        shortTitle: 'PHYS 039',
+                        fullTitle: 'Adventures in Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 040A',
+                        fullTitle: 'General Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 040B',
+                        fullTitle: 'General Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 040C',
+                        fullTitle: 'General Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 040D',
+                        fullTitle: 'General Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 040E',
+                        fullTitle: 'General Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 040HA',
+                        fullTitle: 'Honors General Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 040HB',
+                        fullTitle: 'Honors General Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 040HC',
+                        fullTitle: 'Honors General Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 041A',
+                        fullTitle: 'Introductory Physics For Physics Majors',
+                    },
+                    {
+                        shortTitle: 'PHYS 041B',
+                        fullTitle: 'Introductory Physics For Physics Majors',
+                    },
+                    {
+                        shortTitle: 'PHYS 041C',
+                        fullTitle: 'Introductory Physics For Physics Majors',
+                    },
+                    {
+                        shortTitle: 'PHYS 050',
+                        fullTitle: 'Introduction to Applied Data Science: A Multi-Disciplinary Approach',
+                    },
+                    {
+                        shortTitle: 'PHYS 0497',
+                        fullTitle: 'Lower-Division Research',
+                    },
+                    {
+                        shortTitle: 'PHYS 111',
+                        fullTitle: 'Introductory Physics For Physics Majors',
+                    },
+                    {
+                        shortTitle: 'PHYS 117',
+                        fullTitle: 'Advanced Mathematics Methods of Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 130A',
+                        fullTitle: 'Classical Mechanics',
+                    },
+                    {
+                        shortTitle: 'PHYS 130B',
+                        fullTitle: 'Classical Mechanics',
+                    },
+                    {
+                        shortTitle: 'PHYS 132',
+                        fullTitle: 'Thermal Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 133',
+                        fullTitle: 'Advanced Statistical Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 135A',
+                        fullTitle: 'Electromagnetism',
+                    },
+                    {
+                        shortTitle: 'PHYS 135B',
+                        fullTitle: 'Electromagnetism',
+                    },
+                    {
+                        shortTitle: 'PHYS 136',
+                        fullTitle: 'Electromagnetic Waves',
+                    },
+                    {
+                        shortTitle: 'PHYS 139L',
+                        fullTitle: 'Electronics For Scientists',
+                    },
+                    {
+                        shortTitle: 'PHYS 142L',
+                        fullTitle: 'Advanced Physics Laboratory',
+                    },
+                    {
+                        shortTitle: 'PHYS 142W',
+                        fullTitle: 'Advanced Physics Laboratory',
+                    },
+                    {
+                        shortTitle: 'PHYS 145A',
+                        fullTitle: 'Biophysics',
+                    },
+                    {
+                        shortTitle: 'PHYS 145B',
+                        fullTitle: 'Biophysics',
+                    },
+                    {
+                        shortTitle: 'PHYS 145C',
+                        fullTitle: 'Biophysics',
+                    },
+                    {
+                        shortTitle: 'PHYS 150A',
+                        fullTitle: 'Introduction to Condensed Matter Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 150B',
+                        fullTitle: 'Introduction to Condensed Matter Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 151',
+                        fullTitle: 'Topics in Modern Condensed Matter Research',
+                    },
+                    {
+                        shortTitle: 'PHYS 152A',
+                        fullTitle: 'Exploring Many-Body Quantum Physics With Mathematica',
+                    },
+                    {
+                        shortTitle: 'PHYS 152B',
+                        fullTitle: 'Exploring Many-Body Quantum Physics With Mathematica',
+                    },
+                    {
+                        shortTitle: 'PHYS 156A',
+                        fullTitle: 'Quantum Mechanics',
+                    },
+                    {
+                        shortTitle: 'PHYS 156B',
+                        fullTitle: 'Quantum Mechanics',
+                    },
+                    {
+                        shortTitle: 'PHYS 156C',
+                        fullTitle: 'Quantum Mechanics',
+                    },
+                    {
+                        shortTitle: 'PHYS 163',
+                        fullTitle: 'Atomic Physics and Spectroscopy',
+                    },
+                    {
+                        shortTitle: 'PHYS 164',
+                        fullTitle: 'Introduction to Nuclear Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 165',
+                        fullTitle: 'Introduction to Particle Physics',
+                    },
+                    {
+                        shortTitle: 'PHYS 166',
+                        fullTitle: 'Cosmology',
+                    },
+                    {
+                        shortTitle: 'PHYS 168',
+                        fullTitle: 'Energy and the Environment',
+                    },
+                    {
+                        shortTitle: 'PHYS 177',
+                        fullTitle: 'Computational Methods For Physical Sciences',
+                    },
+                    {
+                        shortTitle: 'PHYS 190',
+                        fullTitle: 'Special Studies',
+                    },
+                    {
+                        shortTitle: 'PHYS 190L',
+                        fullTitle: 'Special Studies at Los Alamos national Laboratory',
+                    },
+                    {
+                        shortTitle: 'PHYS 195A',
+                        fullTitle: 'Senior Thesis',
+                    },
+                    {
+                        shortTitle: 'PHYS 195B',
+                        fullTitle: 'Senior Thesis',
+                    },
+                    {
+                        shortTitle: 'PHYS 195C',
+                        fullTitle: 'Senior Thesis',
+                    },
+                    {
+                        shortTitle: 'PHYS 195D',
+                        fullTitle: 'Senior Thesis',
+                    },
+                    {
+                        shortTitle: 'PHYS 197',
+                        fullTitle: 'Research For Undergraduates',
+                    },
+                    {
+                        shortTitle: 'PHYS 198I',
+                        fullTitle: 'Individual Internship in Physics',
+                    },
+                ],
             },
             {
                 name: 'Statistics',
-                courses: [],
+                courses: [
+                    {
+                        shortTitle: 'STAT 040',
+                        fullTitle: 'Elements of Data Science',
+                    },
+                    {
+                        shortTitle: 'STAT 048',
+                        fullTitle: 'Statistics For Business',
+                    },
+                    {
+                        shortTitle: 'STAT 100A',
+                        fullTitle: 'Introduction to Statistics',
+                    },
+                    {
+                        shortTitle: 'STAT 100B',
+                        fullTitle: 'Introduction to Statistics',
+                    },
+                    {
+                        shortTitle: 'STAT 104',
+                        fullTitle: 'Decision Analysis and Management Science',
+                    },
+                    {
+                        shortTitle: 'STAT 110',
+                        fullTitle: 'Biostatistical Methods In Life Sciences',
+                    },
+                    {
+                        shortTitle: 'STAT 127',
+                        fullTitle: 'Introduction to Quality Improvements',
+                    },
+                    {
+                        shortTitle: 'STAT 130',
+                        fullTitle: 'Sampling Surveys',
+                    },
+                    {
+                        shortTitle: 'STAT 140',
+                        fullTitle: 'Nonparametric Techniques',
+                    },
+                    {
+                        shortTitle: 'STAT 146',
+                        fullTitle: 'Statistical Forcasting Techniques',
+                    },
+                    {
+                        shortTitle: 'STAT 147',
+                        fullTitle: 'Introduction to Statistical Computing',
+                    },
+                    {
+                        shortTitle: 'STAT 155',
+                        fullTitle: 'Probability and Statistics For Science and Engineering',
+                    },
+                    {
+                        shortTitle: 'STAT 156A',
+                        fullTitle: 'Mathematical Statistics With Applications For Data Science I',
+                    },
+                    {
+                        shortTitle: 'STAT 156B',
+                        fullTitle: 'Mathematical Statistics With Applications For Data Science II',
+                    },
+                    {
+                        shortTitle: 'STAT 157',
+                        fullTitle: 'Statistical Computer Packages',
+                    },
+                    {
+                        shortTitle: 'STAT 160A',
+                        fullTitle: 'Elements of Probability and Statistical Theory',
+                    },
+                    {
+                        shortTitle: 'STAT 160B',
+                        fullTitle: 'Elements of Probability and Statistical Theory',
+                    },
+                    {
+                        shortTitle: 'STAT 160C',
+                        fullTitle: 'Elements of Probability and Statistical Theory',
+                    },
+                    {
+                        shortTitle: 'STAT 161',
+                        fullTitle: 'Introduction to Probability Models',
+                    },
+                    {
+                        shortTitle: 'STAT 167',
+                        fullTitle: 'Introduction to Data Science',
+                    },
+                    {
+                        shortTitle: 'STAT 170A',
+                        fullTitle: 'Regression Analysis',
+                    },
+                    {
+                        shortTitle: 'STAT 170B',
+                        fullTitle: 'Design of Experiments',
+                    },
+                    {
+                        shortTitle: 'STAT 171',
+                        fullTitle: 'General Statistical Models',
+                    },
+                    {
+                        shortTitle: 'STAT 183',
+                        fullTitle: 'Statistical Consulting',
+                    },
+                    {
+                        shortTitle: 'STAT 190',
+                        fullTitle: 'Special Studies',
+                    },
+                    {
+                        shortTitle: 'STAT 197',
+                        fullTitle: 'Research For Undergraduates',
+                    },
+                    {
+                        shortTitle: 'STAT 198I',
+                        fullTitle: 'Indicidual Internship In Statistics',
+                    },
+                    {
+                        shortTitle: 'STAT 199H',
+                        fullTitle: 'Senior Honors Research',
+                    },
+                ],
             },
         ],
     },
