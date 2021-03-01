@@ -97,7 +97,11 @@ function ConversationList({ setReceiver, receiver }: ConversationListProps) {
                     </div>
                 )}
             </Grid>
-            <Dialog {...DialogProps} title='Enter email' maxWidth='sm'>
+            <Dialog
+                {...DialogProps}
+                title="Enter recipient's email"
+                maxWidth='sm'
+            >
                 <NewMessageForm
                     setReceiver={setReceiver}
                     closeForm={closeDialog}

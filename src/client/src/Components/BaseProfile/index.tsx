@@ -59,7 +59,9 @@ function BaseProfile({
                         <Grid item>
                             <Typography variant='h4'>
                                 {getUserName()}
-                                {!hasPermission && (<MessageButton email={email}/> )}
+                                {!hasPermission && (
+                                    <MessageButton email={email} />
+                                )}
                             </Typography>
                         </Grid>
                     </Grid>

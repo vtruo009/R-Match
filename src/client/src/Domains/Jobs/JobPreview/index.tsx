@@ -57,7 +57,7 @@ function JobPreview({
                 onClick={onClick}
                 isSelected={isSelected}
                 visual={<JobTypeIcon type={job.type[0]} size={60} />}
-                title={shortenString(job.title, 30)}
+                title={shortenString(job.title, 20)}
                 values={prepareValues()}
             />
             <Dialog

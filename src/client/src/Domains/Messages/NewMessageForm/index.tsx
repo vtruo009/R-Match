@@ -36,8 +36,12 @@ function NewMessageForm({ setReceiver, closeForm }: NewMessageFormProps) {
     const request = React.useCallback(() => createMessage(email), [email]);
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: (response) => {
-            setReceiver(response.data.user);
-            snack('New message successfully created', 'success');
+            const { user } = response.data;
+            setReceiver(user);
+            snack(
+                `You can start a conversation with ${user.firstName}`,
+                'success'
+            );
             closeForm();
         },
         onFailure: (error, results) => {

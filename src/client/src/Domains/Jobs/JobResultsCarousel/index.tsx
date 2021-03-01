@@ -23,6 +23,9 @@ interface JobResultsHorizontalProps {
 
 function JobResultsHorizontal({ title, request }: JobResultsHorizontalProps) {
     const [jobs, setJobs] = React.useState<IJob[]>([]);
+    const { openDialog, DialogProps, Dialog, closeDialog } = useDialog();
+    const [selectedJob, setSelectedJob] = React.useState<IJob>();
+
     const [sendRequest] = useApi(request, {
         onSuccess: (response) => {
             setJobs(response.data.jobs);
@@ -31,9 +34,6 @@ function JobResultsHorizontal({ title, request }: JobResultsHorizontalProps) {
     const removeJob = (jobToRemoveId: number) =>
         setJobs(jobs.filter((job) => job.id !== jobToRemoveId));
 
-    React.useEffect(() => sendRequest(), [sendRequest]);
-    const { openDialog, DialogProps, Dialog, closeDialog } = useDialog();
-    const [selectedJob, setSelectedJob] = React.useState<IJob>();
     const numberOfJobsPerSection = 3;
     const createJobSections = React.useCallback(() => {
         const jobSections = [];
@@ -46,6 +46,8 @@ function JobResultsHorizontal({ title, request }: JobResultsHorizontalProps) {
         }
         return jobSections;
     }, [jobs]);
+
+    React.useEffect(() => sendRequest(), [sendRequest]);
 
     return jobs.length > 0 ? (
         <Grid container spacing={4}>
@@ -85,7 +87,12 @@ function JobResultsHorizontal({ title, request }: JobResultsHorizontalProps) {
                         )}
                     >
                         {createJobSections().map((jobSection) => (
-                            <Grid container justify='center' spacing={1}>
+                            <Grid
+                                container
+                                justify='center'
+                                alignItems='center'
+                                spacing={1}
+                            >
                                 {jobSection.map((job, index) => (
                                     <Grid item xs={12} md={4} key={index}>
                                         <JobPreview
@@ -105,7 +112,11 @@ function JobResultsHorizontal({ title, request }: JobResultsHorizontalProps) {
                         ))}
                     </Carousel>
                     {selectedJob && (
-                        <Dialog {...DialogProps} title='Job Information'>
+                        <Dialog
+                            {...DialogProps}
+                            title='Job Information'
+                            fullScreen
+                        >
                             <JobSummary
                                 job={selectedJob}
                                 hasPermission={false}

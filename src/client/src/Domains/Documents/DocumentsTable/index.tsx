@@ -25,7 +25,7 @@ import {
 } from 'Domains/Documents/api';
 import PDFViewer from 'Domains/Documents/PDFViewer';
 
-function Documents() {
+function DocumentsTable() {
     const uploadDialog = useDialog();
     const pdfDialog = useDialog();
     const [snack] = useSnack();
@@ -118,7 +118,7 @@ function Documents() {
                                     </TableCell>
                                     <TableCell align='center'>
                                         <CheckBox
-                                            color='primary'
+                                            color='secondary'
                                             onClick={() => {
                                                 setDefaultDocumentData({
                                                     documentId: resume.id,
@@ -201,7 +201,7 @@ function Documents() {
                                     </TableCell>
                                     <TableCell align='center'>
                                         <CheckBox
-                                            color='primary'
+                                            color='secondary'
                                             onClick={() => {
                                                 setDefaultDocumentData({
                                                     documentId: transcript.id,
@@ -281,4 +281,4 @@ function Documents() {
     );
 }
 
-export default Documents;
+export default DocumentsTable;

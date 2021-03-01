@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Document from 'Domains/Documents/DocumentsList';
+import Document from 'Domains/Documents/DocumentsTable';
 
 function Documents() {
     return <Document />;

@@ -83,7 +83,7 @@ function Messages({ receiver }: MessagesProps) {
             <Grid
                 item
                 id='chatArea'
-                style={{ overflow: 'auto', height: '300px', width: '100%' }}
+                style={{ overflow: 'auto', height: '500px', width: '100%' }}
             >
                 {isLoading ? (
                     <Grid container justify='center'>

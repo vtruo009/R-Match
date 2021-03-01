@@ -34,7 +34,7 @@ function Pagination({
     return numOfPages > 1 ? (
         <Grid container justify='center' style={{ marginTop: 50 }}>
             <MUIPagination
-                color='primary'
+                color='secondary'
                 shape='rounded'
                 page={page}
                 count={numOfPages}

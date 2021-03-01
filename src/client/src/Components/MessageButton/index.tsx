@@ -1,6 +1,6 @@
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import MailIcon from '@material-ui/icons/Mail';
+import MessageIcon from '@material-ui/icons/Message';
 import { Link } from 'react-router-dom';
 
 interface MessageButtonProps {
@@ -9,8 +9,8 @@ interface MessageButtonProps {
 
 function MessageButton({ email }: MessageButtonProps) {
     return (
-        <IconButton color='primary' component={Link} to={`/message/${email}`}>
-            {<MailIcon />}
+        <IconButton color='secondary' component={Link} to={`/message/${email}`}>
+            {<MessageIcon />}
         </IconButton>
     );
 }

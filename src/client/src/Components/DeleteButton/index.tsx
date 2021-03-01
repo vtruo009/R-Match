@@ -13,7 +13,13 @@ import Button from 'Components/Button';
 import CancelButton from 'Components/CancelButton';
 
 const useStyles = makeStyles((theme) => ({
-    warning: {
+    warningButton: {
+        backgroundColor: theme.palette.warning.main,
+        '&:hover': {
+            backgroundColor: theme.palette.warning.main,
+        },
+    },
+    warningColor: {
         color: theme.palette.warning.main,
     },
 }));
@@ -49,7 +55,7 @@ function DeleteButton({
                     openDialog();
                     if (onClickBeforeRequest) onClickBeforeRequest();
                 }}
-                className={classes.warning}
+                className={classes.warningColor}
                 {...props}
             >
                 {<TrashCanIcon />}
@@ -57,13 +63,13 @@ function DeleteButton({
             <Dialog
                 {...DialogProps}
                 title={
-                    <Typography variant='h3' className={classes.warning}>
+                    <Typography variant='h3' className={classes.warningColor}>
                         Warning:
                     </Typography>
                 }
             >
                 <div>
-                    <Typography variant='h6'>
+                    <Typography variant='h6' style={{ marginBottom: 20 }}>
                         <b>{message}</b>
                     </Typography>
                     <DialogActions>
@@ -72,10 +78,9 @@ function DeleteButton({
                             disabled={isLoading}
                         />
                         <Button
-                            color='default'
                             disabled={isLoading}
                             onClick={sendDeleteRequest}
-                            className={classes.warning}
+                            className={classes.warningButton}
                         >
                             Confirm
                         </Button>
