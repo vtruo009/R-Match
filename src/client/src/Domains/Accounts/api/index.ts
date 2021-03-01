@@ -31,12 +31,13 @@ export async function signUp(signUpData: ISignUpForm) {
 }
 
 export async function signIn(signInData: ISignInForm) {
-    return API.post<{ user: IAuthUser; isAuthenticated: boolean, error: string }>(
-        '/user/sign-in',
-        {
-            ...signInData,
-        }
-    );
+    return API.post<{
+        user: IAuthUser;
+        isAuthenticated: boolean;
+        error: string;
+    }>('/user/sign-in', {
+        ...signInData,
+    });
 }
 
 export async function signOut() {
@@ -45,4 +46,10 @@ export async function signOut() {
 
 export async function verify(verificationKey: string) {
     return API.post<{ error: string }>('/user/verify', { verificationKey });
+}
+
+export async function updateEmail(email: IUser['email']) {
+    return API.post<{ error: string }>('/user/update-email', {
+        email,
+    });
 }
