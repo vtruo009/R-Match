@@ -27,3 +27,7 @@ export const signInSchema = Joi.object({
 export const emailVerificationSchema = Joi.object({
     verificationKey: Joi.string().required(),
 });
+
+export const updateEmailSchema = Joi.object({
+    email: Joi.string().email().required(),
+});
