@@ -543,8 +543,7 @@ export const getApplicants = async (
         return getApplicantsResult;
     }
 
-    // Returns all students applied to the position.
-    const applicants = await getRepository(JobApplication)
+    const perfectMatchApplicants = await getRepository(JobApplication)
         .createQueryBuilder('jobApplication')
         .leftJoin('jobApplication.student', 'student')
         .addSelect(['student.id', 'student.classStanding'])
@@ -555,10 +554,51 @@ export const getApplicants = async (
         .leftJoinAndSelect('student.courses', 'course')
         .where({ jobId })
         .andWhere(
-            '(NOT :departmentIdsPopulated OR department.id IN (:...departmentIds))',
+            `(NOT :departmentIdsPopulated OR
+                (department.id IS NOT NULL AND department.id IN (:...departmentIds)))`,
             {
                 departmentIdsPopulated: departmentIds.length > 0,
-                departmentIds: departmentIds.length > 0 ? departmentIds : [-1],
+                departmentIds: departmentIds.length > 0 ? departmentIds : [-1]
+            }
+        )
+        .andWhere(
+            '(student.classStanding IN (:...classStandings))',
+            {
+                classStandings,
+            }
+        )
+        // Selects student who has taken at least one specified course.
+        .andWhere(qb => {
+            var subQuery = "";
+            for (var i = 0; i < courseIds.length; ++i) {
+                subQuery += ` OR course.id = ${courseIds[i]}`
+            }
+            return `(NOT :courseIdsPopulated${subQuery})`;
+        }, {
+            courseIdsPopulated: courseIds.length > 0,
+            courseIds: courseIds.length > 0 ? courseIds : [-1]
+        })
+        .andWhere('(NOT :gpaIsPopulated OR student.gpa >= :minimumGpa)', {
+            gpaIsPopulated: minimumGpa > 0,
+            minimumGpa,
+        })
+        .getMany();
+
+    const parialMatchApplicants = await getRepository(JobApplication)
+        .createQueryBuilder('jobApplication')
+        .leftJoin('jobApplication.student', 'student')
+        .addSelect(['student.id', 'student.classStanding'])
+        .leftJoin('student.user', 'user')
+        .addSelect(['user.firstName', 'user.lastName'])
+        .leftJoinAndSelect('student.department', 'department')
+        .leftJoinAndSelect('department.college', 'college')
+        .leftJoinAndSelect('student.courses', 'course')
+        .where({ jobId })
+        .andWhere(
+            '(NOT :departmentIdsPopulated OR department.id IS NULL OR department.id IN (:...departmentIds))',
+            {
+                departmentIdsPopulated: departmentIds.length > 0,
+                departmentIds: departmentIds.length > 0 ? departmentIds : [-1]
             }
         )
         .andWhere(
@@ -567,33 +607,34 @@ export const getApplicants = async (
                 classStandings,
             }
         )
-        .andWhere('(NOT :gpaIsPopulated OR student.gpa >= :minimumGpa)', {
+        // Selects student who has taken at least one specified course.
+        .andWhere(qb => {
+            var subQuery = "";
+            for (var i = 0; i < courseIds.length; ++i) {
+                subQuery += ` OR course.id = ${courseIds[i]}`
+            }
+            return `(NOT :courseIdsPopulated${subQuery})`;
+        }, {
+            courseIdsPopulated: courseIds.length > 0,
+            courseIds: courseIds.length > 0 ? courseIds : [-1]
+        })
+        .andWhere('(student.gpa IS NULL OR  NOT :gpaIsPopulated OR student.gpa >= :minimumGpa)', {
             gpaIsPopulated: minimumGpa > 0,
             minimumGpa,
         })
-        // Selects student who has taken at least one specified course.
-        .andWhere(
-            (qb) => {
-                var subQuery = '';
-                for (var i = 0; i < courseIds.length; ++i) {
-                    if (i == 0) subQuery += ` OR (course.id = ${courseIds[i]}`;
-                    else subQuery += ` OR course.id = ${courseIds[i]}`;
-                    if (i == courseIds.length - 1) subQuery += ')';
-                }
-                return `(NOT :courseIdsPopulated${subQuery})`;
-            },
-            {
-                courseIdsPopulated: courseIds.length > 0,
-                courseIds: courseIds.length > 0 ? courseIds : [-1],
-            }
-        )
-        .skip((page - 1) * numOfItems)
-        .take(numOfItems)
-        .getManyAndCount();
+        .getMany();
+
+    const perfectMatchStudentIds = perfectMatchApplicants.map((application) => application.studentId);
+    // Filter out perfect match students from the partial match student list to remove duplicate.
+    const filteredPparialMatchApplicants = parialMatchApplicants.filter(
+        (application) => perfectMatchStudentIds.indexOf(application.studentId) === -1)
+
+    const result = perfectMatchApplicants
+        .concat(filteredPparialMatchApplicants);
 
     getApplicantsResult.message = 'Successfully obtained applicants.';
-    getApplicantsResult.result = applicants[0];
-    getApplicantsResult.count = applicants[1];
+    getApplicantsResult.result = result.slice((page - 1) * numOfItems, (page - 1) * numOfItems + numOfItems);
+    getApplicantsResult.count = result.length;
 
     return getApplicantsResult;
 };
