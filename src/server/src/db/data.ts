@@ -29,7 +29,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'BCH 096',
-                        fullTitle: 'Introduction to Humanitarian and Healthcare Service ' ,
+                        fullTitle:
+                            'Introduction to Humanitarian and Healthcare Service ',
                     },
                     {
                         shortTitle: 'BCH 097',
@@ -37,7 +38,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'BCH 098-I',
-                        fullTitle: 'Individual Internship in a Humanitarian or Healthcare Arena',
+                        fullTitle:
+                            'Individual Internship in a Humanitarian or Healthcare Arena',
                     },
                     {
                         shortTitle: 'BCH 100',
@@ -57,7 +59,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'BCH 111',
-                        fullTitle: 'Molecular Biology and Genomics of Human Disease Vectors',
+                        fullTitle:
+                            'Molecular Biology and Genomics of Human Disease Vectors',
                     },
                     {
                         shortTitle: 'BCH 120',
@@ -65,7 +68,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'BCH 153',
-                        fullTitle: 'Plant Genomics and Biotechnology Laboratory',
+                        fullTitle:
+                            'Plant Genomics and Biotechnology Laboratory',
                     },
                     {
                         shortTitle: 'BCH 162',
@@ -84,112 +88,113 @@ export const colleges = [
                         fullTitle: 'Advanced Biochemistry Laboratory',
                     },
                     {
-                        shortTitle: 'BCH 183', 
-                        fullTitle: 'Plant Biochemistry and Pharmacology of Plant Metabolites',
+                        shortTitle: 'BCH 183',
+                        fullTitle:
+                            'Plant Biochemistry and Pharmacology of Plant Metabolites',
                     },
                     {
-                        shortTitle: 'BCH 184', 
-                        fullTitle: 'Topics in Physical Biochemistry'
+                        shortTitle: 'BCH 184',
+                        fullTitle: 'Topics in Physical Biochemistry',
                     },
                     {
-                        shortTitle: 'BCH 186', 
+                        shortTitle: 'BCH 186',
                         fullTitle: 'Topics in Molecular Bioenergetics',
                     },
                     {
-                        shortTitle: 'BCH 187', 
+                        shortTitle: 'BCH 187',
                         fullTitle: 'Fundamentals of Enzymology',
                     },
                     {
-                        shortTitle: 'BCH 189', 
+                        shortTitle: 'BCH 189',
                         fullTitle: 'Advanced Analysis of Biochemical Methods',
                     },
                     {
-                        shortTitle: 'BCH 190', 
+                        shortTitle: 'BCH 190',
                         fullTitle: 'Special Studies',
                     },
                     {
-                        shortTitle: 'BCH 197', 
+                        shortTitle: 'BCH 197',
                         fullTitle: 'Research for Undergraduate Students',
                     },
                     {
-                        shortTitle: 'BCH 198', 
+                        shortTitle: 'BCH 198',
                         fullTitle: 'Internship in Biochemistry',
                     },
-                ]
+                ],
             },
             {
                 name: 'Bioengineering',
                 courses: [
                     {
-                        shortTitle: 'BIEN 001', 
+                        shortTitle: 'BIEN 001',
                         fullTitle: 'Freshmen Seminar',
                     },
                     {
-                        shortTitle: 'BIEN 010', 
+                        shortTitle: 'BIEN 010',
                         fullTitle: 'Overview of Bioengineering',
                     },
                     {
-                        shortTitle: 'BIEN 101', 
+                        shortTitle: 'BIEN 101',
                         fullTitle: 'Quantitative Biochemistry',
                     },
                     {
-                        shortTitle: 'BIEN 110', 
+                        shortTitle: 'BIEN 110',
                         fullTitle: 'Biomechanics of the Human Body',
                     },
                     {
-                        shortTitle: 'BIEN 105', 
+                        shortTitle: 'BIEN 105',
                         fullTitle: 'Circulation Physiology',
                     },
                     {
-                        shortTitle: 'BIEN 125', 
+                        shortTitle: 'BIEN 125',
                         fullTitle: 'Biotechnology and Molecular Engineering',
                     },
                     {
-                        shortTitle: 'BIEN 140A', 
-                        fullTitle: 'Biomaterials',                  
+                        shortTitle: 'BIEN 140A',
+                        fullTitle: 'Biomaterials',
                     },
                     {
-                        shortTitle: 'BIEN 115', 
+                        shortTitle: 'BIEN 115',
                         fullTitle: 'Quantitative Physiology',
                     },
                     {
-                        shortTitle: 'BIEN 120', 
+                        shortTitle: 'BIEN 120',
                         fullTitle: 'Biosystems and Signals Analysis',
                     },
                     {
-                        shortTitle: 'BIEN 130', 
+                        shortTitle: 'BIEN 130',
                         fullTitle: 'Bioinstrumentation',
                     },
                     {
-                        shortTitle: 'BIEN 130L', 
+                        shortTitle: 'BIEN 130L',
                         fullTitle: 'Bioinstrumentation Lab',
                     },
                     {
-                        shortTitle: 'BIEN 135', 
+                        shortTitle: 'BIEN 135',
                         fullTitle: 'Biophysics and Biothermodynamics',
                     },
                     {
-                        shortTitle: 'BIEN 136', 
+                        shortTitle: 'BIEN 136',
                         fullTitle: 'Tissue Engineering',
                     },
                     {
                         shortTitle: 'BIEN 137',
-                        fullTitle: 'Advanced Biomechanics',  
+                        fullTitle: 'Advanced Biomechanics',
                     },
                     {
-                        shortTitle: 'BIEN 138', 
+                        shortTitle: 'BIEN 138',
                         fullTitle: 'Fundamental Principles of Wound Repair',
                     },
                     {
-                        shortTitle: 'BIEN 140B', 
+                        shortTitle: 'BIEN 140B',
                         fullTitle: 'Biomaterials',
                     },
                     {
-                        shortTitle: 'BIEN 155', 
+                        shortTitle: 'BIEN 155',
                         fullTitle: 'Biotechnology Lab',
                     },
                     {
-                        shortTitle: 'BIEN 159', 
+                        shortTitle: 'BIEN 159',
                         fullTitle: 'Dynamics of Biological Systems',
                     },
                     {
@@ -202,22 +207,23 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'BIEN 166',
-                        fullTitle: 'Bioinspired Engineering for Sustainable Energy',
+                        fullTitle:
+                            'Bioinspired Engineering for Sustainable Energy',
                     },
                     {
                         shortTitle: 'BIEN 167',
                         fullTitle: 'Medical Diagnostics',
                     },
                     {
-                        shortTitle: 'BIEN 175A', 
+                        shortTitle: 'BIEN 175A',
                         fullTitle: 'Freshmen Seminar',
                     },
                     {
-                        shortTitle: 'BIEN 175B', 
+                        shortTitle: 'BIEN 175B',
                         fullTitle: 'Senior Design',
                     },
                     {
-                        shortTitle: 'BIEN 175C', 
+                        shortTitle: 'BIEN 175C',
                         fullTitle: 'Senior Design',
                     },
                 ],
@@ -227,7 +233,8 @@ export const colleges = [
                 courses: [
                     {
                         shortTitle: 'CEE 010',
-                        fullTitle: 'Intro to Chemical and Environmental Engineering',
+                        fullTitle:
+                            'Intro to Chemical and Environmental Engineering',
                     },
                     {
                         shortTitle: 'CEE 125',
@@ -244,11 +251,11 @@ export const colleges = [
                     {
                         shortTitle: 'CHE 100',
                         fullTitle: 'Engineering Thermodynamics',
-                    },  
+                    },
                     {
                         shortTitle: 'CHE 102',
                         fullTitle: 'Catalytic Reaction Engineering',
-                    }, 
+                    },
                     {
                         shortTitle: 'CHE 110A',
                         fullTitle: 'Chemical Process Analysis',
@@ -256,36 +263,35 @@ export const colleges = [
                     {
                         shortTitle: 'CHE 110B',
                         fullTitle: 'Chemical Process Analysis',
-                    },   
+                    },
                     {
                         shortTitle: 'CHE 114',
                         fullTitle: 'Applied Fluid Mechanics',
-                    },  
+                    },
                     {
                         shortTitle: 'CHE 116',
                         fullTitle: 'Heat transfer',
-                    }, 
+                    },
                     {
                         shortTitle: 'CHE 117',
                         fullTitle: 'Separation Process',
-                    }, 
+                    },
                     {
                         shortTitle: 'CHE 118',
                         fullTitle: 'Process Dynamics and Control',
-                    },      
+                    },
                     {
                         shortTitle: 'CHE 120',
                         fullTitle: 'Mass transfer',
-                    }, 
-                    {   
+                    },
+                    {
                         shortTitle: 'CHE 122',
                         fullTitle: 'Chemical Engineering Kinetics',
-
-                    }, 
+                    },
                     {
                         shortTitle: 'CHE 130',
                         fullTitle: 'Advanced Engineering Thermodynamics',
-                    }, 
+                    },
                     {
                         shortTitle: 'CHE 131',
                         fullTitle: 'Electrochemical Engineering',
@@ -293,11 +299,11 @@ export const colleges = [
                     {
                         shortTitle: 'CHE 136',
                         fullTitle: 'Advanced Topics in Heat Transfer',
-                    },   
+                    },
                     {
                         shortTitle: 'CHE 160A',
                         fullTitle: 'Chemical and Environmental Engineering Lab',
-                    },   
+                    },
                     {
                         shortTitle: 'CHE 160B',
                         fullTitle: 'Chemical Engineering Lab',
@@ -305,19 +311,19 @@ export const colleges = [
                     {
                         shortTitle: 'CHE 160C',
                         fullTitle: 'Chemical Engineering Lab',
-                    }, 
+                    },
                     {
                         shortTitle: 'CHE 171',
                         fullTitle: 'Pollution Control for Chemical Engineers',
-                    }, 
+                    },
                     {
                         shortTitle: 'CHE 175A',
                         fullTitle: 'Chemical Process Design',
-                    }, 
+                    },
                     {
                         shortTitle: 'CHE 175B',
                         fullTitle: 'Chemical Process Design',
-                    },                
+                    },
                 ],
             },
             {
@@ -735,15 +741,15 @@ export const colleges = [
                         fullTitle: 'UNIX System Administration',
                     },
                     {
-                        shortTitle: 'EE 001A', 
+                        shortTitle: 'EE 001A',
                         fullTitle: 'Engineering Circuit Analysis I',
                     },
                     {
-                        shortTitle: 'EE 01LA', 
+                        shortTitle: 'EE 01LA',
                         fullTitle: 'Engineering Circuit Analysis I Lab',
                     },
                     {
-                        shortTitle: 'EE 001B', 
+                        shortTitle: 'EE 001B',
                         fullTitle: 'Engineering Circuit Analysis II',
                     },
                     {
@@ -764,7 +770,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'EE 105',
-                        fullTitle: 'Modelling and Simulation of Dynamic Systems',
+                        fullTitle:
+                            'Modelling and Simulation of Dynamic Systems',
                     },
                     {
                         shortTitle: 'EE 110A',
@@ -776,7 +783,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'EE 114',
-                        fullTitle: 'Probability, Random Variables and Processes',
+                        fullTitle:
+                            'Probability, Random Variables and Processes',
                     },
                     {
                         shortTitle: 'EE 115',
@@ -808,7 +816,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'EE 128',
-                        fullTitle: 'Data Acquisition, Intrumental, and Process Control',
+                        fullTitle:
+                            'Data Acquisition, Intrumental, and Process Control',
                     },
                     {
                         shortTitle: 'EE 132',
@@ -820,7 +829,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'EE 135',
-                        fullTitle: 'Analog Integrated Circuit Layout and Design',
+                        fullTitle:
+                            'Analog Integrated Circuit Layout and Design',
                     },
                     {
                         shortTitle: 'EE 136',
@@ -828,7 +838,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'EE 137',
-                        fullTitle: 'Intro to Semiconductor Optoelectronic Devices',
+                        fullTitle:
+                            'Intro to Semiconductor Optoelectronic Devices',
                     },
                     {
                         shortTitle: 'EE 138',
@@ -844,7 +855,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'EE 142',
-                        fullTitle: 'Pattern Recognition and Analysis for Sensor Data',
+                        fullTitle:
+                            'Pattern Recognition and Analysis for Sensor Data',
                     },
                     {
                         shortTitle: 'EE 144',
@@ -860,7 +872,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'EE 147',
-                        fullTitle: 'Graphics Processing Unit Computing and Programming',
+                        fullTitle:
+                            'Graphics Processing Unit Computing and Programming',
                     },
                     {
                         shortTitle: 'EE 150',
@@ -884,11 +897,12 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'EE 165',
-                        fullTitle: 'Design for Reliability of Integrated Circuits and Systems',
+                        fullTitle:
+                            'Design for Reliability of Integrated Circuits and Systems',
                     },
                     {
                         shortTitle: 'EE 168',
-                        fullTitle: 'Introduction to VLSI Design'
+                        fullTitle: 'Introduction to VLSI Design',
                     },
                     {
                         shortTitle: 'EE 175A',
@@ -900,8 +914,9 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENGR 160',
-                        fullTitle: 'Intro to Engineering Optimization Techniques',
-                    }
+                        fullTitle:
+                            'Intro to Engineering Optimization Techniques',
+                    },
                 ],
             },
             {
@@ -909,23 +924,25 @@ export const colleges = [
                 courses: [
                     {
                         shortTitle: 'CEE 010',
-                        fullTitle: 'Intro to Chemical and Environmental Engineering',
+                        fullTitle:
+                            'Intro to Chemical and Environmental Engineering',
                     },
                     {
-                        shortTitle: 'CEE 125' ,
-                        fullTitle: 'Analytical Methods for Chemical and Environmental Engineers'
+                        shortTitle: 'CEE 125',
+                        fullTitle:
+                            'Analytical Methods for Chemical and Environmental Engineers',
                     },
                     {
                         shortTitle: 'CEE 132',
-                        fullTitle: 'Green Engineering'
+                        fullTitle: 'Green Engineering',
                     },
                     {
-                        shortTitle: 'CEE 158' ,
-                        fullTitle: 'Professional Development for Engineering'
+                        shortTitle: 'CEE 158',
+                        fullTitle: 'Professional Development for Engineering',
                     },
                     {
                         shortTitle: 'CHE 102',
-                        fullTitle: 'Catalytic Reaction Engineering'
+                        fullTitle: 'Catalytic Reaction Engineering',
                     },
                     {
                         shortTitle: 'CHE 114',
@@ -937,19 +954,19 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'CHE 120',
-                        fullTitle: 'Mass Transfer'
+                        fullTitle: 'Mass Transfer',
                     },
                     {
                         shortTitle: 'CHE 124',
-                        fullTitle: 'Biochemical Engineering Principles'
+                        fullTitle: 'Biochemical Engineering Principles',
                     },
                     {
                         shortTitle: 'ENVE 120',
-                        fullTitle: 'Unit Operations and Processes'
+                        fullTitle: 'Unit Operations and Processes',
                     },
                     {
                         shortTitle: 'ENVE 121',
-                        fullTitle: 'Biological Unit Processes'
+                        fullTitle: 'Biological Unit Processes',
                     },
                     {
                         shortTitle: 'ENVE 130',
@@ -965,11 +982,12 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENVE 135',
-                        fullTitle: 'Fate and Transformative Environmental Contaminants'
+                        fullTitle:
+                            'Fate and Transformative Environmental Contaminants',
                     },
                     {
                         shortTitle: 'ENVE 138',
-                        fullTitle: 'Combustion Engineering'
+                        fullTitle: 'Combustion Engineering',
                     },
                     {
                         shortTitle: 'ENVE 142',
@@ -977,27 +995,27 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENVE 144',
-                        fullTitle: 'Solid Waste Management'
+                        fullTitle: 'Solid Waste Management',
                     },
                     {
                         shortTitle: 'ENVE 145',
-                        fullTitle: 'Hazardous Waste Management'
+                        fullTitle: 'Hazardous Waste Management',
                     },
-                    {   
+                    {
                         shortTitle: 'ENVE 146',
-                        fullTitle: 'Water Quality Systems Design'
+                        fullTitle: 'Water Quality Systems Design',
                     },
                     {
                         shortTitle: 'ENVE 160A',
-                        fullTitle: 'Chemical and Environmental Engineering Lab'
+                        fullTitle: 'Chemical and Environmental Engineering Lab',
                     },
                     {
                         shortTitle: 'ENVE 160B',
-                        fullTitle: 'Environmental Engineering Lab'
+                        fullTitle: 'Environmental Engineering Lab',
                     },
                     {
                         shortTitle: 'ENVE 160C',
-                        fullTitle: 'Environmental Engineering Lab'
+                        fullTitle: 'Environmental Engineering Lab',
                     },
                     {
                         shortTitle: 'ENVE 171',
@@ -1017,7 +1035,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENSC 135',
-                        fullTitle: 'Chemistry of the Clean and Polluted Atmosphere'
+                        fullTitle:
+                            'Chemistry of the Clean and Polluted Atmosphere',
                     },
                     {
                         shortTitle: 'ENSC 136',
@@ -1031,23 +1050,21 @@ export const colleges = [
                         shortTitle: 'ENSC 163',
                         fullTitle: 'Hydrology',
                     },
-
-                    
                 ],
             },
             {
                 name: 'Electrical Engineering',
                 courses: [
                     {
-                        shortTitle: 'EE 001A', 
+                        shortTitle: 'EE 001A',
                         fullTitle: 'Engineering Circuit Analysis I',
                     },
                     {
-                        shortTitle: 'EE 01LA', 
+                        shortTitle: 'EE 01LA',
                         fullTitle: 'Engineering Circuit Analysis I Lab',
                     },
                     {
-                        shortTitle: 'EE 001B', 
+                        shortTitle: 'EE 001B',
                         fullTitle: 'Engineering Circuit Analysis II',
                     },
                     {
@@ -1068,7 +1085,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'EE 105',
-                        fullTitle: 'Modelling and Simulation of Dynamic Systems',
+                        fullTitle:
+                            'Modelling and Simulation of Dynamic Systems',
                     },
                     {
                         shortTitle: 'EE 110A',
@@ -1080,7 +1098,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'EE 114',
-                        fullTitle: 'Probability, Random Variables and Processes',
+                        fullTitle:
+                            'Probability, Random Variables and Processes',
                     },
                     {
                         shortTitle: 'EE 115',
@@ -1112,7 +1131,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'EE 128',
-                        fullTitle: 'Data Acquisition, Intrumental, and Process Control',
+                        fullTitle:
+                            'Data Acquisition, Intrumental, and Process Control',
                     },
                     {
                         shortTitle: 'EE 132',
@@ -1124,7 +1144,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'EE 135',
-                        fullTitle: 'Analog Integrated Circuit Layout and Design',
+                        fullTitle:
+                            'Analog Integrated Circuit Layout and Design',
                     },
                     {
                         shortTitle: 'EE 136',
@@ -1132,7 +1153,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'EE 137',
-                        fullTitle: 'Intro to Semiconductor Optoelectronic Devices',
+                        fullTitle:
+                            'Intro to Semiconductor Optoelectronic Devices',
                     },
                     {
                         shortTitle: 'EE 138',
@@ -1148,7 +1170,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'EE 142',
-                        fullTitle: 'Pattern Recognition and Analysis for Sensor Data',
+                        fullTitle:
+                            'Pattern Recognition and Analysis for Sensor Data',
                     },
                     {
                         shortTitle: 'EE 144',
@@ -1164,7 +1187,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'EE 147',
-                        fullTitle: 'Graphics Processing Unit Computing and Programming',
+                        fullTitle:
+                            'Graphics Processing Unit Computing and Programming',
                     },
                     {
                         shortTitle: 'EE 150',
@@ -1188,11 +1212,12 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'EE 165',
-                        fullTitle: 'Design for Reliability of Integrated Circuits and Systems',
+                        fullTitle:
+                            'Design for Reliability of Integrated Circuits and Systems',
                     },
                     {
                         shortTitle: 'EE 168',
-                        fullTitle: 'Introduction to VLSI Design'
+                        fullTitle: 'Introduction to VLSI Design',
                     },
                     {
                         shortTitle: 'EE 175A',
@@ -1204,8 +1229,9 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENGR 160',
-                        fullTitle: 'Intro to Engineering Optimization Techniques',
-                    }
+                        fullTitle:
+                            'Intro to Engineering Optimization Techniques',
+                    },
                 ],
             },
             {
@@ -1213,7 +1239,8 @@ export const colleges = [
                 courses: [
                     {
                         shortTitle: 'MSE 001',
-                        fullTitle: 'Fundamentals of Materials Science & Engineering',
+                        fullTitle:
+                            'Fundamentals of Materials Science & Engineering',
                     },
                     {
                         shortTitle: 'MSE 134',
@@ -1346,7 +1373,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ME 118',
-                        fullTitle: 'Mechanical Engineering Modeling and Analysis',
+                        fullTitle:
+                            'Mechanical Engineering Modeling and Analysis',
                     },
                     {
                         shortTitle: 'ME 120',
@@ -1362,7 +1390,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ME 130',
-                        fullTitle: 'Kinematic and Dyanamic Analysis of Mechanisms',
+                        fullTitle:
+                            'Kinematic and Dyanamic Analysis of Mechanisms',
                     },
                     {
                         shortTitle: 'ME 131',
@@ -1374,11 +1403,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ME 134',
-                        fullTitle: 'Microstructural Transformations in Materials',
+                        fullTitle:
+                            'Microstructural Transformations in Materials',
                     },
                     {
                         shortTitle: 'ME 136',
-                        fullTitle: 'Environmental Impacts of Energy Production and Conversion',
+                        fullTitle:
+                            'Environmental Impacts of Energy Production and Conversion',
                     },
                     {
                         shortTitle: 'ME 137',
@@ -1409,48 +1440,48 @@ export const colleges = [
                         fullTitle: 'Mechanical Behavior of Materials',
                     },
                     {
-                        shortTile: 'ME 170A',
+                        shortTitle: 'ME 170A',
                         fullTitle: 'Experimental Techniques ',
                     },
                     {
-                        shortTile: 'ME 170B',
+                        shortTitle: 'ME 170B',
                         fullTitle: 'Experimental Techniques ',
                     },
                     {
                         shortTitle: 'ME 174',
-                        fullTitle: 'Machine Design', 
+                        fullTitle: 'Machine Design',
                     },
                     {
                         shortTitle: 'ME 175D',
-                        fullTitle: 'Technological Entrepeneurship', 
+                        fullTitle: 'Technological Entrepeneurship',
                     },
                     {
                         shortTitle: 'ME 175A',
-                        fullTitle: 'Professional Topics', 
+                        fullTitle: 'Professional Topics',
                     },
                     {
                         shortTitle: 'ME 175B',
-                        fullTitle: 'Transport Phenomena', 
+                        fullTitle: 'Transport Phenomena',
                     },
                     {
                         shortTitle: 'ME 175C',
-                        fullTitle: 'Mechanical Engineering Design', 
+                        fullTitle: 'Mechanical Engineering Design',
                     },
                     {
                         shortTitle: 'ME 175D',
-                        fullTitle: 'Technological Entrepreneurship', 
+                        fullTitle: 'Technological Entrepreneurship',
                     },
                     {
                         shortTitle: 'ME 176',
-                        fullTitle: 'Sustainable Product Design', 
+                        fullTitle: 'Sustainable Product Design',
                     },
                     {
                         shortTitle: 'ME 180',
-                        fullTitle: 'Optics and Lasers in Engineering', 
+                        fullTitle: 'Optics and Lasers in Engineering',
                     },
                     {
                         shortTitle: 'ME 197',
-                        fullTitle: 'Research for Undergraduates', 
+                        fullTitle: 'Research for Undergraduates',
                     },
                 ],
             },
@@ -1463,159 +1494,174 @@ export const colleges = [
                 name: 'Art',
                 courses: [
                     {
-                        shortTitle: 'ART 001', 
+                        shortTitle: 'ART 001',
                         fullTitle: 'Beginning Drawing and Design',
                     },
                     {
-                        shortTitle: 'ART 002', 
+                        shortTitle: 'ART 002',
                         fullTitle: 'Beginning Painting and Design',
                     },
                     {
-                        shortTitle: 'ART 003', 
+                        shortTitle: 'ART 003',
                         fullTitle: 'Introduction to Photographic Processes',
                     },
                     {
-                        shortTitle: 'ART 004', 
-                        fullTitle: 'Introduction to Moving Images: Film, Video, and New Media',
+                        shortTitle: 'ART 004',
+                        fullTitle:
+                            'Introduction to Moving Images: Film, Video, and New Media',
                     },
                     {
-                        shortTitle: 'ART 005', 
-                        fullTitle: 'Beginning Sculpture and Three-Dimensional Design',
+                        shortTitle: 'ART 005',
+                        fullTitle:
+                            'Beginning Sculpture and Three-Dimensional Design',
                     },
                     {
-                        shortTitle: 'ART 006', 
-                        fullTitle: 'Introduction to Contemporary Critical Issues in Art',
+                        shortTitle: 'ART 006',
+                        fullTitle:
+                            'Introduction to Contemporary Critical Issues in Art',
                     },
                     {
-                        shortTitle: 'ART 009', 
-                        fullTitle: 'Introductory Web-Based Art: Site Creation and Navigation',
+                        shortTitle: 'ART 009',
+                        fullTitle:
+                            'Introductory Web-Based Art: Site Creation and Navigation',
                     },
                     {
-                        shortTitle: 'ART 010', 
-                        fullTitle: 'Introductionto Video and Time-Based Experimentation',
+                        shortTitle: 'ART 010',
+                        fullTitle:
+                            'Introductionto Video and Time-Based Experimentation',
                     },
                     {
-                        shortTitle: 'ART 032', 
+                        shortTitle: 'ART 032',
                         fullTitle: 'Art Studio One',
                     },
                     {
-                        shortTitle: 'ART 065', 
-                        fullTitle: 'Introduction to Digital Painting and Drawing: Painting Without a Trace',
+                        shortTitle: 'ART 065',
+                        fullTitle:
+                            'Introduction to Digital Painting and Drawing: Painting Without a Trace',
                     },
                     {
-                        shortTitle: 'ART 066', 
-                        fullTitle: 'Introduction to Three-Dimensional Digital Modeling',
+                        shortTitle: 'ART 066',
+                        fullTitle:
+                            'Introduction to Three-Dimensional Digital Modeling',
                     },
                     {
-                        shortTitle: 'ART 070E', 
-                        fullTitle: 'Digital Imaging Software for the Visual Arts',
+                        shortTitle: 'ART 070E',
+                        fullTitle:
+                            'Digital Imaging Software for the Visual Arts',
                     },
                     {
-                        shortTitle: 'ART 071K', 
+                        shortTitle: 'ART 071K',
                         fullTitle: 'Tech Issues of Black and White Photography',
                     },
                     {
-                        shortTitle: 'ART 102', 
+                        shortTitle: 'ART 102',
                         fullTitle: 'Intermediate Drawing',
                     },
                     {
-                        shortTitle: 'ART 103', 
+                        shortTitle: 'ART 103',
                         fullTitle: 'Advanced Drawing',
                     },
                     {
-                        shortTitle: 'ART 104', 
+                        shortTitle: 'ART 104',
                         fullTitle: 'Life Drawing',
                     },
                     {
-                        shortTitle: 'ART 110', 
+                        shortTitle: 'ART 110',
                         fullTitle: 'Intermediate Painting',
                     },
                     {
-                        shortTitle: 'ART 111', 
+                        shortTitle: 'ART 111',
                         fullTitle: 'Advanced Painting',
                     },
                     {
-                        shortTitle: 'ART 115', 
+                        shortTitle: 'ART 115',
                         fullTitle: 'Intermediate Sculpture',
                     },
                     {
-                        shortTitle: 'ART 123', 
+                        shortTitle: 'ART 123',
                         fullTitle: 'Chromalogue',
                     },
                     {
-                        shortTitle: 'ART 125', 
-                        fullTitle: 'Sculpture Hybrid: Furniture, Architecture, Decoration (Fad)',
+                        shortTitle: 'ART 125',
+                        fullTitle:
+                            'Sculpture Hybrid: Furniture, Architecture, Decoration (Fad)',
                     },
                     {
-                        shortTitle: 'ART 131', 
-                        fullTitle: 'Intermediate Photography and Digital Technology',
+                        shortTitle: 'ART 131',
+                        fullTitle:
+                            'Intermediate Photography and Digital Technology',
                     },
                     {
-                        shortTitle: 'ART 132', 
+                        shortTitle: 'ART 132',
                         fullTitle: 'Art Studio Two',
                     },
                     {
-                        shortTitle: 'ART 135', 
+                        shortTitle: 'ART 135',
                         fullTitle: 'Intermedia: Art, Media, and Culture',
                     },
                     {
-                        shortTitle: 'ART 137', 
+                        shortTitle: 'ART 137',
                         fullTitle: 'Advanced Sculpture',
                     },
                     {
-                        shortTitle: 'ART 140', 
+                        shortTitle: 'ART 140',
                         fullTitle: 'Intermediate Analog Photography',
                     },
                     {
-                        shortTitle: 'ART 143', 
+                        shortTitle: 'ART 143',
                         fullTitle: 'Advanced Digital Imaging Technology',
                     },
                     {
-                        shortTitle: 'ART 145', 
+                        shortTitle: 'ART 145',
                         fullTitle: 'Advanced Photography Workshop',
                     },
                     {
-                        shortTitle: 'ART 146P', 
+                        shortTitle: 'ART 146P',
                         fullTitle: 'Fabricated to be Photographed',
                     },
                     {
-                        shortTitle: 'ART 150', 
-                        fullTitle: 'Intermediate Moving Images: Film Video and New Media',
+                        shortTitle: 'ART 150',
+                        fullTitle:
+                            'Intermediate Moving Images: Film Video and New Media',
                     },
                     {
-                        shortTitle: 'ART 151', 
-                        fullTitle: 'Intermediate Video and Time-Based Experimentation',
+                        shortTitle: 'ART 151',
+                        fullTitle:
+                            'Intermediate Video and Time-Based Experimentation',
                     },
                     {
-                        shortTitle: 'ART 152', 
-                        fullTitle: 'Advanced Video and Time-Based Experimentation',
+                        shortTitle: 'ART 152',
+                        fullTitle:
+                            'Advanced Video and Time-Based Experimentation',
                     },
                     {
-                        shortTitle: 'ART 155', 
-                        fullTitle: 'Advanced Moving Images: Film, Video and New Media',
+                        shortTitle: 'ART 155',
+                        fullTitle:
+                            'Advanced Moving Images: Film, Video and New Media',
                     },
                     {
-                        shortTitle: 'ART 160', 
+                        shortTitle: 'ART 160',
                         fullTitle: 'Intermediate Art Theory',
                     },
                     {
-                        shortTitle: 'ART 161', 
+                        shortTitle: 'ART 161',
                         fullTitle: 'Suburbia',
                     },
                     {
-                        shortTitle: 'ART 162', 
-                        fullTitle: 'Special Topics in New Genres of Art Practice',
+                        shortTitle: 'ART 162',
+                        fullTitle:
+                            'Special Topics in New Genres of Art Practice',
                     },
                     {
-                        shortTitle: 'ART 180', 
+                        shortTitle: 'ART 180',
                         fullTitle: 'Contemporary Issues and Practice',
                     },
                     {
-                        shortTitle: 'ART 185', 
+                        shortTitle: 'ART 185',
                         fullTitle: 'Senior Exhibition Seminar',
                     },
                     {
-                        shortTitle: 'ART 198I', 
+                        shortTitle: 'ART 198I',
                         fullTitle: 'Individual Internship',
                     },
                 ],
@@ -1624,167 +1670,182 @@ export const colleges = [
                 name: 'History of Art',
                 courses: [
                     {
-                        shortTitle: 'AHS 007', 
+                        shortTitle: 'AHS 007',
                         fullTitle: 'World Art: Images, Issues, and Ideas',
                     },
                     {
-                        shortTitle: 'AHS 008', 
+                        shortTitle: 'AHS 008',
                         fullTitle: 'Modern Western Visual Culture',
                     },
                     {
-                        shortTitle: 'AHS 010S', 
+                        shortTitle: 'AHS 010S',
                         fullTitle: 'Art of Ancient Mexico',
                     },
                     {
-                        shortTitle: 'AHS 013', 
+                        shortTitle: 'AHS 013',
                         fullTitle: 'Arts and Architecture of the Islamic World',
                     },
                     {
-                        shortTitle: 'AHS 015', 
+                        shortTitle: 'AHS 015',
                         fullTitle: 'Arts of Asia',
                     },
                     {
-                        shortTitle: 'AHS 017A', 
-                        fullTitle: 'History of Western Art: Prehistoric to Byzantine',
+                        shortTitle: 'AHS 017A',
+                        fullTitle:
+                            'History of Western Art: Prehistoric to Byzantine',
                     },
                     {
-                        shortTitle: 'AHS 017B', 
-                        fullTitle: 'History of Western Art: Medieval to Renaissance',
+                        shortTitle: 'AHS 017B',
+                        fullTitle:
+                            'History of Western Art: Medieval to Renaissance',
                     },
                     {
-                        shortTitle: 'AHS 017C', 
+                        shortTitle: 'AHS 017C',
                         fullTitle: 'History of Western Art: Baroque to Modern',
                     },
                     {
-                        shortTitle: 'AHS 021', 
+                        shortTitle: 'AHS 021',
                         fullTitle: 'Introduction to Architecture and Urbanism',
                     },
                     {
-                        shortTitle: 'AHS 023', 
+                        shortTitle: 'AHS 023',
                         fullTitle: 'Introduction to American Art',
                     },
                     {
-                        shortTitle: 'AHS 027', 
+                        shortTitle: 'AHS 027',
                         fullTitle: 'Art of Pre-Columbian America',
                     },
                     {
-                        shortTitle: 'AHS 028', 
+                        shortTitle: 'AHS 028',
                         fullTitle: 'Art and Architecture of Latin America',
                     },
                     {
-                        shortTitle: 'AHS 107', 
+                        shortTitle: 'AHS 107',
                         fullTitle: 'Photography Since 1960',
                     },
                     {
-                        shortTitle: 'AHS 113', 
-                        fullTitle: 'Sixteenth-Century Mexico: An Art of Two Worlds',
+                        shortTitle: 'AHS 113',
+                        fullTitle:
+                            'Sixteenth-Century Mexico: An Art of Two Worlds',
                     },
                     {
-                        shortTitle: 'AHS 114', 
+                        shortTitle: 'AHS 114',
                         fullTitle: 'History of Brazilian Art and Architecture',
                     },
                     {
-                        shortTitle: 'AHS 115', 
-                        fullTitle: 'Modern and Contemporary Art of Latin America',
+                        shortTitle: 'AHS 115',
+                        fullTitle:
+                            'Modern and Contemporary Art of Latin America',
                     },
                     {
-                        shortTitle: 'AHS 120', 
-                        fullTitle: 'Berlin Metropolis in Literature, Film, Music, and Art',
+                        shortTitle: 'AHS 120',
+                        fullTitle:
+                            'Berlin Metropolis in Literature, Film, Music, and Art',
                     },
                     {
-                        shortTitle: 'AHS 124', 
+                        shortTitle: 'AHS 124',
                         fullTitle: 'Conceptural Art in Latin America',
                     },
                     {
-                        shortTitle: 'AHS 126', 
-                        fullTitle: 'Sultans and Saints: the Visual and Material Culture of Islam in South Asia',
+                        shortTitle: 'AHS 126',
+                        fullTitle:
+                            'Sultans and Saints: the Visual and Material Culture of Islam in South Asia',
                     },
                     {
-                        shortTitle: 'AHS 139', 
+                        shortTitle: 'AHS 139',
                         fullTitle: 'The Arts of Buddhism',
                     },
                     {
-                        shortTitle: 'AHS 144', 
+                        shortTitle: 'AHS 144',
                         fullTitle: 'Arts of Japan',
                     },
                     {
-                        shortTitle: 'AHS 145', 
+                        shortTitle: 'AHS 145',
                         fullTitle: 'Contemporary Asian Art',
                     },
                     {
-                        shortTitle: 'AHS 147', 
+                        shortTitle: 'AHS 147',
                         fullTitle: 'The Art of Greece',
                     },
                     {
-                        shortTitle: 'AHS 155', 
-                        fullTitle: 'Cultures in Conflict: Art at the Fall of the Roman Empire',
+                        shortTitle: 'AHS 155',
+                        fullTitle:
+                            'Cultures in Conflict: Art at the Fall of the Roman Empire',
                     },
                     {
-                        shortTitle: 'AHS 156', 
-                        fullTitle: 'Memory of Empire: The Art of Early Medieval Europe',
+                        shortTitle: 'AHS 156',
+                        fullTitle:
+                            'Memory of Empire: The Art of Early Medieval Europe',
                     },
                     {
-                        shortTitle: 'AHS 157', 
-                        fullTitle: 'The Medieval Pilgrimage and the Art of Romanesque France',
+                        shortTitle: 'AHS 157',
+                        fullTitle:
+                            'The Medieval Pilgrimage and the Art of Romanesque France',
                     },
                     {
-                        shortTitle: 'AHS 158', 
-                        fullTitle: 'Self-Portraits: Renaissance to Contemporary Art',
+                        shortTitle: 'AHS 158',
+                        fullTitle:
+                            'Self-Portraits: Renaissance to Contemporary Art',
                     },
                     {
-                        shortTitle: 'AHS 160', 
+                        shortTitle: 'AHS 160',
                         fullTitle: 'Renaissance Architecture',
                     },
                     {
-                        shortTitle: 'AHS 167', 
-                        fullTitle: 'Europe in the Early Modern World: Global Artistic Contact and Exchange, 1492 - 1750',
+                        shortTitle: 'AHS 167',
+                        fullTitle:
+                            'Europe in the Early Modern World: Global Artistic Contact and Exchange, 1492 - 1750',
                     },
                     {
-                        shortTitle: 'AHS 168', 
-                        fullTitle: 'Politeness and Commerce: British Art and Design, 1660 - 1820',
+                        shortTitle: 'AHS 168',
+                        fullTitle:
+                            'Politeness and Commerce: British Art and Design, 1660 - 1820',
                     },
                     {
-                        shortTitle: 'AHS 170', 
+                        shortTitle: 'AHS 170',
                         fullTitle: 'Baroque Architecture',
                     },
                     {
-                        shortTitle: 'AHS 173', 
-                        fullTitle: 'Rococo to Revolution: Art in Eighteenth-Century Europe',
+                        shortTitle: 'AHS 173',
+                        fullTitle:
+                            'Rococo to Revolution: Art in Eighteenth-Century Europe',
                     },
                     {
-                        shortTitle: 'AHS 175', 
-                        fullTitle: 'Industry and Alienation: Late Nineteenth-Century American Art',
+                        shortTitle: 'AHS 175',
+                        fullTitle:
+                            'Industry and Alienation: Late Nineteenth-Century American Art',
                     },
                     {
-                        shortTitle: 'AHS 176', 
+                        shortTitle: 'AHS 176',
                         fullTitle: 'Twentieth-Century Photography 1900-1960',
                     },
                     {
-                        shortTitle: 'AHS 182', 
+                        shortTitle: 'AHS 182',
                         fullTitle: 'Visual Art and Visual Theory After 1945',
                     },
                     {
-                        shortTitle: 'AHS 186', 
-                        fullTitle: 'Media and Movements: Film, Video, Photography, and the Visual Arts',
+                        shortTitle: 'AHS 186',
+                        fullTitle:
+                            'Media and Movements: Film, Video, Photography, and the Visual Arts',
                     },
                     {
-                        shortTitle: 'AHS 189E', 
+                        shortTitle: 'AHS 189E',
                         fullTitle: 'Art Since Conceptual Art',
                     },
                     {
-                        shortTitle: 'AHS 190', 
+                        shortTitle: 'AHS 190',
                         fullTitle: 'Special Studies',
                     },
                     {
-                        shortTitle: 'AHS 192', 
+                        shortTitle: 'AHS 192',
                         fullTitle: 'Junior and Senior Seminar in Art History',
                     },
                     {
-                        shortTitle: 'AHS 195H', 
+                        shortTitle: 'AHS 195H',
                         fullTitle: 'Senior Honors Thesis',
                     },
                     {
-                        shortTitle: 'AHS 198I', 
+                        shortTitle: 'AHS 198I',
                         fullTitle: 'Individual Internship',
                     },
                 ],
@@ -1793,123 +1854,126 @@ export const colleges = [
                 name: 'Creative Writing',
                 courses: [
                     {
-                        shortTitle: 'CRWT 012', 
+                        shortTitle: 'CRWT 012',
                         fullTitle: 'The Writer in Writing',
                     },
                     {
-                        shortTitle: 'CRWT 040', 
+                        shortTitle: 'CRWT 040',
                         fullTitle: 'Fiction and Film',
                     },
                     {
-                        shortTitle: 'CRWT 044', 
-                        fullTitle: 'Ghosts, Gods, and Monsters: Children\'\s Literature for Writers',
+                        shortTitle: 'CRWT 044',
+                        fullTitle:
+                            "Ghosts, Gods, and Monsters: Children's Literature for Writers",
                     },
                     {
-                        shortTitle: 'CRWT 045', 
-                        fullTitle: 'The Prose and \"\Short-Story\"\ Story',
+                        shortTitle: 'CRWT 045',
+                        fullTitle: 'The Prose and "Short-Story" Story',
                     },
                     {
-                        shortTitle: 'CRWT 046S', 
-                        fullTitle: 'Craft of Writing: Survey in Contemporary Fiction',
+                        shortTitle: 'CRWT 046S',
+                        fullTitle:
+                            'Craft of Writing: Survey in Contemporary Fiction',
                     },
                     {
-                        shortTitle: 'CRWT 047S', 
+                        shortTitle: 'CRWT 047S',
                         fullTitle: 'Survey in Contemporary Poetry',
                     },
                     {
-                        shortTitle: 'CRWT 048S', 
-                        fullTitle: 'Craft of Writing: Survey in Contemporary Nonfiction',
+                        shortTitle: 'CRWT 048S',
+                        fullTitle:
+                            'Craft of Writing: Survey in Contemporary Nonfiction',
                     },
                     {
-                        shortTitle: 'CRWT 056', 
+                        shortTitle: 'CRWT 056',
                         fullTitle: 'Introduction to Creative Writing',
                     },
                     {
-                        shortTitle: 'CRWT 057A', 
+                        shortTitle: 'CRWT 057A',
                         fullTitle: 'Introduction to Fiction',
                     },
                     {
-                        shortTitle: 'CRWT 057B', 
+                        shortTitle: 'CRWT 057B',
                         fullTitle: 'Introduction to Poetry',
                     },
                     {
-                        shortTitle: 'CRWT 057C', 
+                        shortTitle: 'CRWT 057C',
                         fullTitle: 'Introduction to Creative Nonfiction',
                     },
                     {
-                        shortTitle: 'CRWT 066', 
+                        shortTitle: 'CRWT 066',
                         fullTitle: 'Screenwriting: How Movies Work',
                     },
                     {
-                        shortTitle: 'CRWT 076', 
+                        shortTitle: 'CRWT 076',
                         fullTitle: 'The Verbal Coliseum: Spoken Word Workshop',
                     },
                     {
-                        shortTitle: 'CRWT 130', 
+                        shortTitle: 'CRWT 130',
                         fullTitle: 'Beginning Creative Nonfiction',
                     },
                     {
-                        shortTitle: 'CRWT 132', 
+                        shortTitle: 'CRWT 132',
                         fullTitle: 'Intermediate Creative Nonfiction',
                     },
                     {
-                        shortTitle: 'CRWT 134', 
+                        shortTitle: 'CRWT 134',
                         fullTitle: 'Advanced Creative Nonfiction',
                     },
                     {
-                        shortTitle: 'CRWT 146', 
+                        shortTitle: 'CRWT 146',
                         fullTitle: 'The Book Proposal',
                     },
                     {
-                        shortTitle: 'CRWT 150', 
+                        shortTitle: 'CRWT 150',
                         fullTitle: 'Beginning Poetry and Workshop',
                     },
                     {
-                        shortTitle: 'CRWT 152', 
+                        shortTitle: 'CRWT 152',
                         fullTitle: 'Beginning Fiction Workshop',
                     },
                     {
-                        shortTitle: 'CRWT 155', 
+                        shortTitle: 'CRWT 155',
                         fullTitle: 'The Graphic Novel',
                     },
                     {
-                        shortTitle: 'CRWT 160', 
+                        shortTitle: 'CRWT 160',
                         fullTitle: 'Intermediate Poetry Workshop',
                     },
                     {
                         shortTitle: 'CRWT 162',
-                        fullTitle: 'Intermediate Fiction Workshop'
+                        fullTitle: 'Intermediate Fiction Workshop',
                     },
                     {
-                        shortTitle: 'CRWT 164A', 
+                        shortTitle: 'CRWT 164A',
                         fullTitle: 'Beginning Playwriting',
                     },
                     {
-                        shortTitle: 'CRWT 164B', 
+                        shortTitle: 'CRWT 164B',
                         fullTitle: 'Intermediate Playwriting',
                     },
                     {
-                        shortTitle: 'CRWT 164C', 
+                        shortTitle: 'CRWT 164C',
                         fullTitle: 'Advanced Playwriting',
                     },
                     {
-                        shortTitle: 'CRWT 170', 
+                        shortTitle: 'CRWT 170',
                         fullTitle: 'Advanced Poetry Workshop',
                     },
                     {
-                        shortTitle: 'CRWT 171', 
+                        shortTitle: 'CRWT 171',
                         fullTitle: 'Anatomy of Poetry',
                     },
                     {
-                        shortTitle: 'CRWT 172', 
+                        shortTitle: 'CRWT 172',
                         fullTitle: 'Advanced Fiction Workshop',
                     },
                     {
-                        shortTitle: 'CRWT 173', 
+                        shortTitle: 'CRWT 173',
                         fullTitle: 'Prose Poem Workshop',
                     },
                     {
-                        shortTitle: 'CRWT 176', 
+                        shortTitle: 'CRWT 176',
                         fullTitle: 'The Novel of Now',
                     },
                     {
@@ -1917,23 +1981,23 @@ export const colleges = [
                         fullTitle: 'Professional Poetry Workshop',
                     },
                     {
-                        shortTitle: 'CRWT 182', 
+                        shortTitle: 'CRWT 182',
                         fullTitle: 'Professional Fiction Workshop',
                     },
                     {
-                        shortTitle: 'CRWT 185', 
+                        shortTitle: 'CRWT 185',
                         fullTitle: 'Death and Dying Final Frontier',
                     },
                     {
-                        shortTitle: 'CRWT 190', 
+                        shortTitle: 'CRWT 190',
                         fullTitle: 'Special Studies',
                     },
                     {
-                        shortTitle: 'CRWT 195', 
+                        shortTitle: 'CRWT 195',
                         fullTitle: 'Senior Thesis',
                     },
                     {
-                        shortTitle: 'CRWT 198I', 
+                        shortTitle: 'CRWT 198I',
                         fullTitle: 'Individual Internship',
                     },
                 ],
@@ -1942,183 +2006,184 @@ export const colleges = [
                 name: 'Dance',
                 courses: [
                     {
-                        shortTitle: 'DNCE 005', 
+                        shortTitle: 'DNCE 005',
                         fullTitle: 'Introduction to Dance',
                     },
                     {
-                        shortTitle: 'DNCE 007', 
+                        shortTitle: 'DNCE 007',
                         fullTitle: 'Dance: Cultures and Contexts',
                     },
                     {
-                        shortTitle: 'DNCE 007W', 
+                        shortTitle: 'DNCE 007W',
                         fullTitle: 'Dance: Cultures and Contexts',
                     },
                     {
-                        shortTitle: 'DNCE 014', 
+                        shortTitle: 'DNCE 014',
                         fullTitle: 'Introduction to Choreography',
                     },
                     {
-                        shortTitle: 'DNCE 019', 
+                        shortTitle: 'DNCE 019',
                         fullTitle: 'Introduction to Dance Studies',
                     },
                     {
-                        shortTitle: 'DNCE 065A', 
+                        shortTitle: 'DNCE 065A',
                         fullTitle: 'Beginning Latin American Social Dances',
                     },
                     {
-                        shortTitle: 'DNCE 065B', 
+                        shortTitle: 'DNCE 065B',
                         fullTitle: 'Intermediate Latin American Social Dances',
                     },
                     {
-                        shortTitle: 'DNCE 066A', 
+                        shortTitle: 'DNCE 066A',
                         fullTitle: 'Beginning West African Dance',
                     },
                     {
-                        shortTitle: 'DNCE 066B', 
+                        shortTitle: 'DNCE 066B',
                         fullTitle: 'Intermediate West African Dance',
                     },
                     {
-                        shortTitle: 'DNCE 067A', 
+                        shortTitle: 'DNCE 067A',
                         fullTitle: 'Beginning Modern Dance Technique',
                     },
                     {
-                        shortTitle: 'DNCE 067B', 
+                        shortTitle: 'DNCE 067B',
                         fullTitle: 'Intermediate Modern Dance Technique',
                     },
                     {
-                        shortTitle: 'DNCE 067C', 
+                        shortTitle: 'DNCE 067C',
                         fullTitle: 'Advanced Modern Dance Technique',
                     },
                     {
-                        shortTitle: 'DNCE 068', 
+                        shortTitle: 'DNCE 068',
                         fullTitle: 'Somatic Techniques and Experiental Anatomy',
                     },
                     {
-                        shortTitle: 'DNCE 069A', 
+                        shortTitle: 'DNCE 069A',
                         fullTitle: 'Beginning Eighteenth-Century Dance',
                     },
                     {
-                        shortTitle: 'DNCE 070A', 
+                        shortTitle: 'DNCE 070A',
                         fullTitle: 'Beginning Hip Hop Dance',
                     },
                     {
-                        shortTitle: 'DNCE 070B', 
+                        shortTitle: 'DNCE 070B',
                         fullTitle: 'Intermediate Hip Hop Dance',
                     },
                     {
-                        shortTitle: 'DNCE 070C', 
+                        shortTitle: 'DNCE 070C',
                         fullTitle: 'Advanced Hip Hop Dance',
                     },
                     {
-                        shortTitle: 'DNCE 071A', 
+                        shortTitle: 'DNCE 071A',
                         fullTitle: 'Beginning Ballet Technique',
                     },
                     {
-                        shortTitle: 'DNCE 071B', 
+                        shortTitle: 'DNCE 071B',
                         fullTitle: 'Intermediate Ballet Technique',
                     },
                     {
-                        shortTitle: 'DNCE 074A', 
+                        shortTitle: 'DNCE 074A',
                         fullTitle: 'Beginning Yoga for Dancers',
                     },
                     {
-                        shortTitle: 'DNCE 074B', 
+                        shortTitle: 'DNCE 074B',
                         fullTitle: 'Intermediate Yoga for Dancers',
                     },
                     {
-                        shortTitle: 'DNCE 075A', 
+                        shortTitle: 'DNCE 075A',
                         fullTitle: 'Beginning Dance Technique and Practices',
                     },
                     {
-                        shortTitle: 'DNCE 075B', 
+                        shortTitle: 'DNCE 075B',
                         fullTitle: 'Intermediate Dance Technique and Practices',
                     },
                     {
-                        shortTitle: 'DNCE 081', 
+                        shortTitle: 'DNCE 081',
                         fullTitle: 'Dance Cultures, Culture in Dance',
                     },
                     {
-                        shortTitle: 'DNCE 115E', 
+                        shortTitle: 'DNCE 115E',
                         fullTitle: 'Dance Making: Dance as Storytelling',
                     },
                     {
-                        shortTitle: 'DNCE 115F', 
+                        shortTitle: 'DNCE 115F',
                         fullTitle: 'Dance Making',
                     },
                     {
-                        shortTitle: 'DNCE 115G', 
+                        shortTitle: 'DNCE 115G',
                         fullTitle: 'Dance Making: Dance as Ritual',
                     },
                     {
-                        shortTitle: 'DNCE 115J', 
+                        shortTitle: 'DNCE 115J',
                         fullTitle: 'Dance and Traces Past',
                     },
                     {
-                        shortTitle: 'DNCE 115K', 
+                        shortTitle: 'DNCE 115K',
                         fullTitle: 'Dance and Political Activation',
                     },
                     {
-                        shortTitle: 'DNCE 115M', 
+                        shortTitle: 'DNCE 115M',
                         fullTitle: 'Dance Making: Dance and Materials',
                     },
                     {
-                        shortTitle: 'DNCE 127', 
+                        shortTitle: 'DNCE 127',
                         fullTitle: 'Music Cultures of Southeast Asia',
                     },
                     {
-                        shortTitle: 'DNCE 131', 
+                        shortTitle: 'DNCE 131',
                         fullTitle: 'Dance, Gender, Sexuality',
                     },
                     {
-                        shortTitle: 'DNCE 132', 
+                        shortTitle: 'DNCE 132',
                         fullTitle: 'Dance, Citizenship, Location',
                     },
                     {
-                        shortTitle: 'DNCE 133', 
+                        shortTitle: 'DNCE 133',
                         fullTitle: 'Dance, Space, Time',
                     },
                     {
-                        shortTitle: 'DNCE 135', 
+                        shortTitle: 'DNCE 135',
                         fullTitle: 'Dance, Race, Property',
                     },
                     {
-                        shortTitle: 'DNCE 136', 
+                        shortTitle: 'DNCE 136',
                         fullTitle: 'Hip Hop Dance, Collectivity, and Change',
                     },
                     {
-                        shortTitle: 'DNCE 140', 
+                        shortTitle: 'DNCE 140',
                         fullTitle: 'Production Lab',
                     },
                     {
-                        shortTitle: 'DNCE 155F', 
+                        shortTitle: 'DNCE 155F',
                         fullTitle: 'The Ballets Russes',
                     },
                     {
-                        shortTitle: 'DNCE 162', 
+                        shortTitle: 'DNCE 162',
                         fullTitle: 'Tool, Technology, Technique',
                     },
                     {
-                        shortTitle: 'DNCE 167', 
+                        shortTitle: 'DNCE 167',
                         fullTitle: 'Dance Production',
                     },
                     {
-                        shortTitle: 'DNCE 168', 
+                        shortTitle: 'DNCE 168',
                         fullTitle: 'Dance Touring Ensemble',
                     },
                     {
-                        shortTitle: 'DNCE 171G', 
+                        shortTitle: 'DNCE 171G',
                         fullTitle: 'Gender, Mechanization, and Shape',
                     },
                     {
-                        shortTitle: 'DNCE 171F', 
-                        fullTitle: 'Ethnographic Representation - Dance on Film',
+                        shortTitle: 'DNCE 171F',
+                        fullTitle:
+                            'Ethnographic Representation - Dance on Film',
                     },
                     {
-                        shortTitle: 'DNCE 171M', 
+                        shortTitle: 'DNCE 171M',
                         fullTitle: 'Bollywood',
                     },
                     {
-                        shortTitle: 'DNCE 172M', 
+                        shortTitle: 'DNCE 172M',
                         fullTitle: 'Televisual Bodies',
                     },
                     {
@@ -2192,7 +2257,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MUS 008',
-                        fullTitle: 'Popular Music Cultures of the United States',
+                        fullTitle:
+                            'Popular Music Cultures of the United States',
                     },
                     {
                         shortTitle: 'MUS 010',
@@ -2246,55 +2312,55 @@ export const colleges = [
                         shortTitle: 'MUS 030B',
                         fullTitle: 'Harmony',
                     },
-                    {   
+                    {
                         shortTitle: 'MUS 030C',
                         fullTitle: 'Harmony',
                     },
-                    {   
+                    {
                         shortTitle: 'MUS 031A',
                         fullTitle: 'Music Theory and Musicianship I',
                     },
-                    {   
+                    {
                         shortTitle: 'MUS 031B',
                         fullTitle: 'Music Theory and Musicianship',
                     },
-                    {   
+                    {
                         shortTitle: 'MUS 031C',
                         fullTitle: 'Music Theory and Musicianship',
                     },
-                    {   
+                    {
                         shortTitle: 'MUS 037',
                         fullTitle: 'Introduction to Composition',
                     },
-                    {   
+                    {
                         shortTitle: 'MUS 073A',
                         fullTitle: 'Dance of Mexico',
                     },
-                    {   
+                    {
                         shortTitle: 'MUS 073B',
                         fullTitle: 'Dance of Mexico',
                     },
-                    {   
+                    {
                         shortTitle: 'MUS 080E',
                         fullTitle: 'Voice',
                     },
-                    {   
+                    {
                         shortTitle: 'MUS 080F',
                         fullTitle: 'Classical Piano',
                     },
-                    {   
+                    {
                         shortTitle: 'MUS 080G',
                         fullTitle: 'Jazz Piano',
                     },
-                    {   
+                    {
                         shortTitle: 'MUS 080J',
                         fullTitle: 'Carillon',
                     },
-                    {   
+                    {
                         shortTitle: 'MUS 080K',
                         fullTitle: 'Jazz Guitar',
                     },
-                    {   
+                    {
                         shortTitle: 'MUS 080L',
                         fullTitle: 'Electric Bass Guitar',
                     },
@@ -2302,396 +2368,402 @@ export const colleges = [
                         shortTitle: 'MUS 080N',
                         fullTitle: 'Classical Guitar',
                     },
-                    {   
+                    {
                         shortTitle: 'MUS 080P',
                         fullTitle: 'Piano Proficiency',
                     },
-                    {   
+                    {
                         shortTitle: 'MUS 080Q',
                         fullTitle: 'Organ',
                     },
-                    {   
+                    {
                         shortTitle: 'MUS 080R',
                         fullTitle: 'Violin',
                     },
                     {
-                        shortTitle: 'MUS 080S', 
+                        shortTitle: 'MUS 080S',
                         fullTitle: 'Viola',
                     },
                     {
-                        shortTitle: 'MUS 080U', 
+                        shortTitle: 'MUS 080U',
                         fullTitle: 'Acoustic String Bass Classical',
                     },
                     {
-                        shortTitle: 'MUS 080V', 
+                        shortTitle: 'MUS 080V',
                         fullTitle: 'Harp',
                     },
                     {
-                        shortTitle: 'MUS 081E', 
+                        shortTitle: 'MUS 081E',
                         fullTitle: 'Trumpet Jazz',
                     },
                     {
-                        shortTitle: 'MUS 081F', 
+                        shortTitle: 'MUS 081F',
                         fullTitle: 'Trombone',
                     },
                     {
-                        shortTitle: 'MUS 081G', 
+                        shortTitle: 'MUS 081G',
                         fullTitle: 'Tuba',
                     },
                     {
-                        shortTitle: 'MUS 081J', 
+                        shortTitle: 'MUS 081J',
                         fullTitle: 'Flute',
                     },
                     {
-                        shortTitle: 'MUS 081K', 
+                        shortTitle: 'MUS 081K',
                         fullTitle: 'Oboe',
                     },
                     {
-                        shortTitle: 'MUS 081I', 
+                        shortTitle: 'MUS 081I',
                         fullTitle: 'French Horn',
                     },
                     {
-                        shortTitle: 'MUS 081L', 
+                        shortTitle: 'MUS 081L',
                         fullTitle: 'Clarinet',
                     },
                     {
-                        shortTitle: 'MUS 081M', 
+                        shortTitle: 'MUS 081M',
                         fullTitle: 'Bassoon',
                     },
                     {
-                        shortTitle: 'MUS 081S', 
+                        shortTitle: 'MUS 081S',
                         fullTitle: 'Acoustic String Bass-Class and Jazz',
                     },
                     {
-                        shortTitle: 'MUS 081K', 
+                        shortTitle: 'MUS 081K',
                         fullTitle: 'Oboe',
                     },
                     {
-                        shortTitle: 'MUS 081N', 
+                        shortTitle: 'MUS 081N',
                         fullTitle: 'Saxophone',
                     },
                     {
-                        shortTitle: 'MUS 081P', 
+                        shortTitle: 'MUS 081P',
                         fullTitle: 'Drum Set',
                     },
                     {
-                        shortTitle: 'MUS 081R', 
+                        shortTitle: 'MUS 081R',
                         fullTitle: 'Bagpipe',
                     },
                     {
-                        shortTitle: 'MUS 112A', 
-                        fullTitle: 'History of Western Music: Middle Ages to 1700',
+                        shortTitle: 'MUS 112A',
+                        fullTitle:
+                            'History of Western Music: Middle Ages to 1700',
                     },
                     {
-                        shortTitle: 'MUS 112B', 
+                        shortTitle: 'MUS 112B',
                         fullTitle: 'History of Western Music: 1700-1900',
                     },
                     {
-                        shortTitle: 'MUS 112C', 
-                        fullTitle: 'History of Western Music: Twentieth Century',
+                        shortTitle: 'MUS 112C',
+                        fullTitle:
+                            'History of Western Music: Twentieth Century',
                     },
                     {
-                        shortTitle: 'MUS 114', 
+                        shortTitle: 'MUS 114',
                         fullTitle: 'Opera',
                     },
                     {
-                        shortTitle: 'MUS 117', 
-                        fullTitle: 'Music and Ritual'
+                        shortTitle: 'MUS 117',
+                        fullTitle: 'Music and Ritual',
                     },
                     {
-                        shortTitle: 'MUS 118', 
+                        shortTitle: 'MUS 118',
                         fullTitle: 'Musics, Politics, and Social Movements',
                     },
                     {
-                        shortTitle: 'MUS 124', 
+                        shortTitle: 'MUS 124',
                         fullTitle: 'Music of Asian America',
                     },
                     {
-                        shortTitle: 'MUS 125', 
-                        fullTitle: 'Music of Central America, Mexico, and the Caribbean',
+                        shortTitle: 'MUS 125',
+                        fullTitle:
+                            'Music of Central America, Mexico, and the Caribbean',
                     },
                     {
-                        shortTitle: 'MUS 126', 
-                        fullTitle: 'Gender, Sexuality, and Music in Cross-Cultural Perspectives',
+                        shortTitle: 'MUS 126',
+                        fullTitle:
+                            'Gender, Sexuality, and Music in Cross-Cultural Perspectives',
                     },
                     {
-                        shortTitle: 'MUS 127', 
+                        shortTitle: 'MUS 127',
                         fullTitle: 'Music Cultures of Southeast Asia',
                     },
                     {
-                        shortTitle: 'MUS 130A', 
+                        shortTitle: 'MUS 130A',
                         fullTitle: 'Counterpoint',
                     },
                     {
-                        shortTitle: 'MUS 130B', 
+                        shortTitle: 'MUS 130B',
                         fullTitle: 'Counterpoint',
                     },
                     {
-                        shortTitle: 'MUS 131A', 
+                        shortTitle: 'MUS 131A',
                         fullTitle: 'Music Theory and Musicianship II',
                     },
                     {
-                        shortTitle: 'MUS 131B', 
+                        shortTitle: 'MUS 131B',
                         fullTitle: 'Music Theory and Musicianship II',
                     },
                     {
-                        shortTitle: 'MUS 131C', 
+                        shortTitle: 'MUS 131C',
                         fullTitle: 'Music Theory and Musicianship II',
                     },
                     {
-                        shortTitle: 'MUS 133', 
+                        shortTitle: 'MUS 133',
                         fullTitle: 'Instrumentation',
                     },
                     {
-                        shortTitle: 'MUS 134', 
+                        shortTitle: 'MUS 134',
                         fullTitle: 'Orchestration',
                     },
                     {
-                        shortTitle: 'MUS 136', 
+                        shortTitle: 'MUS 136',
                         fullTitle: 'Jazz Theory',
                     },
                     {
-                        shortTitle: 'MUS 137', 
+                        shortTitle: 'MUS 137',
                         fullTitle: 'Composition Seminar',
                     },
                     {
-                        shortTitle: 'MUS 138', 
+                        shortTitle: 'MUS 138',
                         fullTitle: 'Form and Analysis in Western Music',
                     },
                     {
-                        shortTitle: 'MUS 140', 
-                        fullTitle: 'American Musical Subcultures: A Genealogy of Rock',
+                        shortTitle: 'MUS 140',
+                        fullTitle:
+                            'American Musical Subcultures: A Genealogy of Rock',
                     },
                     {
-                        shortTitle: 'MUS 144', 
+                        shortTitle: 'MUS 144',
                         fullTitle: 'Introduction to Songwriting',
                     },
                     {
-                        shortTitle: 'MUS 145A', 
+                        shortTitle: 'MUS 145A',
                         fullTitle: 'Digital Audio and Sound',
                     },
                     {
-                        shortTitle: 'MUS 145B', 
+                        shortTitle: 'MUS 145B',
                         fullTitle: 'Digital Audio and Sound',
                     },
                     {
-                        shortTitle: 'MUS 146', 
+                        shortTitle: 'MUS 146',
                         fullTitle: 'Genealogy of Electronica',
                     },
                     {
-                        shortTitle: 'MUS 147', 
-                        fullTitle: 'Advanced Contemporary Analysis: Music After 1945',
+                        shortTitle: 'MUS 147',
+                        fullTitle:
+                            'Advanced Contemporary Analysis: Music After 1945',
                     },
                     {
-                        shortTitle: 'MUS 152', 
+                        shortTitle: 'MUS 152',
                         fullTitle: 'Choral Conducting',
                     },
                     {
-                        shortTitle: 'MUS 154E', 
+                        shortTitle: 'MUS 154E',
                         fullTitle: 'Beethoven: the Music and the Myth',
                     },
                     {
-                        shortTitle: 'MUS 155F', 
+                        shortTitle: 'MUS 155F',
                         fullTitle: 'Seminar in Dance and Music',
                     },
                     {
-                        shortTitle: 'MUS 160', 
+                        shortTitle: 'MUS 160',
                         fullTitle: 'Orchestra',
                     },
                     {
-                        shortTitle: 'MUS 161', 
+                        shortTitle: 'MUS 161',
                         fullTitle: 'Collegium Musicum',
                     },
                     {
-                        shortTitle: 'MUS 162', 
+                        shortTitle: 'MUS 162',
                         fullTitle: 'Choral Society',
                     },
                     {
-                        shortTitle: 'MUS 163', 
+                        shortTitle: 'MUS 163',
                         fullTitle: 'Chamber Singers',
                     },
                     {
-                        shortTitle: 'MUS 164', 
+                        shortTitle: 'MUS 164',
                         fullTitle: 'Jazz Ensemble',
                     },
                     {
-                        shortTitle: 'MUS 165', 
+                        shortTitle: 'MUS 165',
                         fullTitle: 'Concert Band',
                     },
                     {
-                        shortTitle: 'MUS 166F', 
+                        shortTitle: 'MUS 166F',
                         fullTitle: 'Improvisatory Ensemble',
                     },
                     {
-                        shortTitle: 'MUS 166G', 
+                        shortTitle: 'MUS 166G',
                         fullTitle: 'Chamber Music',
                     },
                     {
-                        shortTitle: 'MUS 167', 
+                        shortTitle: 'MUS 167',
                         fullTitle: 'Senior Recital',
                     },
                     {
-                        shortTitle: 'MUS 168', 
+                        shortTitle: 'MUS 168',
                         fullTitle: 'Javanese Gamelan Ensemble: Beginning',
                     },
                     {
-                        shortTitle: 'MUS 169', 
+                        shortTitle: 'MUS 169',
                         fullTitle: 'Taiko Ensemble',
                     },
                     {
-                        shortTitle: 'MUS 170', 
+                        shortTitle: 'MUS 170',
                         fullTitle: 'Rondalla Ensemble',
                     },
                     {
-                        shortTitle: 'MUS 174', 
+                        shortTitle: 'MUS 174',
                         fullTitle: 'Latin American Music Ensemble',
                     },
                     {
-                        shortTitle: 'MUS 175A', 
+                        shortTitle: 'MUS 175A',
                         fullTitle: 'Beginning Mariachi Ensemble',
                     },
                     {
-                        shortTitle: 'MUS 175B', 
+                        shortTitle: 'MUS 175B',
                         fullTitle: 'Intermediate Mariachi Ensemble',
                     },
                     {
-                        shortTitle: 'MUS 176', 
+                        shortTitle: 'MUS 176',
                         fullTitle: 'Bagpipe Ensemble',
                     },
                     {
-                        shortTitle: 'MUS 177', 
+                        shortTitle: 'MUS 177',
                         fullTitle: 'Music of North India: Tabla (Drums)',
                     },
                     {
-                        shortTitle: 'MUS 179', 
+                        shortTitle: 'MUS 179',
                         fullTitle: 'Music Improvisation Ensemble',
                     },
                     {
-                        shortTitle: 'MUS 180E', 
+                        shortTitle: 'MUS 180E',
                         fullTitle: 'Voice',
                     },
                     {
-                        shortTitle: 'MUS 180F', 
+                        shortTitle: 'MUS 180F',
                         fullTitle: 'Classical Piano',
                     },
                     {
-                        shortTitle: 'MUS 180G', 
+                        shortTitle: 'MUS 180G',
                         fullTitle: 'Jazz Piano',
                     },
                     {
-                        shortTitle: 'MUS 180I', 
+                        shortTitle: 'MUS 180I',
                         fullTitle: 'Harpichord',
                     },
                     {
-                        shortTitle: 'MUS 180J', 
+                        shortTitle: 'MUS 180J',
                         fullTitle: 'Carillon',
                     },
                     {
-                        shortTitle: 'MUS 180K', 
+                        shortTitle: 'MUS 180K',
                         fullTitle: 'Jazz Guitar',
                     },
                     {
-                        shortTitle: 'MUS 180L', 
+                        shortTitle: 'MUS 180L',
                         fullTitle: 'Electric Bass Guitar',
                     },
                     {
-                        shortTitle: 'MUS 180N', 
+                        shortTitle: 'MUS 180N',
                         fullTitle: 'Classical Guitar',
                     },
                     {
-                        shortTitle: 'MUS 180P', 
+                        shortTitle: 'MUS 180P',
                         fullTitle: 'Piano Proficiency',
                     },
                     {
-                        shortTitle: 'MUS 180Q', 
+                        shortTitle: 'MUS 180Q',
                         fullTitle: 'Organ',
                     },
                     {
-                        shortTitle: 'MUS 180R', 
+                        shortTitle: 'MUS 180R',
                         fullTitle: 'Violin',
                     },
                     {
-                        shortTitle: 'MUS 180S', 
+                        shortTitle: 'MUS 180S',
                         fullTitle: 'Viola',
                     },
                     {
-                        shortTitle: 'MUS 180T', 
+                        shortTitle: 'MUS 180T',
                         fullTitle: 'Violoncello',
                     },
                     {
-                        shortTitle: 'MUS 180U', 
+                        shortTitle: 'MUS 180U',
                         fullTitle: 'Acoustic String Bass Classical',
                     },
                     {
-                        shortTitle: 'MUS 180V', 
+                        shortTitle: 'MUS 180V',
                         fullTitle: 'Harp',
                     },
                     {
-                        shortTitle: 'MUS 181E', 
+                        shortTitle: 'MUS 181E',
                         fullTitle: 'Trumpet Jazz',
                     },
                     {
-                        shortTitle: 'MUS 181F', 
+                        shortTitle: 'MUS 181F',
                         fullTitle: 'Trobone',
                     },
                     {
-                        shortTitle: 'MUS 181G', 
+                        shortTitle: 'MUS 181G',
                         fullTitle: 'Tuba',
                     },
                     {
-                        shortTitle: 'MUS 181I', 
+                        shortTitle: 'MUS 181I',
                         fullTitle: 'French Horn',
                     },
                     {
-                        shortTitle: 'MUS 181J', 
+                        shortTitle: 'MUS 181J',
                         fullTitle: 'Flute',
                     },
                     {
-                        shortTitle: 'MUS 181K', 
+                        shortTitle: 'MUS 181K',
                         fullTitle: 'Oboe',
                     },
                     {
-                        shortTitle: 'MUS 181L', 
+                        shortTitle: 'MUS 181L',
                         fullTitle: 'Clarinet',
                     },
                     {
-                        shortTitle: 'MUS 181M', 
+                        shortTitle: 'MUS 181M',
                         fullTitle: 'Bassoon',
                     },
                     {
-                        shortTitle: 'MUS 181N', 
+                        shortTitle: 'MUS 181N',
                         fullTitle: 'Saxophone',
                     },
                     {
-                        shortTitle: 'MUS 181P', 
+                        shortTitle: 'MUS 181P',
                         fullTitle: 'Drum Set',
                     },
                     {
-                        shortTitle: 'MUS 181R', 
+                        shortTitle: 'MUS 181R',
                         fullTitle: 'Bagpipe',
                     },
                     {
-                        shortTitle: 'MUS 181S', 
+                        shortTitle: 'MUS 181S',
                         fullTitle: 'Acoustic String Bass - Classical and Jazz',
                     },
                     {
-                        shortTitle: 'MUS 184', 
+                        shortTitle: 'MUS 184',
                         fullTitle: 'Genealogy of Hip Hop',
                     },
                     {
-                        shortTitle: 'MUS 185', 
+                        shortTitle: 'MUS 185',
                         fullTitle: 'Arts, Management, and Community',
                     },
                     {
-                        shortTitle: 'MUS 190', 
+                        shortTitle: 'MUS 190',
                         fullTitle: 'Special Studies',
                     },
                     {
-                        shortTitle: 'MUS 195', 
+                        shortTitle: 'MUS 195',
                         fullTitle: 'Senior Thesis',
                     },
                     {
-                        shortTitle: 'MUS 198I', 
+                        shortTitle: 'MUS 198I',
                         fullTitle: 'Individual Internship',
                     },
                 ],
@@ -2701,281 +2773,293 @@ export const colleges = [
                 name: 'Theatre, Film, and Digital Production',
                 courses: [
                     {
-                        shortTitle: 'TFDP 010', 
+                        shortTitle: 'TFDP 010',
                         fullTitle: 'Introduction to Acting',
                     },
                     {
-                        shortTitle: 'TFDP 020', 
-                        fullTitle: 'Production Techniquest for Theatre, Film, and Television',
+                        shortTitle: 'TFDP 020',
+                        fullTitle:
+                            'Production Techniquest for Theatre, Film, and Television',
                     },
                     {
-                        shortTitle: 'TFDP 021', 
-                        fullTitle: 'Introduction to Latina/O Cultural Production on Stage and Screen',
+                        shortTitle: 'TFDP 021',
+                        fullTitle:
+                            'Introduction to Latina/O Cultural Production on Stage and Screen',
                     },
                     {
-                        shortTitle: 'TFDP 022', 
+                        shortTitle: 'TFDP 022',
                         fullTitle: 'Shakespeare in Performance',
                     },
                     {
-                        shortTitle: 'TFDP 050S', 
+                        shortTitle: 'TFDP 050S',
                         fullTitle: 'Public Speaking',
                     },
                     {
-                        shortTitle: 'TFDP 052', 
+                        shortTitle: 'TFDP 052',
                         fullTitle: 'Advanced Public Speaking',
                     },
                     {
-                        shortTitle: 'TFDP 066', 
+                        shortTitle: 'TFDP 066',
                         fullTitle: 'Screenwriting: How Movies Work',
                     },
                     {
-                        shortTitle: 'TFDP 067', 
-                        fullTitle: 'Introduction to Playwriting and Screenwriting',
+                        shortTitle: 'TFDP 067',
+                        fullTitle:
+                            'Introduction to Playwriting and Screenwriting',
                     },
                     {
-                        shortTitle: 'TFDP 099', 
+                        shortTitle: 'TFDP 099',
                         fullTitle: 'Introduction to the Theatre Department',
                     },
                     {
-                        shortTitle: 'TFDP 100', 
+                        shortTitle: 'TFDP 100',
                         fullTitle: 'Play Analysis',
                     },
                     {
-                        shortTitle: 'TFDP 101', 
+                        shortTitle: 'TFDP 101',
                         fullTitle: 'Introduction to Design',
                     },
                     {
-                        shortTitle: 'TFDP 103', 
-                        fullTitle: 'Introduction to Dramaturgy'
+                        shortTitle: 'TFDP 103',
+                        fullTitle: 'Introduction to Dramaturgy',
                     },
                     {
-                        shortTitle: 'TFDP 109', 
+                        shortTitle: 'TFDP 109',
                         fullTitle: 'Acting: The Process',
                     },
                     {
-                        shortTitle: 'TFDP 110A', 
+                        shortTitle: 'TFDP 110A',
                         fullTitle: 'Acting: Fundamentals',
                     },
                     {
-                        shortTitle: 'TFDP 110B', 
+                        shortTitle: 'TFDP 110B',
                         fullTitle: 'Acting: Techniques',
                     },
                     {
-                        shortTitle: 'TFDP 111A', 
-                        fullTitle: 'Advanced Acting: Shakespeare and the Power of Language',
+                        shortTitle: 'TFDP 111A',
+                        fullTitle:
+                            'Advanced Acting: Shakespeare and the Power of Language',
                     },
                     {
-                        shortTitle: 'TFDP 111B', 
-                        fullTitle:  'Advanced Acting: Acting with Facts and Playing with the Truth',
+                        shortTitle: 'TFDP 111B',
+                        fullTitle:
+                            'Advanced Acting: Acting with Facts and Playing with the Truth',
                     },
                     {
-                        shortTitle: 'TFDP 111C', 
+                        shortTitle: 'TFDP 111C',
                         fullTitle: 'Advanced Acting: Acting for the Camera',
                     },
                     {
-                        shortTitle: 'TFDP 111D', 
+                        shortTitle: 'TFDP 111D',
                         fullTitle: 'The Business of Acting',
                     },
                     {
-                        shortTitle: 'TFDP 113N', 
+                        shortTitle: 'TFDP 113N',
                         fullTitle: 'Nonveral Theatre',
                     },
                     {
-                        shortTitle: 'TFDP 115', 
+                        shortTitle: 'TFDP 115',
                         fullTitle: 'Hip Hop Theatre',
                     },
                     {
-                        shortTitle: 'TFDP 117', 
+                        shortTitle: 'TFDP 117',
                         fullTitle: 'Directing for the Screen',
                     },
                     {
-                        shortTitle: 'TFDP 120A', 
-                        fullTitle: 'Literature and History of the Theatre: the Classical Period Through the Italian Renaissance',
+                        shortTitle: 'TFDP 120A',
+                        fullTitle:
+                            'Literature and History of the Theatre: the Classical Period Through the Italian Renaissance',
                     },
                     {
-                        shortTitle: 'TFDP 120B', 
-                        fullTitle: 'Literature and History of the Theatre: the Elizabethan Period Through the Nineteenth Century',
+                        shortTitle: 'TFDP 120B',
+                        fullTitle:
+                            'Literature and History of the Theatre: the Elizabethan Period Through the Nineteenth Century',
                     },
                     {
-                        shortTitle: 'TFDP 122', 
+                        shortTitle: 'TFDP 122',
                         fullTitle: 'Theatre for Social Change',
                     },
                     {
-                        shortTitle: 'TFDP 123', 
-                        fullTitle: 'Asian/American Theatre: Disorienting the Stage',
+                        shortTitle: 'TFDP 123',
+                        fullTitle:
+                            'Asian/American Theatre: Disorienting the Stage',
                     },
                     {
-                        shortTitle: 'TFDP 124A', 
+                        shortTitle: 'TFDP 124A',
                         fullTitle: 'American Theatre, 1900-1945',
                     },
                     {
-                        shortTitle: 'TFDP 125G', 
+                        shortTitle: 'TFDP 125G',
                         fullTitle: 'History of the Theatre',
                     },
                     {
-                        shortTitle: 'TFDP 125K', 
+                        shortTitle: 'TFDP 125K',
                         fullTitle: 'History of the Theatre',
                     },
                     {
-                        shortTitle: 'TFDP 125S', 
+                        shortTitle: 'TFDP 125S',
                         fullTitle: 'American Musical Theatre',
                     },
                     {
-                        shortTitle: 'TFDP 130A', 
+                        shortTitle: 'TFDP 130A',
                         fullTitle: 'Producing Short Episodic Content A',
                     },
                     {
-                        shortTitle: 'TFDP 130B', 
+                        shortTitle: 'TFDP 130B',
                         fullTitle: 'Producing Short Episodic Content B',
                     },
                     {
-                        shortTitle: 'TFDP 133', 
-                        fullTitle: 'Scene Design for Theatre, Film, and Television',
+                        shortTitle: 'TFDP 133',
+                        fullTitle:
+                            'Scene Design for Theatre, Film, and Television',
                     },
                     {
-                        shortTitle: 'TFDP 149', 
+                        shortTitle: 'TFDP 149',
                         fullTitle: 'Stage Management',
                     },
                     {
-                        shortTitle: 'TFDP 150A', 
+                        shortTitle: 'TFDP 150A',
                         fullTitle: 'Directing',
                     },
                     {
-                        shortTitle: 'TFDP 150B', 
+                        shortTitle: 'TFDP 150B',
                         fullTitle: 'Directing',
                     },
                     {
-                        shortTitle: 'TFDP 154', 
+                        shortTitle: 'TFDP 154',
                         fullTitle: 'Introduction to Filmmaking',
                     },
                     {
-                        shortTitle: 'TFDP 155', 
+                        shortTitle: 'TFDP 155',
                         fullTitle: 'Introduction to Digital Film Production',
                     },
                     {
-                        shortTitle: 'TFDP 156A', 
+                        shortTitle: 'TFDP 156A',
                         fullTitle: 'Digital Film Production',
                     },
                     {
-                        shortTitle: 'TFDP 156B', 
+                        shortTitle: 'TFDP 156B',
                         fullTitle: 'Digital Film Production',
                     },
                     {
-                        shortTitle: 'TFDP 157', 
+                        shortTitle: 'TFDP 157',
                         fullTitle: 'Introduction to Flim Editing',
                     },
                     {
-                        shortTitle: 'TFDP 160', 
-                        fullTitle: 'The Filmmaker\'\s Life',
+                        shortTitle: 'TFDP 160',
+                        fullTitle: "The Filmmaker's Life",
                     },
                     {
-                        shortTitle: 'TFDP 161', 
+                        shortTitle: 'TFDP 161',
                         fullTitle: 'African American Drama',
                     },
                     {
-                        shortTitle: 'TFDP 164A', 
+                        shortTitle: 'TFDP 164A',
                         fullTitle: 'Beginning Playwriting',
                     },
                     {
-                        shortTitle: 'TFDP 164B', 
+                        shortTitle: 'TFDP 164B',
                         fullTitle: 'Intermediate Playwriting',
                     },
                     {
-                        shortTitle: 'TFDP 164C', 
+                        shortTitle: 'TFDP 164C',
                         fullTitle: 'Advanced Playwriting',
                     },
                     {
-                        shortTitle: 'TFDP 165', 
+                        shortTitle: 'TFDP 165',
                         fullTitle: 'Creating the Webseries',
                     },
                     {
-                        shortTitle: 'TFDP 166A', 
+                        shortTitle: 'TFDP 166A',
                         fullTitle: 'Screenwriting: Introduction',
                     },
                     {
-                        shortTitle: 'TFDP 166B', 
+                        shortTitle: 'TFDP 166B',
                         fullTitle: 'Screenwriting: Outline to First Draft',
                     },
                     {
-                        shortTitle: 'TFDP 166C', 
-                        fullTitle: 'Screenwriting: Rewrites and Writing for Television',
+                        shortTitle: 'TFDP 166C',
+                        fullTitle:
+                            'Screenwriting: Rewrites and Writing for Television',
                     },
                     {
-                        shortTitle: 'TFDP 169', 
+                        shortTitle: 'TFDP 169',
                         fullTitle: 'Rewriting the Script',
                     },
                     {
-                        shortTitle: 'TFDP 180F', 
+                        shortTitle: 'TFDP 180F',
                         fullTitle: 'Musical Comedy',
                     },
                     {
-                        shortTitle: 'TFDP 185', 
+                        shortTitle: 'TFDP 185',
                         fullTitle: 'Arts, Management, and Community',
                     },
                     {
-                        shortTitle: 'TFDP 190', 
+                        shortTitle: 'TFDP 190',
                         fullTitle: 'Special Studies',
                     },
                     {
-                        shortTitle: 'TFDP 191M', 
-                        fullTitle: 'Seminar in Theatre: American Frontier in American Drama',
+                        shortTitle: 'TFDP 191M',
+                        fullTitle:
+                            'Seminar in Theatre: American Frontier in American Drama',
                     },
                     {
-                        shortTitle: 'TFDP 191S', 
+                        shortTitle: 'TFDP 191S',
                         fullTitle: 'Seminar in Theatre: Script to Production',
                     },
                     {
-                        shortTitle: 'TFDP 191', 
+                        shortTitle: 'TFDP 191',
                         fullTitle: 'Seminar in Theatre',
                     },
                     {
-                        shortTitle: 'TFDP 198I', 
+                        shortTitle: 'TFDP 198I',
                         fullTitle: 'Individual Internship in Theatre',
                     },
                 ],
-            }, 
+            },
             {
                 name: 'Comparative Literature and Languages',
                 courses: [
                     {
-                        shortTitle: 'CPLT 001', 
+                        shortTitle: 'CPLT 001',
                         fullTitle: 'Introduction to Close Reading',
                     },
                     {
-                        shortTitle: 'CPLT 002', 
+                        shortTitle: 'CPLT 002',
                         fullTitle: 'Reading World Literature',
                     },
                     {
-                        shortTitle: 'CPLT 012', 
+                        shortTitle: 'CPLT 012',
                         fullTitle: 'The Writer in Writing',
                     },
                     {
-                        shortTitle: 'CPLT 017A', 
+                        shortTitle: 'CPLT 017A',
                         fullTitle: 'Masterworks of World Literature',
                     },
                     {
-                        shortTitle: 'CPLT 017B', 
+                        shortTitle: 'CPLT 017B',
                         fullTitle: 'Masterworks of World Literature',
                     },
                     {
-                        shortTitle: 'CPLT 017C', 
+                        shortTitle: 'CPLT 017C',
                         fullTitle: 'Masterworks of World Literature',
                     },
                     {
-                        shortTitle: 'CPLT 023', 
+                        shortTitle: 'CPLT 023',
                         fullTitle: 'Modern Japan and Personal Narrative',
                     },
                     {
-                        shortTitle: 'CPLT 024', 
+                        shortTitle: 'CPLT 024',
                         fullTitle: 'World Cinema',
                     },
                     {
-                        shortTitle: 'CPLT 025', 
+                        shortTitle: 'CPLT 025',
                         fullTitle: 'Introduction to Science Fiction',
                     },
                     {
                         shortTitle: 'CPLT 026',
-                        fullTitle: 'Introduction to Literature, Film and Art by French and Franophone Women',
+                        fullTitle:
+                            'Introduction to Literature, Film and Art by French and Franophone Women',
                     },
                     {
                         shortTitle: 'CPLT 027',
@@ -2987,11 +3071,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'CPLT 040',
-                        fullTitle: 'Literary Response to Disaster and Repression',
+                        fullTitle:
+                            'Literary Response to Disaster and Repression',
                     },
                     {
                         shortTitle: 'CPLT 042',
-                        fullTitle: 'Responses to Political Repression in Modern Chinese Literature and Film',
+                        fullTitle:
+                            'Responses to Political Repression in Modern Chinese Literature and Film',
                     },
                     {
                         shortTitle: 'CPLT 048',
@@ -3019,7 +3105,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'CPLT 111',
-                        fullTitle: 'Berlin Metropolis in Literature, Film, Music, and Art',
+                        fullTitle:
+                            'Berlin Metropolis in Literature, Film, Music, and Art',
                     },
                     {
                         shortTitle: 'CPLT 112',
@@ -3039,7 +3126,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'CPLT 121',
-                        fullTitle: 'Crossing Borders: Immigration, Migration, and Exile in Cinema',
+                        fullTitle:
+                            'Crossing Borders: Immigration, Migration, and Exile in Cinema',
                     },
                     {
                         shortTitle: 'CPLT 123',
@@ -3079,7 +3167,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'CPLT 167',
-                        fullTitle: 'Postcolonial Literature and Criticism in Southeast Asia and South Asia',
+                        fullTitle:
+                            'Postcolonial Literature and Criticism in Southeast Asia and South Asia',
                     },
                     {
                         shortTitle: 'CPLT 173F',
@@ -3103,7 +3192,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'CPLT 181',
-                        fullTitle: 'Existentialism in Literature, Film, and Culture',
+                        fullTitle:
+                            'Existentialism in Literature, Film, and Culture',
                     },
                     {
                         shortTitle: 'CPLT 190',
@@ -3125,7 +3215,7 @@ export const colleges = [
             },
             {
                 name: 'English',
-                courses:[
+                courses: [
                     {
                         shortTitle: 'ENGL 001A',
                         fullTitle: 'Beginning Composition',
@@ -3204,11 +3294,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENGL 020B',
-                        fullTitle: 'Introduction to American Literary Tradition',
+                        fullTitle:
+                            'Introduction to American Literary Tradition',
                     },
                     {
                         shortTitle: 'ENGL 020C',
-                        fullTitle: 'Introduction To Alternative Critical Perspectives On Literature And Culture',
+                        fullTitle:
+                            'Introduction To Alternative Critical Perspectives On Literature And Culture',
                     },
                     {
                         shortTitle: 'ENGL 022',
@@ -3220,7 +3312,7 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENGL 033',
-                        fullTitle: 'Introduction to Comparative Media Studies'
+                        fullTitle: 'Introduction to Comparative Media Studies',
                     },
                     {
                         shortTitle: 'ENGL 100E',
@@ -3280,7 +3372,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENGL 121T',
-                        fullTitle: 'Postcol Literature in English From Southeast Asia',
+                        fullTitle:
+                            'Postcol Literature in English From Southeast Asia',
                     },
                     {
                         shortTitle: 'ENGL 122N',
@@ -3304,7 +3397,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENGL 125C',
-                        fullTitle: 'The Development of the English Novel: Twentieth Century',
+                        fullTitle:
+                            'The Development of the English Novel: Twentieth Century',
                     },
                     {
                         shortTitle: 'ENGL 126A',
@@ -3324,7 +3418,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENGL 127C',
-                        fullTitle: 'American Poetry: Later Twentieth Century to the Present',
+                        fullTitle:
+                            'American Poetry: Later Twentieth Century to the Present',
                     },
                     {
                         shortTitle: 'ENGL 128E',
@@ -3352,7 +3447,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENGL 129A',
-                        fullTitle: 'English and American Drama: Elizabethan and Jacobean Drama',
+                        fullTitle:
+                            'English and American Drama: Elizabethan and Jacobean Drama',
                     },
                     {
                         shortTitle: 'ENGL 129C',
@@ -3368,7 +3464,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENGL 132',
-                        fullTitle: 'American Literature from the Civil War to 1914',
+                        fullTitle:
+                            'American Literature from the Civil War to 1914',
                     },
                     {
                         shortTitle: 'ENGL 133',
@@ -3388,7 +3485,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENGL 138A',
-                        fullTitle: 'African American Literature Through the Harlem Renaissance',
+                        fullTitle:
+                            'African American Literature Through the Harlem Renaissance',
                     },
                     {
                         shortTitle: 'ENGL 138B',
@@ -3436,7 +3534,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENGL 142E',
-                        fullTitle: 'Witchcraft and Control; Practice Early Modern English',
+                        fullTitle:
+                            'Witchcraft and Control; Practice Early Modern English',
                     },
                     {
                         shortTitle: 'ENGL 142N',
@@ -3488,11 +3587,12 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENGL 146F',
-                        fullTitle: 'Special Topics in Technoculture and Digital Media',
+                        fullTitle:
+                            'Special Topics in Technoculture and Digital Media',
                     },
                     {
                         shortTitle: 'ENGL 147I',
-                        fullTitle: 'Robert Lowell\'\s Life Studies',
+                        fullTitle: "Robert Lowell's Life Studies",
                     },
                     {
                         shortTitle: 'ENGL 147M',
@@ -3508,7 +3608,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENGL 151B',
-                        fullTitle: 'Middle English Literature: Later Fourteenth Century',
+                        fullTitle:
+                            'Middle English Literature: Later Fourteenth Century',
                     },
                     {
                         shortTitle: 'ENGL 151T',
@@ -3532,7 +3633,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENGL 161B',
-                        fullTitle: 'Restoration and Eighteenth-Century English Literature: 1730-1790',
+                        fullTitle:
+                            'Restoration and Eighteenth-Century English Literature: 1730-1790',
                     },
                     {
                         shortTitle: 'ENGL 166A',
@@ -3613,19 +3715,23 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'GSST 016',
-                        fullTitle: 'Sexuality and Religion in Global Perspective',
+                        fullTitle:
+                            'Sexuality and Religion in Global Perspective',
                     },
                     {
                         shortTitle: 'GSST 016H',
-                        fullTitle: 'Honors Sexuality and Religion in Global Perspective',
+                        fullTitle:
+                            'Honors Sexuality and Religion in Global Perspective',
                     },
                     {
                         shortTitle: 'GSST 020',
-                        fullTitle: 'Women, Feminism, and Society in a Global Perspective',
+                        fullTitle:
+                            'Women, Feminism, and Society in a Global Perspective',
                     },
                     {
                         shortTitle: 'GSST 020S',
-                        fullTitle: 'Women, Feminism, and Society in a Global Perspective',
+                        fullTitle:
+                            'Women, Feminism, and Society in a Global Perspective',
                     },
                     {
                         shortTitle: 'GSST 021',
@@ -3633,7 +3739,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'GSST 026',
-                        fullTitle: 'Introduction to Literature, Film, and Art by French and Francophone Women',
+                        fullTitle:
+                            'Introduction to Literature, Film, and Art by French and Francophone Women',
                     },
                     {
                         shortTitle: 'GSST 030',
@@ -3657,11 +3764,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'GSST 105',
-                        fullTitle: 'Women, Race, and Violence: Intersectionalist and Transnational Perspectives',
+                        fullTitle:
+                            'Women, Race, and Violence: Intersectionalist and Transnational Perspectives',
                     },
                     {
                         shortTitle: 'GSST 107',
-                        fullTitle: 'Feminisms, Race, And Antiracisms: Critical Theories And Intersectional Perspectives',
+                        fullTitle:
+                            'Feminisms, Race, And Antiracisms: Critical Theories And Intersectional Perspectives',
                     },
                     {
                         shortTitle: 'GSST 108',
@@ -3685,11 +3794,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'GSST 124',
-                        fullTitle: 'Asian American Women: Writing The Self In Literature And Film',
+                        fullTitle:
+                            'Asian American Women: Writing The Self In Literature And Film',
                     },
                     {
                         shortTitle: 'GSST 126',
-                        fullTitle: 'Gender, Sexuality, and Music in Cross-Cultural Perspectives',
+                        fullTitle:
+                            'Gender, Sexuality, and Music in Cross-Cultural Perspectives',
                     },
                     {
                         shortTitle: 'GSST 127',
@@ -3705,11 +3816,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'GSST 131',
-                        fullTitle: 'Sustainability, Gender, and Development in the Global South',
+                        fullTitle:
+                            'Sustainability, Gender, and Development in the Global South',
                     },
                     {
                         shortTitle: 'GSST 134',
-                        fullTitle: 'Queer Identities and Movements in the United States',
+                        fullTitle:
+                            'Queer Identities and Movements in the United States',
                     },
                     {
                         shortTitle: 'GSST 135',
@@ -3717,7 +3830,7 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'GSST 136',
-                        fullTitle: 'Women and Grassroots Organizing'
+                        fullTitle: 'Women and Grassroots Organizing',
                     },
                     {
                         shortTitle: 'GSST 137',
@@ -3741,7 +3854,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'GSST 145',
-                        fullTitle: 'Intersectionality, Ecology, and Community Design',
+                        fullTitle:
+                            'Intersectionality, Ecology, and Community Design',
                     },
                     {
                         shortTitle: 'GSST 146',
@@ -3757,15 +3871,17 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'GSST 154',
-                        fullTitle: 'Feminist Oral History: Theory, Methods, Praxis',
+                        fullTitle:
+                            'Feminist Oral History: Theory, Methods, Praxis',
                     },
                     {
                         shortTitle: 'GSST 155',
-                        fullTitle: 'Women\'\s Labor and the Economy',
+                        fullTitle: "Women's Labor and the Economy",
                     },
                     {
                         shortTitle: 'GSST 158',
-                        fullTitle: 'Gender and Sexuality in U.S. Religious History'
+                        fullTitle:
+                            'Gender and Sexuality in U.S. Religious History',
                     },
                     {
                         shortTitle: 'GSST 159',
@@ -3777,11 +3893,12 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'GSST 162',
-                        fullTitle: 'Women\'\s Issues in Modern Muslim Thought',
+                        fullTitle: "Women's Issues in Modern Muslim Thought",
                     },
                     {
                         shortTitle: 'GSST 166',
-                        fullTitle: 'Chicana/O Cultural Studies and Gender Politics',
+                        fullTitle:
+                            'Chicana/O Cultural Studies and Gender Politics',
                     },
                     {
                         shortTitle: 'GSST 167',
@@ -3793,7 +3910,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'GSST 172',
-                        fullTitle: 'Contemporary Italian Women Writers in Translation',
+                        fullTitle:
+                            'Contemporary Italian Women Writers in Translation',
                     },
                     {
                         shortTitle: 'GSST 173',
@@ -3825,15 +3943,18 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'GSST 191A',
-                        fullTitle: 'Seminar In Gender And Sexuality Studies: Feminist Epistemologies'
+                        fullTitle:
+                            'Seminar In Gender And Sexuality Studies: Feminist Epistemologies',
                     },
                     {
                         shortTitle: 'GSST 191B',
-                        fullTitle: 'Seminar In Gender And Sexuality Studies: Feminist Research Methods',
+                        fullTitle:
+                            'Seminar In Gender And Sexuality Studies: Feminist Research Methods',
                     },
                     {
                         shortTitle: 'GSST 191C',
-                        fullTitle: 'Seminar In Gender And Sexuality Studies: Research Practicum In Gender And Sustainability',
+                        fullTitle:
+                            'Seminar In Gender And Sexuality Studies: Research Practicum In Gender And Sustainability',
                     },
                     {
                         shortTitle: 'GSST 195',
@@ -3845,7 +3966,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'GSST 198I',
-                        fullTitle: 'Individual Internship in Gender and Sexuality Studies'
+                        fullTitle:
+                            'Individual Internship in Gender and Sexuality Studies',
                     },
                 ],
             },
@@ -3886,11 +4008,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'SPN 110',
-                        fullTitle: 'Introductino to Literary Criticism and Analysis',
+                        fullTitle:
+                            'Introductino to Literary Criticism and Analysis',
                     },
                     {
                         shortTitle: 'SPN 120A',
-                        fullTitle: 'Short Text - Modern Authoritative Spain and Latin America',
+                        fullTitle:
+                            'Short Text - Modern Authoritative Spain and Latin America',
                     },
                     {
                         shortTitle: 'SPN 120C',
@@ -3930,7 +4054,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'SPN 165',
-                        fullTitle: 'Spanish and Latin American Cultural Studies: Violence and Representation',
+                        fullTitle:
+                            'Spanish and Latin American Cultural Studies: Violence and Representation',
                     },
                     {
                         shortTitle: 'SPN 170E',
@@ -3950,7 +4075,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'SPN 180A',
-                        fullTitle: 'Survey of Spanish Literature, Middle Ages-1699',
+                        fullTitle:
+                            'Survey of Spanish Literature, Middle Ages-1699',
                     },
                     {
                         shortTitle: 'SPN 180B',
@@ -3958,11 +4084,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'SPN 181B',
-                        fullTitle: 'Survey of SPanish American Literature, Modernismo to the Present',
+                        fullTitle:
+                            'Survey of SPanish American Literature, Modernismo to the Present',
                     },
                     {
                         shortTitle: 'SPN 185',
-                        fullTitle: 'Imagining the Nation: Film and Media in Latin America',
+                        fullTitle:
+                            'Imagining the Nation: Film and Media in Latin America',
                     },
                     {
                         shortTitle: 'SPN 187',
@@ -3982,7 +4110,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'SPN 193',
-                        fullTitle: 'Senior Seminar In The Literatures And Cultures Of The Hispanic World',
+                        fullTitle:
+                            'Senior Seminar In The Literatures And Cultures Of The Hispanic World',
                     },
                     {
                         shortTitle: 'SPN 197',
@@ -4043,15 +4172,18 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'HIST 035',
-                        fullTitle: 'History of North American Indians, 1491-1799',
+                        fullTitle:
+                            'History of North American Indians, 1491-1799',
                     },
                     {
                         shortTitle: 'HIST 036',
-                        fullTitle: 'History of North American Indians, 1800-1899',
+                        fullTitle:
+                            'History of North American Indians, 1800-1899',
                     },
                     {
                         shortTitle: 'HIST 037',
-                        fullTitle: 'History of North American Indians, 1900-Present',
+                        fullTitle:
+                            'History of North American Indians, 1900-Present',
                     },
                     {
                         shortTitle: 'HIST 039',
@@ -4059,7 +4191,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'HIST 040',
-                        fullTitle: 'Literary Response to Disaster and Repression',
+                        fullTitle:
+                            'Literary Response to Disaster and Repression',
                     },
                     {
                         shortTitle: 'HIST 041',
@@ -4075,15 +4208,18 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'HIST 047',
-                        fullTitle: 'Dragons and Dynasties: Themes in Imperial Chinese History',
+                        fullTitle:
+                            'Dragons and Dynasties: Themes in Imperial Chinese History',
                     },
                     {
                         shortTitle: 'HIST 048',
-                        fullTitle: 'From Yam Sauce to Golden Arches: Chinese Food History',
+                        fullTitle:
+                            'From Yam Sauce to Golden Arches: Chinese Food History',
                     },
                     {
                         shortTitle: 'HIST 051',
-                        fullTitle: 'Europe from Plague to Revolution, 1400-1750',
+                        fullTitle:
+                            'Europe from Plague to Revolution, 1400-1750',
                     },
                     {
                         shortTitle: 'HIST 052',
@@ -4107,7 +4243,7 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'HIST 099W',
-                        fullTitle: 'The Historian\'\s Workshop',
+                        fullTitle: "The Historian's Workshop",
                     },
                     {
                         shortTitle: 'HIST 107',
@@ -4119,7 +4255,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'HIST 109',
-                        fullTitle: 'Technology in Modern Europe and America, 1700-Present',
+                        fullTitle:
+                            'Technology in Modern Europe and America, 1700-Present',
                     },
                     {
                         shortTitle: 'HIST 111',
@@ -4135,7 +4272,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'HIST 124',
-                        fullTitle: 'Women in Middle Eastern and Islamic History',
+                        fullTitle:
+                            'Women in Middle Eastern and Islamic History',
                     },
                     {
                         shortTitle: 'HIST 127',
@@ -4143,7 +4281,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'HIST 130A',
-                        fullTitle: 'History of Christianity: Origins to the Reformation',
+                        fullTitle:
+                            'History of Christianity: Origins to the Reformation',
                     },
                     {
                         shortTitle: 'HIST 130B',
@@ -4207,7 +4346,7 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'HIST 198',
-                        fullTitle: 'R\'\Course: Variable Topics',
+                        fullTitle: "R'Course: Variable Topics",
                     },
                     {
                         shortTitle: 'HIST 199',
@@ -4232,7 +4371,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 004',
-                        fullTitle: 'Introduction to Moving Images: Film, Video, and New Media',
+                        fullTitle:
+                            'Introduction to Moving Images: Film, Video, and New Media',
                     },
                     {
                         shortTitle: 'MCS 005',
@@ -4240,7 +4380,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 006',
-                        fullTitle: 'Introduction to Contemporary Critical Issues in Art',
+                        fullTitle:
+                            'Introduction to Contemporary Critical Issues in Art',
                     },
                     {
                         shortTitle: 'MCS 007',
@@ -4252,7 +4393,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 010',
-                        fullTitle: 'Cultural Studies: Historical and Contemporary Perspectives',
+                        fullTitle:
+                            'Cultural Studies: Historical and Contemporary Perspectives',
                     },
                     {
                         shortTitle: 'MCS 011',
@@ -4324,7 +4466,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 108',
-                        fullTitle: 'Electric Earth: Media Ecology Theory Culture',
+                        fullTitle:
+                            'Electric Earth: Media Ecology Theory Culture',
                     },
                     {
                         shortTitle: 'MCS 109',
@@ -4344,7 +4487,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 117',
-                        fullTitle: 'Posthuman Bodies in Science, Media, and Culture',
+                        fullTitle:
+                            'Posthuman Bodies in Science, Media, and Culture',
                     },
                     {
                         shortTitle: 'MCS 118E',
@@ -4364,7 +4508,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 121',
-                        fullTitle: 'Live-Streaming And Gaming Enthnography: Online Research Methods',
+                        fullTitle:
+                            'Live-Streaming And Gaming Enthnography: Online Research Methods',
                     },
                     {
                         shortTitle: 'MCS 122',
@@ -4372,7 +4517,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 123',
-                        fullTitle: 'Asian American Women: Writing The Self In Literature And Film',
+                        fullTitle:
+                            'Asian American Women: Writing The Self In Literature And Film',
                     },
                     {
                         shortTitle: 'MCS 124',
@@ -4384,11 +4530,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 127',
-                        fullTitle: 'Chicana/O Cultural Studies and Gender Politics',
+                        fullTitle:
+                            'Chicana/O Cultural Studies and Gender Politics',
                     },
                     {
                         shortTitle: 'MCS 129',
-                        fullTitle: 'Disney: Producing Race, Gender, and Sexuality',
+                        fullTitle:
+                            'Disney: Producing Race, Gender, and Sexuality',
                     },
                     {
                         shortTitle: 'MCS 130',
@@ -4396,7 +4544,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 131',
-                        fullTitle: 'Intermediate Photography and Digital Technology',
+                        fullTitle:
+                            'Intermediate Photography and Digital Technology',
                     },
                     {
                         shortTitle: 'MCS 135',
@@ -4404,7 +4553,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 140',
-                        fullTitle: 'Alternative Media Production and Social Movements',
+                        fullTitle:
+                            'Alternative Media Production and Social Movements',
                     },
                     {
                         shortTitle: 'MCS 143',
@@ -4448,7 +4598,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 146F',
-                        fullTitle: 'Special Topics in Technoculture and Digital Media',
+                        fullTitle:
+                            'Special Topics in Technoculture and Digital Media',
                     },
                     {
                         shortTitle: 'MCS 147',
@@ -4456,11 +4607,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 149',
-                        fullTitle: 'Between The Panels: Introduction To U.S And Identity In Visual Culture',
+                        fullTitle:
+                            'Between The Panels: Introduction To U.S And Identity In Visual Culture',
                     },
                     {
                         shortTitle: 'MCS 150',
-                        fullTitle: 'Intermediate Moving Images: Film Video and New Media',
+                        fullTitle:
+                            'Intermediate Moving Images: Film Video and New Media',
                     },
                     {
                         shortTitle: 'MCS 151G',
@@ -4472,7 +4625,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 151F',
-                        fullTitle: 'Enthnographic Representation - Dance on Film',
+                        fullTitle:
+                            'Enthnographic Representation - Dance on Film',
                     },
                     {
                         shortTitle: 'MCS 152M',
@@ -4488,7 +4642,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 155',
-                        fullTitle: 'Advanced Moving Images: Film, Video and New Media',
+                        fullTitle:
+                            'Advanced Moving Images: Film, Video and New Media',
                     },
                     {
                         shortTitle: 'MCS 156E',
@@ -4496,11 +4651,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 157',
-                        fullTitle: 'Afrofuturism and the Visual Cultures of Horror',
+                        fullTitle:
+                            'Afrofuturism and the Visual Cultures of Horror',
                     },
                     {
                         shortTitle: 'MCS 158',
-                        fullTitle: 'Afrofuturism and the Politics of the Black Superhero',
+                        fullTitle:
+                            'Afrofuturism and the Politics of the Black Superhero',
                     },
                     {
                         shortTitle: 'MCS 159',
@@ -4536,7 +4693,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 178',
-                        fullTitle: 'Berlin Metropolis in Literature, Film, Music, and Art',
+                        fullTitle:
+                            'Berlin Metropolis in Literature, Film, Music, and Art',
                     },
                     {
                         shortTitle: 'MCS 179',
@@ -4548,7 +4706,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 181',
-                        fullTitle: 'Existentialism in Literature, Film, and Culture',
+                        fullTitle:
+                            'Existentialism in Literature, Film, and Culture',
                     },
                     {
                         shortTitle: 'MCS 184',
@@ -4556,11 +4715,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 185',
-                        fullTitle: 'Imagining the Nation: Film and Media in Latin America',
+                        fullTitle:
+                            'Imagining the Nation: Film and Media in Latin America',
                     },
                     {
                         shortTitle: 'MCS 186',
-                        fullTitle: 'Media And Movements: Film, Video, Photography, And The Visual Arts',
+                        fullTitle:
+                            'Media And Movements: Film, Video, Photography, And The Visual Arts',
                     },
                     {
                         shortTitle: 'MCS 187',
@@ -4584,10 +4745,10 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MCS 198I',
-                        fullTitle: 'Individual Internship in Media and Cultural Studies',
+                        fullTitle:
+                            'Individual Internship in Media and Cultural Studies',
                     },
                 ],
-                
             },
             {
                 name: 'Philosophy',
@@ -4682,7 +4843,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'PHIL 111',
-                        fullTitle: 'Philosophy, Film, and Reflective Popular Culture',
+                        fullTitle:
+                            'Philosophy, Film, and Reflective Popular Culture',
                     },
                     {
                         shortTitle: 'PHIL 112',
@@ -4880,7 +5042,7 @@ export const colleges = [
                         shortTitle: 'PHIL 198I',
                         fullTitle: 'Individual Internship in Philosophy',
                     },
-                ]
+                ],
             },
             {
                 name: 'Religious Studies',
@@ -4943,11 +5105,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'RLST 016',
-                        fullTitle: 'Sexuality and Religion in Global Perspective',
+                        fullTitle:
+                            'Sexuality and Religion in Global Perspective',
                     },
                     {
                         shortTitle: 'RLST 016H',
-                        fullTitle: 'Honors Sexuality and Religion in Global Perspective',
+                        fullTitle:
+                            'Honors Sexuality and Religion in Global Perspective',
                     },
                     {
                         shortTitle: 'RLST 044',
@@ -4979,7 +5143,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'RLST 114',
-                        fullTitle: 'Jainism: An Indian Religion of Non-Violence',
+                        fullTitle:
+                            'Jainism: An Indian Religion of Non-Violence',
                     },
                     {
                         shortTitle: 'RLST 116',
@@ -4991,11 +5156,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'RLST 118',
-                        fullTitle: ' The Problem Of Evil: Understanding Evil And Its Manifestations',
+                        fullTitle:
+                            ' The Problem Of Evil: Understanding Evil And Its Manifestations',
                     },
                     {
                         shortTitle: 'RLST 120',
-                        fullTitle: 'Tibetan Buddhism: Dalai Lamas, Tantric Madness, And Mass Monasticism',
+                        fullTitle:
+                            'Tibetan Buddhism: Dalai Lamas, Tantric Madness, And Mass Monasticism',
                     },
                     {
                         shortTitle: 'RLST 123',
@@ -5007,7 +5174,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'RLST 135A',
-                        fullTitle: 'History of Christianity: Origins to the Reformation',
+                        fullTitle:
+                            'History of Christianity: Origins to the Reformation',
                     },
                     {
                         shortTitle: 'RLST 135B',
@@ -5035,7 +5203,7 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'RLST 151',
-                        fullTitle: 'Reading the Qur\'\An',
+                        fullTitle: "Reading the Qur'An",
                     },
                     {
                         shortTitle: 'RLST 153',
@@ -5047,11 +5215,12 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'RLST 161',
-                        fullTitle: 'Gender and Sexuality in U.S. Religious History',
+                        fullTitle:
+                            'Gender and Sexuality in U.S. Religious History',
                     },
                     {
                         shortTitle: 'RLST 162',
-                        fullTitle: 'Women\'\s Issues in Modern Muslim Thought',
+                        fullTitle: "Women's Issues in Modern Muslim Thought",
                     },
                     {
                         shortTitle: 'RLST 169',
@@ -5160,11 +5329,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ANTH 109',
-                        fullTitle: 'Women, Politics, and Social Movements: Global Perspectives',
+                        fullTitle:
+                            'Women, Politics, and Social Movements: Global Perspectives',
                     },
                     {
                         shortTitle: 'ANTH 112',
-                        fullTitle: 'Settlement Patterns and Locational Analysis',
+                        fullTitle:
+                            'Settlement Patterns and Locational Analysis',
                     },
                     {
                         shortTitle: 'ANTH 113',
@@ -5256,11 +5427,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ANTH 135',
-                        fullTitle: 'The Archaeology of African Diaspora History and Culture',
+                        fullTitle:
+                            'The Archaeology of African Diaspora History and Culture',
                     },
                     {
                         shortTitle: 'ANTH 136',
-                        fullTitle: 'Anthropological Perspectives on Gender in Southeast Asia',
+                        fullTitle:
+                            'Anthropological Perspectives on Gender in Southeast Asia',
                     },
                     {
                         shortTitle: 'ANTH 139',
@@ -5304,7 +5477,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ANTH 154',
-                        fullTitle: 'Research Methods in Biological Anthropology',
+                        fullTitle:
+                            'Research Methods in Biological Anthropology',
                     },
                     {
                         shortTitle: 'ANTH 155',
@@ -5312,7 +5486,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ANTH 158',
-                        fullTitle: 'Biological Approaches to Medical Anthropology',
+                        fullTitle:
+                            'Biological Approaches to Medical Anthropology',
                     },
                     {
                         shortTitle: 'ANTH 159',
@@ -5360,7 +5535,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ANTH 177',
-                        fullTitle: 'Gender, Sexuality, and Music in Cross-Cultural Perspectives',
+                        fullTitle:
+                            'Gender, Sexuality, and Music in Cross-Cultural Perspectives',
                     },
                     {
                         shortTitle: 'ANTH 186',
@@ -5533,7 +5709,7 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ECON 155',
-                        fullTitle: 'Women\'\s Labor and the Economy',
+                        fullTitle: "Women's Labor and the Economy",
                     },
                     {
                         shortTitle: 'ECON 157',
@@ -5610,19 +5786,23 @@ export const colleges = [
                 courses: [
                     {
                         shortTitle: 'ETST 001',
-                        fullTitle: 'Introduction to the Study of Race and Ethnicity',
+                        fullTitle:
+                            'Introduction to the Study of Race and Ethnicity',
                     },
                     {
                         shortTitle: 'ETST 001H',
-                        fullTitle: 'Honors Introduction to the Study of Race and Ethnicity',
-                    }, 
+                        fullTitle:
+                            'Honors Introduction to the Study of Race and Ethnicity',
+                    },
                     {
                         shortTitle: 'ETST 002',
-                        fullTitle: 'Introduction to Chicano Studies in Comparative Perspective',
+                        fullTitle:
+                            'Introduction to Chicano Studies in Comparative Perspective',
                     },
                     {
                         shortTitle: 'ETST 002G',
-                        fullTitle: 'Honors Introduction to Chicano Studies in Comparative Perspective',
+                        fullTitle:
+                            'Honors Introduction to Chicano Studies in Comparative Perspective',
                     },
                     {
                         shortTitle: 'ETST 004',
@@ -5630,15 +5810,18 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ETST 005',
-                        fullTitle: 'Introduction To Asian American Studies In Comparative Perspective',
+                        fullTitle:
+                            'Introduction To Asian American Studies In Comparative Perspective',
                     },
                     {
                         shortTitle: 'ETST 007',
-                        fullTitle: 'Introduction To Native American Studies In Comparative Perspective',
+                        fullTitle:
+                            'Introduction To Native American Studies In Comparative Perspective',
                     },
                     {
                         shortTitle: 'ETST 007H',
-                        fullTitle: 'Honors Introduction To Native American Studies In Comparative Perspective',
+                        fullTitle:
+                            'Honors Introduction To Native American Studies In Comparative Perspective',
                     },
                     {
                         shortTitle: 'ETST 008',
@@ -5662,11 +5845,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ETST 098',
-                        fullTitle: 'Introduction to Arab/Muslim American Studies',
+                        fullTitle:
+                            'Introduction to Arab/Muslim American Studies',
                     },
                     {
                         shortTitle: 'ETST 100',
-                        fullTitle: 'Race and Ethncity in a Comparative Perspective',
+                        fullTitle:
+                            'Race and Ethncity in a Comparative Perspective',
                     },
                     {
                         shortTitle: 'ETST 101A',
@@ -5690,7 +5875,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ETST 109I',
-                        fullTitle: 'The Black Diaspora: Cultural, Political, And Historical Connections',
+                        fullTitle:
+                            'The Black Diaspora: Cultural, Political, And Historical Connections',
                     },
                     {
                         shortTitle: 'ETST 109J',
@@ -5722,7 +5908,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ETST 119',
-                        fullTitle: 'Issues In Twentieth Century And Contemporary Native American Art',
+                        fullTitle:
+                            'Issues In Twentieth Century And Contemporary Native American Art',
                     },
                     {
                         shortTitle: 'ETST 121',
@@ -5754,7 +5941,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ETST 133',
-                        fullTitle: 'Asian Diaspora: Historical, Contemporary, And Comparative Perspectives',
+                        fullTitle:
+                            'Asian Diaspora: Historical, Contemporary, And Comparative Perspectives',
                     },
                     {
                         shortTitle: 'ETST 136',
@@ -5762,11 +5950,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ETST 139',
-                        fullTitle: 'Contemporary Issues in the Asian American Community',
+                        fullTitle:
+                            'Contemporary Issues in the Asian American Community',
                     },
                     {
                         shortTitle: 'ETST 140',
-                        fullTitle: 'Asian American Feminist Theory and Politics',
+                        fullTitle:
+                            'Asian American Feminist Theory and Politics',
                     },
                     {
                         shortTitle: 'ETST 145',
@@ -5790,11 +5980,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ETST 154',
-                        fullTitle: 'Chicanos And Popular Music In The Twentieth Century: From Pachuco Boogie To Latin Jazz',
+                        fullTitle:
+                            'Chicanos And Popular Music In The Twentieth Century: From Pachuco Boogie To Latin Jazz',
                     },
                     {
                         shortTitle: 'ETST 155',
-                        fullTitle: 'Chicana/O California: A Social and Cultural History',
+                        fullTitle:
+                            'Chicana/O California: A Social and Cultural History',
                     },
                     {
                         shortTitle: 'ETST 158',
@@ -5810,7 +6002,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ETST 161',
-                        fullTitle: 'U.S. Latinos: Crossing Borders, Cross Cultures',
+                        fullTitle:
+                            'U.S. Latinos: Crossing Borders, Cross Cultures',
                     },
                     {
                         shortTitle: 'ETST 162',
@@ -5818,11 +6011,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ETST 163E',
-                        fullTitle: 'Gender Violence: Race, Queer, and Female Persons',
+                        fullTitle:
+                            'Gender Violence: Race, Queer, and Female Persons',
                     },
                     {
                         shortTitle: 'ETST 164',
-                        fullTitle: 'History of African American Education: 1950-Present',
+                        fullTitle:
+                            'History of African American Education: 1950-Present',
                     },
                     {
                         shortTitle: 'ETST 165',
@@ -5830,11 +6025,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ETST 167',
-                        fullTitle: 'Psychological Development of Black Children',
+                        fullTitle:
+                            'Psychological Development of Black Children',
                     },
                     {
                         shortTitle: 'ETST 168',
-                        fullTitle: 'Psychological Aspects of the Black Experience',
+                        fullTitle:
+                            'Psychological Aspects of the Black Experience',
                     },
                     {
                         shortTitle: 'ETST 172',
@@ -5842,7 +6039,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ETST 174',
-                        fullTitle: 'Race, Law and Education in the United States',
+                        fullTitle:
+                            'Race, Law and Education in the United States',
                     },
                     {
                         shortTitle: 'ETST 175',
@@ -5850,7 +6048,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ETST 177',
-                        fullTitle: 'The U.S. Prison Industrial Complex: Race, Gender, And Citizenship',
+                        fullTitle:
+                            'The U.S. Prison Industrial Complex: Race, Gender, And Citizenship',
                     },
                     {
                         shortTitle: 'ETST 180',
@@ -5862,11 +6061,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ETST 184',
-                        fullTitle: 'American Indian Policy in the Twentieth Century',
+                        fullTitle:
+                            'American Indian Policy in the Twentieth Century',
                     },
                     {
                         shortTitle: 'ETST 186',
-                        fullTitle: 'Policing And The Hegemony Of "Law And Order": Race, Gender, Sexuality, Citizenship, And The Politics',
+                        fullTitle:
+                            'Policing And The Hegemony Of "Law And Order": Race, Gender, Sexuality, Citizenship, And The Politics',
                     },
                     {
                         shortTitle: 'ETST 188',
@@ -5890,7 +6091,7 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ETST 198',
-                        fullTitle: 'R\'\Course: Intro Africana Philosophy',
+                        fullTitle: "R'Course: Intro Africana Philosophy",
                     },
                     {
                         shortTitle: 'ETST 198G',
@@ -5900,7 +6101,6 @@ export const colleges = [
                         shortTitle: 'ETST 198I',
                         fullTitle: 'Individual Internship',
                     },
-                    
                 ],
             },
             {
@@ -5952,7 +6152,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'POSC 104',
-                        fullTitle: 'Special Topics In The Politics Of Race, Immigration, And Ethnicity',
+                        fullTitle:
+                            'Special Topics In The Politics Of Race, Immigration, And Ethnicity',
                     },
                     {
                         shortTitle: 'POSC 107',
@@ -5960,7 +6161,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'POSC 108',
-                        fullTitle: 'Politics of Race, Immigration, and Ethnicity in the United States',
+                        fullTitle:
+                            'Politics of Race, Immigration, and Ethnicity in the United States',
                     },
                     {
                         shortTitle: 'POSC 111S',
@@ -5984,7 +6186,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'POSC 116',
-                        fullTitle: 'Capitalism, Socialism, and Political Theory',
+                        fullTitle:
+                            'Capitalism, Socialism, and Political Theory',
                     },
                     {
                         shortTitle: 'POSC 117S',
@@ -6040,15 +6243,18 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'POSC 125',
-                        fullTitle: 'United States Foreign Policy Since World War II',
+                        fullTitle:
+                            'United States Foreign Policy Since World War II',
                     },
                     {
                         shortTitle: 'POSC 126',
-                        fullTitle: 'The Politics Of International Trade, Finance, And Development',
+                        fullTitle:
+                            'The Politics Of International Trade, Finance, And Development',
                     },
                     {
                         shortTitle: 'POSC 126S',
-                        fullTitle: 'The Politics Of International Trade, Finance, And Development',
+                        fullTitle:
+                            'The Politics Of International Trade, Finance, And Development',
                     },
                     {
                         shortTitle: 'POSC 130',
@@ -6060,7 +6266,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'POSC 136S',
-                        fullTitle: 'Political Economy of International Migration',
+                        fullTitle:
+                            'Political Economy of International Migration',
                     },
                     {
                         shortTitle: 'POSC 137S',
@@ -6072,7 +6279,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'POSC 140',
-                        fullTitle: 'Militarism and Hegemony in the Ancient World',
+                        fullTitle:
+                            'Militarism and Hegemony in the Ancient World',
                     },
                     {
                         shortTitle: 'POSC 141',
@@ -6148,7 +6356,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'POSC 162S',
-                        fullTitle: 'Latin Amerca: The Quest for Development and Democracy',
+                        fullTitle:
+                            'Latin Amerca: The Quest for Development and Democracy',
                     },
                     {
                         shortTitle: 'POSC 163S',
@@ -6192,7 +6401,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'POSC 178S',
-                        fullTitle: 'Political Consequences of Electoral Institutions',
+                        fullTitle:
+                            'Political Consequences of Electoral Institutions',
                     },
                     {
                         shortTitle: 'POSC 182',
@@ -6249,7 +6459,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'PSYC 011',
-                        fullTitle: 'Psychological Methods: Statistical Procedures',
+                        fullTitle:
+                            'Psychological Methods: Statistical Procedures',
                     },
                     {
                         shortTitle: 'PSYC 012',
@@ -6281,11 +6492,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'PSYC 117',
-                        fullTitle: 'Cognitive Neuroscience of Memory and Consciousness',
+                        fullTitle:
+                            'Cognitive Neuroscience of Memory and Consciousness',
                     },
                     {
                         shortTitle: 'PSYC 120',
-                        fullTitle: 'Cellular Neuroscience: Membrane and Synaptic Phenomena',
+                        fullTitle:
+                            'Cellular Neuroscience: Membrane and Synaptic Phenomena',
                     },
                     {
                         shortTitle: 'PSYC 120L',
@@ -6305,7 +6518,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'PSYC 123L',
-                        fullTitle: 'Computational Neuroscience Laboratory: Introduction to Brain Modeling Techniques',
+                        fullTitle:
+                            'Computational Neuroscience Laboratory: Introduction to Brain Modeling Techniques',
                     },
                     {
                         shortTitle: 'PSYC 124',
@@ -6401,7 +6615,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'PSYC 165B',
-                        fullTitle: 'The Development of Immigrant and Ethnic Minority Youth',
+                        fullTitle:
+                            'The Development of Immigrant and Ethnic Minority Youth',
                     },
                     {
                         shortTitle: 'PSYC 166',
@@ -6421,11 +6636,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'PSYC 167',
-                        fullTitle: 'Psychologicla Development of Black Children',
+                        fullTitle:
+                            'Psychologicla Development of Black Children',
                     },
                     {
                         shortTitle: 'PSYC 168',
-                        fullTitle: 'Psychological Aspects of the Black Experience',
+                        fullTitle:
+                            'Psychological Aspects of the Black Experience',
                     },
                     {
                         shortTitle: 'PSYC 169',
@@ -6465,7 +6682,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'PSYC 189',
-                        fullTitle: 'COVID 19 Pandemic: Life, Adaptation and Mental Health',
+                        fullTitle:
+                            'COVID 19 Pandemic: Life, Adaptation and Mental Health',
                     },
                     {
                         shortTitle: 'PSYC 190',
@@ -6481,7 +6699,7 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'PSYC 198',
-                        fullTitle: 'R\'\Course: Variable Topics',
+                        fullTitle: "R'Course: Variable Topics",
                     },
                     {
                         shortTitle: 'PSYC 198I',
@@ -6514,7 +6732,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'SOC 002G',
-                        fullTitle: 'Introduction to Global Change and Inequality',
+                        fullTitle:
+                            'Introduction to Global Change and Inequality',
                     },
                     {
                         shortTitle: 'SOC 002I',
@@ -6530,7 +6749,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'SOC 002R',
-                        fullTitle: 'Racial and Ethnic Issues in American Society',
+                        fullTitle:
+                            'Racial and Ethnic Issues in American Society',
                     },
                     {
                         shortTitle: 'SOC 002S',
@@ -6602,7 +6822,7 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'SOC 130',
-                        fullTitle: 'Race and Ethnic Relations'
+                        fullTitle: 'Race and Ethnic Relations',
                     },
                     {
                         shortTitle: 'SOC 131F',
@@ -6666,11 +6886,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'SOC 163',
-                        fullTitle: 'Social Forces and the Educational Condition of Chicana/Os',
+                        fullTitle:
+                            'Social Forces and the Educational Condition of Chicana/Os',
                     },
                     {
                         shortTitle: 'SOC 164',
-                        fullTitle: 'Racial and Ethnic Diversity Issues in Higher Education',
+                        fullTitle:
+                            'Racial and Ethnic Diversity Issues in Higher Education',
                     },
                     {
                         shortTitle: 'SOC 167',
@@ -6686,7 +6908,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'SOC 173',
-                        fullTitle: 'Social Psychology: Sociological Orientation',
+                        fullTitle:
+                            'Social Psychology: Sociological Orientation',
                     },
                     {
                         shortTitle: 'SOC 174',
@@ -6702,7 +6925,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'SOC 177G',
-                        fullTitle: 'Topics in Social Psychology: Sociological Orientation',
+                        fullTitle:
+                            'Topics in Social Psychology: Sociological Orientation',
                     },
                     {
                         shortTitle: 'SOC 178',
@@ -6776,7 +7000,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'BPSC 021',
-                        fullTitle: 'California\'\s Cornucopia: Food From the Field to Your Table',
+                        fullTitle:
+                            "California's Cornucopia: Food From the Field to Your Table",
                     },
                     {
                         shortTitle: 'BPSC 031',
@@ -6848,7 +7073,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'BPSC 183',
-                        fullTitle: 'Plant Biochemistry and Pharmacology of Plant Metabolies',
+                        fullTitle:
+                            'Plant Biochemistry and Pharmacology of Plant Metabolies',
                     },
                     {
                         shortTitle: 'BPSC 190',
@@ -6856,7 +7082,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'BPSC 191',
-                        fullTitle: 'Seminar in Agricultural Careers in the 21st Century',
+                        fullTitle:
+                            'Seminar in Agricultural Careers in the 21st Century',
                     },
                     {
                         shortTitle: 'BPSC 193',
@@ -6872,7 +7099,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'BPSC 198I',
-                        fullTitle: 'Individual Internship in Botany and Plant Sciences',
+                        fullTitle:
+                            'Individual Internship in Botany and Plant Sciences',
                     },
                     {
                         shortTitle: 'BPSC 199',
@@ -6897,7 +7125,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENTM 060W',
-                        fullTitle: 'Scicomm: Exploring Effective Communication Methods In The Life Science',
+                        fullTitle:
+                            'Scicomm: Exploring Effective Communication Methods In The Life Science',
                     },
                     {
                         shortTitle: 'ENTM 100',
@@ -6921,7 +7150,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENTM 111',
-                        fullTitle: 'Molecular Biology and Genomics of Human Disease Vectors',
+                        fullTitle:
+                            'Molecular Biology and Genomics of Human Disease Vectors',
                     },
                     {
                         shortTitle: 'ENTM 112',
@@ -6937,7 +7167,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENTM 125',
-                        fullTitle: 'Pesticides, Biological Organisms, and the Environment',
+                        fullTitle:
+                            'Pesticides, Biological Organisms, and the Environment',
                     },
                     {
                         shortTitle: 'ENTM 126',
@@ -6953,7 +7184,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENTM 129L',
-                        fullTitle: 'Introduction to Biological Control Laboratory',
+                        fullTitle:
+                            'Introduction to Biological Control Laboratory',
                     },
                     {
                         shortTitle: 'ENTM 130',
@@ -6965,7 +7197,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENTM 139',
-                        fullTitle: 'The Evolution Of Conflict And Cooperation: Cheaters And Altruists',
+                        fullTitle:
+                            'The Evolution Of Conflict And Cooperation: Cheaters And Altruists',
                     },
                     {
                         shortTitle: 'ENTM 149',
@@ -7010,15 +7243,18 @@ export const colleges = [
                 courses: [
                     {
                         shortTitle: 'ENSC 001',
-                        fullTitle: 'Introduction to Environmental Science: Natural Resources',
+                        fullTitle:
+                            'Introduction to Environmental Science: Natural Resources',
                     },
                     {
                         shortTitle: 'ENSC 002',
-                        fullTitle: 'Introduction to Environmental Science: Environmental Quality',
+                        fullTitle:
+                            'Introduction to Environmental Science: Environmental Quality',
                     },
                     {
                         shortTitle: 'ENSC 003',
-                        fullTitle: 'Contemporary Issues in the Environmental Sciences',
+                        fullTitle:
+                            'Contemporary Issues in the Environmental Sciences',
                     },
                     {
                         shortTitle: 'ENSC 006',
@@ -7062,7 +7298,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENSC 127',
-                        fullTitle: 'Fate and Transport of Contaminants in the Environment',
+                        fullTitle:
+                            'Fate and Transport of Contaminants in the Environment',
                     },
                     {
                         shortTitle: 'ENSC 130',
@@ -7098,7 +7335,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENSC 153',
-                        fullTitle: 'Ecological Economics and Environmental Valuation',
+                        fullTitle:
+                            'Ecological Economics and Environmental Valuation',
                     },
                     {
                         shortTitle: 'ENSC 163',
@@ -7110,7 +7348,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENSC 172',
-                        fullTitle: 'Principles of Environmental Impact Analysis',
+                        fullTitle:
+                            'Principles of Environmental Impact Analysis',
                     },
                     {
                         shortTitle: 'ENSC 174',
@@ -7118,7 +7357,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENSC 175',
-                        fullTitle: 'Spatial Analysis And Remote Sensing For Environmental Sciences',
+                        fullTitle:
+                            'Spatial Analysis And Remote Sensing For Environmental Sciences',
                     },
                     {
                         shortTitle: 'ENSC 177',
@@ -7130,7 +7370,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'ENSC 191',
-                        fullTitle: 'Seminar In Professional Development In Environmental Sciences',
+                        fullTitle:
+                            'Seminar In Professional Development In Environmental Sciences',
                     },
                     {
                         shortTitle: 'ENSC 197',
@@ -7184,7 +7425,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'BCH 096',
-                        fullTitle: 'Introduction to Humanitarian and Healthcare Service',
+                        fullTitle:
+                            'Introduction to Humanitarian and Healthcare Service',
                     },
                     {
                         shortTitle: 'BCH 097',
@@ -7192,7 +7434,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'BCH 098I',
-                        fullTitle: 'Individual Internship in a Humanitarian or Healthcare Arena',
+                        fullTitle:
+                            'Individual Internship in a Humanitarian or Healthcare Arena',
                     },
                     {
                         shortTitle: 'BCH 100',
@@ -7224,7 +7467,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'BCH 183',
-                        fullTitle: 'Plant Biochemistry And Pharmacology Of Plant Metabolites',
+                        fullTitle:
+                            'Plant Biochemistry And Pharmacology Of Plant Metabolites',
                     },
                     {
                         shortTitle: 'BCH 184',
@@ -7257,7 +7501,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'PLPA 120L',
-                        fullTitle: 'Introduction to Plant Panthology Laboratory',
+                        fullTitle:
+                            'Introduction to Plant Panthology Laboratory',
                     },
                     {
                         shortTitle: 'PLPA 123',
@@ -7265,7 +7510,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'PLPA 125',
-                        fullTitle: 'Pesticides, Biological Organisms, and the Environment',
+                        fullTitle:
+                            'Pesticides, Biological Organisms, and the Environment',
                     },
                     {
                         shortTitle: 'PLPA 134',
@@ -7307,7 +7553,8 @@ export const colleges = [
                     {
                         shortTitle: 'CHEM 001C',
                         fullTitle: 'General Chemistry',
-                    },{
+                    },
+                    {
                         shortTitle: 'CHEM 01LA',
                         fullTitle: 'General Chemistry Laboratory',
                     },
@@ -7421,7 +7668,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'CHEM 092',
-                        fullTitle: 'Introduction to Undergraduate Research in Chemistry',
+                        fullTitle:
+                            'Introduction to Undergraduate Research in Chemistry',
                     },
                     {
                         shortTitle: 'CHEM 095',
@@ -7441,7 +7689,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'CHEM 110B',
-                        fullTitle: 'Introduction to Statistical mechanics and Kinetics',
+                        fullTitle:
+                            'Introduction to Statistical mechanics and Kinetics',
                     },
                     {
                         shortTitle: 'CHEM 111',
@@ -7449,7 +7698,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'CHEM 113',
-                        fullTitle: 'Physical Chemistry: Introduction to Quantum Chemistry',
+                        fullTitle:
+                            'Physical Chemistry: Introduction to Quantum Chemistry',
                     },
                     {
                         shortTitle: 'CHEM 114',
@@ -7485,11 +7735,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'CHEM 155',
-                        fullTitle: 'Advanced Inorganic Chemistry: Synthesis and Mehtods',
+                        fullTitle:
+                            'Advanced Inorganic Chemistry: Synthesis and Mehtods',
                     },
                     {
                         shortTitle: 'CHEM 166',
-                        fullTitle: 'Advanced Organic Chemistry: Synthesis and Mehtods',
+                        fullTitle:
+                            'Advanced Organic Chemistry: Synthesis and Mehtods',
                     },
                     {
                         shortTitle: 'CHEM 190',
@@ -7522,11 +7774,11 @@ export const colleges = [
                 courses: [
                     {
                         shortTitle: 'GEO 001',
-                        fullTitle: 'The Earth\'s Crust and Interior',
+                        fullTitle: "The Earth's Crust and Interior",
                     },
                     {
                         shortTitle: 'GEO 002',
-                        fullTitle: 'Earth\'s Climate Through Time',
+                        fullTitle: "Earth's Climate Through Time",
                     },
                     {
                         shortTitle: 'GEO 003',
@@ -7574,11 +7826,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'GEO 013',
-                        fullTitle: 'Our Planetary Neighbors: the Solar System and Beyond',
+                        fullTitle:
+                            'Our Planetary Neighbors: the Solar System and Beyond',
                     },
                     {
                         shortTitle: 'GEO 080',
-                        fullTitle: 'Astrology: the Search For Life in the Universe',
+                        fullTitle:
+                            'Astrology: the Search For Life in the Universe',
                     },
                     {
                         shortTitle: 'GEO 100',
@@ -7634,7 +7888,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'GEO 136',
-                        fullTitle: 'Introduction to Molecular and Petroleum Geochemistry',
+                        fullTitle:
+                            'Introduction to Molecular and Petroleum Geochemistry',
                     },
                     {
                         shortTitle: 'GEO 137',
@@ -7670,15 +7925,18 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'GEO 152',
-                        fullTitle: 'Principles of Invertebrate Paleobiology and Paleoecology',
+                        fullTitle:
+                            'Principles of Invertebrate Paleobiology and Paleoecology',
                     },
                     {
                         shortTitle: 'GEO 157',
-                        fullTitle: 'Introduction to Geographical Information Science',
+                        fullTitle:
+                            'Introduction to Geographical Information Science',
                     },
                     {
                         shortTitle: 'GEO 158',
-                        fullTitle: 'Advanced Geographic Information System (GIS)',
+                        fullTitle:
+                            'Advanced Geographic Information System (GIS)',
                     },
                     {
                         shortTitle: 'GEO 160',
@@ -7718,7 +7976,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'GEO 191',
-                        fullTitle: 'Undergraduate Seminar in Geological Sciences',
+                        fullTitle:
+                            'Undergraduate Seminar in Geological Sciences',
                     },
                     {
                         shortTitle: 'GEO 195A',
@@ -7747,7 +8006,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MATH 004',
-                        fullTitle: 'Introduction to College Mathematics For Business and the Social Sciences',
+                        fullTitle:
+                            'Introduction to College Mathematics For Business and the Social Sciences',
                     },
                     {
                         shortTitle: 'MATH 005',
@@ -7755,11 +8015,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MATH 006A',
-                        fullTitle: 'Introduction to College Mathematics For the Sciences',
+                        fullTitle:
+                            'Introduction to College Mathematics For the Sciences',
                     },
                     {
                         shortTitle: 'MATH 006B',
-                        fullTitle: 'Introduction to College Mathematics For the Sciences',
+                        fullTitle:
+                            'Introduction to College Mathematics For the Sciences',
                     },
                     {
                         shortTitle: 'MATH 007A',
@@ -7771,11 +8033,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MATH 008A',
-                        fullTitle: 'Introduction to College Mathematics For the Sciences',
+                        fullTitle:
+                            'Introduction to College Mathematics For the Sciences',
                     },
                     {
                         shortTitle: 'MATH 008B',
-                        fullTitle: 'Introduction to College Mathematics For the Sciences',
+                        fullTitle:
+                            'Introduction to College Mathematics For the Sciences',
                     },
                     {
                         shortTitle: 'MATH 009A',
@@ -7823,7 +8087,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MATH 046',
-                        fullTitle: 'Introduction to Ordinary Differential Equations',
+                        fullTitle:
+                            'Introduction to Ordinary Differential Equations',
                     },
                     {
                         shortTitle: 'MATH 120',
@@ -7895,23 +8160,28 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'MATH 146A',
-                        fullTitle: 'Ordinary and Partial Differential Equations',
+                        fullTitle:
+                            'Ordinary and Partial Differential Equations',
                     },
                     {
                         shortTitle: 'MATH 146B',
-                        fullTitle: 'Ordinary and Partial Differential Equations',
+                        fullTitle:
+                            'Ordinary and Partial Differential Equations',
                     },
                     {
                         shortTitle: 'MATH 146C',
-                        fullTitle: 'Ordinary and Partial Differential Equations',
+                        fullTitle:
+                            'Ordinary and Partial Differential Equations',
                     },
                     {
                         shortTitle: 'MATH 147',
-                        fullTitle: 'Introduction to Fourier Analysis and its Applications',
+                        fullTitle:
+                            'Introduction to Fourier Analysis and its Applications',
                     },
                     {
                         shortTitle: 'MATH 148',
-                        fullTitle: 'Introduction to Chaotic and Complex Dynamical Systems',
+                        fullTitle:
+                            'Introduction to Chaotic and Complex Dynamical Systems',
                     },
                     {
                         shortTitle: 'MATH 149A',
@@ -8049,7 +8319,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'PHYS 008',
-                        fullTitle: 'Color and Sound: Dimensions In Communication',
+                        fullTitle:
+                            'Color and Sound: Dimensions In Communication',
                     },
                     {
                         shortTitle: 'PHYS 010',
@@ -8069,11 +8340,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'PHYS 020',
-                        fullTitle: 'Exploring the Universe: An Adventure in Astronomy',
+                        fullTitle:
+                            'Exploring the Universe: An Adventure in Astronomy',
                     },
                     {
                         shortTitle: 'PHYS 024',
-                        fullTitle: 'DNA in Your Life: the Physical Basis For Structure, Function, and Control',
+                        fullTitle:
+                            'DNA in Your Life: the Physical Basis For Structure, Function, and Control',
                     },
                     {
                         shortTitle: 'PHYS 037',
@@ -8129,7 +8402,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'PHYS 050',
-                        fullTitle: 'Introduction to Applied Data Science: A Multi-Disciplinary Approach',
+                        fullTitle:
+                            'Introduction to Applied Data Science: A Multi-Disciplinary Approach',
                     },
                     {
                         shortTitle: 'PHYS 0497',
@@ -8209,11 +8483,13 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'PHYS 152A',
-                        fullTitle: 'Exploring Many-Body Quantum Physics With Mathematica',
+                        fullTitle:
+                            'Exploring Many-Body Quantum Physics With Mathematica',
                     },
                     {
                         shortTitle: 'PHYS 152B',
-                        fullTitle: 'Exploring Many-Body Quantum Physics With Mathematica',
+                        fullTitle:
+                            'Exploring Many-Body Quantum Physics With Mathematica',
                     },
                     {
                         shortTitle: 'PHYS 156A',
@@ -8249,7 +8525,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'PHYS 177',
-                        fullTitle: 'Computational Methods For Physical Sciences',
+                        fullTitle:
+                            'Computational Methods For Physical Sciences',
                     },
                     {
                         shortTitle: 'PHYS 190',
@@ -8257,7 +8534,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'PHYS 190L',
-                        fullTitle: 'Special Studies at Los Alamos national Laboratory',
+                        fullTitle:
+                            'Special Studies at Los Alamos national Laboratory',
                     },
                     {
                         shortTitle: 'PHYS 195A',
@@ -8334,15 +8612,18 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'STAT 155',
-                        fullTitle: 'Probability and Statistics For Science and Engineering',
+                        fullTitle:
+                            'Probability and Statistics For Science and Engineering',
                     },
                     {
                         shortTitle: 'STAT 156A',
-                        fullTitle: 'Mathematical Statistics With Applications For Data Science I',
+                        fullTitle:
+                            'Mathematical Statistics With Applications For Data Science I',
                     },
                     {
                         shortTitle: 'STAT 156B',
-                        fullTitle: 'Mathematical Statistics With Applications For Data Science II',
+                        fullTitle:
+                            'Mathematical Statistics With Applications For Data Science II',
                     },
                     {
                         shortTitle: 'STAT 157',
@@ -8350,15 +8631,18 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'STAT 160A',
-                        fullTitle: 'Elements of Probability and Statistical Theory',
+                        fullTitle:
+                            'Elements of Probability and Statistical Theory',
                     },
                     {
                         shortTitle: 'STAT 160B',
-                        fullTitle: 'Elements of Probability and Statistical Theory',
+                        fullTitle:
+                            'Elements of Probability and Statistical Theory',
                     },
                     {
                         shortTitle: 'STAT 160C',
-                        fullTitle: 'Elements of Probability and Statistical Theory',
+                        fullTitle:
+                            'Elements of Probability and Statistical Theory',
                     },
                     {
                         shortTitle: 'STAT 161',
@@ -8406,14 +8690,14 @@ export const colleges = [
     },
     {
         name: 'School of Business',
-        departments:[
+        departments: [
             {
-                name:'Business',
+                name: 'Business',
                 courses: [
                     {
                         shortTitle: 'BUS 001',
                         fullTitle: 'Personal Finance',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 001H',
                         fullTitle: 'Personal Finance',
@@ -8421,19 +8705,20 @@ export const colleges = [
                     {
                         shortTitle: 'BUS 010',
                         fullTitle: 'Introduction to Business',
-                    },  
+                    },
                     {
                         shortTitle: 'BUS 020',
                         fullTitle: 'Financial Accounting and Reporting',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 021',
-                        fullTitle: 'Generation of Financial Accounting Information',
-                    }, 
+                        fullTitle:
+                            'Generation of Financial Accounting Information',
+                    },
                     {
                         shortTitle: 'BUS 100W',
                         fullTitle: 'Management Writing and Communication',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 101',
                         fullTitle: 'Information Technology Management',
@@ -8441,67 +8726,70 @@ export const colleges = [
                     {
                         shortTitle: 'BUS 102',
                         fullTitle: 'Ethics and Law in Business and Society',
-                    },  
+                    },
                     {
                         shortTitle: 'BUS 103',
                         fullTitle: 'Marketing and Distribution Management',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 104',
                         fullTitle: 'Decision Analysis and Management Science',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 105',
                         fullTitle: 'Production and Operations Management',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 106',
                         fullTitle: 'Introduction to Financial Management',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 107',
                         fullTitle: 'Organizational Behavior',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 108',
-                        fullTitle: 'Financial Evaluation and Managerial Analysis',
+                        fullTitle:
+                            'Financial Evaluation and Managerial Analysis',
                     },
                     {
                         shortTitle: 'BUS 109',
                         fullTitle: 'Competitive and Strategic Analysis',
-                    },  
+                    },
                     {
                         shortTitle: 'BUS 110',
-                        fullTitle: 'Introduction to Data Mining and Visual Analytics',
-                    }, 
+                        fullTitle:
+                            'Introduction to Data Mining and Visual Analytics',
+                    },
                     {
                         shortTitle: 'BUS 111',
                         fullTitle: 'Services Marketing',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 112',
                         fullTitle: 'Consumer Behavior',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 113',
                         fullTitle: 'Marketing Institutions',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 114',
                         fullTitle: 'Marketing in a Global Environment',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 115',
                         fullTitle: 'Marketing Research',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 116',
                         fullTitle: 'Pricing Strategy and Management',
                     },
                     {
                         shortTitle: 'BUS 117',
-                        fullTitle: 'Advertising and Integrated Marketing Communications',
-                    },  
+                        fullTitle:
+                            'Advertising and Integrated Marketing Communications',
+                    },
                     {
                         shortTitle: 'BUS 118',
                         fullTitle: 'Digital Marketing',
@@ -8509,79 +8797,80 @@ export const colleges = [
                     {
                         shortTitle: 'BUS 119',
                         fullTitle: 'Data-Driven Marketing',
-                    },  
+                    },
                     {
                         shortTitle: 'BUS 121',
                         fullTitle: 'Employee Benefits',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 123',
                         fullTitle: 'Spreadsheet Modeling for Decision-Making',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 124',
                         fullTitle: 'Business Analytics',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 124A',
                         fullTitle: 'Business Analytics',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 125',
                         fullTitle: 'Simulation for Business',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 126',
                         fullTitle: 'Practical Business Forecasting',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 127',
                         fullTitle: 'Introduction to Quality Improvements',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 128',
                         fullTitle: 'Project Planning and Control',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 129',
                         fullTitle: 'Supply Chain Management',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 130',
                         fullTitle: 'Supply Chain Modeling',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 131',
                         fullTitle: 'Fixed-Income Securities',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 132',
                         fullTitle: 'Foundations of Finance',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 134',
                         fullTitle: 'Corporate Finance',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 135',
                         fullTitle: 'Corporate Financial Policy',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 136',
-                        fullTitle: 'Investments: Security Analysis and Portfolio Management',
-                    }, 
+                        fullTitle:
+                            'Investments: Security Analysis and Portfolio Management',
+                    },
                     {
                         shortTitle: 'BUS 137',
                         fullTitle: 'Investments: Derivatives Markets',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 138',
                         fullTitle: 'International Finance',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 139',
                         fullTitle: 'Real Estate Investments',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 140E',
                         fullTitle: 'The Financial Crisis',
@@ -8589,23 +8878,23 @@ export const colleges = [
                     {
                         shortTitle: 'BUS 141',
                         fullTitle: 'Trading Strategies',
-                    },  
+                    },
                     {
                         shortTitle: 'BUS 142',
                         fullTitle: 'Banks and Risks of Financial Institutions',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 143',
                         fullTitle: 'Judgement and Decision Making',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 124',
                         fullTitle: 'Business Analytics',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 144',
                         fullTitle: 'Negotiation Fundamentals',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 145',
                         fullTitle: 'Designing and Leading Teams',
@@ -8613,27 +8902,29 @@ export const colleges = [
                     {
                         shortTitle: 'BUS 146',
                         fullTitle: 'Introduction to Entrepreneurship',
-                    },  
+                    },
                     {
                         shortTitle: 'BUS 147',
                         fullTitle: 'Entrepreneurial Finance',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 148',
                         fullTitle: 'Business Plan Development',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 149',
-                        fullTitle: 'Advanced Topics in Management and Decision-Making',
-                    }, 
+                        fullTitle:
+                            'Advanced Topics in Management and Decision-Making',
+                    },
                     {
                         shortTitle: 'BUS 150',
-                        fullTitle: 'Corporate Strategic Analysis in Multi-Business Firms',
-                    }, 
+                        fullTitle:
+                            'Corporate Strategic Analysis in Multi-Business Firms',
+                    },
                     {
                         shortTitle: 'BUS 151',
                         fullTitle: 'Brand Management',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 152',
                         fullTitle: 'Sales Management',
@@ -8641,35 +8932,35 @@ export const colleges = [
                     {
                         shortTitle: 'BUS 153',
                         fullTitle: 'Labor Economics',
-                    },  
+                    },
                     {
                         shortTitle: 'BUS 154',
                         fullTitle: 'Business Law',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 155',
                         fullTitle: 'Managing Human Resources',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 156',
                         fullTitle: 'Leadership Development',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 157',
                         fullTitle: 'Managing Work Force Diversity',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 160',
                         fullTitle: 'Industrial Organization',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 162',
                         fullTitle: 'Managerial Economics',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 163',
                         fullTitle: 'Technology Entrepeneurship',
-                    }, 
+                    },
                     {
                         shortTitle: 'BUS 164',
                         fullTitle: 'Marketing Strategy',
@@ -8685,7 +8976,7 @@ export const colleges = [
                     {
                         shortTitle: 'BUS 165C',
                         fullTitle: 'Intermediate Financial Accounting',
-                    },   
+                    },
                     {
                         shortTitle: 'BUS 166',
                         fullTitle: 'Accounting Information Systems',
@@ -8700,7 +8991,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'BUS 168B',
-                        fullTitle: 'Federal Taxation For Corporations, Partnerships, Estates, And Trusts',
+                        fullTitle:
+                            'Federal Taxation For Corporations, Partnerships, Estates, And Trusts',
                     },
                     {
                         shortTitle: 'BUS 169A',
@@ -8748,7 +9040,8 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'BUS 179',
-                        fullTitle: 'Business Application of Geographic Information Systems',
+                        fullTitle:
+                            'Business Application of Geographic Information Systems',
                     },
                     {
                         shortTitle: 'BUS 190',
@@ -8756,17 +9049,15 @@ export const colleges = [
                     },
                     {
                         shortTitle: 'BUS 198I',
-                        fullTitle: 'Individual Internship in Business Administration',
+                        fullTitle:
+                            'Individual Internship in Business Administration',
                     },
                     {
                         shortTitle: 'BUS 199H',
                         fullTitle: 'Senior Honors Research',
                     },
-                   
-                ]
-            }
-            
-        ]
+                ],
+            },
+        ],
     },
 ];
-
