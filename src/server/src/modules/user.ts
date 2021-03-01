@@ -33,7 +33,6 @@ export const findUserByEmail = (email: string) => {
  * @description Create a verification key and send a user an email with the verification key.
  * @param {number} id - user's id
  * @param {string} emailText - email text to use when sending the verification email
- * @returns Promise
  */
 const sendEmailVerificationEmail = async (id: User['id'], emailText: string) => {
     const user = await User.findOneOrFail({ id })
@@ -221,7 +220,6 @@ export const updateEmail = async (
         emailUpdateResult.message = 'The email is already taken by another user.';
         return emailUpdateResult;
     }
-
 
     emailUpdateResult.result = await
         User.update(id, {
