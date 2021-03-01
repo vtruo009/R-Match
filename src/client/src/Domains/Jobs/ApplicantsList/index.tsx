@@ -85,13 +85,12 @@ function ApplicantsList({ jobId, jobTitle }: ApplicantsListProps) {
         onSuccess: (response) => {
             const { jobApplicants, jobApplicantsCount } = response.data;
             if (jobApplicants.length > 0) {
-                const studentPreviews = response.data.jobApplicants.map(
-                    (jobApplicants) => {
-                        const studentPreview = jobApplicants.student;
-                        studentPreview.date = new Date(jobApplicants.date);
-                        return studentPreview;
-                    }
-                );
+                const studentPreviews = jobApplicants.map((jobApplicant) => ({
+                    ...jobApplicant.student,
+                    date: new Date(jobApplicant.date),
+                    resumeId: jobApplicant.resumeId,
+                    transcriptId: jobApplicant.transcriptId
+                }));
                 setNumOfPages(Math.ceil(jobApplicantsCount / numOfItems));
                 setApplicants(studentPreviews);
             } else {

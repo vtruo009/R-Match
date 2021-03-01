@@ -33,7 +33,11 @@ function LabelValues({ label, values, icon }: LabelValuesProps) {
                 >
                     <Typography variant='h5' color='primary'>
                         {label}{' '}
-                        <Badge badgeContent={labelCounter} color='primary' showZero>
+                        <Badge
+                            badgeContent={labelCounter}
+                            color='secondary'
+                            showZero
+                        >
                             {icon}
                         </Badge>
                     </Typography>

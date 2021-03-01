@@ -51,6 +51,8 @@ export interface IStudentPreview {
     department?: _IDepartment;
     classStanding?: classStandingTypes;
     date?: Date;
+    resumeId?: number;
+    transcriptId?: number;
 }
 
 export interface IWorkExperience {
@@ -88,7 +90,7 @@ export async function updateStudentProfile(
     };
     return API.post('/student/update-profile', body);
 }
-export async function getStudentProfile(studentId: number) {
+export async function getStudentProfile(studentId: IStudent['id']) {
     return API.get<{ student: IStudent }>(`/student/get-profile/${studentId}`);
 }
 
@@ -146,3 +148,4 @@ export async function updateWorkExperience(
 export async function deleteWorkExperience(workExperienceId: number) {
     return API.delete(`/work-experience/delete/${workExperienceId}`);
 }
+

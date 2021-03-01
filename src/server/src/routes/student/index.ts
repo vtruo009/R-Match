@@ -19,7 +19,7 @@ import { validationMiddleware } from '@middlewares/validation';
 import {
     studentProfileSchema,
     studentSearchSchema,
-    getAppliedJobsSchema
+    getAppliedJobsSchema,
 } from './schemas';
 
 const router = Router();
@@ -152,10 +152,18 @@ router.get(
                 parseInt(numOfItems)
             );
             if (getJobApplicationResult) {
-                const [jobApplications, jobApplicationsCount] = getJobApplicationResult;
-                return res.status(OK).json({ jobApplications, jobApplicationsCount }).end()
+                const [
+                    jobApplications,
+                    jobApplicationsCount,
+                ] = getJobApplicationResult;
+                return res
+                    .status(OK)
+                    .json({ jobApplications, jobApplicationsCount })
+                    .end();
             }
-            return res.status(BAD_REQUEST).json({ error: 'Student does not exist' });
+            return res
+                .status(BAD_REQUEST)
+                .json({ error: 'Student does not exist' });
         } catch (error) {
             logger.err(error);
             return res
@@ -197,9 +205,12 @@ router.get(
         if (!email) email = '';
         if (!sid) sid = '';
 
-
-        const departmentIdInts = (departmentIds) ? departmentIds.map((id) => parseInt(id, 10)) : [];
-        const courseIdInts = (courseIds) ? courseIds.map((id) => parseInt(id, 10)) : [];
+        const departmentIdInts = departmentIds
+            ? departmentIds.map((id) => parseInt(id, 10))
+            : [];
+        const courseIdInts = courseIds
+            ? courseIds.map((id) => parseInt(id, 10))
+            : [];
 
         if (!classStandings || classStandings.length === 0)
             classStandings = classStandingValues;

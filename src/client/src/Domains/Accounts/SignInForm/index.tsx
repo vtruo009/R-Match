@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import PersonIcon from '@material-ui/icons/Person';
 import { Link } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import { useHistory } from 'react-router-dom';
@@ -10,6 +10,7 @@ import * as yup from 'yup';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
+import Card from 'Components/Card';
 import { TextFormField } from 'Components/TextFormField';
 import SubmitButton from 'Components/SubmitButton';
 import { signIn } from 'Domains/Accounts/api';
@@ -67,7 +68,7 @@ function SignInForm() {
 
     return (
         <Container maxWidth='sm'>
-            <Paper style={{ padding: 80 }}>
+            <Card style={{ padding: 80 }}>
                 <Formik
                     validationSchema={formSchema}
                     initialValues={formInitialValues}
@@ -84,10 +85,28 @@ function SignInForm() {
                                 justify='center'
                                 alignItems='center'
                             >
-                                <Grid item xs={12}>
-                                    <Typography variant='h4' align='center'>
-                                        Sign In
-                                    </Typography>
+                                <Grid
+                                    container
+                                    item
+                                    xs={12}
+                                    spacing={1}
+                                    justify='center'
+                                    alignItems='center'
+                                >
+                                    <Grid item>
+                                        <Typography
+                                            variant='h4'
+                                            color='primary'
+                                        >
+                                            Sign In
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item>
+                                        <PersonIcon
+                                            color='primary'
+                                            style={{ fontSize: 40 }}
+                                        />
+                                    </Grid>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Field
@@ -123,7 +142,7 @@ function SignInForm() {
                         </Form>
                     )}
                 </Formik>
-            </Paper>
+            </Card>
         </Container>
     );
 }

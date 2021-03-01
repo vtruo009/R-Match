@@ -139,6 +139,7 @@ export const getJobApplications = async (
         .where({ studentId })
         .andWhere('job.expirationDate >= :today', { today: todayString })
         .skip((page - 1) * numOfItems)
+        .orderBy('jobApplication.date', 'DESC')
         .take(numOfItems)
         .getManyAndCount();
 };
@@ -168,38 +169,38 @@ export const searchStudents = async (
             lastName: lastName.toLowerCase(),
         })
         .andWhere('(:email = :empty OR user.email = :email)', {
-            email
+            email,
         })
         .andWhere('(:sid = :empty OR sid = :sid)', {
-            sid
+            sid,
         })
         .andWhere(
             `(NOT :departmentIdsPopulated OR
                 (department.id IS NOT NULL AND department.id IN (:...departmentIds)))`,
             {
                 departmentIdsPopulated: departmentIds.length > 0,
-                departmentIds: departmentIds.length > 0 ? departmentIds : [-1]
+                departmentIds: departmentIds.length > 0 ? departmentIds : [-1],
             }
         )
-        .andWhere(
-            '(student.classStanding IN (:...classStandings))',
-            {
-                classStandings,
-            }
-        )
-        // Selects student who has taken at least one specified course.
-        .andWhere(qb => {
-            var subQuery = "";
-            for (var i = 0; i < courseIds.length; ++i) {
-                subQuery += ` OR course.id = ${courseIds[i]}`
-            }
-            return `(NOT :courseIdsPopulated${subQuery})`;
-        }, {
-            courseIdsPopulated: courseIds.length > 0,
-            courseIds: courseIds.length > 0 ? courseIds : [-1]
+        .andWhere('(student.classStanding IN (:...classStandings))', {
+            classStandings,
         })
+        // Selects student who has taken at least one specified course.
+        .andWhere(
+            (qb) => {
+                var subQuery = '';
+                for (var i = 0; i < courseIds.length; ++i) {
+                    subQuery += ` OR course.id = ${courseIds[i]}`;
+                }
+                return `(NOT :courseIdsPopulated${subQuery})`;
+            },
+            {
+                courseIdsPopulated: courseIds.length > 0,
+                courseIds: courseIds.length > 0 ? courseIds : [-1],
+            }
+        )
         .setParameters({
-            empty: ''
+            empty: '',
         })
         .getMany();
 
@@ -226,7 +227,7 @@ export const searchStudents = async (
             '(NOT :departmentIdsPopulated OR department.id IS NULL OR department.id IN (:...departmentIds))',
             {
                 departmentIdsPopulated: departmentIds.length > 0,
-                departmentIds: departmentIds.length > 0 ? departmentIds : [-1]
+                departmentIds: departmentIds.length > 0 ? departmentIds : [-1],
             }
         )
         .andWhere(
@@ -236,28 +237,36 @@ export const searchStudents = async (
             }
         )
         // Selects student who has taken at least one specified course.
-        .andWhere(qb => {
-            var subQuery = "";
-            for (var i = 0; i < courseIds.length; ++i) {
-                subQuery += ` OR course.id = ${courseIds[i]}`
+        .andWhere(
+            (qb) => {
+                var subQuery = '';
+                for (var i = 0; i < courseIds.length; ++i) {
+                    subQuery += ` OR course.id = ${courseIds[i]}`;
+                }
+                return `(NOT :courseIdsPopulated${subQuery})`;
+            },
+            {
+                courseIdsPopulated: courseIds.length > 0,
+                courseIds: courseIds.length > 0 ? courseIds : [-1],
             }
-            return `(NOT :courseIdsPopulated${subQuery})`;
-        }, {
-            courseIdsPopulated: courseIds.length > 0,
-            courseIds: courseIds.length > 0 ? courseIds : [-1]
-        })
+        )
         .getMany();
 
-    const perfectMatchStudentIds = perfectMatchStudents.map((student) => student.id);
+    const perfectMatchStudentIds = perfectMatchStudents.map(
+        (student) => student.id
+    );
     // Filter out perfect match students from the partial match student list to remove duplicate.
     const filteredPartialMatchStudents = partialMatchStudents.filter(
-        (student) => perfectMatchStudentIds.indexOf(student.id) === -1)
+        (student) => perfectMatchStudentIds.indexOf(student.id) === -1
+    );
 
-    const result = perfectMatchStudents
-        .concat(filteredPartialMatchStudents);
+    const result = perfectMatchStudents.concat(filteredPartialMatchStudents);
 
     return [
-        result
-            .slice((page - 1) * numOfItems, (page - 1) * numOfItems + numOfItems),
-        result.length];
+        result.slice(
+            (page - 1) * numOfItems,
+            (page - 1) * numOfItems + numOfItems
+        ),
+        result.length,
+    ];
 };

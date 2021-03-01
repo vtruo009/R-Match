@@ -5,15 +5,15 @@ import useApi from 'hooks/useApi';
 import Loader from 'Components/Loader';
 
 interface IAuthContext {
-    user: IAuthUser | undefined;
-    setUser: (user: IAuthUser) => void;
+    user?: IAuthUser;
+    setUser: (user?: IAuthUser) => void;
     isAuthenticated: boolean;
     setIsAuthenticated: (newIsAuthenticated: boolean) => void;
 }
 
 const AuthContextDefaultValue = {
     user: undefined,
-    setUser: (user: IAuthUser) => {},
+    setUser: (user?: IAuthUser) => {},
     isAuthenticated: false,
     setIsAuthenticated: (newIsAuthenticated: boolean) => {},
 };
@@ -47,7 +47,7 @@ function AuthContextComponent({ children }: AuthContextProps) {
     return (
         <div>
             {isLoading ? (
-                <Loader center size={80} />
+                <Loader centerPage size={80} />
             ) : (
                 <AuthContext.Provider
                     value={{

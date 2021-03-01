@@ -18,7 +18,7 @@ export const userIdExists = async (userId: number) => {
         .where({ id: userId })
         .getOne();
     return user !== undefined;
-}
+};
 
 /**
  * @description Finds user by email
@@ -34,28 +34,34 @@ export const findUserByEmail = (email: string) => {
  * @param {number} id - user's id
  * @param {string} emailText - email text to use when sending the verification email
  */
-const sendEmailVerificationEmail = async (id: User['id'], emailText: string) => {
-    const user = await User.findOneOrFail({ id })
+const sendEmailVerificationEmail = async (
+    id: User['id'],
+    emailText: string
+) => {
+    const user = await User.findOneOrFail({ id });
 
     let key: string;
 
     do {
-        key = makeRandomString(/*length=*/20);
+        key = makeRandomString(/*length=*/ 20);
     } while (await VerificationKey.findOne({ key: key }));
 
     const verificationKey = VerificationKey.create({ user, key });
 
     await verificationKey.save();
 
-    const link = process.env.NODE_ENV === "production" ? "obscure-ocean-12960.herokuapp.com" : "localhost:3000"
+    const link =
+        process.env.NODE_ENV === 'production'
+            ? 'obscure-ocean-12960.herokuapp.com'
+            : 'localhost:3000';
 
     // Send email with the verification link.
     sendEmail(
         user.email,
         `Verify your email address`,
-        `${emailText} Please follow the link below to verify your email and complete your registration.\n\nhttp://${link}/verify/${key}`,
-    )
-}
+        `${emailText} Please follow the link below to verify your email and complete your registration.\n\nhttp://${link}/verify/${key}`
+    );
+};
 
 /**
  * @description Creates a user object and saves it in the database
@@ -79,14 +85,15 @@ export const createUser = async (
         firstName,
         lastName,
         role,
-        emailVerified: false
+        emailVerified: false,
     });
 
     await userToInsert.save();
 
     await sendEmailVerificationEmail(
         userToInsert.id,
-        'Welcome to R\'match!\n\nYour account has been created.');
+        "Welcome to R'match!\n\nYour account has been created."
+    );
 
     return userToInsert;
 };
@@ -142,7 +149,7 @@ export const hidePassword = async (user: User) => {
         id,
         middleName,
         biography,
-        email
+        email,
     });
 };
 
@@ -175,8 +182,7 @@ export const getUserById = async (userId: number) => {
         .getOne();
 
     if (!user) {
-        getUserByIdResult.message =
-            'A user with the id does not exist.';
+        getUserByIdResult.message = 'A user with the id does not exist.';
         return getUserByIdResult;
     }
 
@@ -192,10 +198,7 @@ export const getUserById = async (userId: number) => {
  * @param {string} email - new email.
  * @returns Promise
  */
-export const updateEmail = async (
-    id: User['id'],
-    email: User['email']
-) => {
+export const updateEmail = async (id: User['id'], email: User['email']) => {
     const emailUpdateResult: {
         result?: UpdateResult;
         message: string;
@@ -203,31 +206,35 @@ export const updateEmail = async (
         result: undefined,
         message: '',
     };
-    const user = await User.findOne({ id })
+    const user = await User.findOne({ id });
 
     if (!user) {
         emailUpdateResult.message = 'The requested user does not exist.';
         return emailUpdateResult;
     }
 
-    if (user.email == email) {
-        emailUpdateResult.message = 'The email is the same as your current email.';
+    if (user.email === email) {
+        emailUpdateResult.message =
+            'The email is the same as your current email.';
         return emailUpdateResult;
     }
 
-    const userWithSameEmail = await User.findOne({ email })
+    const userWithSameEmail = await User.findOne({ email });
     if (userWithSameEmail) {
-        emailUpdateResult.message = 'The email is already taken by another user.';
+        emailUpdateResult.message =
+            'The email is already taken by another user.';
         return emailUpdateResult;
     }
 
-    emailUpdateResult.result = await
-        User.update(id, {
-            email,
-            emailVerified: false
-        });
+    emailUpdateResult.result = await User.update(id, {
+        email,
+        emailVerified: false,
+    });
 
-    await sendEmailVerificationEmail(id, 'Your email is successfully updated.');
+    await sendEmailVerificationEmail(
+        id,
+        'Your email was successfully updated.'
+    );
 
     return emailUpdateResult;
 };
@@ -248,20 +255,20 @@ export const verifyEmail = async (
         message: '',
     };
 
-    const verificationKey = await VerificationKey.findOne({ key: verificationKeyString })
+    const verificationKey = await VerificationKey.findOne({
+        key: verificationKeyString,
+    });
 
     if (!verificationKey) {
         emailVerificationResult.message = 'Email verification unsuccessful.';
         return emailVerificationResult;
     }
 
-    emailVerificationResult.result = await
-        User.update(verificationKey.userId, {
-            emailVerified: true
-        });
+    emailVerificationResult.result = await User.update(verificationKey.userId, {
+        emailVerified: true,
+    });
 
     await VerificationKey.delete({ key: verificationKeyString });
 
     return emailVerificationResult;
 };
-

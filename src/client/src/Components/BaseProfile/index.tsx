@@ -8,6 +8,7 @@ import LabelValue from 'Components/LabelValue';
 import EditButton from 'Components/EditButton';
 import MessageButton from 'Components/MessageButton';
 import { IDepartment } from 'Components/AcademicInfo/api';
+import UpdateEmail from 'Domains/Accounts/UpdateEmail';
 
 interface BaseProfileProps {
     firstName: string;
@@ -59,7 +60,9 @@ function BaseProfile({
                         <Grid item>
                             <Typography variant='h4'>
                                 {getUserName()}
-                                {!hasPermission && (<MessageButton email={email}/> )}
+                                {!hasPermission && (
+                                    <MessageButton email={email} />
+                                )}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -72,7 +75,11 @@ function BaseProfile({
                 <LabelValue label='Department' value={department?.name} />
             </Grid>
             <Grid item md={3} xs={12}>
-                <LabelValue label='Email' value={email} />
+                <LabelValue
+                    label='Email'
+                    value={email}
+                    rightElement={<UpdateEmail />}
+                />
             </Grid>
             <Grid item md={12} xs={12}>
                 <LabelValue label='About' value={biography} isParagraph />

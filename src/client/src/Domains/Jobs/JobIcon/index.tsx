@@ -8,8 +8,8 @@ interface JobIconProps {
 
 function JobIcon({ numberOfJobs }: JobIconProps) {
     return (
-        <Badge badgeContent={numberOfJobs} color='primary' showZero>
-            <MUIJobIcon />
+        <Badge badgeContent={numberOfJobs} color='secondary' showZero>
+            <MUIJobIcon color='primary' />
         </Badge>
     );
 }

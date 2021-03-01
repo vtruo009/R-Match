@@ -8,7 +8,6 @@ import MUIDialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import DialogContent from '@material-ui/core/DialogContent';
-
 interface DialogProps {
     children: JSX.Element;
     open: boolean;
@@ -43,7 +42,7 @@ function Dialog({
                         </Grid>
                         <Grid item>
                             {onClose ? (
-                                <IconButton onClick={onClose}>
+                                <IconButton onClick={onClose} color='primary'>
                                     <CloseIcon />
                                 </IconButton>
                             ) : null}

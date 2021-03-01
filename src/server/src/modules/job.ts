@@ -1,5 +1,6 @@
 import { Job } from '@entities/job';
 import { FacultyMember } from '@entities/facultyMember';
+import { Document } from '@entities/document';
 import { findDepartment } from '@modules/department';
 import { getRepository, UpdateResult, DeleteResult } from 'typeorm';
 import { JobApplication } from '@entities/jobApplication';
@@ -383,9 +384,16 @@ export const openJob = async (
  * @description Saves a student's job application in the database.
  * @param {number} studentId - Id of student that submits the application
  * @param {number} jobId - Id of job that students apply to
+ * @param {number | undefined} resumeId - Optional id of student's resume to attach to the application
+ * @param {number | undefined} transcriptId - Optional id of student's transcript to attach to the application
  * @returns Promise
  */
-export const applyToJob = async (studentId: number, jobId: number) => {
+export const applyToJob = async (
+    studentId: JobApplication['studentId'],
+    jobId: JobApplication['jobId'],
+    resumeId: JobApplication['resumeId'],
+    transcriptId: JobApplication['transcriptId']
+) => {
     const applicationResult: {
         result?: JobApplication;
         message: string;
@@ -424,11 +432,31 @@ export const applyToJob = async (studentId: number, jobId: number) => {
         return applicationResult;
     }
 
+    let _resumeId = resumeId;
+    if (!_resumeId) {
+        const defaultResume = await Document.findOne({
+            where: { studentId, isDefault: true, type: 'resume' },
+            select: ['id'],
+        });
+        _resumeId = defaultResume?.id;
+    }
+
+    let _transcriptId = transcriptId;
+    if (!_transcriptId) {
+        const defaultTranscript = await Document.findOne({
+            where: { studentId, isDefault: true, type: 'transcript' },
+            select: ['id'],
+        });
+        _transcriptId = defaultTranscript?.id;
+    }
+
     // Creates a new job application object and saves it
     const jobApplication = await JobApplication.create({
         studentId,
         jobId,
         date: new Date(),
+        resumeId: _resumeId,
+        transcriptId: _transcriptId,
     }).save();
 
     applicationResult.message = 'Job application successfully submitted';

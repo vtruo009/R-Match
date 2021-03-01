@@ -1,5 +1,4 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import { AuthContext } from 'Contexts/AuthContext';
@@ -41,17 +40,10 @@ function Home() {
                 alt='Campus'
                 className={classes.campusImage}
             />
-            <div style={{ position: 'relative' }}>
+            <div
+                style={{ position: 'relative', height: 'calc(100vh - 450px)' }}
+            >
                 <img src={UCRLogo} alt='UCR-Logo' className={classes.image} />
-                <Typography
-                    style={{ fontWeight: 700 }}
-                    variant='h3'
-                    align='center'
-                    color='secondary'
-                    className={classes.smallTopMargin}
-                >
-                    Welcome to R'Match
-                </Typography>
             </div>
             {user && user.role === 'student' && (
                 <div>

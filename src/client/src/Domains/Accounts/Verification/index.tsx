@@ -1,61 +1,66 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+
+import Card from 'Components/Card';
 import Loader from 'Components/Loader';
 import { verify } from 'Domains/Accounts/api';
 import useApi from 'hooks/useApi';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import useSnack from 'hooks/useSnack';
 
 interface VerificationProps {
     verificationKey: string;
 }
 
 function Verification({ verificationKey }: VerificationProps) {
-    const [errorMessage, setErrorMessage] = React.useState<string>('Something went wrong. Try again later!');
-    const [verified, setVerified] = React.useState<boolean>(false);
-
-    const request = React.useCallback(() => verify(verificationKey), [verificationKey]);
+    const [snack] = useSnack();
+    const [errorMessage, setErrorMessage] = React.useState('');
+    const [verified, setVerified] = React.useState(false);
+    const request = React.useCallback(() => verify(verificationKey), [
+        verificationKey,
+    ]);
     const [sendRequest, isLoading] = useApi(request, {
-        onSuccess: (response) => {
-            setVerified(true);
-        },
+        onSuccess: () => setVerified(true),
         onFailure: (error, results) => {
             console.log(error);
             if (results) {
                 setErrorMessage(results.data.error);
+            } else {
+                setErrorMessage('Something went wrong. Try again later!');
+                snack('Something went wrong. Try again later!', 'error');
             }
         },
     });
 
     React.useEffect(() => {
         sendRequest();
-    }, [verificationKey, sendRequest]);
+    }, [sendRequest]);
+
+    if (isLoading) {
+        return <Loader centerPage />;
+    }
 
     return (
         <Container maxWidth='sm'>
-            <Paper style={{ padding: 80 }}>
-            { isLoading ? (
-                <Loader />
-            ) : (
+            <Card>
                 <Typography variant='h6' color='primary' align='center'>
-                            {verified ? (
-                                    <div>
-                                    Your account is now verified!
-                                        <Typography variant='h6' color='primary'>
-                                            <Link to='/sign-in'>
-                                                Now you can sign in to your account here.
-                                            </Link>
-                                        </Typography>
-                                    </div>
-                                ) : (
-                                    <div>
-                                        {errorMessage}
-                                    </div>
-                            )}
+                    {verified ? (
+                        <>
+                            <CheckCircleIcon style={{ fontSize: 90 }} />
+                            <div>Your account is now verified!</div>
+                            <div>
+                                <Link to='/sign-in'>
+                                    Follow this link to sign in to your account
+                                </Link>
+                            </div>
+                        </>
+                    ) : (
+                        <div>{errorMessage}</div>
+                    )}
                 </Typography>
-            )}
-            </Paper>
+            </Card>
         </Container>
     );
 }

@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import Card from 'Components/Card';
-import { formatDateStringBasedOnCurrentDay } from 'utils/format';
+import { formatDateStringBasedOnCurrentDay, shortenString } from 'utils/format';
 import { IUser } from 'Domains/Accounts/api';
 import { IConversation } from 'Domains/Messages/api';
 
@@ -50,7 +50,8 @@ function ConversationPreview({
                         {formatDateStringBasedOnCurrentDay(
                             conversation.latestMessage.date
                         )}
-                        ): {conversation.latestMessage.content}
+                        ):
+                        {shortenString(conversation.latestMessage.content, 13)}
                     </Typography>
                 </Grid>
             </Grid>

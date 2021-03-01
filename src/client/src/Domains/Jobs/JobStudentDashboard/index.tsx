@@ -35,7 +35,7 @@ function JobStudentDashBoard() {
     });
     React.useEffect(() => sendRequest(), [sendRequest]);
     return isLoading ? (
-        <Loader center />
+        <Loader centerPage />
     ) : (
         <div>
             <JobDashboard
