@@ -7344,4 +7344,369 @@ export const colleges = [
             },
         ],
     },
+    {
+        name: 'School of Business',
+        departments:[
+            {
+                name:'Business',
+                courses: [
+                    {
+                        shortTitle: 'BUS 001',
+                        fullTitle: 'Personal Finance',
+                    }, 
+                    {
+                        shortTitle: 'BUS 001H',
+                        fullTitle: 'Personal Finance',
+                    },
+                    {
+                        shortTitle: 'BUS 010',
+                        fullTitle: 'Introduction to Business',
+                    },  
+                    {
+                        shortTitle: 'BUS 020',
+                        fullTitle: 'Financial Accounting and Reporting',
+                    }, 
+                    {
+                        shortTitle: 'BUS 021',
+                        fullTitle: 'Generation of Financial Accounting Information',
+                    }, 
+                    {
+                        shortTitle: 'BUS 100W',
+                        fullTitle: 'Management Writing and Communication',
+                    }, 
+                    {
+                        shortTitle: 'BUS 101',
+                        fullTitle: 'Information Technology Management',
+                    },
+                    {
+                        shortTitle: 'BUS 102',
+                        fullTitle: 'Ethics and Law in Business and Society',
+                    },  
+                    {
+                        shortTitle: 'BUS 103',
+                        fullTitle: 'Marketing and Distribution Management',
+                    }, 
+                    {
+                        shortTitle: 'BUS 104',
+                        fullTitle: 'Decision Analysis and Management Science',
+                    }, 
+                    {
+                        shortTitle: 'BUS 105',
+                        fullTitle: 'Production and Operations Management',
+                    }, 
+                    {
+                        shortTitle: 'BUS 106',
+                        fullTitle: 'Introduction to Financial Management',
+                    }, 
+                    {
+                        shortTitle: 'BUS 107',
+                        fullTitle: 'Organizational Behavior',
+                    }, 
+                    {
+                        shortTitle: 'BUS 108',
+                        fullTitle: 'Financial Evaluation and Managerial Analysis',
+                    },
+                    {
+                        shortTitle: 'BUS 109',
+                        fullTitle: 'Competitive and Strategic Analysis',
+                    },  
+                    {
+                        shortTitle: 'BUS 110',
+                        fullTitle: 'Introduction to Data Mining and Visual Analytics',
+                    }, 
+                    {
+                        shortTitle: 'BUS 111',
+                        fullTitle: 'Services Marketing',
+                    }, 
+                    {
+                        shortTitle: 'BUS 112',
+                        fullTitle: 'Consumer Behavior',
+                    }, 
+                    {
+                        shortTitle: 'BUS 113',
+                        fullTitle: 'Marketing Institutions',
+                    }, 
+                    {
+                        shortTitle: 'BUS 114',
+                        fullTitle: 'Marketing in a Global Environment',
+                    }, 
+                    {
+                        shortTitle: 'BUS 115',
+                        fullTitle: 'Marketing Research',
+                    }, 
+                    {
+                        shortTitle: 'BUS 116',
+                        fullTitle: 'Pricing Strategy and Management',
+                    },
+                    {
+                        shortTitle: 'BUS 117',
+                        fullTitle: 'Advertising and Integrated Marketing Communications',
+                    },  
+                    {
+                        shortTitle: 'BUS 118',
+                        fullTitle: 'Digital Marketing',
+                    },
+                    {
+                        shortTitle: 'BUS 119',
+                        fullTitle: 'Data-Driven Marketing',
+                    },  
+                    {
+                        shortTitle: 'BUS 121',
+                        fullTitle: 'Employee Benefits',
+                    }, 
+                    {
+                        shortTitle: 'BUS 123',
+                        fullTitle: 'Spreadsheet Modeling for Decision-Making',
+                    }, 
+                    {
+                        shortTitle: 'BUS 124',
+                        fullTitle: 'Business Analytics',
+                    }, 
+                    {
+                        shortTitle: 'BUS 124A',
+                        fullTitle: 'Business Analytics',
+                    }, 
+                    {
+                        shortTitle: 'BUS 125',
+                        fullTitle: 'Simulation for Business',
+                    }, 
+                    {
+                        shortTitle: 'BUS 126',
+                        fullTitle: 'Practical Business Forecasting',
+                    }, 
+                    {
+                        shortTitle: 'BUS 127',
+                        fullTitle: 'Introduction to Quality Improvements',
+                    }, 
+                    {
+                        shortTitle: 'BUS 128',
+                        fullTitle: 'Project Planning and Control',
+                    }, 
+                    {
+                        shortTitle: 'BUS 129',
+                        fullTitle: 'Supply Chain Management',
+                    }, 
+                    {
+                        shortTitle: 'BUS 130',
+                        fullTitle: 'Supply Chain Modeling',
+                    }, 
+                    {
+                        shortTitle: 'BUS 131',
+                        fullTitle: 'Fixed-Income Securities',
+                    }, 
+                    {
+                        shortTitle: 'BUS 132',
+                        fullTitle: 'Foundations of Finance',
+                    }, 
+                    {
+                        shortTitle: 'BUS 134',
+                        fullTitle: 'Corporate Finance',
+                    }, 
+                    {
+                        shortTitle: 'BUS 135',
+                        fullTitle: 'Corporate Financial Policy',
+                    }, 
+                    {
+                        shortTitle: 'BUS 136',
+                        fullTitle: 'Investments: Security Analysis and Portfolio Management',
+                    }, 
+                    {
+                        shortTitle: 'BUS 137',
+                        fullTitle: 'Investments: Derivatives Markets',
+                    }, 
+                    {
+                        shortTitle: 'BUS 138',
+                        fullTitle: 'International Finance',
+                    }, 
+                    {
+                        shortTitle: 'BUS 139',
+                        fullTitle: 'Real Estate Investments',
+                    }, 
+                    {
+                        shortTitle: 'BUS 140E',
+                        fullTitle: 'The Financial Crisis',
+                    },
+                    {
+                        shortTitle: 'BUS 141',
+                        fullTitle: 'Trading Strategies',
+                    },  
+                    {
+                        shortTitle: 'BUS 142',
+                        fullTitle: 'Banks and Risks of Financial Institutions',
+                    }, 
+                    {
+                        shortTitle: 'BUS 143',
+                        fullTitle: 'Judgement and Decision Making',
+                    }, 
+                    {
+                        shortTitle: 'BUS 124',
+                        fullTitle: 'Business Analytics',
+                    }, 
+                    {
+                        shortTitle: 'BUS 144',
+                        fullTitle: 'Negotiation Fundamentals',
+                    }, 
+                    {
+                        shortTitle: 'BUS 145',
+                        fullTitle: 'Designing and Leading Teams',
+                    },
+                    {
+                        shortTitle: 'BUS 146',
+                        fullTitle: 'Introduction to Entrepreneurship',
+                    },  
+                    {
+                        shortTitle: 'BUS 147',
+                        fullTitle: 'Entrepreneurial Finance',
+                    }, 
+                    {
+                        shortTitle: 'BUS 148',
+                        fullTitle: 'Business Plan Development',
+                    }, 
+                    {
+                        shortTitle: 'BUS 149',
+                        fullTitle: 'Advanced Topics in Management and Decision-Making',
+                    }, 
+                    {
+                        shortTitle: 'BUS 150',
+                        fullTitle: 'Corporate Strategic Analysis in Multi-Business Firms',
+                    }, 
+                    {
+                        shortTitle: 'BUS 151',
+                        fullTitle: 'Brand Management',
+                    }, 
+                    {
+                        shortTitle: 'BUS 152',
+                        fullTitle: 'Sales Management',
+                    },
+                    {
+                        shortTitle: 'BUS 153',
+                        fullTitle: 'Labor Economics',
+                    },  
+                    {
+                        shortTitle: 'BUS 154',
+                        fullTitle: 'Business Law',
+                    }, 
+                    {
+                        shortTitle: 'BUS 155',
+                        fullTitle: 'Managing Human Resources',
+                    }, 
+                    {
+                        shortTitle: 'BUS 156',
+                        fullTitle: 'Leadership Development',
+                    }, 
+                    {
+                        shortTitle: 'BUS 157',
+                        fullTitle: 'Managing Work Force Diversity',
+                    }, 
+                    {
+                        shortTitle: 'BUS 160',
+                        fullTitle: 'Industrial Organization',
+                    }, 
+                    {
+                        shortTitle: 'BUS 162',
+                        fullTitle: 'Managerial Economics',
+                    }, 
+                    {
+                        shortTitle: 'BUS 163',
+                        fullTitle: 'Technology Entrepeneurship',
+                    }, 
+                    {
+                        shortTitle: 'BUS 164',
+                        fullTitle: 'Marketing Strategy',
+                    },
+                    {
+                        shortTitle: 'BUS 165A',
+                        fullTitle: 'Intermediate Financial Accounting',
+                    },
+                    {
+                        shortTitle: 'BUS 165B',
+                        fullTitle: 'Intermediate Financial Accounting',
+                    },
+                    {
+                        shortTitle: 'BUS 165C',
+                        fullTitle: 'Intermediate Financial Accounting',
+                    },   
+                    {
+                        shortTitle: 'BUS 166',
+                        fullTitle: 'Accounting Information Systems',
+                    },
+                    {
+                        shortTitle: 'BUS 167',
+                        fullTitle: 'Advanced Financial Accounting',
+                    },
+                    {
+                        shortTitle: 'BUS 168A',
+                        fullTitle: 'Individual Taxation',
+                    },
+                    {
+                        shortTitle: 'BUS 168B',
+                        fullTitle: 'Federal Taxation For Corporations, Partnerships, Estates, And Trusts',
+                    },
+                    {
+                        shortTitle: 'BUS 169A',
+                        fullTitle: 'Auditing',
+                    },
+                    {
+                        shortTitle: 'BUS 169B',
+                        fullTitle: 'Quality Assurance in Auditing',
+                    },
+                    {
+                        shortTitle: 'BUS 170',
+                        fullTitle: 'Financial Statement Valuation',
+                    },
+                    {
+                        shortTitle: 'BUS 171',
+                        fullTitle: 'Systems Analysis and Design',
+                    },
+                    {
+                        shortTitle: 'BUS 172',
+                        fullTitle: 'Information Economics',
+                    },
+                    {
+                        shortTitle: 'BUS 173',
+                        fullTitle: 'Introduction to Databases for Management',
+                    },
+                    {
+                        shortTitle: 'BUS 174',
+                        fullTitle: 'Electronic Commerce',
+                    },
+                    {
+                        shortTitle: 'BUS 175',
+                        fullTitle: 'Business Data Communications',
+                    },
+                    {
+                        shortTitle: 'BUS 176',
+                        fullTitle: 'The Sociology of Work in Organizations',
+                    },
+                    {
+                        shortTitle: 'BUS 177',
+                        fullTitle: 'Labor Relations',
+                    },
+                    {
+                        shortTitle: 'BUS 178',
+                        fullTitle: 'International Trade',
+                    },
+                    {
+                        shortTitle: 'BUS 179',
+                        fullTitle: 'Business Application of Geographic Information Systems',
+                    },
+                    {
+                        shortTitle: 'BUS 190',
+                        fullTitle: 'Special Studies',
+                    },
+                    {
+                        shortTitle: 'BUS 198I',
+                        fullTitle: 'Individual Internship in Business Administration',
+                    },
+                    {
+                        shortTitle: 'BUS 199H',
+                        fullTitle: 'Senior Honors Research',
+                    },
+                   
+                ]
+            }
+            
+        ]
+    },
 ];
+
