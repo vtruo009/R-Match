@@ -85,7 +85,7 @@ function DocumentsTable() {
     React.useEffect(() => sendGetDocumentsRequest(), [sendGetDocumentsRequest]);
 
     return isLoading ? (
-        <Loader center />
+        <Loader centerPage />
     ) : (
         <Grid container spacing={5}>
             <Grid item xs={12}>

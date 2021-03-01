@@ -48,7 +48,7 @@ function FacultyMemberProfile({ facultyMemberId }: FacultyMemberProfileProps) {
     }, [sendGetProfileRequest]);
 
     return isGettingProfileLoading ? (
-        <Loader center />
+        <Loader centerPage />
     ) : facultyMemberProfile ? (
         <div>
             <Grid container spacing={2} justify='center' alignItems='center'>

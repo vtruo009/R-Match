@@ -47,7 +47,7 @@ function AuthContextComponent({ children }: AuthContextProps) {
     return (
         <div>
             {isLoading ? (
-                <Loader center size={80} />
+                <Loader centerPage size={80} />
             ) : (
                 <AuthContext.Provider
                     value={{

@@ -75,7 +75,11 @@ function BaseProfile({
                 <LabelValue label='Department' value={department?.name} />
             </Grid>
             <Grid item md={3} xs={12}>
-                <LabelValue label='Email' value={email} /> <UpdateEmail />
+                <LabelValue
+                    label='Email'
+                    value={email}
+                    rightElement={<UpdateEmail />}
+                />
             </Grid>
             <Grid item md={12} xs={12}>
                 <LabelValue label='About' value={biography} isParagraph />
