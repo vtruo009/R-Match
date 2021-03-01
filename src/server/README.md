@@ -546,7 +546,7 @@ User API
     -   api/user/update-email
 
         -   HTTP Method: POST
-        -   Update a user's email and sign out the user.
+        -   Updates a user's email and signs out the user.
         -   Body:
             ```
             {
