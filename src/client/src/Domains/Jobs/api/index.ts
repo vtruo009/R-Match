@@ -94,7 +94,6 @@ export interface IJobApplication {
     job: IJob;
     jobId: number;
     studentId: number;
-
 }
 
 interface IJobApplicants {

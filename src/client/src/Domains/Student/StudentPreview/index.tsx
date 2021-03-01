@@ -15,8 +15,8 @@ function StudentPreview({ studentPreview, onClick, isSelected }: Props) {
         const { classStanding, department, date } = studentPreview;
         return {
             Major: department?.name ? department?.name : 'Not provided',
-            'Class Standing': classStanding ? classStanding : 'Not provided',
-            'Applied Date' : date ? date.toLocaleDateString() : undefined
+            'Class standing': classStanding ? classStanding : 'Not provided',
+            'Applied on': date ? date.toLocaleDateString() : undefined,
         };
     };
 

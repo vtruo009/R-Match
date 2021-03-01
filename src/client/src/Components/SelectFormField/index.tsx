@@ -54,7 +54,7 @@ export const SelectFormField: React.FC<FieldProps & SelectFormFieldProps> = ({
                 )}
                 {options.map((op, index) => (
                     <MenuItem key={index} value={op.value}>
-                        {typeof field.value === 'object' && (
+                        {typeof field.value === 'object' && field.value && (
                             <Checkbox
                                 checked={field.value.includes(op.value)}
                             />

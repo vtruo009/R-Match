@@ -53,10 +53,6 @@ export interface IStudentPreview {
     date?: Date;
     resumeId?: number;
     transcriptId?: number;
-    // TODO: Add a documents object that stores the ids for a resume and transcript. Both ids are optional
-    // For student applicants use backend should return ids of resume and transcript selected during application process if any.
-    // IF during application process student does not select select any documents, just use the default ones (which could be null)
-    // For student search, backend should return ids of default resume and transcript if any
 }
 
 export interface IWorkExperience {

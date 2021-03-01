@@ -2,7 +2,7 @@ import '@dotenv/config';
 import { connectToDb } from '@db/connection';
 import app from 'src/app';
 import logger from '@shared/Logger';
-import socketio from 'socket.io'
+import socketio from 'socket.io';
 import { Message } from '@entities/message';
 import { clientPath } from 'src/app';
 

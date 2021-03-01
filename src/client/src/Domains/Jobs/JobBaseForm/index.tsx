@@ -19,9 +19,15 @@ import AcademicInfo from 'Components/AcademicInfo';
 // TODO FIGURE OUT WHY START DATE CAN'T BE TODAY
 const today = new Date();
 const formSchema = yup.object({
-    title: yup.string().required('Title is required'),
+    title: yup
+        .string()
+        .required('Title is required')
+        .max(120, 'Job tile must be lass than 120 characters'),
     type: yup.array().required('At least one job type is required'),
-    description: yup.string().required('Description is required'),
+    description: yup
+        .string()
+        .required('Description is required')
+        .max(7000, 'Job description must be less than 7000 characters'),
     startDate: yup
         .date()
         .min(today, `Start date must be later than today`)

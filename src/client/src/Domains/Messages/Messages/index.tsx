@@ -7,7 +7,7 @@ import { AuthContext } from 'Contexts/AuthContext';
 import Loader from 'Components/Loader';
 import Button from 'Components/Button';
 import { IUser } from 'Domains/Accounts/api';
-import MessageDialog from 'Domains/Messages/MessageDialog';
+import Message from 'Domains/Messages/Message';
 import { IMessage, getMessages, io } from 'Domains/Messages/api';
 
 interface MessagesProps {
@@ -16,10 +16,12 @@ interface MessagesProps {
 function Messages({ receiver }: MessagesProps) {
     const [page, setPage] = React.useState<number>(1);
     const [messageCount, setMessageCount] = React.useState<number>(0);
-
     const [messages, setMessages] = React.useState<IMessage[]>([]);
     const { user } = React.useContext(AuthContext);
-    const request = React.useCallback(() => getMessages(page, receiver), [page, receiver]);
+    const request = React.useCallback(() => getMessages(page, receiver), [
+        page,
+        receiver,
+    ]);
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: (response) => {
             setMessages(response.data.messages);
@@ -64,44 +66,46 @@ function Messages({ receiver }: MessagesProps) {
     React.useEffect(() => {
         if (chatArea) {
             const numNewMessages = messageCount - (page - 1) * 20;
-            chatArea.scrollTop = (chatArea.scrollHeight - chatArea.clientHeight) / messageCount * numNewMessages;
+            chatArea.scrollTop =
+                ((chatArea.scrollHeight - chatArea.clientHeight) /
+                    messageCount) *
+                numNewMessages;
         }
     }, [messages, messageCount, chatArea, page]);
 
     return receiver ? (
-        <div style={{ margin: 30 }}>
-            <Grid container justify='center'>
-                <Grid item xs={12}>
-                    <Typography variant='h6' color='primary'>
-                        Message with {receiver.firstName} {receiver.lastName}
-                    </Typography>
-                </Grid>
-                <Grid id='chatArea' style={{ overflow: 'auto', height: '300px', width: '100%' }}>
-                    {isLoading ? (
-                            <Grid item xs={12}>
-                                <Loader />
-                            </Grid>
-                    ) : (
-                            <Grid item>
-                                {messageCount > page * 20 &&
-                                    <Button
-                                        onClick={loadMoreMessage}
-                                        fullWidth={true}
-                                    >
-                                        Load more...
-                                    </Button>
-                                }
-                                {/* Render all ongoing conversations. */}
-                                {messages.map((message, index) => (
-                                    <Grid item key={index} xs={12}>
-                                        <MessageDialog message={message} />
-                                    </Grid>
-                                ))}
-                            </Grid>
-                        )}
-                </Grid>
+        <Grid container spacing={5}>
+            <Grid item xs={12}>
+                <Typography variant='h6' color='primary'>
+                    Messages with {receiver.firstName} {receiver.lastName}
+                </Typography>
             </Grid>
-        </div>
+            <Grid
+                item
+                id='chatArea'
+                style={{ overflow: 'auto', height: '300px', width: '100%' }}
+            >
+                {isLoading ? (
+                    <Grid container justify='center'>
+                        <Loader />
+                    </Grid>
+                ) : (
+                    <Grid container item spacing={2}>
+                        {messageCount > page * 20 && (
+                            <Button onClick={loadMoreMessage} fullWidth={true}>
+                                Load more...
+                            </Button>
+                        )}
+                        {/* Render all ongoing conversations. */}
+                        {messages.map((message, index) => (
+                            <Grid item key={index} xs={12}>
+                                <Message message={message} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                )}
+            </Grid>
+        </Grid>
     ) : (
         <></>
     );

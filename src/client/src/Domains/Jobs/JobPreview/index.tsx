@@ -1,18 +1,12 @@
 import React from 'react';
-import AssistantIcon from '@material-ui/icons/AssistantPhoto';
-import GraderIcon from '@material-ui/icons/Assignment';
-import ResearchIcon from '@material-ui/icons/FindInPage';
-import TutorIcon from '@material-ui/icons/SupervisedUserCircle';
-import VolunteerIcon from '@material-ui/icons/Accessibility';
-
-import OtherIcon from '@material-ui/icons/Help';
 
 import useDialog from 'hooks/useDialog';
 import CardPreview from 'Components/CardPreview';
 import Button from 'Components/Button';
 import FacultyMemberProfile from 'Domains/FacultyMember/FacultyMemberProfile';
-import { IJob, jobType } from 'Domains/Jobs/api';
-import { formatDateString, formatSalary } from 'utils/format';
+import JobTypeIcon from 'Domains/Jobs/JobTypeIcon';
+import { IJob } from 'Domains/Jobs/api';
+import { formatDateString, formatSalary, shortenString } from 'utils/format';
 
 interface JobPreviewProps {
     job: IJob;
@@ -20,25 +14,6 @@ interface JobPreviewProps {
     isSelected: boolean;
     hasPermission: boolean;
 }
-
-const getIcon = (type: jobType): JSX.Element => {
-    const color = 'primary';
-    const fontSize = 60;
-    switch (type) {
-        case 'assistant':
-            return <AssistantIcon style={{ fontSize }} color={color} />;
-        case 'grader':
-            return <GraderIcon style={{ fontSize }} color={color} />;
-        case 'researcher':
-            return <ResearchIcon style={{ fontSize }} color={color} />;
-        case 'tutor':
-            return <TutorIcon style={{ fontSize }} color={color} />;
-        case 'volunteer':
-            return <VolunteerIcon style={{ fontSize }} color={color} />;
-        default:
-            return <OtherIcon style={{ fontSize }} color={color} />;
-    }
-};
 
 function JobPreview({
     job,
@@ -81,8 +56,8 @@ function JobPreview({
             <CardPreview
                 onClick={onClick}
                 isSelected={isSelected}
-                visual={getIcon(job.type[0])}
-                title={job.title}
+                visual={<JobTypeIcon type={job.type[0]} size={60} />}
+                title={shortenString(job.title, 30)}
                 values={prepareValues()}
             />
             <Dialog

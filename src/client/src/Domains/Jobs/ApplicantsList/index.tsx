@@ -89,7 +89,7 @@ function ApplicantsList({ jobId, jobTitle }: ApplicantsListProps) {
                     ...jobApplicant.student,
                     date: new Date(jobApplicant.date),
                     resumeId: jobApplicant.resumeId,
-                    transcriptId: jobApplicant.transcriptId,
+                    transcriptId: jobApplicant.transcriptId
                 }));
                 setNumOfPages(Math.ceil(jobApplicantsCount / numOfItems));
                 setApplicants(studentPreviews);

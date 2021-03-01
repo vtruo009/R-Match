@@ -1,15 +1,14 @@
+import React from 'react';
+import { Field, Form, Formik } from 'formik';
+import * as yup from 'yup';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+
+import useApi from 'hooks/useApi';
+import useSnack from 'hooks/useSnack';
 import SubmitButton from 'Components/SubmitButton';
 import { TextFormField } from 'Components/TextFormField';
 import { IUser } from 'Domains/Accounts/api';
 import { createMessage } from 'Domains/Messages/api';
-import { Field, Form, Formik } from 'formik';
-import useApi from 'hooks/useApi';
-import useSnack from 'hooks/useSnack';
-import React from 'react';
-import * as yup from 'yup';
 
 export interface INewMessageForm {
     email: string;
@@ -52,46 +51,35 @@ function NewMessageForm({ setReceiver, closeForm }: NewMessageFormProps) {
     });
 
     return (
-        <Paper style={{ padding: 50 }}>
-            <Formik
-                validationSchema={formSchema}
-                initialValues={formInitialValues}
-                onSubmit={(formValues, actions) => {
-                    setEmail(formValues);
-                    sendRequest();
-                    actions.resetForm({
-                        values: { ...formInitialValues },
-                    });
-                }}
-            >
-                {() => (
-                    <Form>
-                        <Grid container spacing={3} alignContent='center'>
-                            <Grid item container justify='flex-start'>
-                                <Typography variant='h4'>
-                                    Enter Email
-                                </Typography>
-                            </Grid>
-                            <Grid item container spacing={5}>
-                                <Grid item md={6} xs={12}>
-                                    <Field
-                                        name='email'
-                                        label='Email'
-                                        component={TextFormField}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <Grid container item xs={12}>
-                                <SubmitButton
-                                    type='submit'
-                                    isLoading={isLoading}
-                                />
-                            </Grid>
+        <Formik
+            validationSchema={formSchema}
+            initialValues={formInitialValues}
+            onSubmit={(formValues) => {
+                setEmail(formValues);
+                sendRequest();
+            }}
+        >
+            {() => (
+                <Form>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                            <Field
+                                name='email'
+                                label='Email'
+                                component={TextFormField}
+                            />
                         </Grid>
-                    </Form>
-                )}
-            </Formik>
-        </Paper>
+                        <Grid item xs={12}>
+                            <SubmitButton
+                                type='submit'
+                                isLoading={isLoading}
+                                fullWidth
+                            />
+                        </Grid>
+                    </Grid>
+                </Form>
+            )}
+        </Formik>
     );
 }
 

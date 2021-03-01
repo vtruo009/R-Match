@@ -12,7 +12,6 @@ import useSnack from 'hooks/useSnack';
 import { formatDateString } from 'utils/format';
 import JobsContext from '../Contexts/JobsContext';
 import DeleteButton from 'Components/DeleteButton';
-import Loader from 'Components/Loader';
 import Button from 'Components/Button';
 import {
     IJob,
@@ -48,7 +47,10 @@ function JobFacultyActions({ job }: JobFacultyActionsProps) {
     const [sendCloseRequest, isCloseRequestLoading] = useApi(closeRequest, {
         onSuccess: () => {
             updateJobStatus(job.id, 'Closed');
-            snack('Job successfully closed. It will no longer be displayed on the job search result.', 'success');
+            snack(
+                'Job successfully closed. It will no longer be displayed on the job search result.',
+                'success'
+            );
         },
     });
 
@@ -100,7 +102,7 @@ function JobFacultyActions({ job }: JobFacultyActionsProps) {
                     variant='outlined'
                     startIcon={
                         isGettingNumberOfApplicantsLoading ? (
-                            <Loader size={13} />
+                            <></>
                         ) : (
                             <Badge
                                 badgeContent={numOfApplicants}
@@ -114,7 +116,9 @@ function JobFacultyActions({ job }: JobFacultyActionsProps) {
                     component={Link}
                     to={`/job-applicants/${job.title}/${job.id}`}
                 >
-                    Applicants
+                    {isGettingNumberOfApplicantsLoading
+                        ? 'Getting applicants ...'
+                        : 'Applicants'}
                 </MUIButton>
             </Grid>
             <Grid item>

@@ -81,7 +81,13 @@ function ApplicationForm({ jobId, onSubmit }: ApplicationFormProps) {
 
     React.useEffect(() => sendGetDocumentsRequest(), [sendGetDocumentsRequest]);
 
-    if (isGettingDocumentsLoading) return <Loader />;
+    if (isGettingDocumentsLoading) {
+        return (
+            <Grid container justify='center'>
+                <Loader />
+            </Grid>
+        );
+    }
 
     return (
         <Formik

@@ -56,10 +56,10 @@ export default function App() {
     };
 
     return (
-        <Worker workerUrl='https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js'>
-            <div className='App'>
-                <MuiThemeProvider theme={theme}>
-                    <NavBar />
+        <div className='App'>
+            <MuiThemeProvider theme={theme}>
+                <NavBar />
+                <Worker workerUrl='https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js'>
                     <Container style={{ marginTop: 60, marginBottom: 60 }}>
                         <Switch>
                             {generalRoutes.map((route) => (
@@ -80,8 +80,8 @@ export default function App() {
                             )}
                         </Switch>
                     </Container>
-                </MuiThemeProvider>
-            </div>
-        </Worker>
+                </Worker>
+            </MuiThemeProvider>
+        </div>
     );
 }

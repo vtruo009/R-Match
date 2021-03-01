@@ -1,7 +1,7 @@
 import React from 'react';
 import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
 
-import Button from 'Components/Button';
 import JobsContext from '../Contexts/JobsContext';
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
@@ -23,7 +23,9 @@ const jobCreateFormInitialValues = {
     startDate: '',
     endDate: undefined,
     expirationDate: formatDateString(
-        new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toLocaleDateString(),
+        new Date(
+            new Date().setFullYear(new Date().getFullYear() + 2)
+        ).toLocaleDateString(),
         'yyyy-MM-dd'
     ),
     collegeId: undefined,
@@ -53,13 +55,9 @@ function JobCreateForm() {
 
     return (
         <div>
-            <Button
-                variant='outlined'
-                startIcon={<AddIcon />}
-                onClick={openDialog}
-            >
-                Add
-            </Button>
+            <Fab variant='extended' onClick={openDialog} color='primary'>
+                Add <AddIcon />
+            </Fab>
             <Dialog {...DialogProps} title='Post Job'>
                 <JobBaseForm
                     onSubmit={(jobBaseValues) => {

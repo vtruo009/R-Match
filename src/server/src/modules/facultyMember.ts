@@ -117,6 +117,7 @@ export const getPostedJobs = async (
         .andWhere('job.expirationDate >= :today', { today: todayString })
         .leftJoinAndSelect('job.department', 'department')
         .leftJoinAndSelect('department.college', 'college')
+        .orderBy('job.postedOn', 'DESC')
         .skip((page - 1) * numOfItems)
         .take(numOfItems)
         .getManyAndCount();

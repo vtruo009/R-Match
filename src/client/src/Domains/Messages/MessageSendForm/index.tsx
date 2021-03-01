@@ -1,14 +1,15 @@
+import React from 'react';
+import * as yup from 'yup';
+import { Field, Form, Formik } from 'formik';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import SubmitButton from 'Components/SubmitButton';
+import SendIcon from '@material-ui/icons/Send';
+import IconButton from '@material-ui/core/IconButton';
+
+import useApi from 'hooks/useApi';
 import { TextFormField } from 'Components/TextFormField';
 import { AuthContext } from 'Contexts/AuthContext';
 import { IUser } from 'Domains/Accounts/api';
 import { io, sendMessage } from 'Domains/Messages/api';
-import { Field, Form, Formik } from 'formik';
-import useApi from 'hooks/useApi';
-import React from 'react';
-import * as yup from 'yup';
 
 export interface IMessageSendForm {
     content: string;
@@ -35,7 +36,7 @@ function MessageSendForm({ receiver }: MessageSendFormProps) {
         message,
         receiver,
     ]);
-    const [sendRequest, isLoading] = useApi(request, {
+    const [sendRequest] = useApi(request, {
         onSuccess: () => {
             io.emit('new_message', {
                 content: message.content,
@@ -50,48 +51,46 @@ function MessageSendForm({ receiver }: MessageSendFormProps) {
     });
 
     return receiver ? (
-        <Paper style={{ padding: 30 }}>
-            <Formik
-                validationSchema={formSchema}
-                initialValues={messageInitialValues}
-                onSubmit={(formValues, actions) => {
-                    setMessage(formValues);
-                    sendRequest();
-                    actions.resetForm({
-                        values: { ...messageInitialValues },
-                    });
-                }}
-            >
-                {() => (
-                    <Form>
-                        <Grid
-                            container
-                            spacing={5}
-                            direction='row'
-                            justify='space-evenly'
-                            alignItems='center'
-                        >
-                            <Grid item md={8} xs={12}>
-                                <Field
-                                    name='content'
-                                    label='Message'
-                                    component={TextFormField}
-                                />
-                            </Grid>
-                            <Grid item md={4} xs={12}>
-                                <SubmitButton
-                                    fullWidth
-                                    isLoading={isLoading}
-                                    disabled={!receiver}
-                                >
-                                    Send
-                                </SubmitButton>
-                            </Grid>
+        <Formik
+            validationSchema={formSchema}
+            initialValues={messageInitialValues}
+            onSubmit={(formValues, actions) => {
+                setMessage(formValues);
+                sendRequest();
+                actions.resetForm({
+                    values: { ...messageInitialValues },
+                });
+            }}
+        >
+            {() => (
+                <Form>
+                    <Grid container spacing={5} alignItems='center'>
+                        <Grid item md={10} xs={12}>
+                            <Field
+                                name='content'
+                                label='Message'
+                                component={TextFormField}
+                                multiline
+                            />
                         </Grid>
-                    </Form>
-                )}
-            </Formik>
-        </Paper>
+                        <Grid
+                            item
+                            md={2}
+                            xs={12}
+                            style={{ position: 'static' }}
+                        >
+                            <IconButton
+                                color='primary'
+                                type='submit'
+                                disabled={!receiver}
+                            >
+                                <SendIcon />
+                            </IconButton>
+                        </Grid>
+                    </Grid>
+                </Form>
+            )}
+        </Formik>
     ) : (
         <> </>
     );
