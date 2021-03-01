@@ -86,9 +86,7 @@ function Messages({ receiver }: MessagesProps) {
                 style={{ overflow: 'auto', height: '500px', width: '100%' }}
             >
                 {isLoading ? (
-                    <Grid container justify='center'>
-                        <Loader />
-                    </Grid>
+                    <Loader centerRow />
                 ) : (
                     <Grid container item spacing={2}>
                         {messageCount > page * 20 && (

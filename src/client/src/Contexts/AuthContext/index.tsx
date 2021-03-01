@@ -44,23 +44,19 @@ function AuthContextComponent({ children }: AuthContextProps) {
         sendRequest();
     }, [sendRequest]);
 
+    if (isLoading) return <Loader centerPage size={80} />;
+
     return (
-        <div>
-            {isLoading ? (
-                <Loader centerPage size={80} />
-            ) : (
-                <AuthContext.Provider
-                    value={{
-                        user,
-                        setUser,
-                        isAuthenticated,
-                        setIsAuthenticated,
-                    }}
-                >
-                    {children}
-                </AuthContext.Provider>
-            )}
-        </div>
+        <AuthContext.Provider
+            value={{
+                user,
+                setUser,
+                isAuthenticated,
+                setIsAuthenticated,
+            }}
+        >
+            {children}
+        </AuthContext.Provider>
     );
 }
 

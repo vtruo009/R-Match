@@ -57,45 +57,39 @@ function ConversationList({ setReceiver, receiver }: ConversationListProps) {
         });
     }, [user, sendRequest]);
 
+    if (isLoading) return <Loader centerRow />;
+
     return (
         <div>
-            <Grid container justify='center'>
-                {isLoading ? (
-                    <Loader />
-                ) : (
-                    <div>
-                        <Fab
-                            variant='extended'
-                            onClick={openDialog}
-                            color='primary'
-                            style={{ margin: 10 }}
-                        >
-                            Start conversation <MessageIcon />
-                        </Fab>
-                        <Grid
-                            container
-                            spacing={2}
-                            style={{
-                                overflow: 'auto',
-                                height: '400px',
-                                width: '100%',
-                            }}
-                        >
-                            {conversationList.map((conversation, key) => (
-                                <Grid item key={key}>
-                                    <ConversationPreview
-                                        conversation={conversation}
-                                        onClick={setReceiver}
-                                        isSelected={
-                                            receiver !== undefined &&
-                                            conversation.user.id === receiver.id
-                                        }
-                                    />
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </div>
-                )}
+            <Fab
+                variant='extended'
+                onClick={openDialog}
+                color='primary'
+                style={{ margin: 10 }}
+            >
+                Start conversation <MessageIcon />
+            </Fab>
+            <Grid
+                container
+                spacing={2}
+                style={{
+                    overflow: 'auto',
+                    height: '400px',
+                    width: '100%',
+                }}
+            >
+                {conversationList.map((conversation, key) => (
+                    <Grid item key={key}>
+                        <ConversationPreview
+                            conversation={conversation}
+                            onClick={setReceiver}
+                            isSelected={
+                                receiver !== undefined &&
+                                conversation.user.id === receiver.id
+                            }
+                        />
+                    </Grid>
+                ))}
             </Grid>
             <Dialog
                 {...DialogProps}

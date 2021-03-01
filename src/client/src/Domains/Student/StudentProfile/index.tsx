@@ -53,9 +53,9 @@ function StudentProfile({ studentId }: StudentProfileProps) {
         sendGetProfileRequest();
     }, [sendGetProfileRequest]);
 
-    return isGettingProfileLoading ? (
-        <Loader centerPage />
-    ) : studentProfile ? (
+    if (isGettingProfileLoading) return <Loader centerPage />;
+
+    return studentProfile ? (
         <div>
             <Grid container spacing={2} justify='center' alignItems='center'>
                 <BaseProfile

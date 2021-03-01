@@ -74,9 +74,9 @@ function WorkExperiences({ hasPermission, studentId }: WorkExperiencesProps) {
                         />
                     )}
                 </Grid>
-                <Grid item container spacing={3} justify='center'>
+                <Grid item container spacing={3}>
                     {isGettingWorkExperiencesLoading ? (
-                        <Loader />
+                        <Loader centerRow />
                     ) : (
                         workExperiences.map((workExperience, index) => (
                             <Grid item key={index} xs={12}>

@@ -80,6 +80,7 @@ function AcademicInfo({
                     value: course.id,
                     label: `${course.shortTitle} - ${course.fullTitle}`,
                 }));
+                console.log(response);
                 setCourses(courses);
             },
         }
@@ -102,6 +103,7 @@ function AcademicInfo({
         }
     }, [collegeId, collegeDepartmentDict, setFieldValue, multipleDepartments]);
 
+    // TODO:  Fix. After a student selects a new department, previous selected course ids are still kept in state
     React.useEffect(() => {
         const checkDepartmentId = multipleDepartments
             ? departmentId.length > 0
@@ -120,55 +122,50 @@ function AcademicInfo({
         setFieldValue,
     ]);
 
+    if (areCollegeDepartmentsLoading) return <Loader size={30} centerRow />;
+
     return (
-        <Grid container item justify='center'>
-            {areCollegeDepartmentsLoading ? (
-                <Loader size={30} />
-            ) : (
-                <Grid container item spacing={4} justify='center'>
-                    <Grid item md={6} xs={12}>
+        <Grid container item spacing={4} justify='center'>
+            <Grid item md={6} xs={12}>
+                <Field
+                    name='collegeId'
+                    label='College'
+                    options={colleges}
+                    component={SelectFormField}
+                    defaultLabel='Select a college'
+                />
+            </Grid>
+            <Grid item md={6} xs={12}>
+                <Field
+                    name='departmentId'
+                    label='Department'
+                    options={departments}
+                    multiple={multipleDepartments}
+                    component={SelectFormField}
+                    defaultLabel={
+                        multipleDepartments
+                            ? 'Select departments'
+                            : 'Select a department'
+                    }
+                />
+            </Grid>
+            {showCourses && (
+                <Grid item md={12} xs={12}>
+                    {areCoursesLoading ? (
+                        <Loader size={30} centerRow />
+                    ) : (
                         <Field
-                            name='collegeId'
-                            label='College'
-                            options={colleges}
+                            name='courseIds'
+                            label='Courses'
+                            options={courses}
+                            multiple
                             component={SelectFormField}
-                            defaultLabel='Select a college'
+                            defaultLabel='Select courses'
                         />
-                    </Grid>
-                    <Grid item md={6} xs={12}>
-                        <Field
-                            name='departmentId'
-                            label='Department'
-                            options={departments}
-                            multiple={multipleDepartments}
-                            component={SelectFormField}
-                            defaultLabel={
-                                multipleDepartments
-                                    ? 'Select departments'
-                                    : 'Select a department'
-                            }
-                        />
-                    </Grid>
-                    {showCourses && (
-                        <Grid container item justify='center' md={12} xs={12}>
-                            {areCoursesLoading ? (
-                                <Loader size={30} />
-                            ) : (
-                                <Field
-                                    name='courseIds'
-                                    label='Courses'
-                                    options={courses}
-                                    multiple
-                                    component={SelectFormField}
-                                    defaultLabel='Select courses'
-                                />
-                            )}
-                        </Grid>
                     )}
                 </Grid>
             )}
         </Grid>
     );
 }
-
 export default AcademicInfo;

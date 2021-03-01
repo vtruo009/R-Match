@@ -33,11 +33,12 @@ function JobFacultyMemberDashBoard() {
             }
         },
     });
+
     React.useEffect(() => sendRequest(), [sendRequest]);
 
-    return isLoading ? (
-        <Loader centerPage />
-    ) : (
+    if (isLoading) return <Loader centerPage />;
+
+    return (
         <div>
             <JobDashboard
                 jobs={jobs}
