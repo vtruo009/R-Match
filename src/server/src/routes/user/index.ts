@@ -5,11 +5,11 @@ import passport from 'passport';
 import { JWTUser } from '@entities/user';
 import { errors } from '@shared/errors';
 import logger from '@shared/Logger';
-import { findUserByEmail, registerUser, verifyEmail } from '@modules/user';
+import { findUserByEmail, registerUser, verifyEmail, updateEmail } from '@modules/user';
 import { User } from '@entities/user';
 import { signToken } from '@lib/jwt';
 import { validationMiddleware } from '@middlewares/validation';
-import { signUpSchema, signInSchema, emailVerificationSchema } from './schemas';
+import { signUpSchema, signInSchema, emailVerificationSchema, updateEmailSchema } from './schemas';
 
 const router = Router();
 const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED } = StatusCodes;
@@ -22,6 +22,12 @@ interface ISignUpRequest extends Request {
 interface IEmailVerificationRequest extends Request {
     body: {
         verificationKey: string;
+    };
+}
+
+interface IEmailUpdateRequest extends Request {
+    body: {
+        email: string;
     };
 }
 
@@ -155,6 +161,45 @@ router.post(
             return result
                 ? res.status(OK).end()
                 : res.status(BAD_REQUEST).json({ error: message }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
+ *          POST Request - Update email - /api/user/update-email
+ ******************************************************************************/
+
+router.post(
+    '/update-email',
+    validationMiddleware({ bodySchema: updateEmailSchema }),
+    passport.authenticate('jwt', { session: false }),
+    async (req: IEmailUpdateRequest, res: Response) => {
+
+        const { userId } = req.user as JWTUser;
+
+        const { email } = req.body;
+
+        try {
+            const updateResult = await updateEmail(userId, email);
+
+            if (updateResult.result) {
+                // Sign out.
+                res.clearCookie('access_token');
+                return res.status(OK).end();
+            }
+
+            return res
+                    .status(BAD_REQUEST)
+                    .json({
+                        error: updateResult.message,
+                    })
+                    .end();
         } catch (error) {
             logger.err(error);
             return res
