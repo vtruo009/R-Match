@@ -78,7 +78,7 @@ function BaseProfile({
                 <LabelValue
                     label='Email'
                     value={email}
-                    rightElement={<UpdateEmail />}
+                    rightElement={hasPermission ? <UpdateEmail /> : <></>}
                 />
             </Grid>
             <Grid item md={12} xs={12}>
