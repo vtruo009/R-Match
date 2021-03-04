@@ -7,13 +7,10 @@ import { errors } from '@shared/errors';
 import {
     getFacultyMemberProfile,
     updateFacultyMember,
-    getPostedJobs
+    getPostedJobs,
 } from '@modules/facultyMember';
 import { validationMiddleware } from '@middlewares/validation';
-import {
-    facultyMemberProfileSchema,
-    getPostedJobsSchema,
-} from './schemas';
+import { facultyMemberProfileSchema, getPostedJobsSchema } from './schemas';
 import { JWTUser } from '@entities/user';
 
 const router = Router();
@@ -158,7 +155,6 @@ router.get(
         }
     }
 );
-
 
 /******************************************************************************
  *                                     Export
