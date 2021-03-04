@@ -9,6 +9,7 @@ import useApi from 'hooks/useApi';
 
 interface AcademicInfoProps extends FieldProps {
     showCourses?: boolean;
+    multipleDepartments?: boolean;
 }
 
 interface IBaseSelectValues {
@@ -20,16 +21,9 @@ interface ICollegeDepartmentDict {
     [id: number]: IBaseSelectValues[];
 }
 
-const departmentsDefaultValues = [
-    { value: undefined, label: 'Select a college first' },
-];
-
-const coursesDefaultValues = [
-    { value: undefined, label: 'Select a department first' },
-];
-
 function AcademicInfo({
     showCourses,
+    multipleDepartments,
     form: {
         setFieldValue,
         values: { collegeId, departmentId },
@@ -41,11 +35,9 @@ function AcademicInfo({
     ] = React.useState<ICollegeDepartmentDict>({});
     const [colleges, setColleges] = React.useState<IBaseSelectValues[]>([]);
     const [departments, setDepartments] = React.useState<IBaseSelectValues[]>(
-        departmentsDefaultValues
+        []
     );
-    const [courses, setCourses] = React.useState<IBaseSelectValues[]>(
-        coursesDefaultValues
-    );
+    const [courses, setCourses] = React.useState<IBaseSelectValues[]>([]);
 
     const collegeDepartmentApiRequest = React.useCallback(
         () => getCollegesAndDepartments(),
@@ -88,6 +80,7 @@ function AcademicInfo({
                     value: course.id,
                     label: `${course.shortTitle} - ${course.fullTitle}`,
                 }));
+                console.log(response);
                 setCourses(courses);
             },
         }
@@ -99,63 +92,80 @@ function AcademicInfo({
 
     React.useEffect(() => {
         if (!collegeId) {
-            setFieldValue('departmentId', undefined, true);
-            setDepartments(departmentsDefaultValues);
+            setFieldValue(
+                'departmentId',
+                multipleDepartments ? [] : undefined,
+                true
+            );
+            setDepartments([]);
         } else if (collegeDepartmentDict[collegeId]) {
             setDepartments(collegeDepartmentDict[collegeId]);
         }
-    }, [collegeId, collegeDepartmentDict, setFieldValue]);
+    }, [collegeId, collegeDepartmentDict, setFieldValue, multipleDepartments]);
 
+    // TODO:  Fix. After a student selects a new department, previous selected course ids are still kept in state
     React.useEffect(() => {
-        if (departmentId && showCourses) {
+        const checkDepartmentId = multipleDepartments
+            ? departmentId.length > 0
+            : departmentId;
+
+        if (checkDepartmentId && showCourses) {
             sendGetCoursesRequest();
         } else {
-            setCourses(coursesDefaultValues);
+            setCourses([]);
         }
-    }, [departmentId, sendGetCoursesRequest, showCourses]);
+    }, [
+        departmentId,
+        sendGetCoursesRequest,
+        showCourses,
+        multipleDepartments,
+        setFieldValue,
+    ]);
+
+    if (areCollegeDepartmentsLoading) return <Loader size={30} centerRow />;
 
     return (
-        <Grid container item justify='center'>
-            {areCollegeDepartmentsLoading ? (
-                <Loader size={30} />
-            ) : (
-                <Grid container item spacing={4} justify='center'>
-                    <Grid item md={6} xs={12}>
+        <Grid container item spacing={4} justify='center'>
+            <Grid item md={6} xs={12}>
+                <Field
+                    name='collegeId'
+                    label='College'
+                    options={colleges}
+                    component={SelectFormField}
+                    defaultLabel='Select a college'
+                />
+            </Grid>
+            <Grid item md={6} xs={12}>
+                <Field
+                    name='departmentId'
+                    label='Department'
+                    options={departments}
+                    multiple={multipleDepartments}
+                    component={SelectFormField}
+                    defaultLabel={
+                        multipleDepartments
+                            ? 'Select departments'
+                            : 'Select a department'
+                    }
+                />
+            </Grid>
+            {showCourses && (
+                <Grid item md={12} xs={12}>
+                    {areCoursesLoading ? (
+                        <Loader size={30} centerRow />
+                    ) : (
                         <Field
-                            name='collegeId'
-                            label='College'
-                            options={colleges}
+                            name='courseIds'
+                            label='Courses'
+                            options={courses}
+                            multiple
                             component={SelectFormField}
-                            defaultLabel='Select a college'
+                            defaultLabel='Select courses'
                         />
-                    </Grid>
-                    <Grid item md={6} xs={12}>
-                        <Field
-                            name='departmentId'
-                            label='Department'
-                            options={departments}
-                            component={SelectFormField}
-                        />
-                    </Grid>
-                    {showCourses && (
-                        <Grid container item justify='center' md={12} xs={12}>
-                            {areCoursesLoading ? (
-                                <Loader size={30} />
-                            ) : (
-                                <Field
-                                    name='courseIds'
-                                    label='Courses'
-                                    options={courses}
-                                    multiple
-                                    component={SelectFormField}
-                                />
-                            )}
-                        </Grid>
                     )}
                 </Grid>
             )}
         </Grid>
     );
 }
-
 export default AcademicInfo;

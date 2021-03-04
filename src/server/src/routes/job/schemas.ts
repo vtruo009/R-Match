@@ -60,6 +60,24 @@ export const jobReadSchema = Joi.object({
     numOfItems: Joi.string().required(),
 });
 
+export const getNewJobsSchema = Joi.object({
+    page: Joi.string().required(),
+    numOfItems: Joi.string().required(),
+});
+
 export const jobIdSchema = Joi.object({
     jobId: Joi.number().required(),
+});
+
+export const getApplicantsSchema = Joi.object({
+    jobId: Joi.string().required(),
+    departmentIds: Joi.array().allow('').items(Joi.number()).optional(),
+    classStandings: Joi.array()
+        .allow('')
+        .items(Joi.string().valid('Freshman', 'Sophomore', 'Junior', 'Senior'))
+        .optional(),
+    minimumGpa: Joi.string().optional().allow(''),
+    courseIds: Joi.array().allow('').items(Joi.number()).optional(),
+    page: Joi.string().required(),
+    numOfItems: Joi.string().required(),
 });

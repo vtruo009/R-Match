@@ -8,9 +8,9 @@ import Card from 'Components/Card';
 import SubmitButton from 'Components/SubmitButton';
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
+import usePagination from 'hooks/usePagination';
 import { TextFormField } from 'Components/TextFormField';
 import { getJobs, IJob, jobTypes } from 'Domains/Jobs/api';
-import { Pagination } from '@material-ui/lab';
 import { SelectFormField } from 'Components/SelectFormField';
 import { DatePickerFormField } from 'Components/DatePickerFormField';
 
@@ -37,21 +37,24 @@ const formInitialValues: JobSearchFormType = {
 
 const formSchema = yup.object({
     title: yup.string().required(),
-    // TODO: should be array type?
-    types: yup.string().required(),
+    types: yup.array().required(),
     startDate: yup.date().optional(),
     minSalary: yup.number().min(0).optional(),
     hoursPerWeek: yup.number().moreThan(0).optional(),
 });
 
-const numOfItems = 5;
-
+const numOfItems = 10;
 function JobSearchForm({ setJobs, children }: JobSearchFormProps) {
     const [formState, setFormState] = React.useState<JobSearchFormType>(
         formInitialValues
     );
-    const [page, setPage] = React.useState(1);
-    const [numOfPages, setNumOfPages] = React.useState(0);
+    const {
+        page,
+        setPage,
+        setNumOfPages,
+        PaginationProps,
+        Pagination,
+    } = usePagination();
     const [snack] = useSnack();
     const request = React.useCallback(
         () =>
@@ -80,25 +83,14 @@ function JobSearchForm({ setJobs, children }: JobSearchFormProps) {
         },
     });
 
-    const handlePageChange = (
-        event: React.ChangeEvent<unknown>,
-        value: number
-    ) => {
-        setPage(value);
-        sendRequest();
-        window.scrollTo(0, 0);
-    };
-
     const handleSearchAgain = () => {
-        if (page > 0) {
-            setPage(1);
-        }
+        if (page > 0) setPage(1);
         sendRequest();
     };
 
     return (
         <div>
-            <Card style={{ borderRadius: 25, padding: 40 }}>
+            <Card>
                 <Formik
                     validationSchema={formSchema}
                     initialValues={formInitialValues}
@@ -108,7 +100,7 @@ function JobSearchForm({ setJobs, children }: JobSearchFormProps) {
                     }}
                 >
                     {() => (
-                        <Form>
+                        <Form style={{ padding: 10 }}>
                             <Grid
                                 container
                                 spacing={4}
@@ -173,17 +165,7 @@ function JobSearchForm({ setJobs, children }: JobSearchFormProps) {
                 </Formik>
             </Card>
             {children}
-            {numOfPages > 1 && (
-                <Grid container justify='center' style={{ marginTop: 50 }}>
-                    <Pagination
-                        color='primary'
-                        shape='rounded'
-                        page={page}
-                        count={numOfPages}
-                        onChange={handlePageChange}
-                    />
-                </Grid>
-            )}
+            <Pagination {...PaginationProps} onPageChange={sendRequest} />
         </div>
     );
 }

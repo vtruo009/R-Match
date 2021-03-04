@@ -1,13 +1,14 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
+import Card from 'Components/Card';
 import { TextFormField } from 'Components/TextFormField';
 import { SelectFormField } from 'Components/SelectFormField';
 import SubmitButton from 'Components/SubmitButton';
@@ -32,7 +33,7 @@ const formInitialValues: ISignUpForm = {
 };
 
 const formSchema = yup.object({
-    email: yup.string().required().email('Please enter valid emai.'),
+    email: yup.string().required().email('Please enter valid email.'),
     password: yup
         .string()
         .required('Password is required.')
@@ -59,7 +60,10 @@ function SignUpForm() {
     const [snack] = useSnack();
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: () => {
-            snack('Account successfully created', 'success');
+            snack(
+                'We sent a verification link to your email. Please check your inbox.',
+                'success'
+            );
         },
         onFailure: (error, results) => {
             console.log(error);
@@ -72,7 +76,7 @@ function SignUpForm() {
     });
     return (
         <Container maxWidth='md'>
-            <Paper style={{ padding: 80 }}>
+            <Card style={{ padding: 80 }}>
                 <Formik
                     validationSchema={formSchema}
                     initialValues={formInitialValues}
@@ -87,10 +91,28 @@ function SignUpForm() {
                     {() => (
                         <Form>
                             <Grid container spacing={5} justify='center'>
-                                <Grid item xs={12}>
-                                    <Typography variant='h4' align='center'>
-                                        Create New Account
-                                    </Typography>
+                                <Grid
+                                    container
+                                    item
+                                    xs={12}
+                                    spacing={1}
+                                    justify='center'
+                                    alignItems='center'
+                                >
+                                    <Grid item>
+                                        <Typography
+                                            variant='h4'
+                                            color='primary'
+                                        >
+                                            Sign Up
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item>
+                                        <PersonAddIcon
+                                            color='primary'
+                                            style={{ fontSize: 40 }}
+                                        />
+                                    </Grid>
                                 </Grid>
                                 <Grid item md={6} xs={12}>
                                     <Field
@@ -149,7 +171,7 @@ function SignUpForm() {
                         </Form>
                     )}
                 </Formik>
-            </Paper>
+            </Card>
         </Container>
     );
 }

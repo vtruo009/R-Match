@@ -1,7 +1,13 @@
 import { Message } from '@entities/message';
 import { User } from '@entities/user';
 import { getRepository } from 'typeorm';
-import { userIdExists } from '@modules/user';
+import {
+    userIdExists,
+    findUserByEmail,
+    hidePassword,
+    getUserById,
+} from '@modules/user';
+import { sendEmail } from '@lib/mail';
 
 /**
  * @description Send a message to a receiver.
@@ -16,30 +22,43 @@ export const sendMessage = async (
     senderId: Message['senderId']
 ) => {
     const sendMessageResult: {
-        result: Message | undefined,
+        result: Message | undefined;
         errorMessage: string;
     } = {
         result: undefined,
         errorMessage: '',
     };
 
-    // Check if receiver exists.
-    if (!(await userIdExists(receiverId))) {
-        sendMessageResult.errorMessage = "Receiver does not exist.";
+    if (senderId === receiverId) {
+        sendMessageResult.errorMessage =
+            'Sender should be different from receiver.';
         return sendMessageResult;
     }
 
-    // Check if sender exists.
-    if (!userIdExists(senderId)) {
-        sendMessageResult.errorMessage = "Sender does not exist.";
+    // Get sender user object
+    const getSenderByIdResult = await getUserById(senderId);
+    if (!getSenderByIdResult.result) {
+        sendMessageResult.errorMessage = `Error while obtaining sender profile: ${getSenderByIdResult.message}`;
         return sendMessageResult;
     }
+    const sender = getSenderByIdResult.result;
 
-    if (senderId == receiverId) {
-        sendMessageResult.errorMessage = "Sender should be different from receiver.";
+    // Get receiver user object
+    const getReceiverIdResult = await getUserById(receiverId);
+    if (!getReceiverIdResult.result) {
+        sendMessageResult.errorMessage = `Error while obtaining receiver profile: ${getReceiverIdResult.message}`;
         return sendMessageResult;
     }
+    const receiver = getReceiverIdResult.result;
 
+    // Send email.
+    sendEmail(
+        receiver.email,
+        `${sender.firstName} ${sender.lastName} just messaged you`,
+        `You have new message from ${sender.firstName} ${sender.lastName}.\n    ${sender.firstName}: ${content}`
+    );
+
+    // Insert Message object.
     const messageToInsert = Message.create({
         content: content,
         senderId: senderId,
@@ -49,22 +68,27 @@ export const sendMessage = async (
 
     messageToInsert.save();
 
-    sendMessageResult.errorMessage = "Successful";
+    sendMessageResult.errorMessage = 'Successful';
     sendMessageResult.result = messageToInsert;
 
     return sendMessageResult;
 };
 
 /**
- * @description Get all messages between two users,
+ * @description Get top [20 * page] newest messages between two users,
  *              sorted from the oldest to the newest
  * @param {number} userID1 - id of the first user.
  * @param {number} userId2 - id of the second user.
+ * @param {number} page - page index.
  * @returns Promise
  */
-export const getMessages = async (userId1: number, userId2: number) => {
+export const getMessages = async (
+    userId1: number,
+    userId2: number,
+    page: number
+) => {
     const getMessagesResult: {
-        result: Message[] | undefined,
+        result?: [Message[], number];
         errorMessage: string;
     } = {
         result: undefined,
@@ -73,21 +97,21 @@ export const getMessages = async (userId1: number, userId2: number) => {
 
     // Check if user with the id userId1 exists.
     if (!userIdExists(userId1)) {
-        getMessagesResult.errorMessage = `A user with id ${userId1} does not exist.`;
+        getMessagesResult.errorMessage = `User with id ${userId1} does not exist.`;
         return getMessagesResult;
     }
 
     // Check if user with the id userId2 exists.
     if (!userIdExists(userId2)) {
-        getMessagesResult.errorMessage = `A user with id ${userId2} does not exist.`;
+        getMessagesResult.errorMessage = `User with id ${userId2} does not exist.`;
         return getMessagesResult;
     }
 
-    const messages = await getRepository(Message)
+    const queryResult = await getRepository(Message)
         .createQueryBuilder('message')
         .setParameters({ id1: userId1, id2: userId2 })
-        .where("sender.id = :id1 AND receiver.id = :id2")
-        .orWhere("sender.id = :id2 AND receiver.id = :id1")
+        .where('sender.id = :id1 AND receiver.id = :id2')
+        .orWhere('sender.id = :id2 AND receiver.id = :id1')
         .leftJoin('message.sender', 'sender')
         .leftJoin('message.receiver', 'receiver')
         .addSelect([
@@ -106,11 +130,17 @@ export const getMessages = async (userId1: number, userId2: number) => {
             'receiver.biography',
             'receiver.email',
         ])
-        .orderBy('message.date', 'ASC')
-        .getMany();
+        // Order from the newest to the oldest.
+        .orderBy('message.date', 'DESC')
+        // Take top [page * 20] newest elements.
+        .take(page * 20)
+        .getManyAndCount();
 
-    getMessagesResult.errorMessage = "Successful";
-    getMessagesResult.result = messages;
+    const [messages, messagesCount] = queryResult;
+
+    getMessagesResult.errorMessage = 'Successful';
+    // Reverse messages to order the messages from the oldest to the newest.
+    getMessagesResult.result = [messages.reverse(), messagesCount];
 
     return getMessagesResult;
 };
@@ -123,7 +153,7 @@ export const getMessages = async (userId1: number, userId2: number) => {
  */
 export const getConversationList = async (userId: number) => {
     const getConversationListResult: {
-        result: { user: User, latestMessage: Message }[] | undefined;
+        result: { user: User; latestMessage: Message }[] | undefined;
         errorMessage: string;
     } = {
         result: undefined,
@@ -131,15 +161,15 @@ export const getConversationList = async (userId: number) => {
     };
 
     if (!userIdExists(userId)) {
-        getConversationListResult.errorMessage = `A user with id ${userId} does not exist.`;
+        getConversationListResult.errorMessage = `User with id ${userId} does not exist.`;
         return getConversationListResult;
     }
 
     // Get all messages sent or received by the user.
     const messages = await getRepository(Message)
         .createQueryBuilder('message')
-        .where("sender.id = :id", { id: userId })
-        .orWhere("receiver.id = :id", { id: userId })
+        .where('sender.id = :id', { id: userId })
+        .orWhere('receiver.id = :id', { id: userId })
         .leftJoin('message.sender', 'sender')
         .leftJoin('message.receiver', 'receiver')
         .addSelect([
@@ -161,36 +191,87 @@ export const getConversationList = async (userId: number) => {
         .getMany();
 
     // Get all users who have communicated with the user.
-    var users: User[]
-    users = []
+    var users: User[];
+    users = [];
     for (const message of messages) {
-        if (!users.some(({ id }) => id === message.sender.id) && message.sender.id != userId) {
+        if (
+            !users.some(({ id }) => id === message.sender.id) &&
+            message.sender.id != userId
+        ) {
             users.push(message.sender);
         }
-        if (!users.some(({ id }) => id === message.receiver.id) && message.receiver.id != userId) {
+        if (
+            !users.some(({ id }) => id === message.receiver.id) &&
+            message.receiver.id != userId
+        ) {
             users.push(message.receiver);
         }
     }
 
     // Get the latest message between each user and the logged-in user.
-    var unsortedConversationList: { user: User, latestMessage: Message }[];
+    var unsortedConversationList: { user: User; latestMessage: Message }[];
     unsortedConversationList = [];
     for (const user of users) {
-        const getMessagesResult = await getMessages(user.id, userId);
+        const getMessagesResult = await getMessages(user.id, userId, 1);
         if (!getMessagesResult.result) {
-            getConversationListResult.errorMessage = getMessagesResult.errorMessage;
+            getConversationListResult.errorMessage =
+                getMessagesResult.errorMessage;
             return getConversationListResult;
         }
-        const latestMessage = getMessagesResult.result.reduce(function (prev, current) {
-            return (prev.date > current.date) ? prev : current
-        })
-        unsortedConversationList.push({ user: user, latestMessage: latestMessage });
+
+        const [messages] = getMessagesResult.result;
+
+        const latestMessage = messages.reduce(function (prev, current) {
+            return prev.date > current.date ? prev : current;
+        });
+        unsortedConversationList.push({
+            user: user,
+            latestMessage: latestMessage,
+        });
     }
 
     // Sort the conversations from the newst to the oldest.
-    getConversationListResult.result =
-        unsortedConversationList.sort((conversation1, conversation2) =>
-            conversation2.latestMessage.date.getTime() - conversation1.latestMessage.date.getTime());
+    getConversationListResult.result = unsortedConversationList.sort(
+        (conversation1, conversation2) =>
+            conversation2.latestMessage.date.getTime() -
+            conversation1.latestMessage.date.getTime()
+    );
 
     return getConversationListResult;
+};
+
+/**
+ * @description Returns a user object with the email to initiate a message.
+ * @param {number} userId - id of the logged-in user.
+ * @param {string} email - email address.
+ * @returns Promise
+ */
+export const getUserByEmail = async (userId: number, email: string) => {
+    const getUserByEmailResult: {
+        result: User | undefined;
+        message: string;
+    } = {
+        result: undefined,
+        message: '',
+    };
+
+    const receiver = await findUserByEmail(email);
+
+    // Check if the user with the email exists.
+    if (!receiver) {
+        getUserByEmailResult.message = `User with email ${email} does not exist.`;
+        return getUserByEmailResult;
+    }
+
+    if (receiver.id === userId) {
+        getUserByEmailResult.message = 'You cannot send message to yourself.';
+        return getUserByEmailResult;
+    }
+
+    const getUserByIdResult = await hidePassword(receiver);
+
+    getUserByEmailResult.message = 'Successful';
+    getUserByEmailResult.result = getUserByIdResult;
+
+    return getUserByEmailResult;
 };

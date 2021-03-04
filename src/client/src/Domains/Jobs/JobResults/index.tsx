@@ -27,8 +27,14 @@ function JobResults({ jobs }: JobResultsProps) {
     );
 
     return (
-        <Grid container spacing={5} style={{ marginTop: 20 }}>
-            <Grid container item direction='column' spacing={3} xs={12} md={5}>
+        <Grid container spacing={5} justify='center'>
+            <Grid
+                container
+                spacing={3}
+                xs={12}
+                md={5}
+                style={{ overflow: 'auto', maxHeight: '1000px', width: '100%' }}
+            >
                 {jobs.map((job, index) => (
                     <Grid item key={index}>
                         <JobPreview

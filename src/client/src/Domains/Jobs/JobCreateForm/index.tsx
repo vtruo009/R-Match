@@ -1,13 +1,14 @@
 import React from 'react';
 import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
 
-import Button from 'Components/Button';
 import JobsContext from '../Contexts/JobsContext';
 import useApi from 'hooks/useApi';
 import useSnack from 'hooks/useSnack';
 import useDialog from 'hooks/useDialog';
 import JobBaseForm, { IJobBaseFormValues } from 'Domains/Jobs/JobBaseForm';
 import { createJob } from '../api';
+import { formatDateString } from 'utils/format';
 
 export type IJobCreateFormValues = IJobBaseFormValues;
 
@@ -21,7 +22,12 @@ const jobCreateFormInitialValues = {
     type: [],
     startDate: '',
     endDate: undefined,
-    expirationDate: undefined,
+    expirationDate: formatDateString(
+        new Date(
+            new Date().setFullYear(new Date().getFullYear() + 2)
+        ).toLocaleDateString(),
+        'yyyy-MM-dd'
+    ),
     collegeId: undefined,
     departmentId: undefined,
 };
@@ -32,7 +38,7 @@ function JobCreateForm() {
         setJobInitialValues,
     ] = React.useState<IJobCreateFormValues>(jobCreateFormInitialValues);
     const { addJob } = React.useContext(JobsContext);
-    const [, openDialog, closeDialog, DialogProps, Dialog] = useDialog();
+    const { openDialog, closeDialog, DialogProps, Dialog } = useDialog();
     const [snack] = useSnack();
     const request = React.useCallback(() => createJob(jobInitialValues), [
         jobInitialValues,
@@ -49,13 +55,9 @@ function JobCreateForm() {
 
     return (
         <div>
-            <Button
-                variant='outlined'
-                startIcon={<AddIcon />}
-                onClick={openDialog}
-            >
-                Add
-            </Button>
+            <Fab variant='extended' onClick={openDialog} color='primary'>
+                Add <AddIcon />
+            </Fab>
             <Dialog {...DialogProps} title='Post Job'>
                 <JobBaseForm
                     onSubmit={(jobBaseValues) => {

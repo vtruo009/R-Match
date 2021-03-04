@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import Container from '@material-ui/core/Container';
 import { Switch, Route } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { Worker } from '@react-pdf-viewer/core';
 
 import {
     studentRoutes,
@@ -58,26 +59,28 @@ export default function App() {
         <div className='App'>
             <MuiThemeProvider theme={theme}>
                 <NavBar />
-                <Container style={{ marginTop: 60, marginBottom: 60 }}>
-                    <Switch>
-                        {generalRoutes.map((route) => (
-                            <Route exact path={route.path} key={route.path}>
-                                <route.component />
-                            </Route>
-                        ))}
-                        {/* Render routes based on user authentication*/}
-                        {isAuthenticated ? (
-                            <Routes
-                                routes={[
-                                    ...authenticatedRoutes,
-                                    ...userRoutes(),
-                                ]}
-                            />
-                        ) : (
-                            <Routes routes={unauthenticatedRoutes} />
-                        )}
-                    </Switch>
-                </Container>
+                <Worker workerUrl='https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js'>
+                    <Container style={{ marginTop: 60, marginBottom: 60 }}>
+                        <Switch>
+                            {generalRoutes.map((route) => (
+                                <Route exact path={route.path} key={route.path}>
+                                    <route.component />
+                                </Route>
+                            ))}
+                            {/* Render routes based on user authentication*/}
+                            {isAuthenticated ? (
+                                <Routes
+                                    routes={[
+                                        ...authenticatedRoutes,
+                                        ...userRoutes(),
+                                    ]}
+                                />
+                            ) : (
+                                <Routes routes={unauthenticatedRoutes} />
+                            )}
+                        </Switch>
+                    </Container>
+                </Worker>
             </MuiThemeProvider>
         </div>
     );

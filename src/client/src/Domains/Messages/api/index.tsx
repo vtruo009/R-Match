@@ -23,9 +23,14 @@ export async function sendMessage(message: IMessageSendForm, receiver?: IUser) {
     });
 }
 
-export async function getMessages(messenger?: IUser) {
-    return API.get<{ messages: IMessage[] }>(
-        `message/getMessages/${messenger?.id}`
+export async function getMessages(page: number, messanger?: IUser) {
+    const params = {
+        messangerId: messanger?.id,
+        page,
+    };
+    return API.get<{ messages: IMessage[]; messagesCount: number }>(
+        `message/getMessages`,
+        { params }
     );
 }
 
@@ -37,7 +42,7 @@ export async function getConversationList() {
 
 export async function createMessage(newMessageForm: INewMessageForm) {
     return API.get<{ user: IUser; error: string }>(
-        `user/get-by-email/${newMessageForm.email}`
+        `message/get-user-by-email/${newMessageForm.email}`
     );
 }
 

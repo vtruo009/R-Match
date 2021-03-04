@@ -6,11 +6,11 @@ import Typography from '@material-ui/core/Typography';
 import Card from 'Components/Card';
 import LabelValue from 'Components/LabelValue';
 import EditButton from 'Components/EditButton';
+import MessageButton from 'Components/MessageButton';
 import { IDepartment } from 'Components/AcademicInfo/api';
-import { AuthContext } from 'Contexts/AuthContext';
+import UpdateEmail from 'Domains/Accounts/UpdateEmail';
 
 interface BaseProfileProps {
-    id?: number;
     firstName: string;
     middleName?: string;
     lastName: string;
@@ -18,10 +18,10 @@ interface BaseProfileProps {
     email: string;
     department?: IDepartment;
     onEdit: () => void;
+    hasPermission: boolean;
 }
 
 function BaseProfile({
-    id,
     firstName,
     middleName,
     lastName,
@@ -29,9 +29,8 @@ function BaseProfile({
     email,
     department,
     onEdit,
+    hasPermission,
 }: BaseProfileProps) {
-    const { user } = React.useContext(AuthContext);
-    const isUserProfileOwner = () => user?.specificUserId === id;
     const getUserName = () => {
         const middleInitial = middleName ? middleName.charAt(0) + '.' : '';
         return `${firstName} ${middleInitial} ${lastName}`;
@@ -47,7 +46,7 @@ function BaseProfile({
                         justify='center'
                         spacing={3}
                     >
-                        {isUserProfileOwner() && (
+                        {hasPermission && (
                             <Grid container item justify='flex-end'>
                                 <EditButton onClick={onEdit} />
                             </Grid>
@@ -61,6 +60,9 @@ function BaseProfile({
                         <Grid item>
                             <Typography variant='h4'>
                                 {getUserName()}
+                                {!hasPermission && (
+                                    <MessageButton email={email} />
+                                )}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -73,7 +75,11 @@ function BaseProfile({
                 <LabelValue label='Department' value={department?.name} />
             </Grid>
             <Grid item md={3} xs={12}>
-                <LabelValue label='Email' value={email} />
+                <LabelValue
+                    label='Email'
+                    value={email}
+                    rightElement={hasPermission ? <UpdateEmail /> : <></>}
+                />
             </Grid>
             <Grid item md={12} xs={12}>
                 <LabelValue label='About' value={biography} isParagraph />

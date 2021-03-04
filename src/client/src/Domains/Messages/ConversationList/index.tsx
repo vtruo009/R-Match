@@ -1,10 +1,10 @@
 import React from 'react';
-
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
+import Fab from '@material-ui/core/Fab';
+import MessageIcon from '@material-ui/icons/Message';
 
 import useApi from 'hooks/useApi';
+import useDialog from 'hooks/useDialog';
 import { AuthContext } from 'Contexts/AuthContext';
 import Loader from 'Components/Loader';
 import { IUser } from 'Domains/Accounts/api';
@@ -19,11 +19,11 @@ import ConversationPreview from 'Domains/Messages/ConversationPreview';
 
 interface ConversationListProps {
     setReceiver: (user: IUser) => void;
+    receiver?: IUser;
 }
 
-function ConversationList({ setReceiver }: ConversationListProps) {
-    const [openNewMessageForm, setOpenNewMessageForm] = React.useState(false);
-    const [selectedReceiver, setSelectedReceiver] = React.useState<IUser>();
+function ConversationList({ setReceiver, receiver }: ConversationListProps) {
+    const { openDialog, closeDialog, DialogProps, Dialog } = useDialog();
     const [conversationList, setConversationList] = React.useState<
         IConversation[]
     >([]);
@@ -34,28 +34,17 @@ function ConversationList({ setReceiver }: ConversationListProps) {
     const [sendRequest, isLoading] = useApi(request, {
         onSuccess: (response) => {
             if (response.data.conversationList.length > 0) {
-                if (!selectedReceiver) {
-                    setSelectedReceiver(response.data.conversationList[0].user);
+                if (!receiver) {
+                    setReceiver(response.data.conversationList[0].user);
                 }
                 setConversationList(response.data.conversationList);
             }
         },
     });
 
-    const handleClickOpen = () => {
-        setOpenNewMessageForm(true);
-    };
-    const handleClose = () => {
-        setOpenNewMessageForm(false);
-    };
-
     React.useEffect(() => {
         sendRequest();
     }, [sendRequest]);
-
-    React.useEffect(() => {
-        if (selectedReceiver) setReceiver(selectedReceiver);
-    }, [selectedReceiver, setReceiver]);
 
     React.useEffect(() => {
         // Reload conversation list when new message arrives.
@@ -68,52 +57,48 @@ function ConversationList({ setReceiver }: ConversationListProps) {
         });
     }, [user, sendRequest]);
 
+    if (isLoading) return <Loader centerRow />;
+
     return (
         <div>
-            <Grid container justify='center'>
-                {isLoading ? (
-                    <Loader />
-                ) : (
-                        <Grid container item spacing={2} direction='column'>
-                            <Grid item>
-                                <Button
-                                    onClick={handleClickOpen}
-                                    color='primary'
-                                    variant='contained'
-                                    fullWidth={true}
-                                >
-                                    New Message
-                                </Button>
-                            </Grid>
-
-                            <Grid style={{ overflow: 'auto', height: '400px', width: '100%' }}>
-                                {/* Render all ongoing conversations. */}
-                                {conversationList.map((conversation, key) => (
-                                    <Grid item key={key}>
-                                        <ConversationPreview
-                                            conversation={conversation}
-                                            onClick={setSelectedReceiver}
-                                            isSelected={
-                                                selectedReceiver !== undefined &&
-                                                conversation.user.id ===
-                                                    selectedReceiver.id
-                                            }
-                                        />
-                                    </Grid>
-                                ))}
-                            </Grid>
-                        </Grid>
-                )}
+            <Fab
+                variant='extended'
+                onClick={openDialog}
+                color='primary'
+                style={{ margin: 10 }}
+            >
+                Start conversation <MessageIcon />
+            </Fab>
+            <Grid
+                container
+                spacing={2}
+                style={{
+                    overflow: 'auto',
+                    height: '400px',
+                    width: '100%',
+                }}
+            >
+                {conversationList.map((conversation, key) => (
+                    <Grid item key={key}>
+                        <ConversationPreview
+                            conversation={conversation}
+                            onClick={setReceiver}
+                            isSelected={
+                                receiver !== undefined &&
+                                conversation.user.id === receiver.id
+                            }
+                        />
+                    </Grid>
+                ))}
             </Grid>
             <Dialog
-                open={openNewMessageForm}
-                onClose={handleClose}
-                maxWidth='md'
-                fullWidth
+                {...DialogProps}
+                title="Enter recipient's email"
+                maxWidth='sm'
             >
                 <NewMessageForm
-                    setReceiver={setSelectedReceiver}
-                    closeForm={handleClose}
+                    setReceiver={setReceiver}
+                    closeForm={closeDialog}
                 />
             </Dialog>
         </div>

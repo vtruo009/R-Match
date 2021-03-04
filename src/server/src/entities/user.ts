@@ -1,4 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, BaseEntity } from 'typeorm';
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    OneToMany,
+    JoinColumn,
+    OneToOne,
+    BaseEntity
+} from 'typeorm';
 import { Message } from './message';
 export type role = 'student' | 'facultyMember';
 
@@ -36,6 +44,9 @@ export class User extends BaseEntity {
 
     @OneToMany(() => Message, (message) => message.receiver)
     public receivedMessages: Message[];
+
+    @Column()
+    emailVerified: boolean;
 }
 
 export interface JWTUser {
@@ -44,4 +55,5 @@ export interface JWTUser {
     role: role;
     firstName: string;
     lastName: string;
+    emailVerified: boolean;
 }

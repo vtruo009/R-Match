@@ -5,9 +5,7 @@ import EditIcon from '@material-ui/icons/Edit';
 function EditButton(props: IconButtonProps) {
     return (
         <>
-            <IconButton {...props} color='primary'>
-                {<EditIcon />}
-            </IconButton>
+            <IconButton {...props}>{<EditIcon color='primary' />}</IconButton>
         </>
     );
 }

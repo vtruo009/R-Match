@@ -5,17 +5,29 @@ import passport from 'passport';
 import { JWTUser } from '@entities/user';
 import { errors } from '@shared/errors';
 import logger from '@shared/Logger';
-import { findUserByEmail, registerUser, getUserByEmail } from '@modules/user';
+import { findUserByEmail, registerUser, verifyEmail, updateEmail } from '@modules/user';
 import { User } from '@entities/user';
 import { signToken } from '@lib/jwt';
 import { validationMiddleware } from '@middlewares/validation';
-import { signUpSchema, signInSchema } from './schemas';
+import { signUpSchema, signInSchema, emailVerificationSchema, updateEmailSchema } from './schemas';
 
 const router = Router();
-const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR } = StatusCodes;
+const { BAD_REQUEST, CREATED, OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED } = StatusCodes;
 interface ISignUpRequest extends Request {
     body: {
         user: User;
+    };
+}
+
+interface IEmailVerificationRequest extends Request {
+    body: {
+        verificationKey: string;
+    };
+}
+
+interface IEmailUpdateRequest extends Request {
+    body: {
+        email: string;
     };
 }
 
@@ -65,7 +77,13 @@ router.post(
                 firstName,
                 lastName,
                 specificUserId,
+                emailVerified,
             } = req.user as JWTUser;
+
+            if (!emailVerified)
+                res
+                    .status(UNAUTHORIZED)
+                    .json({ error: 'Your email is not verified.' });
 
             const token = signToken(userId);
             res.cookie('access_token', token, {
@@ -130,20 +148,58 @@ router.get(
 );
 
 /******************************************************************************
- *       GET Request - Get By Email - /api/user/get-by-email/:email
+ *              POST Request - Verify Email - /api/user/verify
  ******************************************************************************/
 
-router.get(
-    '/get-by-email/:email',
-    passport.authenticate('jwt', { session: false }),
-    async (req: Request, res: Response) => {
-        const { userId } = req.user as JWTUser;
-        const { email } = req.params;
+router.post(
+    '/verify',
+    validationMiddleware({ bodySchema: emailVerificationSchema }),
+    async (req: IEmailVerificationRequest, res: Response) => {
+        const { verificationKey } = req.body;
         try {
-            const { result, message } = await getUserByEmail(userId, email);
+            const { result, message } = await verifyEmail( verificationKey );
             return result
-                ? res.status(OK).json({ user: result }).end()
+                ? res.status(OK).end()
                 : res.status(BAD_REQUEST).json({ error: message }).end();
+        } catch (error) {
+            logger.err(error);
+            return res
+                .status(INTERNAL_SERVER_ERROR)
+                .json(errors.internalServerError)
+                .end();
+        }
+    }
+);
+
+/******************************************************************************
+ *          POST Request - Update email - /api/user/update-email
+ ******************************************************************************/
+
+router.post(
+    '/update-email',
+    validationMiddleware({ bodySchema: updateEmailSchema }),
+    passport.authenticate('jwt', { session: false }),
+    async (req: IEmailUpdateRequest, res: Response) => {
+
+        const { userId } = req.user as JWTUser;
+
+        const { email } = req.body;
+
+        try {
+            const updateResult = await updateEmail(userId, email);
+
+            if (updateResult.result) {
+                // Sign out.
+                res.clearCookie('access_token');
+                return res.status(OK).end();
+            }
+
+            return res
+                    .status(BAD_REQUEST)
+                    .json({
+                        error: updateResult.message,
+                    })
+                    .end();
         } catch (error) {
             logger.err(error);
             return res

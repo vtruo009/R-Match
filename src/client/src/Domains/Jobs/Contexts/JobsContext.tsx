@@ -8,6 +8,7 @@ interface JobStateHandlers {
     updateJob: (updatedJob: IJobUpdateFormValues) => void;
     updateJobStatus: (jobId: number, newStatus: statusType) => void;
     showApply: boolean;
+    onApply: () => void;
 }
 
 export const defaultJobStateHandlers: JobStateHandlers = {
@@ -17,6 +18,7 @@ export const defaultJobStateHandlers: JobStateHandlers = {
     updateJob: (updatedJob: IJobUpdateFormValues) => {},
     updateJobStatus: (jobId: number, newStatus: statusType) => {},
     showApply: true,
+    onApply: () => {},
 };
 
 export default React.createContext<JobStateHandlers>(defaultJobStateHandlers);
