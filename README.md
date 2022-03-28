@@ -24,11 +24,11 @@ The CSE department has an initiative to hire more undergraduate students to serv
 - <a href="https://github.com/johan1505" target="_blank"> Johan Guzman</a>
 - <a href="https://github.com/Mari-Hayashi" target="_blank">Mari Hayashi</a>
 - <a href="https://github.com/sydneypun" target="_blank">Sydney Pun </a>
-- <a href="https://github.com/vtruo009" target="_blank">Vam Truong </a>
+- <a href="https://github.com/vtruo009" target="_blank">Van Truong </a>
 
 ## Usage
 
-Demo: <Link to youtube video>
+[Demo video of R'Match](https://youtu.be/sGbFPqPtV14)
 
 <Screenshot of application>
 
